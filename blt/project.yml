@@ -1,15 +1,17 @@
 project:
-  machine_name: d8-decoupled-s3-starter-project
+  machine_name: d8d
   prefix: BLT
   human_name: 'BLTed 8'
   profile:
-    name: lightning
+    name: d8d
   local:
     protocol: http
-    hostname: 'local.${project.machine_name}.com'
+    hostname: '${project.machine_name}.loc'
 git:
   default_branch: master
   remotes: {  }
+  pre-commit: false
+  commit-msg: false
 drush:
   aliases:
     remote: '${project.machine_name}.test'
@@ -19,7 +21,7 @@ drush:
 modules:
   local:
     enable: [dblog, devel, seckit, views_ui]
-    uninstall: [acsf, acquia_connector, shield]
+    uninstall: [acquia_connector, shield]
   ci:
     enable: {  }
     uninstall: [acquia_connector, shield]
@@ -32,3 +34,9 @@ modules:
   prod:
     enable: [acquia_connector, shield]
     uninstall: [devel, views_ui]
+disable-targets:
+  validate:
+    phpcs: true
+  git:
+    commit-msg: true
+    pre-commit: true

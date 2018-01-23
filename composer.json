@@ -4,8 +4,25 @@
     "type": "project",
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/justinlevi/graphql_signed_s3_upload.git"
+        }
+    ],
     "require": {
-        "acquia/blt": "^8.3"
+        "acquia/blt": "^9.0@alpha",
+        "drupal/consumers": "^1.0@beta",
+        "drupal/graphql": "^3.0@beta",
+        "drupal/console": "~1.0",
+        "drupal/s3fs": "^3.0@alpha",
+        "aws/aws-sdk-php": "^3.48",
+        "drupal/admin_toolbar": "^1.22",
+        "drupal/graphql_signed_s3_upload": "*"
     },
     "require-dev": {},
     "extra": {
