@@ -56,6 +56,52 @@ $settings['s3fs.use_s3_for_private'] = TRUE;
 * Run the `blt:setup` command from your project root to install the site. Visit the site from the domain you setup. 
 * Log in to the new site via drush : `drush uli`' - create a user, role, and consumer (`/admin/config/services/consumer/`)
 
+* Ensure you have CORS configured in `docroot/sites/default/services.yml`: 
+
+```$xslt
+
+   # Configure Cross-Site HTTP requests (CORS).
+   # Read https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
+   # for more information about the topic in general.
+   # Note: By default the configuration is disabled.
+  cors.config:
+    enabled: true
+    # Specify allowed headers, like 'x-allowed-header'.
+    allowedHeaders: ['x-csrf-token', 'authorization', 'content-type', 'accept', 'origin', 'x-requested-with']
+    # Specify allowed request methods, specify ['*'] to allow all possible ones.
+    allowedMethods: ['POST', 'GET', 'OPTIONS', 'DELETE', 'PUT', 'PATCH']
+    # Configure requests allowed from specific origins.
+    allowedOrigins: ['*']
+    # Sets the Access-Control-Expose-Headers header.
+    exposedHeaders: true
+    # Sets the Access-Control-Max-Age header.
+    maxAge: false
+    # Sets the Access-Control-Allow-Credentials header.
+    supportsCredentials: false
+```
+
+Note: this may require updates to your apache or nginx configuration. Here's what I have set in my httpd.conf vhost file: 
+
+```$xslt
+<VirtualHost *:80>
+  ServerName dev
+  DocumentRoot /Users/[YOUR-USER-ACCOUNT]/Sites
+  VirtualDocumentRoot /Users/[YOUR-USER-ACCOUNT]/Sites/%-2/docroot
+  UseCanonicalName Off
+  Header set Access-Control-Allow-Origin "*"
+
+  <Directory "/Users/[YOUR-USER-ACCOUNT]/Sites/*/docroot">
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Require all granted
+  </Directory>
+
+  AddType application/x-httpd-php .php
+</VirtualHost>
+
+```
+
 
 ## Getting Started - FRONT END SETUP/CONFIG
 

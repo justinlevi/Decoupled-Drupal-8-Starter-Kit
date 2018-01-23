@@ -126,6 +126,8 @@ nbproject/*
 atlassian-ide-plugin.xml
 
 # CUSTOM
+/DO-NOT-COMMIT
+/DO-NOT-COMMIT.zip
 keys/*
 /salt.txt
 /drush/sites/*.yml
