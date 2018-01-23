@@ -1,0 +1,17 @@
+uuid: 80ded6bd-7470-41f0-a04a-62904e32be9b
+langcode: en
+status: true
+dependencies:
+  module:
+    - lightning_core
+third_party_settings:
+  lightning_core:
+    description: ''
+id: decoupled_consumer
+label: decoupled_consumer
+weight: 7
+is_admin: null
+permissions:
+  - 'access content'
+  - 'create url aliases'
+  - 'view media'

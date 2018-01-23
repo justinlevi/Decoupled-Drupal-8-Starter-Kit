@@ -1,0 +1,14 @@
+uuid: 04ca70e7-af24-48fb-b559-b2175ab20abe
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.decoupled_consumer
+  module:
+    - user
+id: user_add_role_action.decoupled_consumer
+label: 'Add the decoupled_consumer role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: decoupled_consumer
