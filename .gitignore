@@ -124,3 +124,10 @@ nbproject/*
 
 # PHPStorm
 atlassian-ide-plugin.xml
+
+# CUSTOM
+keys/*
+/salt.txt
+/drush/sites/*.yml
+/docroot/sites/default/local.drush.yml
+/deployment_identifier
