@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import authenticate, { getToken } from './utils/oauth';
-import { clearSessionStorage } from './utils/sessionStorage';
+import { clearSessionStorage, getSessionStorage } from './utils/sessionStorage';
 import client from './utils/configureApolloClient';
 import App from './App';
 
@@ -10,8 +10,10 @@ export class AppContainer extends Component {
   constructor(props) {
     super(props);
 
+    const { username } = getSessionStorage();
+
     this.state = {
-      username: '',
+      username: username,
       password: '',
       pid: 'placeholder-project-id',
       isAuthenticated: false,

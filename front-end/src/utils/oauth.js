@@ -82,7 +82,9 @@ export const getToken = () => {
 
 export const authenticate = (username, password, callback=(success, error)=>{}) => {
 
-  sessionStorage.setItem('username', username);
+  if(username){
+    sessionStorage.setItem('username', username);
+  }
   
   const { accessToken, expiresIn } = getSessionStorage();
   const refreshToken = getRefreshToken();

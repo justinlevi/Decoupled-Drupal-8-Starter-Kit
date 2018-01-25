@@ -8,7 +8,7 @@ export function clearSessionStorage(){
 export function getSessionStorage(){
   const accessToken = sessionStorage.getItem('access_token');
   const expiresIn = sessionStorage.getItem('expires_in');
-  const username = sessionStorage.getItem('username');
+  const username = sessionStorage.getItem('username') || '';
 
   return {accessToken: accessToken, expiresIn: expiresIn, username: username};
 }
