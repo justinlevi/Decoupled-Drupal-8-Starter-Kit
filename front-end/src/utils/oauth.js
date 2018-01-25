@@ -24,6 +24,7 @@ const isTokenValid = (accessToken, expiresIn) => {
 const getRefreshToken = () => {
   const refreshToken = localStorage.getItem('refresh_token');
   if (refreshToken) {
+    console.log('REFRESH TOKEN USED');
     return refreshToken;
   }else{
     return false;
@@ -87,7 +88,8 @@ export const authenticate = (username, password, callback=(success, error)=>{}) 
   }
   
   const { accessToken, expiresIn } = getSessionStorage();
-  const refreshToken = getRefreshToken();
+  const refreshToken = !isTokenValid(accessToken, expiresIn) ? getRefreshToken() : undefined;
+
 
   if(accessToken && isTokenValid(accessToken, expiresIn)) {
     callback(true); 
