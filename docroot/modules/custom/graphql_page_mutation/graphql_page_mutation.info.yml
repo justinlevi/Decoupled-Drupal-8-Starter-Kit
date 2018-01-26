@@ -1,0 +1,8 @@
+name: 'graphql_page_mutation'
+type: module
+description: 'A GraphQL Page Mutation'
+core: 8.x
+package: 'Custom'
+dependencies:
+  - graphql
+  - s3fs
