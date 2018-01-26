@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import { ApolloProvider } from 'react-apollo';
 
 import UploadComponent from './components/UploadComponent';
+import CreateSelectContainer from './components/CreateSelectContainer';
 
 export class App extends Component {
 
@@ -18,8 +19,14 @@ export class App extends Component {
     return (
       <ApolloProvider client={client}>
         <div>
-          <button onClick={handleLogout}>Logout</button>
-          <UploadComponent username={username} pid={pid} />
+          <button style={{position:'absolute', top:'25px', right:'50px'}} onClick={handleLogout}>Logout</button>
+          {
+            !this.props.pid ?
+              <CreateSelectContainer projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
+            : 
+              <UploadComponent username={username} pid={pid} />
+          }
+
         </div>
       </ApolloProvider>
     );
@@ -29,7 +36,7 @@ export class App extends Component {
     const {handleInputChange, handleLogin} = this.props;
 
     return (
-      <div>
+      <div className="loginContainer">
         <h1>Login</h1>
         <form onSubmit={ handleLogin }>
           <input name="username" type='text' placeholder='username' onChange={handleInputChange} /><br />

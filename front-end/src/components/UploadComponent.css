@@ -118,6 +118,13 @@ img {
   border-color: #122b40;
 }
 
+.btn-primary:disabled, 
+.btn-primary:disabled:hover {
+  color: rgb(221, 219, 219);
+  background-color: #5c5e5f;
+  border-color: #122b40;
+}
+
 .delete {
   color: #777;
   font: 2em arial, sans-serif;
