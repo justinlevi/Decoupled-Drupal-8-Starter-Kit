@@ -77,13 +77,11 @@ class UploadComponent extends Component {
   }
 
   isAllFilesUploaded = (files) => {
-    if ( files.filter((f) => {
+    const finished = files.filter((f) => {
       return f.uploadSuccess ? false : true; 
-    }).length === 0 ) {
-      return true;
-    }else{
-      return false;
-    }
+    });
+
+    return finished.length === 0 ? true : false;
   }
 
   /*
@@ -158,36 +156,34 @@ class UploadComponent extends Component {
   onUploadClick = () => {
     this.setState({ uploading: true });
     const files = this.state.files;
-    this.fetchSignedUrls(files, (signedUrls) => {
-      // Assumptions: the returned signedURLs order matches the files state - always the case?
-      signedUrls.map(
-        (item,i) => {
-          // Call: Step 3
-          this.handleUpload(item, files[i]);
-          return true;
-        }
-      )
-    });
+    this.fetchSignedUrls(files, this.onFetchSignedUrlsCompletionHandler);
   }
 
   // STEP 2 - Fetch remote upload Urls
-  fetchSignedUrls = (files, onFetchComplete) => {
+  fetchSignedUrls = (files, onFetchSignedUrlsCompletionHandler = ([]) => {}) => {
     this.setState({ uploading: true });
     const variables = {"input": {"fileNames": this.computedPath(files)}};
     this.props.client.query({ query: getSignedUrls, variables: variables})
     .then(response => {
       // send signedUrls to callback
-      onFetchComplete(response.data.signedUploadURL)
+      onFetchSignedUrlsCompletionHandler(files, response.data.signedUploadURL)
     }).catch(this.catchError);
   }
 
+  onFetchSignedUrlsCompletionHandler = (files, signedUrls) => {
+    // Assumptions: the returned signedURLs order matches the files state - always the case?
+    signedUrls.map(
+      (item,i) => {
+        this.handleUpload(item, files[i], this.onUploadCompletionHandler);
+        return true;
+      }
+    )
+  }
 
   // STEP 3 - Upload to S3 w/ progress
-  handleUpload = (signedUrl, file) => {
+  handleUpload = (signedUrl, file, onUploadCompletionHandler = () => {}) => {
     const config = {
-      headers: {
-          'Content-Type': file.type
-      },
+      headers: {'Content-Type': file.type},
       onUploadProgress: progressEvent => {
         let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
         // update progress on image object
@@ -195,24 +191,25 @@ class UploadComponent extends Component {
       }
     };
 
+    const {files} = this.state;
     axios.put(signedUrl, file, config)
     .then((response) => {
       this.setPropOnFile(file, 'uploadSuccess', true);
-
-      if (this.isAllFilesUploaded){
-        this.syncS3FilesWithDrupalS3fs(this.state.files, 
-          () => {
-            setTimeout(() => { this.setState(initialState); }, 500);  
-          }
-        );
+      if (this.isAllFilesUploaded(files)){
+        console.log('ALL FILES ARE UPLOADED')
+        onUploadCompletionHandler()
       }
 
     }).catch(this.catchError);
     this.setPropOnFile(file, 'uploadInitiated', true);
   }
 
+  onUploadCompletionHandler = () => {
+    this.syncS3FilesBackToDrupalAndCreateMediaEntities(this.state.files, this.onSyncCompletionHandler);
+  }
+
   // STEP 4 - SyncS3withDrupal
-  syncS3FilesWithDrupalS3fs(files, onSyncComplete = () => {} ){
+  syncS3FilesBackToDrupalAndCreateMediaEntities(files, onSyncCompletionHandler = ([]) => {} ){
     const p = this.state.uploadPath;
     const filesMap = files.map(f => { 
       return {
@@ -227,17 +224,20 @@ class UploadComponent extends Component {
     this.props.client.mutate({ mutation: addS3Files, variables: variables})
     .then(response => {
       // send signedUrls to callback
-
-      this.updatePageWithUploadedMedia(response.data.mid);
-
       console.log('SYNC COMPLETE')
-      onSyncComplete()
+      const mids = response.data.addS3Files.map(item => { return item.mid});
+      onSyncCompletionHandler(mids)
     }).catch(this.catchError);
   }
 
+  onSyncCompletionHandler = (mids) => {
+    this.addMediaToNode(mids);
+    setTimeout(() => { this.setState(initialState); }, 500);  
+  }
+
   //STEP 5 - 
-  updatePageWithUploadedMedia(imageIds){
-    const variables = {id: this.props.nid, imageIds: imageIds};
+  addMediaToNode(mids){
+    const variables = {id: Number(this.props.nid), field_media_image: mids};
     this.props.client.mutate({ mutation: updatePageMutation, variables: variables})
     .then(response => {
       // send signedUrls to callback
@@ -276,17 +276,21 @@ class UploadComponent extends Component {
             {
               this.state.thumbnails.map((thumbnail, i) => { 
                 const image = this.state.files[i];
-                return <Thumbnails key={i} handleDelete={this.handleDelete} index={i} 
-                  fileSize={image.size || image.fileSize} 
-                  fileName={image.name} 
-                  percentageComplete={image.percentCompleted ? image.percentCompleted : 0 } 
-                  uploadInitiated={image.uploadInitiated ? image.uploadInitiated : false } 
-                  uploadSuccess={image.uploadSuccess ? true : false } 
-                  render={ () => (
-                    <figure>
-                      <img alt={""} src={thumbnail} className={"responsive-image"}/>
-                    </figure>
-                  )} /> 
+                if(image){
+                  return <Thumbnails key={i} handleDelete={this.handleDelete} index={i} 
+                    fileSize={image.size || image.fileSize} 
+                    fileName={image.name} 
+                    percentageComplete={image.percentCompleted ? image.percentCompleted : 0 } 
+                    uploadInitiated={image.uploadInitiated ? image.uploadInitiated : false } 
+                    uploadSuccess={image.uploadSuccess ? true : false } 
+                    render={ () => (
+                      <figure>
+                        <img alt={""} src={thumbnail} className={"responsive-image"}/>
+                      </figure>
+                    )} /> 
+                }else{
+                  return null;
+                }
               })
             }
           </div>
@@ -311,10 +315,9 @@ mutation addS3Files($input: S3FilesInput!) {
 `;
 
 const updatePageMutation = gql `
-  mutation updatePage($id:Int, $imageIds:[Int]){
+  mutation updatePage($id:Int!, $field_media_image:[Int]){
     updatePage(id:$id,input:{
-      title:$title,
-      image_ids:$imageIds
+      field_media_image:$field_media_image
     }){
       entity{
         ...on NodePage {
