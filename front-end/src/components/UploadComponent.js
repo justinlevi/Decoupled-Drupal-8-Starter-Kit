@@ -16,7 +16,7 @@ import './UploadComponent.css';
 
 const initialState = {
   totalBytes: 0,
-  pid: 0,
+  nid: 0,
   files: [],
   thumbnails: [],
   maxWidth: 400,
@@ -29,7 +29,7 @@ class UploadComponent extends Component {
 
   static propTypes = {
     username: PropTypes.string.isRequired,
-    pid: PropTypes.string.isRequired
+    nid: PropTypes.string.isRequired
   }
 
   dropzoneRef = undefined;
@@ -41,11 +41,12 @@ class UploadComponent extends Component {
   constructor(props){
     super(props);
 
-    const uploadPath = props.username + '/' + props.pid + '/';
+    const uploadPath = props.username + '/' + props.uuid + '/';
     this.state = {
       ...initialState, 
       uid: props.uid, 
-      pid: props.pid, 
+      uuid: props.uuid,
+      nid: props.nid,
       uploadPath: uploadPath
     };
 
@@ -73,6 +74,16 @@ class UploadComponent extends Component {
     .map(f => { return f.size || f.fileSize;})
     .reduce((a, c) => { return a + c; }, 0);
     return totalBytes;
+  }
+
+  isAllFilesUploaded = (files) => {
+    if ( files.filter((f) => {
+      return f.uploadSuccess ? false : true; 
+    }).length === 0 ) {
+      return true;
+    }else{
+      return false;
+    }
   }
 
   /*
@@ -115,11 +126,51 @@ class UploadComponent extends Component {
     // TODO
   }
 
-  /*
-  * Remote Networking 
+  catchError = (error) => { 
+    console.log('error ' + error);
+  }
+
+  onDrop = (files) => {
+    const newFiles = [];
+    const len = files.length;
+    for (var i = 0; i < len; i++) {
+      let file = files[i];
+      // Only process image files.
+      if (!file.type.match('image.*')) { continue; }
+      this.createThumbnail(file, i);
+      newFiles.push(file);
+    }
+    this.setState({files: [...this.state.files, ...newFiles]});
+  };
+
+
+  /**
+  * NETWORKING - REMOTE FETCH/GRAPHQL
+  * ASYNC Sequential Upload and Drupal Sync Steps
+  * 1. Upload button clicked
+  * 2. Get Signed S3 Upload URLsFiles 
+  * 3. Upload files to S3 w/ Progress , Sync with DASYNC Series
   * ----------------------
   */
 
+
+  // STEP 1 - Upload button clicked
+  onUploadClick = () => {
+    this.setState({ uploading: true });
+    const files = this.state.files;
+    this.fetchSignedUrls(files, (signedUrls) => {
+      // Assumptions: the returned signedURLs order matches the files state - always the case?
+      signedUrls.map(
+        (item,i) => {
+          // Call: Step 3
+          this.handleUpload(item, files[i]);
+          return true;
+        }
+      )
+    });
+  }
+
+  // STEP 2 - Fetch remote upload Urls
   fetchSignedUrls = (files, onFetchComplete) => {
     this.setState({ uploading: true });
     const variables = {"input": {"fileNames": this.computedPath(files)}};
@@ -127,11 +178,11 @@ class UploadComponent extends Component {
     .then(response => {
       // send signedUrls to callback
       onFetchComplete(response.data.signedUploadURL)
-    }).catch((error) => {
-      console.log('error ' + error);
-    });
+    }).catch(this.catchError);
   }
 
+
+  // STEP 3 - Upload to S3 w/ progress
   handleUpload = (signedUrl, file) => {
     const config = {
       headers: {
@@ -147,15 +198,21 @@ class UploadComponent extends Component {
     axios.put(signedUrl, file, config)
     .then((response) => {
       this.setPropOnFile(file, 'uploadSuccess', true);
-      this.onUploadComplete(this.state.files)
-    }).catch((error) => {
-      console.log('error ' + error);
-    });
+
+      if (this.isAllFilesUploaded){
+        this.syncS3FilesWithDrupalS3fs(this.state.files, 
+          () => {
+            setTimeout(() => { this.setState(initialState); }, 500);  
+          }
+        );
+      }
+
+    }).catch(this.catchError);
     this.setPropOnFile(file, 'uploadInitiated', true);
   }
 
+  // STEP 4 - SyncS3withDrupal
   syncS3FilesWithDrupalS3fs(files, onSyncComplete = () => {} ){
-
     const p = this.state.uploadPath;
     const filesMap = files.map(f => { 
       return {
@@ -170,62 +227,24 @@ class UploadComponent extends Component {
     this.props.client.mutate({ mutation: addS3Files, variables: variables})
     .then(response => {
       // send signedUrls to callback
-        console.log('SYNC COMPLETE')
-        onSyncComplete()
-    }).catch((error) => {
-      console.log('error ' + error);
-    });
+
+      this.updatePageWithUploadedMedia(response.data.mid);
+
+      console.log('SYNC COMPLETE')
+      onSyncComplete()
+    }).catch(this.catchError);
   }
 
-  /*
-  * Event Handling
-  * ----------------------
-  */
-
-  onUploadClick = () => {
-    this.setState({ uploading: true });
-    const files = this.state.files;
-    this.fetchSignedUrls(files, (signedUrls) => {
-      // Assumptions: the returned signedURLs order matches the files state - always the case?
-      signedUrls.map(
-        (item,i) => {
-          this.handleUpload(item, files[i]);
-          return true;
-        }
-      )
-    });
+  //STEP 5 - 
+  updatePageWithUploadedMedia(imageIds){
+    const variables = {id: this.props.nid, imageIds: imageIds};
+    this.props.client.mutate({ mutation: updatePageMutation, variables: variables})
+    .then(response => {
+      // send signedUrls to callback
+        console.log('UPDATE PAGE WITH UPLOADED MEDIA COMPLETE')
+    }).catch(this.catchError);
   }
 
-  onUploadComplete = (files) => {
-    if ( files.filter((f) => {
-      return f.uploadSuccess ? false : true; 
-    }).length === 0 ) {
-      setTimeout(() => { 
-        this.syncS3FilesWithDrupalS3fs(files, 
-          () => {
-            this.setState({
-              files: [], 
-              thumbnails: [],
-              uploading: false
-            }); 
-          }
-        );
-      }, 500);   
-    }
-  }
-
-  onDrop = (files) => {
-    const newFiles = [];
-    const len = files.length;
-    for (var i = 0; i < len; i++) {
-      let file = files[i];
-      // Only process image files.
-      if (!file.type.match('image.*')) { continue; }
-      this.createThumbnail(file, i);
-      newFiles.push(file);
-    }
-    this.setState({files: [...this.state.files, ...newFiles]});
-  };
 
   /*
   * Render
@@ -285,8 +304,26 @@ query signedUploadURL ($input: SignedUploadInput!) {
 
 const addS3Files = gql `
 mutation addS3Files($input: S3FilesInput!) {
-  addS3Files(input:$input)
+  addS3Files(input:$input){
+    mid
+  }
 }
+`;
+
+const updatePageMutation = gql `
+  mutation updatePage($id:Int, $imageIds:[Int]){
+    updatePage(id:$id,input:{
+      title:$title,
+      image_ids:$imageIds
+    }){
+      entity{
+        ...on NodePage {
+          nid,
+          uuid
+        }
+      }
+    }
+  }
 `;
 
 export default withApollo(UploadComponent);

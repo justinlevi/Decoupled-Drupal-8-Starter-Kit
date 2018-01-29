@@ -14,17 +14,17 @@ export class App extends Component {
   }
 
   renderAuthenticated = () => {
-    const { client, handleLogout, username, pid } = this.props;
+    const { client, handleLogout, username, uuid, uid, nid } = this.props;
 
     return (
       <ApolloProvider client={client}>
         <div>
           <button style={{position:'absolute', top:'25px', right:'50px'}} onClick={handleLogout}>Logout</button>
           {
-            !this.props.pid ?
+            !this.props.nid ?
               <CreateSelectContainer projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
             : 
-              <UploadComponent username={username} pid={pid} />
+              <UploadComponent username={username} uid={uid} uuid={uuid} nid={nid} />
           }
 
         </div>

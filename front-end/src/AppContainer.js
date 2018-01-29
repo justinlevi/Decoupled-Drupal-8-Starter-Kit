@@ -16,7 +16,8 @@ export class AppContainer extends Component {
       username: username,
       password: '',
       uid: 0,
-      pid: false,
+      uuid: false,
+      nid: 0,
       isAuthenticated: false,
       isLoading: false,
       isLoginFailed: false,
@@ -43,8 +44,8 @@ export class AppContainer extends Component {
     }
   }
 
-  projectCreateSelectHandler = (pid) => {
-    this.setState({pid: pid});
+  projectCreateSelectHandler = (uuid, nid) => {
+    this.setState({uuid: uuid, nid: nid});
   }
 
   // is used by both login and password reset

@@ -25,10 +25,12 @@ class CreateSelectContainer extends Component {
       activeNode: '',
       selectValue: 0,
       title: '',
-      nodeTitles: [],
+      nodes: [],
       submitEnabled: false,
       selectEnabled: true
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this); 
   }
 
   componentDidMount(){
@@ -36,7 +38,7 @@ class CreateSelectContainer extends Component {
       this.setState({uid: result.uid});
 
       this.fetchNodesByUid(result.uid, (result) => {
-        this.setState({nodeTitles: result.entities})
+        this.setState({nodes: result.entities})
       })
     })
   }
@@ -70,7 +72,8 @@ class CreateSelectContainer extends Component {
     this.props.client.mutate({ mutation: addPageMutation, variables: variables})
     .then(response => {
       console.log('ADD PAGE COMPLETE')
-      this.props.projectCreateSelectHandler(response.data.addPage.entity.uuid);
+      const {uuid, nid} = response.data.addPage.entity;
+      this.props.projectCreateSelectHandler(uuid, nid);
     }).catch((error) => {
       console.log('error ' + error);
     });
@@ -84,8 +87,13 @@ class CreateSelectContainer extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    if(this.state.selectValue > 0){
-      this.props.projectCreateSelectHandler(this.state.selectValue);
+    const { selectValue } = this.state;
+
+    if(selectValue > 0){
+      // select uuid from the array of entities
+      const node = this.state.nodes.find(node => node.nid === Number(selectValue));
+      const uuid = node.uuid;
+      this.props.projectCreateSelectHandler(uuid, selectValue);
     }else if(this.state.title.length > 5) {
       this.addPageMutation();
     } 
@@ -133,7 +141,7 @@ class CreateSelectContainer extends Component {
             <select id="selectExisting" value={this.state.selectValue} onChange={this.handleSelectChange} disabled={!this.state.selectEnabled}>
               <option value="default">choose...</option>
               {
-                this.state.nodeTitles.map((item, id) => {
+                this.state.nodes.map((item, id) => {
                   return (<option key={item.nid} value={item.nid}>{item.title}</option>)
                 })
               }
@@ -166,7 +174,8 @@ const nodeTitlesByUserQuery = gql `
       entities{
         ...on NodePage {
           title,
-          nid
+          nid,
+          uuid
         }
       }
     }
