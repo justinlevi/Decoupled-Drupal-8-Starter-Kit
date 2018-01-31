@@ -17,6 +17,7 @@ import './UploadComponent.css';
 const initialState = {
   totalBytes: 0,
   nid: 0,
+  mids: [],
   files: [],
   thumbnails: [],
   maxWidth: 400,
@@ -237,11 +238,17 @@ class UploadComponent extends Component {
 
   //STEP 5 - 
   addMediaToNode(mids){
-    const variables = {id: Number(this.props.nid), field_media_image: mids};
+    const newMids = mids.concat(this.props.mids).concat(this.state.mids);
+    const variables = {id: Number(this.props.nid), field_media_image: newMids};
     this.props.client.mutate({ mutation: updatePageMutation, variables: variables})
     .then(response => {
       // send signedUrls to callback
-        console.log('UPDATE PAGE WITH UPLOADED MEDIA COMPLETE')
+      if(response.data.updatePage.page.nid){
+        console.log('UPDATE PAGE WITH UPLOADED MEDIA COMPLETE');
+      }else{
+        console.exception("ERROR: The page was not updated correctly")
+      }
+      this.setState({mids: newMids});
     }).catch(this.catchError);
   }
 
@@ -319,7 +326,7 @@ const updatePageMutation = gql `
     updatePage(id:$id,input:{
       field_media_image:$field_media_image
     }){
-      entity{
+      page:entity{
         ...on NodePage {
           nid,
           uuid

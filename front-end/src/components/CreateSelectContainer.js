@@ -93,7 +93,7 @@ class CreateSelectContainer extends Component {
       // select uuid from the array of entities
       const node = this.state.nodes.find(node => node.nid === Number(selectValue));
       const uuid = node.uuid;
-      this.props.projectCreateSelectHandler(uuid, selectValue);
+      this.props.projectCreateSelectHandler(uuid, selectValue, node.images);
     }else if(this.state.title.length > 5) {
       this.addPageMutation();
     } 
@@ -176,6 +176,9 @@ const nodeTitlesByUserQuery = gql `
           title,
           nid,
           uuid
+          images:fieldMediaImage{
+            mid:targetId
+          }
         }
       }
     }
