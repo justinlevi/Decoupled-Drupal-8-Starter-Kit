@@ -7,6 +7,9 @@ tests/behat/local.yml
 box/local.config.yml
 *.local
 project.local.yml
+blt/blt.yml
+blt/ci.blt.yml
+blt/example.local.blt.yml
 
 # Ignore drupal core.
 docroot/core
@@ -15,6 +18,7 @@ docroot/core
 docroot/sites/*/files
 /files-private
 docroot/sites/*/private
+/.docksal
 
 # Ignore contrib modules. These should be created during build process.
 docroot/modules/contrib
