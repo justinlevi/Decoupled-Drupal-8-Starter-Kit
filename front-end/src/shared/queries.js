@@ -32,7 +32,10 @@ mutation addPage($title: String!){
     entity{
       ...on NodePage {
         nid,
-        uuid
+        uuid,
+        images:fieldMediaImage{
+          mid:targetId
+        }
       }
     }
   }

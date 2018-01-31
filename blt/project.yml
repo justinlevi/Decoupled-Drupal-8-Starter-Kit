@@ -12,6 +12,8 @@ git:
   remotes: {  }
   pre-commit: false
   commit-msg: false
+  hooks:
+    pre-commit: false
 drush:
   aliases:
     remote: '${project.machine_name}.test'
