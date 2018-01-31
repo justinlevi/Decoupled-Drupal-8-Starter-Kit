@@ -25,6 +25,11 @@
   cursor: pointer;
 }
 
+.dropZone.disabled:hover {
+  border: 2px dashed #bbb;
+  cursor: default;
+}
+
 
 /* IMAGE GRID */
 
@@ -118,7 +123,7 @@ img {
   border-color: #122b40;
 }
 
-.btn-primary:disabled, 
+.btn-primary:disabled,
 .btn-primary:disabled:hover {
   color: rgb(221, 219, 219);
   background-color: #5c5e5f;
