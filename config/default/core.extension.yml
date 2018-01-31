@@ -26,6 +26,7 @@ module:
   filter: 0
   graphql: 0
   graphql_core: 0
+  graphql_page_mutation: 0
   graphql_signed_s3_upload: 0
   help: 0
   history: 0
