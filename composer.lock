@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "acquia/blt",
-            "version": "9.0.0-alpha3",
+            "version": "9.0.0-beta2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/blt.git",
-                "reference": "f81e6cce1c33c0f04e0fd5927fffc80e977aff00"
+                "reference": "04bc07f548000638d473dd7e7804b9388d89ddfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/blt/zipball/f81e6cce1c33c0f04e0fd5927fffc80e977aff00",
-                "reference": "f81e6cce1c33c0f04e0fd5927fffc80e977aff00",
+                "url": "https://api.github.com/repos/acquia/blt/zipball/04bc07f548000638d473dd7e7804b9388d89ddfc",
+                "reference": "04bc07f548000638d473dd7e7804b9388d89ddfc",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 "symfony/twig-bridge": "^3.3",
                 "symfony/yaml": "~3.2.8",
                 "tivie/php-os-detector": "^1.0",
-                "typhonius/acquia-php-sdk-v2": "^1.0.0",
+                "typhonius/acquia-php-sdk-v2": "^1.0.2",
                 "wikimedia/composer-merge-plugin": "^1.4.1"
             },
             "conflict": {
@@ -91,7 +91,7 @@
                 "template",
                 "testing"
             ],
-            "time": "2018-01-20T14:38:16+00:00"
+            "time": "2018-01-26T20:31:25+00:00"
         },
         {
             "name": "acquia/http-hmac-php",
@@ -349,16 +349,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.52.0",
+            "version": "3.52.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "1bc98d7f1f4b6ffb3c54d6a854d5ee5b7137e220"
+                "reference": "69ba4e07288a532fe7635f7cdd73cffa6509f538"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1bc98d7f1f4b6ffb3c54d6a854d5ee5b7137e220",
-                "reference": "1bc98d7f1f4b6ffb3c54d6a854d5ee5b7137e220",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/69ba4e07288a532fe7635f7cdd73cffa6509f538",
+                "reference": "69ba4e07288a532fe7635f7cdd73cffa6509f538",
                 "shasum": ""
             },
             "require": {
@@ -425,7 +425,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-01-22T22:20:45+00:00"
+            "time": "2018-01-26T22:17:57+00:00"
         },
         {
             "name": "bower-asset/cropper",
@@ -451,7 +451,7 @@
             "version": "v5.1.1",
             "source": {
                 "type": "git",
-                "url": "git@github.com:enyo/dropzone.git",
+                "url": "https://github.com/enyo/dropzone.git",
                 "reference": "7d0792d1346d83a8b0c0d2919121bdd2b8e7fee4"
             },
             "dist": {
@@ -3873,20 +3873,14 @@
         },
         {
             "name": "drupal/features",
-            "version": "3.5.0",
+            "version": "dev-3.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/features",
-                "reference": "8.x-3.5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/features-8.x-3.5.zip",
-                "reference": "8.x-3.5",
-                "shasum": "546b34387018f9adbe742b6992c4d473f9447c41"
+                "reference": "2e82a6ad751fc88f771be5b4e53b98a8c6eb66b5"
             },
             "require": {
-                "drupal/config_update": "*",
+                "drupal/config_update": "^1.4",
                 "drupal/core": "*"
             },
             "type": "drupal-module",
@@ -3895,11 +3889,11 @@
                     "dev-3.x": "3.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-3.5",
-                    "datestamp": "1488908583",
+                    "version": "8.x-3.5+2-dev",
+                    "datestamp": "1498958643",
                     "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -3937,11 +3931,12 @@
                     "homepage": "https://www.drupal.org/user/241634"
                 }
             ],
-            "description": "Enables administrators to package configuration into modules.",
+            "description": "Enables administrators to package configuration into modules",
             "homepage": "https://www.drupal.org/project/features",
             "support": {
                 "source": "http://cgit.drupalcode.org/features"
-            }
+            },
+            "time": "2018-01-18T05:01:08+00:00"
         },
         {
             "name": "drupal/graphql",
@@ -4001,12 +3996,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/justinlevi/graphql_signed_s3_upload.git",
-                "reference": "4f2b1b4a4fe13bd391e3a73cd5b4d8eed62838b4"
+                "reference": "d80c1b8255855ff2a7422545b143670e2c49b948"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinlevi/graphql_signed_s3_upload/zipball/4f2b1b4a4fe13bd391e3a73cd5b4d8eed62838b4",
-                "reference": "4f2b1b4a4fe13bd391e3a73cd5b4d8eed62838b4",
+                "url": "https://api.github.com/repos/justinlevi/graphql_signed_s3_upload/zipball/d80c1b8255855ff2a7422545b143670e2c49b948",
+                "reference": "d80c1b8255855ff2a7422545b143670e2c49b948",
                 "shasum": ""
             },
             "require": {
@@ -4028,7 +4023,7 @@
                 "source": "https://github.com/justinlevi/graphql_signed_s3_upload/tree/master",
                 "issues": "https://github.com/justinlevi/graphql_signed_s3_upload/issues"
             },
-            "time": "2018-01-23T13:28:20+00:00"
+            "time": "2018-01-24T18:19:11+00:00"
         },
         {
             "name": "drupal/image_widget_crop",
@@ -7026,12 +7021,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "3cf46e0aa43a3279346a5cd29a6940b4be122902"
+                "reference": "13ef80f75cfe12f23087ef52722aead14e0dd601"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/3cf46e0aa43a3279346a5cd29a6940b4be122902",
-                "reference": "3cf46e0aa43a3279346a5cd29a6940b4be122902",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/13ef80f75cfe12f23087ef52722aead14e0dd601",
+                "reference": "13ef80f75cfe12f23087ef52722aead14e0dd601",
                 "shasum": ""
             },
             "require": {
@@ -7119,7 +7114,7 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2018-01-22T20:49:27+00:00"
+            "time": "2018-01-31T18:14:33+00:00"
         },
         {
             "name": "easyrdf/easyrdf",
@@ -9865,16 +9860,16 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v4.0.3",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "1ebe207de664355b1699d35b12b0563c38a47b4e"
+                "reference": "e901ff335ef5e8ef57ee9b8e098bd54a1d39a857"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/1ebe207de664355b1699d35b12b0563c38a47b4e",
-                "reference": "1ebe207de664355b1699d35b12b0563c38a47b4e",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/e901ff335ef5e8ef57ee9b8e098bd54a1d39a857",
+                "reference": "e901ff335ef5e8ef57ee9b8e098bd54a1d39a857",
                 "shasum": ""
             },
             "require": {
@@ -9930,7 +9925,7 @@
                 "caching",
                 "psr6"
             ],
-            "time": "2018-01-03T17:15:19+00:00"
+            "time": "2018-01-18T22:19:33+00:00"
         },
         {
             "name": "symfony/class-loader",
@@ -10109,7 +10104,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -10162,16 +10157,16 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "603b95dda8b00020e4e6e60dc906e7b715b1c245"
+                "reference": "53f6af2805daf52a43b393b93d2f24925d35c937"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/603b95dda8b00020e4e6e60dc906e7b715b1c245",
-                "reference": "603b95dda8b00020e4e6e60dc906e7b715b1c245",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/53f6af2805daf52a43b393b93d2f24925d35c937",
+                "reference": "53f6af2805daf52a43b393b93d2f24925d35c937",
                 "shasum": ""
             },
             "require": {
@@ -10214,7 +10209,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2018-01-03T17:14:19+00:00"
+            "time": "2018-01-18T22:16:57+00:00"
         },
         {
             "name": "symfony/dependency-injection",
@@ -10281,7 +10276,7 @@
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
@@ -10397,7 +10392,7 @@
         },
         {
             "name": "symfony/expression-language",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/expression-language.git",
@@ -10447,7 +10442,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -10496,7 +10491,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -11122,7 +11117,7 @@
         },
         {
             "name": "symfony/twig-bridge",
-            "version": "v3.3.15",
+            "version": "v3.3.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
@@ -11286,16 +11281,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "545be7e78ccbec43e599f10ff7500d0b09eda9d0"
+                "reference": "472a9849930cf21f73abdb02240f17cf5b5bd1a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/545be7e78ccbec43e599f10ff7500d0b09eda9d0",
-                "reference": "545be7e78ccbec43e599f10ff7500d0b09eda9d0",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/472a9849930cf21f73abdb02240f17cf5b5bd1a7",
+                "reference": "472a9849930cf21f73abdb02240f17cf5b5bd1a7",
                 "shasum": ""
             },
             "require": {
@@ -11351,7 +11346,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-01-03T17:14:19+00:00"
+            "time": "2018-01-29T09:03:43+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -11654,16 +11649,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "2db61e59ff05fe5126d152bd0655c9ea113e550f"
+                "reference": "0df1908962e7a3071564e857d86874dad1ef204a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/2db61e59ff05fe5126d152bd0655c9ea113e550f",
-                "reference": "2db61e59ff05fe5126d152bd0655c9ea113e550f",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/0df1908962e7a3071564e857d86874dad1ef204a",
+                "reference": "0df1908962e7a3071564e857d86874dad1ef204a",
                 "shasum": ""
             },
             "require": {
@@ -11700,7 +11695,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2016-11-23T20:04:58+00:00"
+            "time": "2018-01-29T19:49:41+00:00"
         },
         {
             "name": "webmozart/path-util",
@@ -13202,7 +13197,7 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
@@ -13259,7 +13254,7 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v3.4.3",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
@@ -13352,7 +13347,8 @@
         "acquia/blt": 15,
         "drupal/consumers": 10,
         "drupal/graphql": 10,
-        "drupal/s3fs": 15
+        "drupal/s3fs": 15,
+        "drupal/features": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
