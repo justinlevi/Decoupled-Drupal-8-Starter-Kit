@@ -20,10 +20,18 @@
     "react-scripts": "1.0.17",
     "recursive-iterator": "^3.3.0"
   },
+  "devDependencies": {
+    "@types/jest": "^22.1.1",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "enzyme-to-json": "^3.3.1",
+    "react-addons-test-utils": "^15.6.2"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
     "eject": "react-scripts eject"
   }
 }
