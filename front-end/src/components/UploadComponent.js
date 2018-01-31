@@ -9,9 +9,9 @@ import Thumbnails from './Thumbnails';
 import BrowseButton from './BrowseButton';
 import { readFile } from './ImageHelpers';
 
-import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 
+import { getSignedUrls, addS3Files, updatePageMutation } from '../shared/queries';
 import './UploadComponent.css';
 
 const initialState = {
@@ -161,7 +161,7 @@ class UploadComponent extends Component {
   }
 
   // STEP 2 - Fetch remote upload Urls
-  fetchSignedUrls = (files, onFetchSignedUrlsCompletionHandler = ([]) => {}) => {
+  fetchSignedUrls = (files, onFetchSignedUrlsCompletionHandler = () => {}) => {
     this.setState({ uploading: true });
     const variables = {"input": {"fileNames": this.computedPath(files)}};
     this.props.client.query({ query: getSignedUrls, variables: variables})
@@ -210,7 +210,7 @@ class UploadComponent extends Component {
   }
 
   // STEP 4 - SyncS3withDrupal
-  syncS3FilesBackToDrupalAndCreateMediaEntities(files, onSyncCompletionHandler = ([]) => {} ){
+  syncS3FilesBackToDrupalAndCreateMediaEntities(files, onSyncCompletionHandler = () => {} ){
     const p = this.state.uploadPath;
     const filesMap = files.map(f => {
       return {
@@ -296,7 +296,7 @@ class UploadComponent extends Component {
                       <figure>
                         <img alt={""} src={thumbnail} className={"responsive-image"}/>
                       </figure>
-                    )} />
+                    )} /> 
                 }else{
                   return null;
                 }
@@ -308,34 +308,5 @@ class UploadComponent extends Component {
     )
   }
 }
-
-const getSignedUrls = gql `
-query signedUploadURL ($input: SignedUploadInput!) {
-  signedUploadURL(input:$input)
-}
-`;
-
-const addS3Files = gql `
-mutation addS3Files($input: S3FilesInput!) {
-  addS3Files(input:$input){
-    mid
-  }
-}
-`;
-
-const updatePageMutation = gql `
-  mutation updatePage($id:Int!, $field_media_image:[Int]){
-    updatePage(id:$id,input:{
-      field_media_image:$field_media_image
-    }){
-      page:entity{
-        ...on NodePage {
-          nid,
-          uuid
-        }
-      }
-    }
-  }
-`;
 
 export default withApollo(UploadComponent);

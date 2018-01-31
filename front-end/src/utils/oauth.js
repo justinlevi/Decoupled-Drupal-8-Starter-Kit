@@ -9,7 +9,7 @@ const CLIENT_INFO = {
   client_secret: process.env.REACT_APP_CLIENT_SECRET
 };
 
-const isTokenValid = (accessToken, expiresIn) => {
+export const isTokenValid = (accessToken, expiresIn) => {
 
   const currentTime = new Date().getTime();
   if(accessToken && (!expiresIn || expiresIn - currentTime > 1)){
@@ -21,7 +21,7 @@ const isTokenValid = (accessToken, expiresIn) => {
   }
 }
 
-const getRefreshToken = () => {
+export const getRefreshToken = () => {
   const refreshToken = localStorage.getItem('refresh_token');
   if (refreshToken) {
     console.log('REFRESH TOKEN USED');
@@ -31,7 +31,7 @@ const getRefreshToken = () => {
   }
 }
 
-const getCredentials = (type, username, password = '', refreshToken = '') => {
+export const getCredentials = (type, username, password = '', refreshToken = '') => {
   let credentials = {
     ...CLIENT_INFO,
     grant_type: type,
@@ -52,7 +52,7 @@ const getCredentials = (type, username, password = '', refreshToken = '') => {
   return credentials;
 }
 
-const initializeOauthToken = (credentials, callback = (success, error) => {}) => {
+export const initializeOauthToken = (credentials, callback = (success, error) => {}) => {
   axios.post(URL + '/oauth/token' + POSTFIX, Querystring.stringify(credentials))
     .then(response => {
       const {expires_in, access_token, refresh_token} = response.data;
