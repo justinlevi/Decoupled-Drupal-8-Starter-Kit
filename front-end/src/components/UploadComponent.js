@@ -125,7 +125,7 @@ class UploadComponent extends Component {
   }
 
   handleCancel = (index) => {
-    // TODO
+    this.state.files[index].cancel();
   }
 
   catchError = (error) => {
@@ -209,11 +209,18 @@ class UploadComponent extends Component {
     }).catch(this.catchError);
 
     if(this.state.files.length > 0){
-      let localFileArray = [];
-      for(let i = 0; i < this.state.files.length; i++){
-        if(this.state.files[i].file.name === file.name){
-          let curFile = this.state.files[i];
+      let localFileArray = this.state.files;
+
+      for(let i = 0; i < localFileArray.length; i++){
+        if(localFileArray[i].file.name === file.name){
+          let curFile = localFileArray[i];
           curFile['cancel'] = cancel;
+
+          this.setState({
+            ...this.state.files,
+            curFile
+          })
+
         }
       }
     }
@@ -302,7 +309,7 @@ class UploadComponent extends Component {
               this.state.files.map((item, i) => {
                 const image = this.state.files[i].file;
                 if(image){
-                  return <Thumbnails key={i} handleDelete={this.handleDelete} index={i}
+                  return <Thumbnails key={i} handleCancel={this.handleCancel} handleDelete={this.handleDelete} index={i}
                     fileSize={image.size || image.fileSize}
                     fileName={image.name}
                     percentageComplete={image.percentCompleted ? image.percentCompleted : 0 }

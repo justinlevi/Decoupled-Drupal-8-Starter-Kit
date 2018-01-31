@@ -10,7 +10,8 @@ export default class Thumbnails extends Component {
     fileName: PropTypes.string.isRequired,
     percentageComplete: PropTypes.number.isRequired,
     uploadInitiated: PropTypes.bool.isRequired,
-    uploadSuccess: PropTypes.bool.isRequired
+    uploadSuccess: PropTypes.bool.isRequired,
+    handleCancel: PropTypes.func.isRequired
   }
 
   state = {};
@@ -34,6 +35,7 @@ export default class Thumbnails extends Component {
         </div>
 
         { this.props.uploadInitiated && this.props.uploadSuccess === false ?
+          <div>
           <div className="dz-progress">
             <span className="dz-upload" data-dz-uploadprogress="true"
               style={{
@@ -42,6 +44,8 @@ export default class Thumbnails extends Component {
                 animation: `loadbar ${incrementValue}s linear forwards`
               }}>
             </span>
+          </div>
+          <button onClick={() => this.props.handleCancel(this.props.index)} className="cancel-upload">Cancel</button>
           </div>
         : null }
 
