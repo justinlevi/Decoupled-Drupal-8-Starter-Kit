@@ -13,5 +13,8 @@ weight: 7
 is_admin: null
 permissions:
   - 'access content'
+  - 'create page content'
   - 'create url aliases'
+  - 'delete own page content'
+  - 'edit own page content'
   - 'view media'
