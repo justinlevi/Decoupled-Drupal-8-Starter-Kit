@@ -19,7 +19,6 @@ const initialState = {
   nid: 0,
   mids: [],
   files: [],
-  thumbnails: [],
   maxWidth: 400,
   maxHeight: 225,
   uploading: false,
@@ -62,24 +61,24 @@ class UploadComponent extends Component {
   */
 
   computedPath = (files) => {
-    return files.map(f => { return this.state.uploadPath + f.name; })
+    return files.map(f => { return this.state.uploadPath + f.file.name; })
   }
 
   computedFileIndex = (files, file) => {
-    return files.findIndex((f) => { return f.name === file.name;});
+    return files.findIndex((f) => { return f.file.name === file.name;});
   }
 
   computedTotalBytes = (files) => {
     // calculate total file size
     var totalBytes = files
-    .map(f => { return f.size || f.fileSize;})
+    .map(f => { return f.file.size || f.file.fileSize;})
     .reduce((a, c) => { return a + c; }, 0);
     return totalBytes;
   }
 
   isAllFilesUploaded = (files) => {
     const finished = files.filter((f) => {
-      return f.uploadSuccess ? false : true;
+      return f.file.uploadSuccess ? false : true;
     });
 
     return finished.length === 0 ? true : false;
@@ -94,30 +93,33 @@ class UploadComponent extends Component {
     const newFiles = this.state.files;
     const index = this.computedFileIndex(newFiles, file);
     if(index >= 0){
-      newFiles[index][prop] = value;
+      newFiles[index].file[prop] = value;
       this.setState({files: newFiles});
     }
   }
 
-  createThumbnail = (file, index) => {
+  createFileObject = (file, index) => {
     const { maxWidth, maxHeight } = this.state;
     readFile(file, maxWidth, maxHeight, (resizeDataUrl) => {
-      let newThumbnails = this.state.thumbnails;
-      newThumbnails.splice(index, 0, resizeDataUrl);
+      let fileObject = {
+        file: file,
+        thumbnail: resizeDataUrl
+      }
+
       this.setState({
-        thumbnails: newThumbnails
-      });
+        files:[
+          ...this.state.files,
+          fileObject
+        ]
+      })
     });
   }
 
   handleDelete = (index) => {
     let newFileArray = this.state.files;
-    let newThumbnailArray = this.state.thumbnails;
     newFileArray.splice(index,1);
-    newThumbnailArray.splice(index,1);
     this.setState({
       files: newFileArray,
-      thumbnails: newThumbnailArray
     });
   }
 
@@ -130,16 +132,13 @@ class UploadComponent extends Component {
   }
 
   onDrop = (files) => {
-    const newFiles = [];
     const len = files.length;
     for (var i = 0; i < len; i++) {
       let file = files[i];
       // Only process image files.
       if (!file.type.match('image.*')) { continue; }
-      this.createThumbnail(file, i);
-      newFiles.push(file);
+      this.createFileObject(file, i);
     }
-    this.setState({files: [...this.state.files, ...newFiles]});
   };
 
 
@@ -175,7 +174,7 @@ class UploadComponent extends Component {
     // Assumptions: the returned signedURLs order matches the files state - always the case?
     signedUrls.map(
       (item,i) => {
-        this.handleUpload(item, files[i], this.onUploadCompletionHandler);
+        this.handleUpload(item, files[i].file, this.onUploadCompletionHandler);
         return true;
       }
     )
@@ -183,13 +182,19 @@ class UploadComponent extends Component {
 
   // STEP 3 - Upload to S3 w/ progress
   handleUpload = (signedUrl, file, onUploadCompletionHandler = () => {}) => {
+    const CancelToken = axios.CancelToken;
+    let cancel;
     const config = {
       headers: {'Content-Type': file.type},
       onUploadProgress: progressEvent => {
         let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
         // update progress on image object
         this.setPropOnFile(file, 'percentCompleted', percentCompleted);
-      }
+      },
+      cancelToken: new CancelToken(function executor(c) {
+        // An executor function receives a cancel function as a parameter
+        cancel = c;
+      })
     };
 
     const {files} = this.state;
@@ -200,8 +205,18 @@ class UploadComponent extends Component {
         console.log('ALL FILES ARE UPLOADED')
         onUploadCompletionHandler()
       }
-
     }).catch(this.catchError);
+
+    if(this.state.files.length > 0){
+      let localFileArray = [];
+      for(let i = 0; i < this.state.files.length; i++){
+        if(this.state.files[i].file.name === file.name){
+          let curFile = this.state.files[i];
+          curFile['cancel'] = cancel;
+        }
+      }
+    }
+
     this.setPropOnFile(file, 'uploadInitiated', true);
   }
 
@@ -214,9 +229,9 @@ class UploadComponent extends Component {
     const p = this.state.uploadPath;
     const filesMap = files.map(f => {
       return {
-        filename: f.name,
-        filesize: f.size,
-        url: p + f.name
+        filename: f.file.name,
+        filesize: f.file.size,
+        url: p + f.file.name
       };
     });
 
@@ -283,8 +298,8 @@ class UploadComponent extends Component {
         <output id="list" className="container">
           <div className={"grid"}>
             {
-              this.state.thumbnails.map((thumbnail, i) => {
-                const image = this.state.files[i];
+              this.state.files.map((item, i) => {
+                const image = this.state.files[i].file;
                 if(image){
                   return <Thumbnails key={i} handleDelete={this.handleDelete} index={i}
                     fileSize={image.size || image.fileSize}
@@ -294,9 +309,9 @@ class UploadComponent extends Component {
                     uploadSuccess={image.uploadSuccess ? true : false }
                     render={ () => (
                       <figure>
-                        <img alt={""} src={thumbnail} className={"responsive-image"}/>
+                        <img alt={""} src={item.thumbnail} className={"responsive-image"}/>
                       </figure>
-                    )} /> 
+                    )} />
                 }else{
                   return null;
                 }
