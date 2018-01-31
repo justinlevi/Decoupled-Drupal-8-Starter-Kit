@@ -126,10 +126,11 @@ class UploadComponent extends Component {
 
   handleCancel = (index) => {
     this.state.files[index].cancel();
+    this.handleDelete(index);
   }
 
   catchError = (error) => {
-    console.log('error ' + error);
+    console.log('Error ' + error);
   }
 
   onDrop = (files) => {
@@ -206,7 +207,16 @@ class UploadComponent extends Component {
         console.log('ALL FILES ARE UPLOADED')
         onUploadCompletionHandler()
       }
-    }).catch(this.catchError);
+    }).catch(error => {
+      if(axios.isCancel(error)) {
+        if (this.isAllFilesUploaded(files)){
+          console.log('ALL FILES ARE UPLOADED')
+          onUploadCompletionHandler()
+        }
+      }else{
+        console.log('Error ' + error)
+      }
+    });
 
     if(this.state.files.length > 0){
       let localFileArray = this.state.files;
