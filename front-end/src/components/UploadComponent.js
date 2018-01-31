@@ -30,7 +30,8 @@ class UploadComponent extends Component {
 
   static propTypes = {
     username: PropTypes.string.isRequired,
-    nid: PropTypes.string.isRequired
+    nid: PropTypes.number.isRequired,
+    mids: PropTypes.array.isRequired
   }
 
   dropzoneRef = undefined;

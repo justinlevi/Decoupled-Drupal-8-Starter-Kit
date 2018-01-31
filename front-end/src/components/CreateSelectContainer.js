@@ -72,8 +72,8 @@ class CreateSelectContainer extends Component {
     this.props.client.mutate({ mutation: addPageMutation, variables: variables})
     .then(response => {
       console.log('ADD PAGE COMPLETE')
-      const {uuid, nid} = response.data.addPage.entity;
-      this.props.projectCreateSelectHandler(uuid, nid);
+      const {uuid, nid, images} = response.data.addPage.entity;
+      this.props.projectCreateSelectHandler(uuid, nid, images);
     }).catch((error) => {
       console.log('error ' + error);
     });
