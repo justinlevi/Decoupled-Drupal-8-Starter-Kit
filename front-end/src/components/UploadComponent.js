@@ -9,9 +9,9 @@ import Thumbnails from './Thumbnails';
 import BrowseButton from './BrowseButton';
 import { readFile } from './ImageHelpers';
 
-import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 
+import { getSignedUrls, addS3Files, updatePageMutation } from '../shared/queries';
 import './UploadComponent.css';
 
 const initialState = {
@@ -44,16 +44,16 @@ class UploadComponent extends Component {
 
     const uploadPath = props.username + '/' + props.uuid + '/';
     this.state = {
-      ...initialState, 
-      uid: props.uid, 
+      ...initialState,
+      uid: props.uid,
       uuid: props.uuid,
       nid: props.nid,
       uploadPath: uploadPath
     };
 
     this.onDrop = this.onDrop.bind(this);
-    this.onUploadClick = this.onUploadClick.bind(this); 
-    this.handleDelete = this.handleDelete.bind(this); 
+    this.onUploadClick = this.onUploadClick.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   /*
@@ -61,8 +61,8 @@ class UploadComponent extends Component {
   * ----------------------
   */
 
-  computedPath = (files) => { 
-    return files.map(f => { return this.state.uploadPath + f.name; }) 
+  computedPath = (files) => {
+    return files.map(f => { return this.state.uploadPath + f.name; })
   }
 
   computedFileIndex = (files, file) => {
@@ -79,7 +79,7 @@ class UploadComponent extends Component {
 
   isAllFilesUploaded = (files) => {
     const finished = files.filter((f) => {
-      return f.uploadSuccess ? false : true; 
+      return f.uploadSuccess ? false : true;
     });
 
     return finished.length === 0 ? true : false;
@@ -125,7 +125,7 @@ class UploadComponent extends Component {
     // TODO
   }
 
-  catchError = (error) => { 
+  catchError = (error) => {
     console.log('error ' + error);
   }
 
@@ -147,7 +147,7 @@ class UploadComponent extends Component {
   * NETWORKING - REMOTE FETCH/GRAPHQL
   * ASYNC Sequential Upload and Drupal Sync Steps
   * 1. Upload button clicked
-  * 2. Get Signed S3 Upload URLsFiles 
+  * 2. Get Signed S3 Upload URLsFiles
   * 3. Upload files to S3 w/ Progress , Sync with DASYNC Series
   * ----------------------
   */
@@ -161,7 +161,7 @@ class UploadComponent extends Component {
   }
 
   // STEP 2 - Fetch remote upload Urls
-  fetchSignedUrls = (files, onFetchSignedUrlsCompletionHandler = ([]) => {}) => {
+  fetchSignedUrls = (files, onFetchSignedUrlsCompletionHandler = () => {}) => {
     this.setState({ uploading: true });
     const variables = {"input": {"fileNames": this.computedPath(files)}};
     this.props.client.query({ query: getSignedUrls, variables: variables})
@@ -210,14 +210,14 @@ class UploadComponent extends Component {
   }
 
   // STEP 4 - SyncS3withDrupal
-  syncS3FilesBackToDrupalAndCreateMediaEntities(files, onSyncCompletionHandler = ([]) => {} ){
+  syncS3FilesBackToDrupalAndCreateMediaEntities(files, onSyncCompletionHandler = () => {} ){
     const p = this.state.uploadPath;
-    const filesMap = files.map(f => { 
+    const filesMap = files.map(f => {
       return {
         filename: f.name,
         filesize: f.size,
         url: p + f.name
-      }; 
+      };
     });
 
     this.setState({ synchronizing: true });
@@ -233,10 +233,10 @@ class UploadComponent extends Component {
 
   onSyncCompletionHandler = (mids) => {
     this.addMediaToNode(mids);
-    setTimeout(() => { this.setState(initialState); }, 500);  
+    setTimeout(() => { this.setState(initialState); }, 500);
   }
 
-  //STEP 5 - 
+  //STEP 5 -
   addMediaToNode(mids){
     const newMids = mids.concat(this.props.mids).concat(this.state.mids);
     const variables = {id: Number(this.props.nid), field_media_image: newMids};
@@ -262,13 +262,15 @@ class UploadComponent extends Component {
     return (
       <div className="uploadComponentContainer">
 
-        { this.state.uploading === false ? 
+        { this.state.uploading === false ?
           <Dropzone ref={(node) => { this.dropzoneRef = node; }} onDrop={this.onDrop} id="dropZone" className="dropZone" disabled={this.state.uploading} >
             <p>Drop your files here or click to browse.</p>
           </Dropzone>
-        : null }
+        : <div id="dropZone" className="dropZone disabled">
+          <p>Your files are uploading.</p>
+        </div> }
 
-        { this.state.uploading === false ? 
+        { this.state.uploading === false ?
           <BrowseButton files={this.state.files} totalBytes={this.computedTotalBytes(this.state.files)} totalFiles={this.state.files.length} render={ () => (
             <button type="button" onClick={() => { this.dropzoneRef.open() }} disabled={this.state.uploadInitiated} >
                 Choose Files
@@ -281,15 +283,15 @@ class UploadComponent extends Component {
         <output id="list" className="container">
           <div className={"grid"}>
             {
-              this.state.thumbnails.map((thumbnail, i) => { 
+              this.state.thumbnails.map((thumbnail, i) => {
                 const image = this.state.files[i];
                 if(image){
-                  return <Thumbnails key={i} handleDelete={this.handleDelete} index={i} 
-                    fileSize={image.size || image.fileSize} 
-                    fileName={image.name} 
-                    percentageComplete={image.percentCompleted ? image.percentCompleted : 0 } 
-                    uploadInitiated={image.uploadInitiated ? image.uploadInitiated : false } 
-                    uploadSuccess={image.uploadSuccess ? true : false } 
+                  return <Thumbnails key={i} handleDelete={this.handleDelete} index={i}
+                    fileSize={image.size || image.fileSize}
+                    fileName={image.name}
+                    percentageComplete={image.percentCompleted ? image.percentCompleted : 0 }
+                    uploadInitiated={image.uploadInitiated ? image.uploadInitiated : false }
+                    uploadSuccess={image.uploadSuccess ? true : false }
                     render={ () => (
                       <figure>
                         <img alt={""} src={thumbnail} className={"responsive-image"}/>
@@ -306,34 +308,5 @@ class UploadComponent extends Component {
     )
   }
 }
-
-const getSignedUrls = gql `
-query signedUploadURL ($input: SignedUploadInput!) {
-  signedUploadURL(input:$input)
-}
-`;
-
-const addS3Files = gql `
-mutation addS3Files($input: S3FilesInput!) {
-  addS3Files(input:$input){
-    mid
-  }
-}
-`;
-
-const updatePageMutation = gql `
-  mutation updatePage($id:Int!, $field_media_image:[Int]){
-    updatePage(id:$id,input:{
-      field_media_image:$field_media_image
-    }){
-      page:entity{
-        ...on NodePage {
-          nid,
-          uuid
-        }
-      }
-    }
-  }
-`;
 
 export default withApollo(UploadComponent);

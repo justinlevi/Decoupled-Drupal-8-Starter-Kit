@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 
+import { currentUserUid, nodeTitlesByUserQuery, addPageMutation } from '../shared/queries';
 import './CreateSelectContainer.css';
 
 class CreateSelectContainer extends Component {
@@ -158,42 +158,3 @@ class CreateSelectContainer extends Component {
 
 export default withApollo(CreateSelectContainer);  
 
-
-const currentUserUid = gql `
-  query{
-    currentUserContext{
-      uid,
-      uuid
-    }
-  }
-`;
-
-const nodeTitlesByUserQuery = gql `
-  query nodeQuery($uid: Int) {
-    nodeQuery(offset:0, limit: 10, filter:{uid:$uid}){
-      entities{
-        ...on NodePage {
-          title,
-          nid,
-          uuid
-          images:fieldMediaImage{
-            mid:targetId
-          }
-        }
-      }
-    }
-  }
-`;
-
-const addPageMutation = gql `
-  mutation addPage($title: String!){
-    addPage(input: {title: $title}){
-      entity{
-        ...on NodePage {
-          nid,
-          uuid
-        }
-      }
-    }
-  }
-`;
