@@ -38,20 +38,29 @@ exports[`Thumbnail should display the progress bar based on props set 1`] = `
       </span>
     </div>
   </div>
-  <div
-    className="dz-progress"
-  >
-    <span
-      className="dz-upload"
-      data-dz-uploadprogress="true"
-      style={
-        Object {
-          "animation": "loadbar 1s linear forwards",
-          "animationDelay": "0.15s",
-          "width": "10%",
+  <div>
+    <div
+      className="dz-progress"
+    >
+      <span
+        className="dz-upload"
+        data-dz-uploadprogress="true"
+        style={
+          Object {
+            "animation": "loadbar 1s linear forwards",
+            "animationDelay": "0.15s",
+            "width": "10%",
+          }
         }
-      }
-    />
+      />
+    </div>
+    <button
+      className="btn btn-danger cancel-upload"
+      onClick={[Function]}
+      type="button"
+    >
+      Cancel
+    </button>
   </div>
   <div
     className="dz-success-mark"
@@ -147,20 +156,29 @@ exports[`Thumbnail should display the progress bar based on props set 2`] = `
       </span>
     </div>
   </div>
-  <div
-    className="dz-progress"
-  >
-    <span
-      className="dz-upload"
-      data-dz-uploadprogress="true"
-      style={
-        Object {
-          "animation": "loadbar 1s linear forwards",
-          "animationDelay": "0.15s",
-          "width": "10%",
+  <div>
+    <div
+      className="dz-progress"
+    >
+      <span
+        className="dz-upload"
+        data-dz-uploadprogress="true"
+        style={
+          Object {
+            "animation": "loadbar 1s linear forwards",
+            "animationDelay": "0.15s",
+            "width": "10%",
+          }
         }
-      }
-    />
+      />
+    </div>
+    <button
+      className="btn btn-danger cancel-upload"
+      onClick={[Function]}
+      type="button"
+    >
+      Cancel
+    </button>
   </div>
   <div
     className="dz-success-mark"
