@@ -12,7 +12,6 @@ import { readFile } from './ImageHelpers';
 import { withApollo } from 'react-apollo';
 
 import { getSignedUrls, addS3Files, updatePageMutation } from '../shared/queries';
-import './UploadComponent.css';
 
 const initialState = {
   totalBytes: 0,
