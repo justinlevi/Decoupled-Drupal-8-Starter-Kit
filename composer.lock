@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ee3a7563cb0cbfa84d4c4cd0128965c",
+    "content-hash": "1d1840dba05559f33c1021a9f932ff72",
     "packages": [
         {
             "name": "acquia/blt",
@@ -3940,17 +3940,11 @@
         },
         {
             "name": "drupal/graphql",
-            "version": "3.0.0-beta3",
+            "version": "dev-3.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/graphql",
-                "reference": "8.x-3.0-beta3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/graphql-8.x-3.0-beta3.zip",
-                "reference": "8.x-3.0-beta3",
-                "shasum": "abbbec1f833849c48762bc8c138567da5aa6f86b"
+                "reference": "d0f25fe666152442c895ae3dd67381d7e28a400b"
             },
             "require": {
                 "drupal/core": "~8.0",
@@ -3962,11 +3956,11 @@
                     "dev-3.x": "3.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-3.0-beta3",
-                    "datestamp": "1516381985",
+                    "version": "8.x-3.0-beta3+26-dev",
+                    "datestamp": "1517496180",
                     "security-coverage": {
                         "status": "not-covered",
-                        "message": "Beta releases are not covered by Drupal security advisories."
+                        "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -3988,7 +3982,8 @@
             "homepage": "http://drupal.org/project/graphql",
             "support": {
                 "source": "http://cgit.drupalcode.org/graphql"
-            }
+            },
+            "time": "2018-02-01T14:52:05+00:00"
         },
         {
             "name": "drupal/graphql_signed_s3_upload",
@@ -7021,12 +7016,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "13ef80f75cfe12f23087ef52722aead14e0dd601"
+                "reference": "87d3c36d0f763ff09b11997dcbb33510c50a67c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/13ef80f75cfe12f23087ef52722aead14e0dd601",
-                "reference": "13ef80f75cfe12f23087ef52722aead14e0dd601",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/87d3c36d0f763ff09b11997dcbb33510c50a67c6",
+                "reference": "87d3c36d0f763ff09b11997dcbb33510c50a67c6",
                 "shasum": ""
             },
             "require": {
@@ -7114,7 +7109,7 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2018-01-31T18:14:33+00:00"
+            "time": "2018-02-01T16:56:21+00:00"
         },
         {
             "name": "easyrdf/easyrdf",
@@ -10676,16 +10671,16 @@
         },
         {
             "name": "symfony/polyfill-iconv",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-iconv.git",
-                "reference": "7a84ccdb8c953ee274c96dd6bde778d873fc824a"
+                "reference": "bd515d8f392730c833bc1ba993a4f598da64fa5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/7a84ccdb8c953ee274c96dd6bde778d873fc824a",
-                "reference": "7a84ccdb8c953ee274c96dd6bde778d873fc824a",
+                "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/bd515d8f392730c833bc1ba993a4f598da64fa5b",
+                "reference": "bd515d8f392730c833bc1ba993a4f598da64fa5b",
                 "shasum": ""
             },
             "require": {
@@ -10697,7 +10692,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6-dev"
+                    "dev-master": "1.7-dev"
                 }
             },
             "autoload": {
@@ -10731,20 +10726,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-01-30T19:27:44+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
                 "shasum": ""
             },
             "require": {
@@ -10756,7 +10751,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6-dev"
+                    "dev-master": "1.7-dev"
                 }
             },
             "autoload": {
@@ -10790,7 +10785,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-01-30T19:27:44+00:00"
         },
         {
             "name": "symfony/process",
@@ -13346,7 +13341,7 @@
     "stability-flags": {
         "acquia/blt": 15,
         "drupal/consumers": 10,
-        "drupal/graphql": 10,
+        "drupal/graphql": 20,
         "drupal/s3fs": 15,
         "drupal/features": 20
     },
