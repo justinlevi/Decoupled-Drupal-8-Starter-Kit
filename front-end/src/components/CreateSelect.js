@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { withApollo } from 'react-apollo';
 
-import { currentUserUid, nodeTitlesByUserQuery, addPageMutation } from '../shared/queries';
+import { nodeTitlesByUserReverseQuery, addPageMutation } from '../shared/queries';
 
 class CreateSelectContainer extends Component {
 
@@ -33,13 +33,13 @@ class CreateSelectContainer extends Component {
   }
 
   componentDidMount(){
-    this.fetchUid((result) => {
-      this.setState({uid: result.uid});
 
-      this.fetchNodesByUid(result.uid, (result) => {
-        this.setState({nodes: result.entities})
-      })
-    })
+    this.fetchNodeTitlesByUserReverseQuery((result) => {
+      this.setState({
+        uid: result.uid,
+        nodes: result.nodes.entities
+      });
+    });
   }
 
   /**
@@ -47,20 +47,10 @@ class CreateSelectContainer extends Component {
    * ----------
    */
 
-  fetchUid = (onFetchComplete) => {
-    this.props.client.query({ query: currentUserUid})
+  fetchNodeTitlesByUserReverseQuery = (onFetchComplete) => {
+    this.props.client.query({query: nodeTitlesByUserReverseQuery})
     .then(response => {
-      onFetchComplete(response.data.currentUserContext)
-    }).catch((error) => {
-      console.log('error ' + error);
-    });
-  }
-
-  fetchNodesByUid = (uid, onFetchComplete) => {
-    const variables = {"uid": uid};
-    this.props.client.query({query: nodeTitlesByUserQuery, variables: variables})
-    .then(response => {
-      onFetchComplete(response.data.nodeQuery)
+      onFetchComplete(response.data.user)
     }).catch((error) => {
       console.log('error ' + error);
     });

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import { ApolloProvider } from 'react-apollo';
 
 import UploadComponent from './components/UploadComponent';
-import CreateSelectContainer from './components/CreateSelectContainer';
+import CreateSelect from './components/CreateSelect';
 
 export class App extends Component {
 
@@ -22,7 +22,7 @@ export class App extends Component {
           <button style={{position:'absolute', top:'25px', right:'50px'}} onClick={handleLogout}>Logout</button>
           {
             !this.props.nid ?
-              <CreateSelectContainer projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
+              <CreateSelect projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
             : 
               <UploadComponent username={username} uid={uid} uuid={uuid} nid={nid} mids={mids} />
           }

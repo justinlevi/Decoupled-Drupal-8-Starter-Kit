@@ -13,11 +13,12 @@
             "type": "vcs",
             "url": "https://github.com/justinlevi/graphql_signed_s3_upload.git"
         }
+
     ],
     "require": {
         "acquia/blt": "^9.0@alpha",
         "drupal/consumers": "^1.0@beta",
-        "drupal/graphql": "^3.0@beta",
+        "drupal/graphql": "dev-3.x",
         "drupal/console": "~1.0",
         "drupal/s3fs": "^3.0@alpha",
         "aws/aws-sdk-php": "^3.48",
