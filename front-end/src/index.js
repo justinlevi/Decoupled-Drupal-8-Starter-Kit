@@ -5,9 +5,6 @@ import initalizeCsrfToken from './utils/csrf';
 import registerServiceWorker from './registerServiceWorker';
 import './styles/css/index.css';
 
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-
 initalizeCsrfToken();
 
 ReactDOM.render(<AppContainer />, document.getElementById('root'));
