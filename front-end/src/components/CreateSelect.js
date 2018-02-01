@@ -10,27 +10,21 @@ class CreateSelectContainer extends Component {
   static propTypes = {
     projectCreateSelectHandler: PropTypes.func.isRequired,
   }
+  
+  state = {
+    uid: 0,
+    activeNode: '',
+    selectValue: 0,
+    title: '',
+    nodes: [],
+    submitEnabled: false,
+    selectEnabled: true
+  }
 
   /**
   * LIFECYCLE
   * ----------
   */
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      uid: 0,
-      activeNode: '',
-      selectValue: 0,
-      title: '',
-      nodes: [],
-      submitEnabled: false,
-      selectEnabled: true
-    }
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
 
   componentDidMount(){
 
