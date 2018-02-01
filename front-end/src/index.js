@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import AppContainer from './AppContainer';
 import initalizeCsrfToken from './utils/csrf';
 import registerServiceWorker from './registerServiceWorker';
+import './styles/css/index.css';
+
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 initalizeCsrfToken();
 

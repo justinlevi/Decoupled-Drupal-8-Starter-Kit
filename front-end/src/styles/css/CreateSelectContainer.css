@@ -1,7 +1,6 @@
-.createSelectContainer{
+.createSelectContainer {
   text-align: center;
-  font-size: 2em;
-}
+  font-size: 2em; }
 
 .createSelectContainer .createNewContainer,
 .createSelectContainer .selectExistingContainer {
@@ -14,19 +13,17 @@
   font: 20pt bold;
   font-family: sans-serif;
   background-color: #f7f7f7;
-  margin: 0 auto;
-}
+  margin: 0 auto; }
 
 .createSelectContainer label {
-  display: block;
-}
+  display: block; }
 
 .createSelectContainer div {
-  margin: 15px 0;
-}
+  margin: 15px 0; }
 
 .createSelectContainer input, .createSelectContainer select {
   width: 400px;
   height: 25px;
-  border-radius: 3px;
-}
+  border-radius: 3px; }
+
+/*# sourceMappingURL=CreateSelectContainer.css.map */

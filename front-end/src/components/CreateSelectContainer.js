@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { withApollo } from 'react-apollo';
 
 import { currentUserUid, nodeTitlesByUserQuery, addPageMutation } from '../shared/queries';
-import './CreateSelectContainer.css';
 
 class CreateSelectContainer extends Component {
 
@@ -13,7 +12,7 @@ class CreateSelectContainer extends Component {
   }
 
   /**
-  * LIFECYCLE 
+  * LIFECYCLE
   * ----------
   */
 
@@ -30,7 +29,7 @@ class CreateSelectContainer extends Component {
       selectEnabled: true
     }
 
-    this.handleSubmit = this.handleSubmit.bind(this); 
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount(){
@@ -42,9 +41,9 @@ class CreateSelectContainer extends Component {
       })
     })
   }
-  
+
   /**
-   * NETWORKING 
+   * NETWORKING
    * ----------
    */
 
@@ -96,7 +95,7 @@ class CreateSelectContainer extends Component {
       this.props.projectCreateSelectHandler(uuid, selectValue, node.images);
     }else if(this.state.title.length > 5) {
       this.addPageMutation();
-    } 
+    }
 
   }
 
@@ -131,9 +130,9 @@ class CreateSelectContainer extends Component {
         <form>
           <div className="createNewContainer">
             <label htmlFor="title">CREATE NEW</label>
-            <input id="title" name="title" type="text" placeholder="Enter a title" onChange={this.handleCreateInputChange}/> 
+            <input id="title" name="title" type="text" placeholder="Enter a title" onChange={this.handleCreateInputChange}/>
           </div>
-          
+
           <div className="or">or...</div>
 
           <div className="selectExistingContainer">
@@ -156,5 +155,4 @@ class CreateSelectContainer extends Component {
   }
 }
 
-export default withApollo(CreateSelectContainer);  
-
+export default withApollo(CreateSelectContainer);

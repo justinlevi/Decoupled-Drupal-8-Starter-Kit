@@ -1,0 +1,32 @@
+.createSelectContainer{
+  text-align: center;
+  font-size: 2em;
+}
+
+.createSelectContainer .createNewContainer,
+.createSelectContainer .selectExistingContainer {
+  border: 2px solid #bbb;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 25px;
+  text-align: center;
+  font: 20pt bold;
+  font-family: sans-serif;
+  background-color: #f7f7f7;
+  margin: 0 auto;
+}
+
+.createSelectContainer label {
+  display: block;
+}
+
+.createSelectContainer div {
+  margin: 15px 0;
+}
+
+.createSelectContainer input, .createSelectContainer select {
+  width: 400px;
+  height: 25px;
+  border-radius: 3px;
+}
