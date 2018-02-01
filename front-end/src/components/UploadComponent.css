@@ -3,13 +3,13 @@
 }
 
 .cancel-upload{
-  width: 100px;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-  position: absolute;
-  top: 105px;
-  left: 160px;
+  width: 47.5%;
+  position: relative;
+  bottom: 80px;
+  left: 25%;
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
 }
 
 .browseContainer {

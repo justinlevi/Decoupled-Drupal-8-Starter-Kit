@@ -45,7 +45,7 @@ export default class Thumbnails extends Component {
               }}>
             </span>
           </div>
-          <button onClick={() => this.props.handleCancel(this.props.index)} className="cancel-upload">Cancel</button>
+          <button onClick={() => this.props.handleCancel(this.props.index)} type="button" className="btn btn-danger cancel-upload">Cancel</button>
           </div>
         : null }
 
