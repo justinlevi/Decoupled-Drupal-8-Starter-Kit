@@ -47,7 +47,7 @@ export class AppContainer extends Component {
 
   projectCreateSelectHandler = (uuid, nid, images) => {
     const mids = images.map(obj => {return obj.mid});
-    this.setState({uuid: uuid, nid: nid, mids: mids});
+    this.setState({uuid: uuid, nid: Number(nid), mids: mids});
   }
 
   // is used by both login and password reset

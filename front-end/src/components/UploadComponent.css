@@ -2,6 +2,16 @@
   margin-bottom: 10px;
 }
 
+.cancel-upload{
+  width: 47.5%;
+  position: relative;
+  bottom: 80px;
+  left: 25%;
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
 .browseContainer {
   padding: 5px;
   border: 1px solid #ccc;

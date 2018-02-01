@@ -10,7 +10,8 @@ export default class Thumbnails extends Component {
     fileName: PropTypes.string.isRequired,
     percentageComplete: PropTypes.number.isRequired,
     uploadInitiated: PropTypes.bool.isRequired,
-    uploadSuccess: PropTypes.bool.isRequired
+    uploadSuccess: PropTypes.bool.isRequired,
+    handleCancel: PropTypes.func.isRequired
   }
 
   state = {};
@@ -18,30 +19,33 @@ export default class Thumbnails extends Component {
   render() {
 
     const fs = this.props.fileSize;
-    let unit = (fs < 1000000) ? 'KB': 'MB';  
-    let size = (fs < 1000000) ? Math.floor(fs/1000): Math.floor(fs/1000000);  
+    let unit = (fs < 1000000) ? 'KB': 'MB';
+    let size = (fs < 1000000) ? Math.floor(fs/1000): Math.floor(fs/1000000);
     let incrementValue = 1;
     let animationDelay = 0.15;
 
     return (
       <div className={"cell"} data-index={this.props.index}>
         {this.props.render()}
-        
 
-        <div className="dz-details">    
-          <div className="dz-size"><span data-dz-size=""><strong>{size}</strong> {unit}</span></div>    
-          <div className="dz-filename"><span data-dz-name="">{this.props.fileName}</span></div> 
+
+        <div className="dz-details">
+          <div className="dz-size"><span data-dz-size=""><strong>{size}</strong> {unit}</span></div>
+          <div className="dz-filename"><span data-dz-name="">{this.props.fileName}</span></div>
         </div>
 
         { this.props.uploadInitiated && this.props.uploadSuccess === false ?
+          <div>
           <div className="dz-progress">
-            <span className="dz-upload" data-dz-uploadprogress="true" 
-              style={{ 
+            <span className="dz-upload" data-dz-uploadprogress="true"
+              style={{
                 width: `${this.props.percentageComplete}%`,
                 animationDelay: `${animationDelay}s`,
                 animation: `loadbar ${incrementValue}s linear forwards`
               }}>
             </span>
+          </div>
+          <button onClick={() => this.props.handleCancel(this.props.index)} type="button" className="btn btn-danger cancel-upload">Cancel</button>
           </div>
         : null }
 
