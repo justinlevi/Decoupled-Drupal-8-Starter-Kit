@@ -319,7 +319,11 @@ class UploadComponent extends Component {
               this.state.files.map((item, i) => {
                 const image = this.state.files[i].file;
                 if(image){
-                  return <Thumbnails key={i} handleCancel={this.handleCancel} handleDelete={this.handleDelete} index={i}
+                  return <Thumbnails 
+                    key={i} 
+                    handleCancel={(this.handleCancel)} 
+                    handleDelete={this.handleDelete} 
+                    index={i}
                     fileSize={image.size || image.fileSize}
                     fileName={image.name}
                     percentageComplete={image.percentCompleted ? image.percentCompleted : 0 }
