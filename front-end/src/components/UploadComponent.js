@@ -275,7 +275,7 @@ class UploadComponent extends Component {
     this.props.client.mutate({ mutation: updatePageMutation, variables: variables})
     .then(response => {
       // send signedUrls to callback
-      if(response.data.updatePage.page.nid){
+      if(response.data.updatePage.page !== null){
         console.log('UPDATE PAGE WITH UPLOADED MEDIA COMPLETE');
       }else{
         console.exception("ERROR: The page was not updated correctly")
