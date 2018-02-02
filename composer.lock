@@ -3944,7 +3944,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/graphql",
-                "reference": "d0f25fe666152442c895ae3dd67381d7e28a400b"
+                "reference": "0394264b1394282bab2fed46a582c778673caddb"
             },
             "require": {
                 "drupal/core": "~8.0",
@@ -3956,8 +3956,8 @@
                     "dev-3.x": "3.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-3.0-beta3+26-dev",
-                    "datestamp": "1517496180",
+                    "version": "8.x-3.0-beta3+27-dev",
+                    "datestamp": "1517496780",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -3983,7 +3983,7 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/graphql"
             },
-            "time": "2018-02-01T14:52:05+00:00"
+            "time": "2018-02-01T22:49:35+00:00"
         },
         {
             "name": "drupal/graphql_signed_s3_upload",
