@@ -1,5 +1,5 @@
 {
-  "name": "react-playground",
+  "name": "",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -25,12 +25,18 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.1",
+    "bootstrap": "^4.0.0",
+    "node-sass-chokidar": "^0.0.3",
+    "npm-run-all": "^4.1.1",
     "react-addons-test-utils": "^15.6.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "sass" : "sass --watch src/styles/scss:src/styles/css",
+    "start": "npm-run-all -p watch-css start-js",
+    "start-js": "react-scripts start",
+    "build": "npm run build-css && react-scripts build",
+    "build-css": "node-sass-chokidar --output-style nested --source-map-embed true --source-map true --source-map-root ./src/styles --include-path ./src/styles src/styles/ -o ./src/styles/",
+    "watch-css": "npm run build-css && node-sass-chokidar --output-style nested --source-map-embed true --source-map true --source-map-root ./src/styles --include-path ./src/styles src/styles/ -o ./src/styles/ --watch --recursive",
+    "sass": "sass --watch src/styles/scss:src/styles/css",
     "test": "react-scripts test --env=jsdom",
     "test:debug": "react-scripts --inspect-brk test --runInBand --env=jsdom",
     "eject": "react-scripts eject"

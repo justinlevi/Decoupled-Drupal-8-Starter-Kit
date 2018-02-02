@@ -1,3 +1,71 @@
+
+body {
+  margin: 25px;
+  padding: 25px;
+  font-family: sans-serif;
+}
+
+.loginContainer {
+  text-align: center;
+  font-size: 2em;
+
+  label {
+    display: block;
+  }
+
+  div {
+    margin: 15px;
+    padding: 15px;
+  }
+
+  input,
+  select {
+    width: 400px;
+    height: 25px;
+    border-radius: 3px;
+  }
+}
+
+
+
+// CREATE SELECT CONTAINER - TODO: REFACTOR THIS INTO SOMETHING MORE REUSABLE
+
+.createSelectContainer{
+  text-align: center;
+  font-size: 2em;
+}
+
+.createSelectContainer .createNewContainer,
+.createSelectContainer .selectExistingContainer {
+  border: 2px solid #bbb;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 25px;
+  text-align: center;
+  font: 20pt bold;
+  font-family: sans-serif;
+  background-color: #f7f7f7;
+  margin: 0 auto;
+}
+
+.createSelectContainer label {
+  display: block;
+}
+
+.createSelectContainer div {
+  margin: 15px 0;
+}
+
+.createSelectContainer input, .createSelectContainer select {
+  width: 400px;
+  height: 25px;
+  border-radius: 3px;
+}
+
+
+// UPLOAD COMPONENT - GIANT MESS [TODO: REFACTOR]
+
 .uploadComponentContainer>div {
   margin-bottom: 10px;
 }
@@ -94,50 +162,6 @@ img {
   transition: transform .2s ease-in-out;
   object-fit: cover;
   max-height: 175px;
-}
-
-.btn {
-  -webkit-appearance: button;
-  display: inline-block;
-  padding: 6px 12px;
-  margin-bottom: 0;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.42857143;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
-  width: 100%;
-  margin-bottom: 8px;
-}
-
-.btn-primary:hover {
-  color: #fff;
-  background-color: #204d74;
-  border-color: #122b40;
-}
-
-.btn-primary:disabled,
-.btn-primary:disabled:hover {
-  color: rgb(221, 219, 219);
-  background-color: #5c5e5f;
-  border-color: #122b40;
 }
 
 .delete {
