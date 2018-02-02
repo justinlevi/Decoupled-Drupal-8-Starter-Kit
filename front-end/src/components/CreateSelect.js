@@ -5,7 +5,7 @@ import { withApollo } from 'react-apollo';
 
 import { nodeTitlesByUserReverseQuery, addPageMutation } from '../shared/queries';
 
-class CreateSelectContainer extends Component {
+export class CreateSelect extends Component {
 
   static propTypes = {
     projectCreateSelectHandler: PropTypes.func.isRequired,
@@ -139,4 +139,5 @@ class CreateSelectContainer extends Component {
   }
 }
 
-export default withApollo(CreateSelectContainer);
+const CreateSelectWrapper = withApollo(CreateSelect);
+export default CreateSelectWrapper;

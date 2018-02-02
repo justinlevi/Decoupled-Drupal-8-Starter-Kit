@@ -24,7 +24,7 @@ const initialState = {
   uploadPath: ''
 };
 
-class UploadComponent extends Component {
+export class UploadComponent extends Component {
 
   static propTypes = {
     username: PropTypes.string.isRequired,
@@ -345,4 +345,5 @@ class UploadComponent extends Component {
   }
 }
 
-export default withApollo(UploadComponent);
+const UploadComponentWrapper = withApollo(UploadComponent);
+export default UploadComponentWrapper; 
