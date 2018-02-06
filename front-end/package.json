@@ -20,7 +20,8 @@
     "react-icons": "^2.2.7",
     "react-scripts": "1.0.17",
     "react-transition-group": "^2.2.1",
-    "recursive-iterator": "^3.3.0"
+    "recursive-iterator": "^3.3.0",
+    "redux-saga": "^0.16.0"
   },
   "devDependencies": {
     "@types/jest": "^22.1.1",
