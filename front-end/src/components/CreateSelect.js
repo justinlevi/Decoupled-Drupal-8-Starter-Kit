@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 
 import { withApollo } from 'react-apollo';
 
-import { nodeTitlesByUserReverseQuery, addPageMutation, deletePageMutation } from '../shared/queries';
+import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../shared/queries';
 import HCard from './HCard';
 
 import MdAdd from 'react-icons/lib/md/add';
@@ -47,7 +47,7 @@ export class CreateSelect extends Component {
 
   componentDidMount(){
 
-    this.fetchNodeTitlesByUserReverseQuery((result) => {
+    this.fetchPagesByUserQuery((result) => {
       this.setState({
         uid: result.uid,
         nodes: result.nodes.entities
@@ -60,8 +60,8 @@ export class CreateSelect extends Component {
    * ----------
    */
 
-  fetchNodeTitlesByUserReverseQuery = (onFetchComplete) => {
-    this.props.client.query({query: nodeTitlesByUserReverseQuery})
+  fetchPagesByUserQuery = (onFetchComplete) => {
+    this.props.client.query({query: pagesByUserQuery})
     .then(response => {
       onFetchComplete(response.data.user)
     }).catch((error) => {
@@ -80,8 +80,9 @@ export class CreateSelect extends Component {
 
       const {uuid, nid, images} = response.data.addPage.entity;
 
-      setTimeout(() => { this.scrollToBottom() }, 250);
-      setTimeout(() => { this.props.projectCreateSelectHandler(uuid, nid, images) }, 1250)
+      //setTimeout(() => { this.scrollToBottom() }, 250);
+      //setTimeout(() => { this.props.projectCreateSelectHandler(uuid, nid, images) }, 500)
+      this.props.projectCreateSelectHandler(uuid, nid, images);
     }).catch((error) => {
       console.log('error ' + error);
     });
@@ -121,22 +122,6 @@ export class CreateSelect extends Component {
    */
 
 
-  // handleSubmit = (event) => {
-  //   event.preventDefault();
-
-  //   const { selectValue } = this.state;
-
-  //   if(selectValue > 0){
-  //     // select uuid from the array of entities
-  //     const node = this.state.nodes.find(node => node.nid === Number(selectValue));
-  //     const uuid = node.uuid;
-  //     this.props.projectCreateSelectHandler(uuid, selectValue, node.images);
-  //   }else if(this.state.title.length > 5) {
-  //     this.addPageMutation(this.state.title);
-  //   }
-
-  // }
-
   ctaHandler = (uuid, nid, images) => {
     this.props.projectCreateSelectHandler(uuid, nid, images);
   }
@@ -167,10 +152,21 @@ export class CreateSelect extends Component {
   }
 
   scrollToBottom = () => {
-    this.listEnd.scrollIntoView({ behavior: "smooth" });
+    if(this.listEnd){
+      this.listEnd.scrollIntoView({ behavior: "smooth" });
+    }
   }
 
-  onModalOk = (event) => { 
+  deleteItemHandler = (event, nid) => {
+    event.stopPropagation(); 
+    this.setState({
+      activeNode: nid,
+      isModalVisible: true
+    });
+  }
+
+  onModalOk = (event) => {
+    event.stopPropagation(); 
     this.deletePageMutation(this.state.activeNode); 
     this.setState({
         isModalVisible: false, 
@@ -195,14 +191,7 @@ export class CreateSelect extends Component {
           <Fade duration={1000} key={item.nid} timeout={{enter:0, exit: 1000}}>
             <HCard {...item} 
               ctaHandler={this.ctaHandler} 
-              deleteHandler={
-                () => {
-                  this.setState({
-                    activeNode: item.nid,
-                    isModalVisible: true
-                  });
-                }
-              } 
+              deleteHandler={ (event) => { this.deleteItemHandler(event, item.nid) }  } 
             />
           </Fade>
         )

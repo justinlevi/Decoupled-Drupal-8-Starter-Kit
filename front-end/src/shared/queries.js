@@ -11,9 +11,8 @@ export const currentUserUid = gql `
 `;
 
 
-export const nodeTitlesByUserReverseQuery = gql `
-
-  query nodeTitlesByUserReverseQuery{
+export const pagesByUserQuery = gql `
+  query pagesByUserQuery{
     user:currentUserContext{
       ...on User{
         uid
@@ -34,22 +33,22 @@ export const nodeTitlesByUserReverseQuery = gql `
   }
 `;
 
-export const nodeTitlesByUserQuery = gql `
-  query nodeQuery($uid: Int) {
-    nodeQuery(offset:0, limit: 10, filter:{uid:$uid}){
-      entities{
-        ...on NodePage{
-        title,
-        nid,
-        uuid
-        images:fieldMediaImage{
-          mid:targetId
-        }
-      }
-      }
-    }
-  }
-`;
+// export const pagesByUserQuery = gql `
+//   query nodeQuery($uid: Int) {
+//     nodeQuery(offset:0, limit: 10, filter:{uid:$uid}){
+//       entities{
+//         ...on NodePage{
+//         title,
+//         nid,
+//         uuid
+//         images:fieldMediaImage{
+//           mid:targetId
+//         }
+//       }
+//       }
+//     }
+//   }
+// `;
 
 export const addPageMutation = gql `
   mutation addPage($title: String!){
