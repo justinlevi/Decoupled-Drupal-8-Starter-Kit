@@ -16,10 +16,6 @@ const getAccessToken = (state) => state.oauth.accessToken;
 
 function* initApolloClient(state){
 
-  console.log("CSRF_TOKEN_SUCCESS");
-  console.log(yield select(getAccessToken));
-  console.log(yield select(getCsrf));
-
   const token = yield select(getAccessToken);
   const csrf = yield select(getCsrf);
 
@@ -28,7 +24,7 @@ function* initApolloClient(state){
 
     operation.setContext( context => ({
       headers: {
-        authorization: token || null,
+        authorization: `Bearer ${token}` || null,
         'X-CSRF-Token': csrf || null,
       }
     }));
@@ -54,5 +50,5 @@ function* initApolloClient(state){
 };
 
 export function* watchApolloClient(){
-  yield takeEvery('CSRF_ACCESS_TOKENS_SET',initApolloClient);
+  yield takeLatest('CSRF_ACCESS_TOKENS_SET',initApolloClient);
 }

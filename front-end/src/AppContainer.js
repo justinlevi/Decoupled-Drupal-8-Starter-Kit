@@ -1,8 +1,4 @@
 import React, {Component} from 'react';
-
-import authenticate, { getToken } from './utils/oauth';
-import { clearSessionStorage, getSessionStorage } from './utils/sessionStorage';
-import client from './utils/configureApolloClient';
 import App from './App';
 
 import { connect } from 'react-redux';
@@ -12,11 +8,8 @@ export class AppContainer extends Component {
 
   constructor(props) {
     super(props);
-
-    const { username } = getSessionStorage();
-
     this.state = {
-      username: username,
+      username: '',
       password: '',
       uid: 0,
       uuid: false,
@@ -26,7 +19,6 @@ export class AppContainer extends Component {
       isLoading: false,
       isLoginFailed: false,
       statusCode: '',
-      client: client,
       handleLogin: this.handleLogin,
       handleLogout: this.onLogoutClick,
       handleInputChange: this.handleInputChange,
@@ -35,17 +27,6 @@ export class AppContainer extends Component {
   }
 
   componentDidMount(){
-    if (getToken()){
-      this.setState({ isLoading: true });
-      authenticate('', '', (success) => {
-        if(success) {
-          this.setState({
-            isAuthenticated: true,
-            isLoading: false
-          })
-        }
-      })
-    }
   }
 
   projectCreateSelectHandler = (uuid, nid, images) => {
@@ -77,7 +58,6 @@ export class AppContainer extends Component {
   handleLogout = (reload = false) => {
 
     this.setState({username: '', password: ''});
-    clearSessionStorage();
 
     if(reload){
       window.location.reload(true);
@@ -102,20 +82,6 @@ export class AppContainer extends Component {
     }
 
     this.props.dispatch(InitOAuth(payload));
-
-    authenticate(username, password, (success, error) => {
-      let isAuthenticated = false;
-      if (!success){
-        clearSessionStorage();
-      }else {
-        isAuthenticated = true;
-      }
-
-      this.setState({
-        isAuthenticated: isAuthenticated,
-        isLoading: false
-      });
-    })
   };
 
   onLogoutClick = (event) => {
@@ -132,7 +98,7 @@ export class AppContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  csrfToken: state.csrf.csrfToken,
+  csrfToken: state.csrf.csrfToken
 })
 
 export default connect(mapStateToProps)(AppContainer);
