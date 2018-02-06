@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 
+
 export const currentUserUid = gql `
   query{
     currentUserContext{
@@ -16,7 +17,7 @@ export const nodeTitlesByUserReverseQuery = gql `
     user:currentUserContext{
       ...on User{
         uid
-        nodes:reverseUidNode{
+        nodes:reverseUidNode(offset:0, limit:1000){
           entities{
             ...on NodePage{
               title,
@@ -31,21 +32,20 @@ export const nodeTitlesByUserReverseQuery = gql `
       }
     }
   }
-
 `;
 
 export const nodeTitlesByUserQuery = gql `
   query nodeQuery($uid: Int) {
     nodeQuery(offset:0, limit: 10, filter:{uid:$uid}){
       entities{
-        ...on NodePage {
-          title,
-          nid,
-          uuid
-          images:fieldMediaImage{
-            mid:targetId
-          }
+        ...on NodePage{
+        title,
+        nid,
+        uuid
+        images:fieldMediaImage{
+          mid:targetId
         }
+      }
       }
     }
   }
@@ -55,13 +55,14 @@ export const addPageMutation = gql `
   mutation addPage($title: String!){
     addPage(input: {title: $title}){
       entity{
-        ...on NodePage {
-          nid,
-          uuid,
-          images:fieldMediaImage{
-            mid:targetId
-          }
+        ...on NodePage{
+        title,
+        nid,
+        uuid
+        images:fieldMediaImage{
+          mid:targetId
         }
+      }
       }
     }
   }
@@ -87,10 +88,32 @@ export const updatePageMutation = gql `
       field_media_image:$field_media_image
     }){
       page:entity{
-        ...on NodePage {
-          nid,
-          uuid
+        ...on NodePage{
+        title,
+        nid,
+        uuid
+        images:fieldMediaImage{
+          mid:targetId
         }
+      }
+      }
+    }
+  }
+`;
+
+
+export const deletePageMutation = gql `
+  mutation deletePage($id:Int!){
+    deletePage(id:$id){
+      page:entity{
+        ...on NodePage{
+        title,
+        nid,
+        uuid
+        images:fieldMediaImage{
+          mid:targetId
+        }
+      }
       }
     }
   }

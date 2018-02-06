@@ -1,9 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+// import Transition from 'react-transition-group/Transition';
+
 import PropTypes from 'prop-types'
 
 import { withApollo } from 'react-apollo';
 
-import { nodeTitlesByUserReverseQuery, addPageMutation } from '../shared/queries';
+import { nodeTitlesByUserReverseQuery, addPageMutation, deletePageMutation } from '../shared/queries';
+import HCard from './HCard';
+
+import MdAdd from 'react-icons/lib/md/add';
+
+const Fade = ({ children, ...props }) => (
+  <CSSTransition
+    {...props}
+    timeout={1000}
+    classNames="fade"
+  >
+    {children}
+  </CSSTransition>
+);
 
 export class CreateSelect extends Component {
 
@@ -11,6 +28,8 @@ export class CreateSelect extends Component {
     projectCreateSelectHandler: PropTypes.func.isRequired,
   }
   
+  listEnd = undefined;
+
   state = {
     uid: 0,
     activeNode: '',
@@ -50,16 +69,51 @@ export class CreateSelect extends Component {
     });
   }
 
-  addPageMutation = () => {
-    const variables = {"title": this.state.title};
+  addPageMutation = (title) => {
+    const variables = {"title": title};
     this.props.client.mutate({ mutation: addPageMutation, variables: variables})
     .then(response => {
       console.log('ADD PAGE COMPLETE')
+      this.setState({
+        nodes: this.state.nodes.concat([response.data.addPage.entity])
+      })
+
       const {uuid, nid, images} = response.data.addPage.entity;
-      this.props.projectCreateSelectHandler(uuid, nid, images);
+
+      setTimeout(() => { this.scrollToBottom() }, 250);
+      setTimeout(() => { this.props.projectCreateSelectHandler(uuid, nid, images) }, 750)
     }).catch((error) => {
       console.log('error ' + error);
     });
+  }
+
+
+  deletePageMutation = (nid) => {    
+    if(this.delete(nid)){
+      const variables = {"id": nid};
+      this.props.client.mutate({ mutation: deletePageMutation, variables: variables})
+      .then(response => {
+        console.log('PAGE DELETED COMPLETE')
+      }).catch((error) => {
+        console.log('error ' + error);
+      });
+    }
+  }
+
+
+  /**
+   * HELPERS
+   */
+
+  delete = (nid) => {
+    let newNodes = this.state.nodes.slice();
+    const index = newNodes.findIndex((n) => { return n.nid === nid;});
+    if (index === -1) { return false; }
+
+    newNodes.splice(index,1);
+    this.setState({ nodes: newNodes});
+
+    return true;
   }
   /**
    * CHANGE HANDLERS
@@ -67,20 +121,24 @@ export class CreateSelect extends Component {
    */
 
 
-  handleSubmit = (event) => {
-    event.preventDefault();
+  // handleSubmit = (event) => {
+  //   event.preventDefault();
 
-    const { selectValue } = this.state;
+  //   const { selectValue } = this.state;
 
-    if(selectValue > 0){
-      // select uuid from the array of entities
-      const node = this.state.nodes.find(node => node.nid === Number(selectValue));
-      const uuid = node.uuid;
-      this.props.projectCreateSelectHandler(uuid, selectValue, node.images);
-    }else if(this.state.title.length > 5) {
-      this.addPageMutation();
-    }
+  //   if(selectValue > 0){
+  //     // select uuid from the array of entities
+  //     const node = this.state.nodes.find(node => node.nid === Number(selectValue));
+  //     const uuid = node.uuid;
+  //     this.props.projectCreateSelectHandler(uuid, selectValue, node.images);
+  //   }else if(this.state.title.length > 5) {
+  //     this.addPageMutation(this.state.title);
+  //   }
 
+  // }
+
+  ctaHandler = (uuid, nid, images) => {
+    this.props.projectCreateSelectHandler(uuid, nid, images);
   }
 
   handleSelectChange = (event) => {
@@ -108,32 +166,46 @@ export class CreateSelect extends Component {
     });
   }
 
+  scrollToBottom = () => {
+    this.listEnd.scrollIntoView({ behavior: "smooth" });
+  }
+
   render() {
+
+    const items = this.state.nodes.map(
+      (item, id) => {
+
+        return (
+          <Fade duration={1000} key={item.nid} timeout={{enter:0, exit: 1000}}>
+            <HCard {...item} 
+              ctaHandler={this.ctaHandler} 
+              deleteHandler={this.deletePageMutation} 
+            />
+          </Fade>
+        )
+      }
+    );
+
     return (
-      <div className="createSelectContainer">
-        <form>
-          <div className="createNewContainer">
-            <label htmlFor="title">CREATE NEW</label>
-            <input id="title" name="title" type="text" placeholder="Enter a title" onChange={this.handleCreateInputChange}/>
-          </div>
+      <div className="">
 
-          <div className="or">or...</div>
+        <div className="container">
 
-          <div className="selectExistingContainer">
-            <label htmlFor="selectExisting">SELECT EXISTING</label>
-            <select id="selectExisting" value={this.state.selectValue} onChange={this.handleSelectChange} disabled={!this.state.selectEnabled}>
-              <option value="default">choose...</option>
-              {
-                this.state.nodes.map((item, id) => {
-                  return (<option key={item.nid} value={item.nid}>{item.title}</option>)
-                })
-              }
-            </select>
-          </div>
-          <div className="submitContainer">
-            <button className="btn btn-primary" disabled={!this.state.submitEnabled} onClick={this.handleSubmit}>NEXT</button>
-          </div>
-        </form>
+            <div className="py-3" onClick={() => { this.addPageMutation('NULL');} }>
+              <div className="add">
+                <MdAdd />
+                <h2 className="card-title">Add</h2>
+              </div>
+            </div>
+
+            <TransitionGroup className="item-list">
+              {items}
+            </TransitionGroup>
+            <div style={{ float:"left", clear: "both" }}
+              ref={(el) => { this.listEnd = el; }}>
+            </div>
+        </div>
+          
       </div>
     )
   }

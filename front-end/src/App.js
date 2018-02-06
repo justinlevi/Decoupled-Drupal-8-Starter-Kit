@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 
 import { ApolloProvider } from 'react-apollo';
 
-import UploadComponent from './components/UploadComponent';
+import {UploadComponent} from './components/index';
+
 import CreateSelect from './components/CreateSelect';
+import SignIn from './components/SignIn';
+import Navbar from './components/Navbar';
 
 export class App extends Component {
 
@@ -18,34 +21,22 @@ export class App extends Component {
 
     return (
       <ApolloProvider client={client}>
-        <div>
-          <button style={{position:'absolute', top:'25px', right:'50px'}} onClick={handleLogout}>Logout</button>
-          {
-            !this.props.nid ?
-              <CreateSelect projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
-            : 
-              <UploadComponent username={username} uid={uid} uuid={uuid} nid={nid} mids={mids} />
-          }
-
+        <div className="container authenticated">        
+            <Navbar handleLogout={handleLogout} />
+            {
+              !this.props.nid ?
+                <CreateSelect projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
+              : 
+                <UploadComponent username={username} uid={uid} uuid={uuid} nid={nid} mids={mids} />
+            }
         </div>
       </ApolloProvider>
     );
   }
 
   renderAnonymous = () => {
-    const {handleInputChange, handleLogin} = this.props;
-
-    return (
-      <div className="loginContainer">
-        <h1>Login</h1>
-        <form onSubmit={ handleLogin }>
-          <input name="username" type='text' placeholder='username' onChange={handleInputChange} /><br />
-          <input name="password" type='password' placeholder='password' onChange={handleInputChange} /><br />
-          <input type='submit' value='Login' />
-        </form>
-        <p style={{color: 'red', display: this.props.isLoginFailed ? 'block' : 'none'}}> Credentials incorrect</p>
-      </div>
-    );
+    const {handleInputChange, handleLogin, isLoginFailed} = this.props;
+    return <SignIn handleInputChange={handleInputChange} handleLogin={handleLogin} isLoginFailed={isLoginFailed} />;
   }
 
   renderError = () => {

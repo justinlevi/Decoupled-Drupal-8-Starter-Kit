@@ -345,5 +345,5 @@ export class UploadComponent extends Component {
   }
 }
 
-const UploadComponentWrapper = withApollo(UploadComponent);
+export const UploadComponentWrapper = withApollo(UploadComponent);
 export default UploadComponentWrapper; 

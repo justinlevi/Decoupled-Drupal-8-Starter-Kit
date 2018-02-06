@@ -1,3 +1,112 @@
+#root {
+  width: 100%;
+}
+
+.add {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  padding: 15px 0 15px 15px;
+  background-color: $gray-200;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  @include transition($btn-transition);
+
+  svg {
+    width: 100px;
+    height: auto;
+    color: green;
+  }
+
+  .card-title {
+    margin-top: 10px;
+  }
+
+  &:hover{
+    background-color: $gray-100;
+    cursor: pointer;
+
+    .card-title {
+      color: $navbar-light-hover-color;
+    }
+  }
+}
+
+.card {
+  @include transition($btn-transition);
+  &:hover{
+    border: $card-border-width solid $gray-600;
+    cursor: pointer;
+  }
+
+  .card-body .delete {
+    right: 15px;
+    border: none;
+
+    &:focus,
+    &.focus {
+      box-shadow: none;
+      outline: none;
+    }
+  }
+}
+
+.bd-navbar .navbar-nav-svg {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: text-top;
+}
+
+@keyframes fadeInAndMoveDown {
+  0% {
+    // margin-top: -30px;
+    transform: translateY(-50px);
+    opacity: 0.01;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) ease-in;
+  }
+}
+
+@-webkit-keyframes fadeInAndMoveDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0) ease-in;
+  }
+}
+
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  // transition: opacity 1000ms ease-in;
+  animation: fadeInAndMoveDown 250ms ease-out;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 200ms ease-in;
+  
+}
+
+
+
+
+// UPLOAD COMPONENT - GIANT MESS [TODO: REFACTOR]
+
 .uploadComponentContainer>div {
   margin-bottom: 10px;
 }
@@ -94,50 +203,6 @@ img {
   transition: transform .2s ease-in-out;
   object-fit: cover;
   max-height: 175px;
-}
-
-.btn {
-  -webkit-appearance: button;
-  display: inline-block;
-  padding: 6px 12px;
-  margin-bottom: 0;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.42857143;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
-  width: 100%;
-  margin-bottom: 8px;
-}
-
-.btn-primary:hover {
-  color: #fff;
-  background-color: #204d74;
-  border-color: #122b40;
-}
-
-.btn-primary:disabled,
-.btn-primary:disabled:hover {
-  color: rgb(221, 219, 219);
-  background-color: #5c5e5f;
-  border-color: #122b40;
 }
 
 .delete {

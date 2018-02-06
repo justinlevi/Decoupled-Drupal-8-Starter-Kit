@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import AppContainer from './AppContainer';
 import initalizeCsrfToken from './utils/csrf';
 import registerServiceWorker from './registerServiceWorker';
-import './styles/css/index.css';
+import './styles/index.css';
 
 initalizeCsrfToken();
 
