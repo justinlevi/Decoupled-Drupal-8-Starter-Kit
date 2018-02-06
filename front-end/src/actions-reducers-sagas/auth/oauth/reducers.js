@@ -1,16 +1,18 @@
-export const initialState = {
-  accessToken: null,
-  refreshToken: null,
-  expiration: null,
-  authenticated: false,
-  timestamp: null
-};
+const initState = {
+    accessToken: null,
+    refreshToken: null,
+    expiration: null,
+    authenticated: false,
+    timestamp: null
+  };
 
-export const reducer = (state = initialState, {type, payload}) => {
+export const reducer = (state = initState, {type, payload}) => {
   switch (type) {
 
     case 'SET_OAUTH':
-      console.log("OAUTH SET");
+      sessionStorage.setItem('accessToken',payload.accessToken);
+      localStorage.setItem('refreshToken',payload.refreshToken);
+      
       return {
         ...state,
         accessToken: payload.accessToken,
@@ -20,11 +22,13 @@ export const reducer = (state = initialState, {type, payload}) => {
         timestamp: payload.timestamp
       };
 
-      case 'SET_AUTH_CHECK':
+    case 'SET_AUTH_CHECK':
       return{
         ...state,
         authenticated: payload
       };
+
+
 
     default:
       return state;
