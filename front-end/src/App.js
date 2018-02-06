@@ -8,7 +8,14 @@ import CreateSelect from './components/CreateSelect';
 import SignIn from './components/SignIn';
 import Navbar from './components/Navbar';
 
+import { connect } from 'react-redux';
+
 export class App extends Component {
+
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
 
   renderLoading = () => {
     return (
@@ -17,20 +24,24 @@ export class App extends Component {
   }
 
   renderAuthenticated = () => {
-    const { client, handleLogout, username, uuid, uid, nid, mids } = this.props;
+    const {handleLogout, username, uuid, uid, nid, mids, apolloclient } = this.props;
 
     return (
-      <ApolloProvider client={client}>
-        <div className="container authenticated">        
-            <Navbar handleLogout={handleLogout} />
-            {
-              !this.props.nid ?
-                <CreateSelect projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
-              : 
-                <UploadComponent username={username} uid={uid} uuid={uuid} nid={nid} mids={mids} />
-            }
-        </div>
-      </ApolloProvider>
+      <div>
+        {apolloclient ?
+          <ApolloProvider client={apolloclient}>
+            <div className="container authenticated">
+                <Navbar handleLogout={handleLogout} />
+                {
+                  !this.props.nid ?
+                    <CreateSelect projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
+                  :
+                    <UploadComponent username={username} uid={uid} uuid={uuid} nid={nid} mids={mids} />
+                }
+            </div>
+          </ApolloProvider> : ''
+        }
+      </div>
     );
   }
 
@@ -48,9 +59,9 @@ export class App extends Component {
   render() {
     if (this.props.isLoading) {
       return this.renderLoading();
-    } else if (this.props.isAuthenticated){
+    } else if (this.props.authenticated){
       return this.renderAuthenticated();
-    } else if (!this.props.isAuthenticated && !this.props.isLoading) {
+    } else if (!this.props.authenticated && !this.props.isLoading) {
       return this.renderAnonymous();
     } else {
       return this.renderError();
@@ -58,5 +69,9 @@ export class App extends Component {
   }
 
 }
+const mapStateToProps = (state, ownProps) => ({
+  authenticated: state.oauth.authenticated,
+  apolloclient: state.apollo.apolloClient
+})
 
-export default App
+export default connect(mapStateToProps)(App);
