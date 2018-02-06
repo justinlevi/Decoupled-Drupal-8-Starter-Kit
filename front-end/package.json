@@ -17,15 +17,17 @@
     "react-apollo": "^2.0.4",
     "react-dom": "^16.2.0",
     "react-dropzone": "^4.2.5",
+    "react-icons": "^2.2.7",
     "react-scripts": "1.0.17",
+    "react-transition-group": "^2.2.1",
     "recursive-iterator": "^3.3.0"
   },
   "devDependencies": {
     "@types/jest": "^22.1.1",
+    "bootstrap": "^4.0.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.1",
-    "bootstrap": "^4.0.0",
     "node-sass-chokidar": "^0.0.3",
     "npm-run-all": "^4.1.1",
     "react-addons-test-utils": "^15.6.2"
