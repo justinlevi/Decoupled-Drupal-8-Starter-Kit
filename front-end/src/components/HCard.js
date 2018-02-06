@@ -1,11 +1,10 @@
 import React from 'react';
-
 import MdRemove from 'react-icons/lib/md/remove-circle-outline';
 
 const HCard = props => {
   return (
     <div className="py-3">
-      <div className="card" onClick={() => { props.ctaHandler(props.uuid, props.nid, props.images)}}>
+      <div className="card" onClick={() => { /*props.ctaHandler(props.uuid, props.nid, props.images)*/}}>
         <div className="row ">
 
             <div className="col-md-4">
@@ -16,12 +15,11 @@ const HCard = props => {
               <div className="card-body px-3">
                 <h4 className="card-title">{props.title} {props.nid}</h4>
                 {props.hasOwnProperty('body') ? <p className="card-text">{props.body}</p> : null }
-                <button className="delete"><MdRemove className="remove" onClick={
-                  (event) => {
-                    event.stopPropagation();
-                    props.deleteHandler(props.nid);
-                  }
-                }/></button>
+
+                <button className="delete" onClick={props.deleteHandler} data-toggle="modal" data-target="#exampleModalCenter">
+                  <MdRemove className="remove" />
+                </button>
+
               </div>
             </div>
             
