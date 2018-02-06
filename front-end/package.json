@@ -18,9 +18,12 @@
     "react-dom": "^16.2.0",
     "react-dropzone": "^4.2.5",
     "react-icons": "^2.2.7",
+    "react-redux": "^5.0.6",
     "react-scripts": "1.0.17",
     "react-transition-group": "^2.2.1",
-    "recursive-iterator": "^3.3.0"
+    "recursive-iterator": "^3.3.0",
+    "redux": "^3.7.2",
+    "redux-saga": "^0.16.0"
   },
   "devDependencies": {
     "@types/jest": "^22.1.1",
