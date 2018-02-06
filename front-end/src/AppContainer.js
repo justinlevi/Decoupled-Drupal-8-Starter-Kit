@@ -5,6 +5,8 @@ import { clearSessionStorage, getSessionStorage } from './utils/sessionStorage';
 import client from './utils/configureApolloClient';
 import App from './App';
 
+import { connect } from 'react-redux';
+
 export class AppContainer extends Component {
 
   constructor(props) {
@@ -120,4 +122,8 @@ export class AppContainer extends Component {
   }
 }
 
-export default AppContainer
+const mapStateToProps = (state, ownProps) => ({
+  csrfToken: state.csrf.csrfToken,
+})
+
+export default connect(mapStateToProps)(AppContainer);

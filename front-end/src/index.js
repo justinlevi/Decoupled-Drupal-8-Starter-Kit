@@ -6,8 +6,11 @@ import registerServiceWorker from './registerServiceWorker';
 import './styles/index.css';
 import configureStore from './configureStore';
 import { Provider } from 'react-redux';
+import {InitCsrfToken} from './rootActions';
 
 const store = configureStore();
+
+store.dispatch(InitCsrfToken());
 
 initalizeCsrfToken();
 
