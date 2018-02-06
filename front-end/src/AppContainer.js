@@ -6,7 +6,7 @@ import client from './utils/configureApolloClient';
 import App from './App';
 
 import { connect } from 'react-redux';
-import {InitApolloClient} from './rootActions';
+import {InitOAuth} from './rootActions';
 
 export class AppContainer extends Component {
 
@@ -94,6 +94,14 @@ export class AppContainer extends Component {
       this.handleLogout();
       return;
     }
+
+    const payload = {
+      grantType: 'password',
+      username: username,
+      password: password
+    }
+
+    this.props.dispatch(InitOAuth(payload));
 
     authenticate(username, password, (success, error) => {
       let isAuthenticated = false;

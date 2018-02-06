@@ -8,6 +8,8 @@ import CreateSelect from './components/CreateSelect';
 import SignIn from './components/SignIn';
 import Navbar from './components/Navbar';
 
+import { connect } from 'react-redux';
+
 export class App extends Component {
 
   renderLoading = () => {
@@ -17,16 +19,16 @@ export class App extends Component {
   }
 
   renderAuthenticated = () => {
-    const { client, handleLogout, username, uuid, uid, nid, mids } = this.props;
+    const {client,handleLogout, username, uuid, uid, nid, mids,apolloclient } = this.props;
 
     return (
       <ApolloProvider client={client}>
-        <div className="container authenticated">        
+        <div className="container authenticated">
             <Navbar handleLogout={handleLogout} />
             {
               !this.props.nid ?
                 <CreateSelect projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
-              : 
+              :
                 <UploadComponent username={username} uid={uid} uuid={uuid} nid={nid} mids={mids} />
             }
         </div>
@@ -58,5 +60,8 @@ export class App extends Component {
   }
 
 }
+const mapStateToProps = (state, ownProps) => ({
+  apolloclient: state.apollo.apolloClient
+})
 
-export default App
+export default connect(mapStateToProps)(App);
