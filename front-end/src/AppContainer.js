@@ -6,6 +6,7 @@ import client from './utils/configureApolloClient';
 import App from './App';
 
 import { connect } from 'react-redux';
+import {InitApolloClient} from './rootActions';
 
 export class AppContainer extends Component {
 
