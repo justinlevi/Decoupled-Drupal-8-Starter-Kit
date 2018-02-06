@@ -1,10 +1,10 @@
 import {call, put, takeLatest } from 'redux-saga/effects';
-import {SetCsrfToken} from '../../../rootActions';
+import {SetCsrfToken,CsrfTokenSuccess} from '../../../rootActions';
 import axios from 'axios';
 
 const URL = process.env.REACT_APP_HOST_DOMAIN;
 
-function* initCsrfToken(){
+function* initCsrfToken(dispatch){
 
   const csrfToken = yield call(function(){
     return new Promise(function(resolve,reject){
@@ -17,8 +17,8 @@ function* initCsrfToken(){
         });
     });
   })
-  
   yield put(SetCsrfToken(csrfToken));
+  yield put(CsrfTokenSuccess());
 };
 
 export function* watchCsrfToken(){
