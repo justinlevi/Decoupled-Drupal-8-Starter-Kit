@@ -20,6 +20,12 @@ export const reducer = (state = initialState, {type, payload}) => {
         timestamp: payload.timestamp
       };
 
+      case 'SET_AUTH_CHECK':
+      return{
+        ...state,
+        authenticated: payload
+      };
+
     default:
       return state;
   }

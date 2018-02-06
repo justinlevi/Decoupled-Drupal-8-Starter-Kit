@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import App from './App';
 
 import { connect } from 'react-redux';
-import {InitOAuth} from './rootActions';
+import {InitOAuth,SetAuthCheck} from './rootActions';
 
 export class AppContainer extends Component {
 
@@ -86,9 +86,7 @@ export class AppContainer extends Component {
 
   onLogoutClick = (event) => {
     event.preventDefault();
-    this.setState({
-      isAuthenticated: false
-    });
+    this.props.dispatch(SetAuthCheck(false));
     this.handleLogout();
   }
 
@@ -98,7 +96,8 @@ export class AppContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  csrfToken: state.csrf.csrfToken
+  csrfToken: state.csrf.csrfToken,
+  expirationTime: state.oauth.timestamp
 })
 
 export default connect(mapStateToProps)(AppContainer);
