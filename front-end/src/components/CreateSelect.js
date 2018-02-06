@@ -11,6 +11,7 @@ import { nodeTitlesByUserReverseQuery, addPageMutation, deletePageMutation } fro
 import HCard from './HCard';
 
 import MdAdd from 'react-icons/lib/md/add';
+import { ConfirmModal } from './modal';
 
 const Fade = ({ children, ...props }) => (
   <CSSTransition
@@ -36,8 +37,7 @@ export class CreateSelect extends Component {
     selectValue: 0,
     title: '',
     nodes: [],
-    submitEnabled: false,
-    selectEnabled: true
+    isModalVisible: false
   }
 
   /**
@@ -81,7 +81,7 @@ export class CreateSelect extends Component {
       const {uuid, nid, images} = response.data.addPage.entity;
 
       setTimeout(() => { this.scrollToBottom() }, 250);
-      setTimeout(() => { this.props.projectCreateSelectHandler(uuid, nid, images) }, 750)
+      setTimeout(() => { this.props.projectCreateSelectHandler(uuid, nid, images) }, 1250)
     }).catch((error) => {
       console.log('error ' + error);
     });
@@ -170,6 +170,22 @@ export class CreateSelect extends Component {
     this.listEnd.scrollIntoView({ behavior: "smooth" });
   }
 
+  onModalOk = (event) => { 
+    this.deletePageMutation(this.state.activeNode); 
+    this.setState({
+        isModalVisible: false, 
+        activeNode: ''
+      });
+  }
+
+  onModalCancel = (event) => { 
+    event.stopPropagation(); 
+    this.setState({
+      isModalVisible: false, 
+      activeNode: ''
+    });
+  }
+
   render() {
 
     const items = this.state.nodes.map(
@@ -179,7 +195,14 @@ export class CreateSelect extends Component {
           <Fade duration={1000} key={item.nid} timeout={{enter:0, exit: 1000}}>
             <HCard {...item} 
               ctaHandler={this.ctaHandler} 
-              deleteHandler={this.deletePageMutation} 
+              deleteHandler={
+                () => {
+                  this.setState({
+                    activeNode: item.nid,
+                    isModalVisible: true
+                  });
+                }
+              } 
             />
           </Fade>
         )
@@ -201,6 +224,19 @@ export class CreateSelect extends Component {
             <TransitionGroup className="item-list">
               {items}
             </TransitionGroup>
+
+
+
+            <ConfirmModal 
+              visible={this.state.isModalVisible} 
+              onClickBackdrop={ this.onModalCancel } 
+              onOK={ this.onModalOk } 
+              onCancel={ this.onModalCancel }>
+                  <div className="modal-body">
+                    <p>Are you sure you want to remove this?</p>
+                  </div>
+                </ConfirmModal>
+
             <div style={{ float:"left", clear: "both" }}
               ref={(el) => { this.listEnd = el; }}>
             </div>
