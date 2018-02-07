@@ -1,5 +1,5 @@
-import {call, put, takeLatest,select,takeEvery } from 'redux-saga/effects';
-import {OAuthSuccess,SetOAuth,CsrfAccessTokensSet,SetAuthCheck} from '../../../rootActions';
+import {call, put, takeLatest} from 'redux-saga/effects';
+import {OAuthSuccess,SetOAuth,CsrfAccessTokensSet} from '../../../rootActions';
 import Querystring from 'query-string';
 import axios from 'axios';
 
@@ -32,7 +32,6 @@ const getCredentials = (type, username, password = '', refreshToken = '') => {
   return credentials;
 }
 
-const getRefreshToken = (state) => state.oauth.refreshToken;
 
 function* initOAuth(state){
 
@@ -83,7 +82,7 @@ function* initOAuth(state){
 
 };
 
-function* setusername(state){
+function setusername(state){
   sessionStorage.setItem('username',state.payload);
 }
 
