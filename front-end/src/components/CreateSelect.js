@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
-
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-// import Transition from 'react-transition-group/Transition';
-
 import PropTypes from 'prop-types'
-
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { withApollo } from 'react-apollo';
-
 import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../shared/queries';
 import HCard from './HCard';
-
 import MdAdd from 'react-icons/lib/md/add';
-import { ConfirmModal } from './modal';
 
 const Fade = ({ children, ...props }) => (
   <CSSTransition
@@ -46,7 +40,6 @@ export class CreateSelect extends Component {
   */
 
   componentDidMount(){
-
     this.fetchPagesByUserQuery((result) => {
       this.setState({
         uid: result.uid,
@@ -54,11 +47,6 @@ export class CreateSelect extends Component {
       });
     });
   }
-
-  /**
-   * NETWORKING
-   * ----------
-   */
 
   fetchPagesByUserQuery = (onFetchComplete) => {
     this.props.client.query({query: pagesByUserQuery})
@@ -88,9 +76,19 @@ export class CreateSelect extends Component {
     });
   }
 
+  deleteNodeFromState = (nid) => {
+    let newNodes = this.state.nodes.slice();
+    const index = newNodes.findIndex((n) => { return n.nid === nid;});
+    if (index === -1) { return false; }
+
+    newNodes.splice(index,1);
+    this.setState({ nodes: newNodes});
+
+    return true;
+  }
 
   deletePageMutation = (nid) => {    
-    if(this.delete(nid)){
+    if(this.deleteNodeFromState(nid)){
       const variables = {"id": nid};
       this.props.client.mutate({ mutation: deletePageMutation, variables: variables})
       .then(response => {
@@ -101,54 +99,8 @@ export class CreateSelect extends Component {
     }
   }
 
-
-  /**
-   * HELPERS
-   */
-
-  delete = (nid) => {
-    let newNodes = this.state.nodes.slice();
-    const index = newNodes.findIndex((n) => { return n.nid === nid;});
-    if (index === -1) { return false; }
-
-    newNodes.splice(index,1);
-    this.setState({ nodes: newNodes});
-
-    return true;
-  }
-  /**
-   * CHANGE HANDLERS
-   * --------------
-   */
-
-
   ctaHandler = (uuid, nid, images) => {
     this.props.projectCreateSelectHandler(uuid, nid, images);
-  }
-
-  handleSelectChange = (event) => {
-    const value = event.target.value !== 'default' ? event.target.value : false;
-
-    this.setState({
-      selectValue: value,
-      submitEnabled: value !== false ? true : false
-    });
-  }
-
-  handleCreateInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    if (value.length > 0) {
-      this.setState({selectValue: 0})
-    }
-
-    this.setState({
-      [name]: value,
-      submitEnabled: value.length > 5 ? true : false,
-      selectEnabled: value.length === 0 ? true: false
-    });
   }
 
   scrollToBottom = () => {
@@ -174,19 +126,15 @@ export class CreateSelect extends Component {
       });
   }
 
-  onModalCancel = (event) => { 
-    event.stopPropagation(); 
+  onModalToggle = (event) => { 
     this.setState({
-      isModalVisible: false, 
+      isModalVisible: !this.state.isModalVisible, 
       activeNode: ''
     });
   }
 
-  render() {
-
-    const items = this.state.nodes.map(
-      (item, id) => {
-
+  listItems = () => {
+    const items = this.state.nodes.map((item, id) => {
         return (
           <Fade duration={1000} key={item.nid} timeout={{enter:0, exit: 1000}}>
             <HCard {...item} 
@@ -197,7 +145,10 @@ export class CreateSelect extends Component {
         )
       }
     );
+    return items;
+  }
 
+  render() {
     return (
       <div className="">
 
@@ -211,20 +162,20 @@ export class CreateSelect extends Component {
             </div>
 
             <TransitionGroup className="item-list">
-              {items}
+              {this.listItems()}
             </TransitionGroup>
 
-
-
-            <ConfirmModal 
-              visible={this.state.isModalVisible} 
-              onClickBackdrop={ this.onModalCancel } 
-              onOK={ this.onModalOk } 
-              onCancel={ this.onModalCancel }>
-                  <div className="modal-body">
-                    <p>Are you sure you want to remove this?</p>
-                  </div>
-                </ConfirmModal>
+            <Modal isOpen={this.state.isModalVisible} toggle={this.onModalToggle} backdrop={true}>
+              <ModalHeader toggle={this.onModalToggle}>Confirmation</ModalHeader>
+              <ModalBody>
+                Are you sure you want to remove this?
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={this.onModalToggle}>Cancel</Button>
+                {' '}
+                <Button color="primary" onClick={this.onModalOk}>Delete</Button>
+              </ModalFooter>
+            </Modal>
 
             <div style={{ float:"left", clear: "both" }}
               ref={(el) => { this.listEnd = el; }}>
