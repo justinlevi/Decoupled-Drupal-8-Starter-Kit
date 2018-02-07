@@ -12,11 +12,6 @@ import { connect } from 'react-redux';
 
 export class App extends Component {
 
-  constructor(props) {
-    super(props);
-    console.log(props);
-  }
-
   renderLoading = () => {
     return (
       <div>Loading...</div>

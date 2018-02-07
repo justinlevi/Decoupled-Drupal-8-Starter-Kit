@@ -12,8 +12,6 @@ const store = configureStore();
 
 store.dispatch(InitCsrfToken());
 
-initalizeCsrfToken();
-
 ReactDOM.render(
   <Provider store={store}>
     <AppContainer />

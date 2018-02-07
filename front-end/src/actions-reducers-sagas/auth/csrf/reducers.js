@@ -6,7 +6,7 @@ export const reducer = (state = initialState, {type, payload}) => {
   switch (type) {
 
     case 'SET_CSRF_TOKEN':
-      console.log("CSRF TOKEN SET");
+      sessionStorage.setItem('csrfToken',payload);
       return {
         ...state,
         csrfToken: payload,
