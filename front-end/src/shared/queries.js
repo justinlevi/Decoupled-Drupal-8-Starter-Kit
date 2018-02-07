@@ -28,7 +28,18 @@ export const pagesByUserQuery = gql `
               nid,
               uuid
               images:fieldMediaImage{
-                mid:targetId
+                mid:targetId,
+                ... on FieldNodeFieldMediaImage {
+                  entity{
+                    ... on MediaImage {
+                      image {
+                        derivative(style:medium) {
+                          url
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -50,9 +61,20 @@ export const pagesByUserQuery = gql `
 //         nid,
 //         uuid
 //         images:fieldMediaImage{
-//           mid:targetId
+//           mid:targetId,
+//           ... on FieldNodeFieldMediaImage {
+//              entity{
+//                ... on MediaImage {
+//                    image {
+//                      derivative(style:medium) {
+//                        url
+//                      }
+//                    }
+//                  }
+//                }
+//              }
+//            }
 //         }
-//       }
 //       }
 //     }
 //   }
@@ -73,7 +95,18 @@ export const addPageMutation = gql `
           nid,
           uuid
           images:fieldMediaImage{
-            mid:targetId
+            mid:targetId,
+            ... on FieldNodeFieldMediaImage {
+              entity{
+                ... on MediaImage {
+                  image {
+                    derivative(style:medium) {
+                      url
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -114,7 +147,18 @@ export const updatePageMutation = gql `
           nid,
           uuid
           images:fieldMediaImage{
-            mid:targetId
+            mid:targetId,
+            ... on FieldNodeFieldMediaImage {
+              entity{
+                ... on MediaImage {
+                  image {
+                    derivative(style:medium) {
+                      url
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -138,7 +182,18 @@ export const deletePageMutation = gql `
           nid,
           uuid
           images:fieldMediaImage{
-            mid:targetId
+            mid:targetId,
+            ... on FieldNodeFieldMediaImage {
+              entity{
+                ... on MediaImage {
+                  image {
+                    derivative(style:medium) {
+                      url
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

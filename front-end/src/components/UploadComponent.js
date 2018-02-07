@@ -11,7 +11,6 @@ import { Form, FormGroup, Input } from 'reactstrap'
 
 const initialState = {
   totalBytes: 0,
-  nid: 0,
   title: 'null',
   body: '',
   mids: [],
@@ -45,10 +44,6 @@ export class UploadComponent extends Component {
       body: props.activeNode.body === null ? '' : props.activeNode.body.value,
       uploadPath: uploadPath
     };
-
-    this.onDrop = this.onDrop.bind(this);
-    this.onUploadClick = this.onUploadClick.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
   }
 
   /*
@@ -261,7 +256,7 @@ export class UploadComponent extends Component {
 
   onSyncCompletionHandler = (mids) => {
     this.updateNode(mids);
-    setTimeout(() => { this.setState(initialState); }, 500);
+    setTimeout(() => { this.setState({files:[]}); }, 500);
   }
 
   //STEP 5 -
