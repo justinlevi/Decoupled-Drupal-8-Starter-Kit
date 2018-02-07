@@ -2,7 +2,21 @@ import React, {Component} from 'react';
 import App from './App';
 
 import { connect } from 'react-redux';
-import {InitOAuth,SetAuthCheck} from './rootActions';
+import {InitOAuth,SetAuthCheck,RefreshOAuth,SetUsername,SetAccessToken} from './rootActions';
+
+const isTokenValid = (accessToken, expiresStamp) => {
+  const currentTime = new Date().getTime();
+  const expireTime = parseInt(sessionStorage.getItem('expirationTime')) * 1000;
+
+  const currentTimeInt = parseInt(currentTime);
+  const expiresStampInt = parseInt(expiresStamp);
+
+  if(accessToken && (currentTimeInt - expiresStampInt > expireTime)){
+    return true;
+  }else{
+    return false;
+  }
+}
 
 export class AppContainer extends Component {
 
@@ -27,6 +41,24 @@ export class AppContainer extends Component {
   }
 
   componentDidMount(){
+
+    let accessToken = sessionStorage.getItem('accessToken');
+    let expireStamp = localStorage.getItem('lastRefreshedToken');
+
+    if(accessToken && expireStamp){
+
+      if(isTokenValid(accessToken,expireStamp)){
+        console.log("REFRESH PLEASE")
+        let refreshToken = localStorage.getItem('refreshToken');
+        this.props.dispatch(RefreshOAuth(refreshToken));
+        this.props.dispatch(SetAuthCheck(true));
+      }else{
+        this.props.dispatch(SetAccessToken(accessToken));
+        this.props.dispatch(SetAuthCheck(true));
+      }
+
+    }
+
   }
 
   projectCreateSelectHandler = (uuid, nid, images) => {
@@ -59,6 +91,11 @@ export class AppContainer extends Component {
 
     this.setState({username: '', password: ''});
 
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('csrfToken');
+    localStorage.removeItem('refresh_token')
+
     if(reload){
       window.location.reload(true);
     }
@@ -80,7 +117,7 @@ export class AppContainer extends Component {
       username: username,
       password: password
     }
-
+    this.props.dispatch(SetUsername(username));
     this.props.dispatch(InitOAuth(payload));
   };
 

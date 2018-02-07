@@ -10,13 +10,10 @@ const CLIENT_INFO = {
 };
 
 export const isTokenValid = (accessToken, expiresIn) => {
-
   const currentTime = new Date().getTime();
   if(accessToken && (!expiresIn || expiresIn - currentTime > 1)){
-    console.log('isTokenValid: (TRUE) TOKEN EXPIRES AT: ' + new Date(parseInt(expiresIn, 10)));
     return true;
   }else{
-    console.log('isTokenValid: (FALSE) TOKEN EXPIRED');
     return false;
   }
 }
@@ -38,12 +35,12 @@ export const getCredentials = (type, username, password = '', refreshToken = '')
     username: username,
   }
 
-  type === 'password' ? 
+  type === 'password' ?
   credentials = {
     ...credentials,
     password: password
   }
-  : 
+  :
   credentials = {
     ...credentials,
     refresh_token: refreshToken
@@ -77,7 +74,7 @@ export const getToken = () => {
   if (isTokenValid(accessToken, expiresIn)) {
     return `Bearer ${accessToken}`;
   }
-  
+
   return getRefreshToken();
 }
 
@@ -86,18 +83,18 @@ export const authenticate = (username, password, callback=(success, error)=>{}) 
   if(username){
     sessionStorage.setItem('username', username);
   }
-  
+
   const { accessToken, expiresIn } = getSessionStorage();
   const refreshToken = !isTokenValid(accessToken, expiresIn) ? getRefreshToken() : undefined;
 
 
   if(accessToken && isTokenValid(accessToken, expiresIn)) {
-    callback(true); 
+    callback(true);
     return;
-  } 
-  
-  let credentials = (!accessToken) ? 
-    getCredentials('password', username, password) : 
+  }
+
+  let credentials = (!accessToken) ?
+    getCredentials('password', username, password) :
     getCredentials('refresh_token', username, password, refreshToken)
 
   initializeOauthToken(credentials, (success, error) => {
