@@ -1,6 +1,5 @@
-import {call, put, takeLatest,select,takeEvery } from 'redux-saga/effects';
-import {SetApolloClient,CsrfAccessTokensSet} from '../../../rootActions';
-import axios from 'axios';
+import {put, takeLatest,select} from 'redux-saga/effects';
+import {SetApolloClient} from '../../../rootActions';
 
 import { ApolloLink, concat } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
