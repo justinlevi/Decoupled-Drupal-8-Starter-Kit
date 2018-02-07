@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import App from './App';
 
 import { connect } from 'react-redux';
-import {InitOAuth,SetAuthCheck,RefreshOAuth,SetUsername,SetAccessToken} from './rootActions';
+import {InitOAuth,SetAuthCheck,RefreshOAuth,SetUsername,SetAccessToken,InitCsrfToken} from './rootActions';
 
 const isTokenValid = (accessToken, expiresStamp) => {
   const currentTime = new Date().getTime();
@@ -42,6 +42,11 @@ export class AppContainer extends Component {
 
     let accessToken = sessionStorage.getItem('accessToken');
     let expireStamp = localStorage.getItem('lastRefreshedToken');
+    let csrfToken = sessionStorage.getItem('csrfToken');
+
+    if(!csrfToken){
+      this.props.dispatch(InitCsrfToken());
+    }
 
     if(accessToken && expireStamp){
 
@@ -91,7 +96,9 @@ export class AppContainer extends Component {
     sessionStorage.removeItem('accessToken');
     sessionStorage.removeItem('username');
     sessionStorage.removeItem('csrfToken');
-    localStorage.removeItem('refresh_token')
+    sessionStorage.removeItem('expirationTime');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('lastRefreshedToken');
 
     if(reload){
       window.location.reload(true);
