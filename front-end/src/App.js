@@ -12,11 +12,6 @@ import { connect } from 'react-redux';
 
 export class App extends Component {
 
-  constructor(props) {
-    super(props);
-    console.log(props);
-  }
-
   renderLoading = () => {
     return (
       <div>Loading...</div>
@@ -25,7 +20,7 @@ export class App extends Component {
 
   renderAuthenticated = () => {
 
-    const {handleLogout, username, uuid, uid, nid, mids, apolloclient,activeNode } = this.props;
+    const {handleLogout, apolloclient, activeNode } = this.props;
 
     return (
       <div>
@@ -37,7 +32,7 @@ export class App extends Component {
                   !this.props.activeNode ?
                     <CreateSelect projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
                   :
-                    <UploadComponent username={username} uid={uid} activeNode={activeNode} />
+                    <UploadComponent activeNode={activeNode} />
                 }
             </div>
           </ApolloProvider> : ''

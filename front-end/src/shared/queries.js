@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
 
-
 export const currentUserUid = gql `
   query{
     currentUserContext{
@@ -19,6 +18,9 @@ export const pagesByUserQuery = gql `
         nodes:reverseUidNode(offset:0, limit:1000){
           entities{
             ...on NodePage{
+              author:entityOwner{
+                name
+              },
               title,
               body {
                 value
@@ -41,6 +43,9 @@ export const pagesByUserQuery = gql `
 //     nodeQuery(offset:0, limit: 10, filter:{uid:$uid}){
 //       entities{
 //         ...on NodePage{
+//         author:entityOwner{
+//            name
+//         },
 //         title,
 //         nid,
 //         uuid
@@ -58,16 +63,19 @@ export const addPageMutation = gql `
     addPage(input: {title: $title}){
       entity{
         ...on NodePage{
-        title,
-        body {
-          value
-        },
-        nid,
-        uuid
-        images:fieldMediaImage{
-          mid:targetId
+          author:entityOwner{
+            name
+          },
+          title,
+          body {
+            value
+          },
+          nid,
+          uuid
+          images:fieldMediaImage{
+            mid:targetId
+          }
         }
-      }
       }
     }
   }
@@ -96,16 +104,19 @@ export const updatePageMutation = gql `
     }){
       page:entity{
         ...on NodePage{
-        title,
-        body {
-          value
-        },
-        nid,
-        uuid
-        images:fieldMediaImage{
-          mid:targetId
+          author:entityOwner{
+            name
+          },
+          title,
+          body {
+            value
+          },
+          nid,
+          uuid
+          images:fieldMediaImage{
+            mid:targetId
+          }
         }
-      }
       }
     }
   }
@@ -117,16 +128,19 @@ export const deletePageMutation = gql `
     deletePage(id:$id){
       page:entity{
         ...on NodePage{
-        title,
-        body {
-          value
-        },
-        nid,
-        uuid
-        images:fieldMediaImage{
-          mid:targetId
+          author:entityOwner{
+            name
+          },
+          title,
+          body {
+            value
+          },
+          nid,
+          uuid
+          images:fieldMediaImage{
+            mid:targetId
+          }
         }
-      }
       }
     }
   }

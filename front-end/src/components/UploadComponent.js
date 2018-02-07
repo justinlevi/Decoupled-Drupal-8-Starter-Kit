@@ -7,7 +7,7 @@ import BrowseButton from './BrowseButton';
 import { readFile } from './ImageHelpers';
 import { withApollo } from 'react-apollo';
 import { getSignedUrls, addS3Files, updatePageMutation } from '../shared/queries';
-import { Form, FormGroup, Label, Input } from 'reactstrap'
+import { Form, FormGroup, Input } from 'reactstrap'
 
 const initialState = {
   totalBytes: 0,
@@ -26,7 +26,6 @@ const initialState = {
 export class UploadComponent extends Component {
 
   static propTypes = {
-    username: PropTypes.string.isRequired,
     activeNode: PropTypes.object.isRequired
   }
 
@@ -39,13 +38,10 @@ export class UploadComponent extends Component {
   constructor(props){
     super(props);
 
-    const uploadPath = props.username + '/' + props.activeNode.uuid + '/';
+    const uploadPath = props.activeNode.author.name + '/' + props.activeNode.uuid + '/';
     this.state = {
       ...initialState,
-      uid: props.uid,
-      uuid: props.activeNode.uuid,
-      nid: props.activeNode.nid,
-      title: props.activeNode.title + ' ' + props.activeNode.nid  ,
+      title: props.activeNode.title ,
       body: props.activeNode.body === null ? '' : props.activeNode.body.value,
       uploadPath: uploadPath
     };
@@ -312,7 +308,9 @@ export class UploadComponent extends Component {
   */
 
   render() {
+
     return (
+
       <div className="uploadComponentContainer">
 
         <Form>

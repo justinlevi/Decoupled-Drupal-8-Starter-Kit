@@ -1,5 +1,5 @@
-import {call, put, takeLatest,select } from 'redux-saga/effects';
-import {OAuthSuccess,SetOAuth,CsrfAccessTokensSet} from '../../../rootActions';
+import {call, put, takeLatest,select,takeEvery } from 'redux-saga/effects';
+import {OAuthSuccess,SetOAuth,CsrfAccessTokensSet,SetAuthCheck} from '../../../rootActions';
 import Querystring from 'query-string';
 import axios from 'axios';
 
@@ -22,7 +22,7 @@ const getCredentials = (type, username, password = '', refreshToken = '') => {
       ...credentials,
       password: password
     }
-  }else if(type === 'refresh'){
+  }else if(type === 'refresh_token'){
     credentials = {
       ...credentials,
       refresh_token: refreshToken
@@ -36,16 +36,23 @@ const getRefreshToken = (state) => state.oauth.refreshToken;
 
 function* initOAuth(state){
 
-  let grantType = state.payload.grantType;
-  let username = state.payload.username;
-  let password = state.payload.password;
+  let credentials;
 
-  let refreshToken = '';
-  if(yield select(getRefreshToken)){
-    refreshToken = yield select(getRefreshToken);
+  if(state.type === 'REFRESH_OAUTH'){
+
+    let grantType = 'refresh_token';
+    let username = sessionStorage.getItem('username');
+
+    credentials = getCredentials(grantType,username,'',state.payload);
+
+  }else{
+
+    let grantType = state.payload.grantType;
+    let username = state.payload.username;
+    let password = state.payload.password;
+
+    credentials = getCredentials(grantType,username,password);
   }
-
-  let credentials = getCredentials(grantType,username,password,refreshToken);
 
   const oAuthTokens = yield call(function(){
     return new Promise(function(resolve,reject){
@@ -71,14 +78,22 @@ function* initOAuth(state){
   }
 
   yield put(SetOAuth(payload));
-
-  console.log("OAUTH SUCCESS ACTION PUT");
   yield put(OAuthSuccess());
-
   yield put(CsrfAccessTokensSet());
 
 };
 
+function* setusername(state){
+  sessionStorage.setItem('username',state.payload);
+}
+
+function* accessTokenSet(state){
+  yield put(CsrfAccessTokensSet());
+}
+
 export function* watchOAuth(){
   yield takeLatest('INIT_OAUTH', initOAuth);
+  yield takeLatest('REFRESH_OAUTH', initOAuth);
+  yield takeLatest('SET_USERNAME', setusername);
+  yield takeLatest('SET_ACCESS_TOKEN',accessTokenSet);
 }
