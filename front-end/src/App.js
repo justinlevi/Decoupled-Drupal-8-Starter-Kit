@@ -17,17 +17,17 @@ export class App extends Component {
   }
 
   renderAuthenticated = () => {
-    const { client, handleLogout, username, uuid, uid, nid, mids } = this.props;
+    const { client, handleLogout, username, uid, activeNode} = this.props;
 
     return (
       <ApolloProvider client={client}>
         <div className="container authenticated">        
             <Navbar handleLogout={handleLogout} />
             {
-              !this.props.nid ?
+              !this.props.activeNode ?
                 <CreateSelect projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
               : 
-                <UploadComponent username={username} uid={uid} uuid={uuid} nid={nid} mids={mids} />
+                <UploadComponent username={username} uid={uid} activeNode={activeNode} />
             }
         </div>
       </ApolloProvider>

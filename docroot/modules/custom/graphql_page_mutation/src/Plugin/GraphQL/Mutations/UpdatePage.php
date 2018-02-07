@@ -34,7 +34,10 @@ class UpdatePage extends UpdateEntityBase {
    */
     protected function extractEntityInput(array $inputArgs, InputObjectType $inputType, ResolveInfo $info) {
         return [
-            'field_media_image' => $inputArgs['field_media_image']
+            'title' => $inputArgs['title'],
+            'body' => $inputArgs['body'],
+            'field_media_image' => $inputArgs['field_media_image'],
+
         ];
     }
 
