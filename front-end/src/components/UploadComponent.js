@@ -1,35 +1,33 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-
-// handles browser nuances with drag/drop
 import Dropzone from 'react-dropzone';
-
 import Thumbnails from './Thumbnails';
 import BrowseButton from './BrowseButton';
 import { readFile } from './ImageHelpers';
-
 import { withApollo } from 'react-apollo';
-
 import { getSignedUrls, addS3Files, updatePageMutation } from '../shared/queries';
+import { Form, FormGroup, Label, Input } from 'reactstrap'
 
 const initialState = {
   totalBytes: 0,
   nid: 0,
+  title: 'null',
+  body: '',
   mids: [],
   files: [],
   maxWidth: 400,
   maxHeight: 225,
   uploading: false,
-  uploadPath: ''
+  uploadPath: '',
+  saveTimeout: undefined
 };
 
 export class UploadComponent extends Component {
 
   static propTypes = {
     username: PropTypes.string.isRequired,
-    nid: PropTypes.number.isRequired,
-    mids: PropTypes.array.isRequired
+    activeNode: PropTypes.object.isRequired
   }
 
   dropzoneRef = undefined;
@@ -41,12 +39,14 @@ export class UploadComponent extends Component {
   constructor(props){
     super(props);
 
-    const uploadPath = props.username + '/' + props.uuid + '/';
+    const uploadPath = props.username + '/' + props.activeNode.uuid + '/';
     this.state = {
       ...initialState,
       uid: props.uid,
-      uuid: props.uuid,
-      nid: props.nid,
+      uuid: props.activeNode.uuid,
+      nid: props.activeNode.nid,
+      title: props.activeNode.title + ' ' + props.activeNode.nid  ,
+      body: props.activeNode.body === null ? '' : props.activeNode.body.value,
       uploadPath: uploadPath
     };
 
@@ -264,26 +264,47 @@ export class UploadComponent extends Component {
   }
 
   onSyncCompletionHandler = (mids) => {
-    this.addMediaToNode(mids);
+    this.updateNode(mids);
     setTimeout(() => { this.setState(initialState); }, 500);
   }
 
   //STEP 5 -
-  addMediaToNode(mids){
-    const newMids = mids.concat(this.props.mids).concat(this.state.mids);
-    const variables = {id: Number(this.props.nid), field_media_image: newMids};
+  updateNode = (mids = []) => {
+    const activeMids = this.props.activeNode.images.map((item) => { return item.mid })
+    const newMids = mids.concat(activeMids).concat(this.state.mids);
+    const variables = {
+      id: Number(this.props.activeNode.nid), 
+      title: this.state.title,
+      body: this.state.body,
+      field_media_image: newMids
+    };
+
     this.props.client.mutate({ mutation: updatePageMutation, variables: variables})
     .then(response => {
       // send signedUrls to callback
       if(response.data.updatePage.page !== null){
         console.log('UPDATE PAGE WITH UPLOADED MEDIA COMPLETE');
       }else{
-        console.exception("ERROR: The page was not updated correctly")
+        console.error("ERROR: The page was not updated correctly")
       }
       this.setState({mids: newMids});
     }).catch(this.catchError);
   }
 
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    if(this.state.saveTimeout) {
+      clearTimeout(this.state.saveTimeout);
+    }
+
+    this.setState({
+      [name]: value,
+      saveTimeout: window.setTimeout( () => { this.updateNode() }, 2000)
+    });
+  }
 
   /*
   * Render
@@ -293,6 +314,13 @@ export class UploadComponent extends Component {
   render() {
     return (
       <div className="uploadComponentContainer">
+
+        <Form>
+          <FormGroup>
+            <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={this.state.title} />
+            <Input name="body" placeholder="Body" type="textarea"  bsSize="lg" onChange={this.handleInputChange} value={this.state.body} />
+          </FormGroup>
+        </Form>
 
         { this.state.uploading === false ?
           <Dropzone ref={(node) => { this.dropzoneRef = node; }} onDrop={this.onDrop} id="dropZone" className="dropZone" disabled={this.state.uploading} >

@@ -11,9 +11,8 @@ export const currentUserUid = gql `
 `;
 
 
-export const nodeTitlesByUserReverseQuery = gql `
-
-  query nodeTitlesByUserReverseQuery{
+export const pagesByUserQuery = gql `
+  query pagesByUserQuery{
     user:currentUserContext{
       ...on User{
         uid
@@ -21,6 +20,9 @@ export const nodeTitlesByUserReverseQuery = gql `
           entities{
             ...on NodePage{
               title,
+              body {
+                value
+              },
               nid,
               uuid
               images:fieldMediaImage{
@@ -34,22 +36,22 @@ export const nodeTitlesByUserReverseQuery = gql `
   }
 `;
 
-export const nodeTitlesByUserQuery = gql `
-  query nodeQuery($uid: Int) {
-    nodeQuery(offset:0, limit: 10, filter:{uid:$uid}){
-      entities{
-        ...on NodePage{
-        title,
-        nid,
-        uuid
-        images:fieldMediaImage{
-          mid:targetId
-        }
-      }
-      }
-    }
-  }
-`;
+// export const pagesByUserQuery = gql `
+//   query nodeQuery($uid: Int) {
+//     nodeQuery(offset:0, limit: 10, filter:{uid:$uid}){
+//       entities{
+//         ...on NodePage{
+//         title,
+//         nid,
+//         uuid
+//         images:fieldMediaImage{
+//           mid:targetId
+//         }
+//       }
+//       }
+//     }
+//   }
+// `;
 
 export const addPageMutation = gql `
   mutation addPage($title: String!){
@@ -57,6 +59,9 @@ export const addPageMutation = gql `
       entity{
         ...on NodePage{
         title,
+        body {
+          value
+        },
         nid,
         uuid
         images:fieldMediaImage{
@@ -83,13 +88,18 @@ export const addS3Files = gql `
 `;
 
 export const updatePageMutation = gql `
-  mutation updatePage($id:Int!, $field_media_image:[Int]){
+  mutation updatePage($id:Int!, $title:String, $body:String, $field_media_image:[Int]){
     updatePage(id:$id,input:{
+      title:$title,
+      body:$body
       field_media_image:$field_media_image
     }){
       page:entity{
         ...on NodePage{
         title,
+        body {
+          value
+        },
         nid,
         uuid
         images:fieldMediaImage{
@@ -108,6 +118,9 @@ export const deletePageMutation = gql `
       page:entity{
         ...on NodePage{
         title,
+        body {
+          value
+        },
         nid,
         uuid
         images:fieldMediaImage{

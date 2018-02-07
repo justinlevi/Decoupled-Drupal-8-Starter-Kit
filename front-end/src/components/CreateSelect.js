@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
-
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-// import Transition from 'react-transition-group/Transition';
-
 import PropTypes from 'prop-types'
-
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { withApollo } from 'react-apollo';
-
-import { nodeTitlesByUserReverseQuery, addPageMutation, deletePageMutation } from '../shared/queries';
+import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../shared/queries';
 import HCard from './HCard';
-
 import MdAdd from 'react-icons/lib/md/add';
 
 const Fade = ({ children, ...props }) => (
@@ -36,8 +31,7 @@ export class CreateSelect extends Component {
     selectValue: 0,
     title: '',
     nodes: [],
-    submitEnabled: false,
-    selectEnabled: true
+    isModalVisible: false
   }
 
   /**
@@ -46,8 +40,7 @@ export class CreateSelect extends Component {
   */
 
   componentDidMount(){
-
-    this.fetchNodeTitlesByUserReverseQuery((result) => {
+    this.fetchPagesByUserQuery((result) => {
       this.setState({
         uid: result.uid,
         nodes: result.nodes.entities
@@ -55,13 +48,8 @@ export class CreateSelect extends Component {
     });
   }
 
-  /**
-   * NETWORKING
-   * ----------
-   */
-
-  fetchNodeTitlesByUserReverseQuery = (onFetchComplete) => {
-    this.props.client.query({query: nodeTitlesByUserReverseQuery})
+  fetchPagesByUserQuery = (onFetchComplete) => {
+    this.props.client.query({query: pagesByUserQuery})
     .then(response => {
       onFetchComplete(response.data.user)
     }).catch((error) => {
@@ -74,22 +62,32 @@ export class CreateSelect extends Component {
     this.props.client.mutate({ mutation: addPageMutation, variables: variables})
     .then(response => {
       console.log('ADD PAGE COMPLETE')
+      const entity = response.data.addPage.entity;
       this.setState({
-        nodes: this.state.nodes.concat([response.data.addPage.entity])
+        nodes: this.state.nodes.concat([entity])
       })
 
-      const {uuid, nid, images} = response.data.addPage.entity;
-
-      setTimeout(() => { this.scrollToBottom() }, 250);
-      setTimeout(() => { this.props.projectCreateSelectHandler(uuid, nid, images) }, 750)
+      //setTimeout(() => { this.scrollToBottom() }, 250);
+      //setTimeout(() => { this.props.projectCreateSelectHandler(uuid, nid, images) }, 500)
+      this.props.projectCreateSelectHandler(entity);
     }).catch((error) => {
       console.log('error ' + error);
     });
   }
 
+  deleteNodeFromState = (nid) => {
+    let newNodes = this.state.nodes.slice();
+    const index = newNodes.findIndex((n) => { return n.nid === nid;});
+    if (index === -1) { return false; }
+
+    newNodes.splice(index,1);
+    this.setState({ nodes: newNodes});
+
+    return true;
+  }
 
   deletePageMutation = (nid) => {    
-    if(this.delete(nid)){
+    if(this.deleteNodeFromState(nid)){
       const variables = {"id": nid};
       this.props.client.mutate({ mutation: deletePageMutation, variables: variables})
       .then(response => {
@@ -100,92 +98,57 @@ export class CreateSelect extends Component {
     }
   }
 
-
-  /**
-   * HELPERS
-   */
-
-  delete = (nid) => {
-    let newNodes = this.state.nodes.slice();
-    const index = newNodes.findIndex((n) => { return n.nid === nid;});
-    if (index === -1) { return false; }
-
-    newNodes.splice(index,1);
-    this.setState({ nodes: newNodes});
-
-    return true;
-  }
-  /**
-   * CHANGE HANDLERS
-   * --------------
-   */
-
-
-  // handleSubmit = (event) => {
-  //   event.preventDefault();
-
-  //   const { selectValue } = this.state;
-
-  //   if(selectValue > 0){
-  //     // select uuid from the array of entities
-  //     const node = this.state.nodes.find(node => node.nid === Number(selectValue));
-  //     const uuid = node.uuid;
-  //     this.props.projectCreateSelectHandler(uuid, selectValue, node.images);
-  //   }else if(this.state.title.length > 5) {
-  //     this.addPageMutation(this.state.title);
-  //   }
-
-  // }
-
-  ctaHandler = (uuid, nid, images) => {
-    this.props.projectCreateSelectHandler(uuid, nid, images);
-  }
-
-  handleSelectChange = (event) => {
-    const value = event.target.value !== 'default' ? event.target.value : false;
-
-    this.setState({
-      selectValue: value,
-      submitEnabled: value !== false ? true : false
-    });
-  }
-
-  handleCreateInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    if (value.length > 0) {
-      this.setState({selectValue: 0})
-    }
-
-    this.setState({
-      [name]: value,
-      submitEnabled: value.length > 5 ? true : false,
-      selectEnabled: value.length === 0 ? true: false
-    });
+  ctaHandler = (activeNode) => {
+    this.props.projectCreateSelectHandler(activeNode);
   }
 
   scrollToBottom = () => {
-    this.listEnd.scrollIntoView({ behavior: "smooth" });
+    if(this.listEnd){
+      this.listEnd.scrollIntoView({ behavior: "smooth" });
+    }
   }
 
-  render() {
+  deleteItemHandler = (event, nid) => {
+    event.stopPropagation(); 
+    this.setState({
+      activeNode: nid,
+      isModalVisible: true
+    });
+  }
 
-    const items = this.state.nodes.map(
-      (item, id) => {
+  onModalOk = (event) => {
+    event.stopPropagation(); 
+    this.deletePageMutation(this.state.activeNode); 
+    this.setState({
+        isModalVisible: false, 
+        activeNode: ''
+      });
+  }
 
+  onModalToggle = (event) => { 
+    this.setState({
+      isModalVisible: !this.state.isModalVisible, 
+      activeNode: ''
+    });
+  }
+
+  listItems = () => {
+    const items = this.state.nodes.map((item, id) => {
         return (
           <Fade duration={1000} key={item.nid} timeout={{enter:0, exit: 1000}}>
-            <HCard {...item} 
+            <HCard 
+              node={item}
               ctaHandler={this.ctaHandler} 
-              deleteHandler={this.deletePageMutation} 
+              deleteHandler={ (event) => { this.deleteItemHandler(event, item.nid) }  } 
             />
           </Fade>
         )
       }
     );
+    return items;
+  }
 
+  render() {
     return (
       <div className="">
 
@@ -199,8 +162,21 @@ export class CreateSelect extends Component {
             </div>
 
             <TransitionGroup className="item-list">
-              {items}
+              {this.listItems()}
             </TransitionGroup>
+
+            <Modal isOpen={this.state.isModalVisible} toggle={this.onModalToggle} backdrop={true}>
+              <ModalHeader toggle={this.onModalToggle}>Confirmation</ModalHeader>
+              <ModalBody>
+                Are you sure you want to remove this?
+              </ModalBody>
+              <ModalFooter>
+                <Button color="secondary" onClick={this.onModalToggle}>Cancel</Button>
+                {' '}
+                <Button color="primary" onClick={this.onModalOk}>Delete</Button>
+              </ModalFooter>
+            </Modal>
+
             <div style={{ float:"left", clear: "both" }}
               ref={(el) => { this.listEnd = el; }}>
             </div>
