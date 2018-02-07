@@ -12,9 +12,7 @@ export class AppContainer extends Component {
       username: '',
       password: '',
       uid: 0,
-      uuid: false,
-      nid: 0,
-      mids: [],
+      activeNode: undefined,
       isAuthenticated: false,
       isLoading: false,
       isLoginFailed: false,
@@ -29,9 +27,8 @@ export class AppContainer extends Component {
   componentDidMount(){
   }
 
-  projectCreateSelectHandler = (uuid, nid, images) => {
-    const mids = images.map(obj => {return obj.mid});
-    this.setState({uuid: uuid, nid: Number(nid), mids: mids});
+  projectCreateSelectHandler = (node) => {
+    this.setState({activeNode: node});
   }
 
   // is used by both login and password reset

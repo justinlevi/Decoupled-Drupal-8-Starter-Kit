@@ -24,7 +24,8 @@ export class App extends Component {
   }
 
   renderAuthenticated = () => {
-    const {handleLogout, username, uuid, uid, nid, mids, apolloclient } = this.props;
+
+    const {handleLogout, username, uuid, uid, nid, mids, apolloclient,activeNode } = this.props;
 
     return (
       <div>
@@ -33,15 +34,16 @@ export class App extends Component {
             <div className="container authenticated">
                 <Navbar handleLogout={handleLogout} />
                 {
-                  !this.props.nid ?
+                  !this.props.activeNode ?
                     <CreateSelect projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
                   :
-                    <UploadComponent username={username} uid={uid} uuid={uuid} nid={nid} mids={mids} />
+                    <UploadComponent username={username} uid={uid} activeNode={activeNode} />
                 }
             </div>
           </ApolloProvider> : ''
         }
       </div>
+
     );
   }
 

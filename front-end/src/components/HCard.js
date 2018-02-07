@@ -6,7 +6,7 @@ const HCard = props => {
     <div className="py-3">
       <div className="card" onClick={
           (event) => { 
-            props.ctaHandler(props.uuid, props.nid, props.images)
+            props.ctaHandler(props.node)
           }
         }>
         <div className="row ">
@@ -17,8 +17,8 @@ const HCard = props => {
 
             <div className="col-md-8 px-3">
               <div className="card-body px-3">
-                <h4 className="card-title">{props.title} {props.nid}</h4>
-                {props.hasOwnProperty('body') ? <p className="card-text">{props.body}</p> : null }
+                <h4 className="card-title">{props.node.title} {props.node.nid}</h4>
+                {props.hasOwnProperty('body') ? <p className="card-text">{props.node.body}</p> : null }
 
                 <button className="delete" onClick={props.deleteHandler} data-toggle="modal" data-target="#exampleModalCenter">
                   <MdRemove className="remove" />

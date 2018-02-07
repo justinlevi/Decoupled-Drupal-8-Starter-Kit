@@ -62,15 +62,14 @@ export class CreateSelect extends Component {
     this.props.client.mutate({ mutation: addPageMutation, variables: variables})
     .then(response => {
       console.log('ADD PAGE COMPLETE')
+      const entity = response.data.addPage.entity;
       this.setState({
-        nodes: this.state.nodes.concat([response.data.addPage.entity])
+        nodes: this.state.nodes.concat([entity])
       })
-
-      const {uuid, nid, images} = response.data.addPage.entity;
 
       //setTimeout(() => { this.scrollToBottom() }, 250);
       //setTimeout(() => { this.props.projectCreateSelectHandler(uuid, nid, images) }, 500)
-      this.props.projectCreateSelectHandler(uuid, nid, images);
+      this.props.projectCreateSelectHandler(entity);
     }).catch((error) => {
       console.log('error ' + error);
     });
@@ -99,8 +98,8 @@ export class CreateSelect extends Component {
     }
   }
 
-  ctaHandler = (uuid, nid, images) => {
-    this.props.projectCreateSelectHandler(uuid, nid, images);
+  ctaHandler = (activeNode) => {
+    this.props.projectCreateSelectHandler(activeNode);
   }
 
   scrollToBottom = () => {
@@ -137,7 +136,8 @@ export class CreateSelect extends Component {
     const items = this.state.nodes.map((item, id) => {
         return (
           <Fade duration={1000} key={item.nid} timeout={{enter:0, exit: 1000}}>
-            <HCard {...item} 
+            <HCard 
+              node={item}
               ctaHandler={this.ctaHandler} 
               deleteHandler={ (event) => { this.deleteItemHandler(event, item.nid) }  } 
             />

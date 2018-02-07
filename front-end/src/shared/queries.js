@@ -20,6 +20,9 @@ export const pagesByUserQuery = gql `
           entities{
             ...on NodePage{
               title,
+              body {
+                value
+              },
               nid,
               uuid
               images:fieldMediaImage{
@@ -56,6 +59,9 @@ export const addPageMutation = gql `
       entity{
         ...on NodePage{
         title,
+        body {
+          value
+        },
         nid,
         uuid
         images:fieldMediaImage{
@@ -82,13 +88,18 @@ export const addS3Files = gql `
 `;
 
 export const updatePageMutation = gql `
-  mutation updatePage($id:Int!, $field_media_image:[Int]){
+  mutation updatePage($id:Int!, $title:String, $body:String, $field_media_image:[Int]){
     updatePage(id:$id,input:{
+      title:$title,
+      body:$body
       field_media_image:$field_media_image
     }){
       page:entity{
         ...on NodePage{
         title,
+        body {
+          value
+        },
         nid,
         uuid
         images:fieldMediaImage{
@@ -107,6 +118,9 @@ export const deletePageMutation = gql `
       page:entity{
         ...on NodePage{
         title,
+        body {
+          value
+        },
         nid,
         uuid
         images:fieldMediaImage{
