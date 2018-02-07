@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppContainer from './AppContainer';
-import initalizeCsrfToken from './utils/csrf';
 import registerServiceWorker from './registerServiceWorker';
 import './styles/index.css';
 import configureStore from './configureStore';
