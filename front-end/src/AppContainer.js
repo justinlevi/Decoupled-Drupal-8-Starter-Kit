@@ -6,10 +6,10 @@ import {InitOAuth,SetAuthCheck,RefreshOAuth,SetUsername,SetAccessToken,InitCsrfT
 
 const isTokenValid = (accessToken, expiresStamp) => {
   const currentTime = new Date().getTime();
-  const expireTime = parseInt(sessionStorage.getItem('expirationTime')) * 1000;
+  const expireTime = parseInt(sessionStorage.getItem('expirationTime'), 10) * 1000;
 
-  const currentTimeInt = parseInt(currentTime);
-  const expiresStampInt = parseInt(expiresStamp);
+  const currentTimeInt = parseInt(currentTime, 10);
+  const expiresStampInt = parseInt(expiresStamp, 10);
 
   if(accessToken && (currentTimeInt - expiresStampInt > expireTime)){
     return true;
