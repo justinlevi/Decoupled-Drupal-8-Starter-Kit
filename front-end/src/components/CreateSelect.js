@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
-
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-// import Transition from 'react-transition-group/Transition';
-
 import PropTypes from 'prop-types'
-
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { withApollo } from 'react-apollo';
-
 import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../shared/queries';
 import HCard from './HCard';
-
 import MdAdd from 'react-icons/lib/md/add';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const Fade = ({ children, ...props }) => (
   <CSSTransition

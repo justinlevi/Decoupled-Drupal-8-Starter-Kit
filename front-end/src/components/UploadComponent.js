@@ -1,17 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-
-// handles browser nuances with drag/drop
 import Dropzone from 'react-dropzone';
-
 import Thumbnails from './Thumbnails';
 import BrowseButton from './BrowseButton';
 import { readFile } from './ImageHelpers';
-
 import { withApollo } from 'react-apollo';
-
 import { getSignedUrls, addS3Files, updatePageMutation } from '../shared/queries';
+import { Form, FormGroup, Label, Input } from 'reactstrap'
 
 const initialState = {
   totalBytes: 0,
@@ -303,6 +299,13 @@ export class UploadComponent extends Component {
   render() {
     return (
       <div className="uploadComponentContainer">
+
+        <Form>
+          <FormGroup>
+            <Input placeholder="Title" bsSize="lg" />
+            <Input placeholder="Body" type="textarea"  bsSize="lg" />
+          </FormGroup>
+        </Form>
 
         { this.state.uploading === false ?
           <Dropzone ref={(node) => { this.dropzoneRef = node; }} onDrop={this.onDrop} id="dropZone" className="dropZone" disabled={this.state.uploading} >
