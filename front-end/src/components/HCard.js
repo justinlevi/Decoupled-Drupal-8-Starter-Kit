@@ -3,9 +3,6 @@ import MdRemove from 'react-icons/lib/md/remove-circle-outline';
 
 const HCard = props => {
 
-  const placeholderImg = "https://placeholdit.imgix.net/~text?txtsize=38&amp;txt=¯\_(ツ)_/¯&amp;w=400&amp;h=400";
-  const img = placeholderImg;
-  
   return (
     <div className="py-3">
       <div className="card" onClick={
@@ -16,7 +13,11 @@ const HCard = props => {
         <div className="row ">
 
             <div className="col-md-4">
-              <img src={img} alt="" className="w-100" />
+              { props.node.images.length === 0 ? 
+                  <img src="https://placeholdit.imgix.net/~text?txtsize=38&amp;txt=¯\_(ツ)_/¯&amp;w=400&amp;h=400" alt="" className="w-100" />
+                :
+                  <img src={props.node.images[0].entity.image.derivative.url} alt="" className="w-100" />
+              }
             </div>
 
             <div className="col-md-8 px-3">

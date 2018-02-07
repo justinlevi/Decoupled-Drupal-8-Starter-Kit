@@ -1,5 +1,36 @@
 import gql from 'graphql-tag';
 
+
+const fragments = {
+  nodePage: gql`
+    fragment NodePageFields on NodePage{
+      author:entityOwner{
+        name
+      },
+      title,
+      body {
+        value
+      },
+      nid,
+      uuid
+      images:fieldMediaImage{
+        mid:targetId,
+        ... on FieldNodeFieldMediaImage {
+          entity{
+            ... on MediaImage {
+              image {
+                derivative(style:medium) {
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `
+}
+
 export const currentUserUid = gql `
   query{
     currentUserContext{
@@ -17,68 +48,35 @@ export const pagesByUserQuery = gql `
         uid
         nodes:reverseUidNode(offset:0, limit:1000){
           entities{
-            ...on NodePage{
-              author:entityOwner{
-                name
-              },
-              title,
-              body {
-                value
-              },
-              nid,
-              uuid
-              images:fieldMediaImage{
-                mid:targetId
-              }
-            }
+            ... NodePageFields
           }
         }
       }
     }
   }
+  ${fragments.nodePage}
 `;
 
 // export const pagesByUserQuery = gql `
 //   query nodeQuery($uid: Int) {
 //     nodeQuery(offset:0, limit: 10, filter:{uid:$uid}){
 //       entities{
-//         ...on NodePage{
-//         author:entityOwner{
-//            name
-//         },
-//         title,
-//         nid,
-//         uuid
-//         images:fieldMediaImage{
-//           mid:targetId
-//         }
-//       }
+//         ... on NodePageFields
 //       }
 //     }
 //   }
+// ${fragments.nodePage}
 // `;
 
 export const addPageMutation = gql `
   mutation addPage($title: String!){
     addPage(input: {title: $title}){
       entity{
-        ...on NodePage{
-          author:entityOwner{
-            name
-          },
-          title,
-          body {
-            value
-          },
-          nid,
-          uuid
-          images:fieldMediaImage{
-            mid:targetId
-          }
-        }
+        ... NodePageFields
       }
     }
   }
+  ${fragments.nodePage}
 `;
 
 export const getSignedUrls = gql `
@@ -103,23 +101,11 @@ export const updatePageMutation = gql `
       field_media_image:$field_media_image
     }){
       page:entity{
-        ...on NodePage{
-          author:entityOwner{
-            name
-          },
-          title,
-          body {
-            value
-          },
-          nid,
-          uuid
-          images:fieldMediaImage{
-            mid:targetId
-          }
-        }
+        ... NodePageFields
       }
     }
   }
+  ${fragments.nodePage}
 `;
 
 
@@ -127,21 +113,9 @@ export const deletePageMutation = gql `
   mutation deletePage($id:Int!){
     deletePage(id:$id){
       page:entity{
-        ...on NodePage{
-          author:entityOwner{
-            name
-          },
-          title,
-          body {
-            value
-          },
-          nid,
-          uuid
-          images:fieldMediaImage{
-            mid:targetId
-          }
-        }
+        ...NodePageFields
       }
     }
   }
+  ${fragments.nodePage}
 `;
