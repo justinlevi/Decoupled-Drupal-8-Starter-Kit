@@ -253,12 +253,24 @@ export class GalleryFrame extends Component {
   updateNode = (mids = []) => {
     const activeMids = this.props.activeNode.images.map((item) => { return item.mid })
     const newMids = mids.concat(activeMids).concat(this.state.mids);
-    const variables = {
-      id: Number(this.props.activeNode.nid), 
-      title: this.props.activeNode.title,
-      body: this.props.activeNode.body.value,
-      field_media_image: newMids
-    };
+    let variables;
+
+    try {
+      variables = {
+        id: Number(this.props.activeNode.nid),
+        title: this.props.activeNode.title,
+        body: this.props.activeNode.body.value,
+        field_media_image: newMids
+      };
+    }
+    catch(error) {
+      variables = {
+        id: Number(this.props.activeNode.nid),
+        title: 'NULL',
+        body: 'NULL',
+        field_media_image: newMids
+      };
+    }
 
     this.props.client.mutate({ mutation: updatePageMutation, variables: variables})
     .then(response => {
@@ -278,9 +290,9 @@ export class GalleryFrame extends Component {
   */
 
   render() {
-    return <Gallery 
-    onDrop={this.onDrop} 
-    computedTotalBytes={this.computedTotalBytes} 
+    return <Gallery
+    onDrop={this.onDrop}
+    computedTotalBytes={this.computedTotalBytes}
     onUploadClick={this.onUploadClick}
     handleCancel={this.handleCancel}
     handleDelete={this.handleDelete}
@@ -290,4 +302,4 @@ export class GalleryFrame extends Component {
 }
 
 export const GalleryFrameWrapper = withApollo(GalleryFrame);
-export default GalleryFrameWrapper; 
+export default GalleryFrameWrapper;
