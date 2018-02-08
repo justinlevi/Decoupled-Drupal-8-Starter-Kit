@@ -253,24 +253,13 @@ export class GalleryFrame extends Component {
   updateNode = (mids = []) => {
     const activeMids = this.props.activeNode.images.map((item) => { return item.mid })
     const newMids = mids.concat(activeMids).concat(this.state.mids);
-    let variables;
 
-    try {
-      variables = {
+    const variables = {
         id: Number(this.props.activeNode.nid),
         title: this.props.activeNode.title,
         body: this.props.activeNode.body.value,
         field_media_image: newMids
       };
-    }
-    catch(error) {
-      variables = {
-        id: Number(this.props.activeNode.nid),
-        title: 'NULL',
-        body: 'NULL',
-        field_media_image: newMids
-      };
-    }
 
     this.props.client.mutate({ mutation: updatePageMutation, variables: variables})
     .then(response => {
