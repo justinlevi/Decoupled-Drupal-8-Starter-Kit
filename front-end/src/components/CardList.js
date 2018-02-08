@@ -17,129 +17,24 @@ const Fade = ({ children, ...props }) => (
   </CSSTransition>
 );
 
-export class CardList extends Component {
+const CardList = (props) => {
 
-  static propTypes = {
-    projectCardListHandler: PropTypes.func.isRequired,
-  }
-  
-  listEnd = undefined;
+  let listEnd = undefined;
 
-  state = {
-    uid: 0,
-    activeNode: '',
-    selectValue: 0,
-    title: '',
-    nodes: [],
-    isModalVisible: false
-  }
-
-  /**
-  * LIFECYCLE
-  * ----------
-  */
-
-  componentDidMount(){
-    this.fetchPagesByUserQuery((result) => {
-      this.setState({
-        uid: result.uid,
-        nodes: result.nodes.entities
-      });
-    });
-  }
-
-  fetchPagesByUserQuery = (onFetchComplete) => {
-    this.props.client.query({query: pagesByUserQuery})
-    .then(response => {
-      onFetchComplete(response.data.user)
-    }).catch((error) => {
-      console.log('error ' + error);
-    });
-  }
-
-  addPageMutation = (title) => {
-    const variables = {"title": title};
-    this.props.client.mutate({ mutation: addPageMutation, variables: variables})
-    .then(response => {
-      console.log('ADD PAGE COMPLETE')
-      const entity = response.data.addPage.entity;
-      this.setState({
-        nodes: this.state.nodes.concat([entity])
-      })
-
-      //setTimeout(() => { this.scrollToBottom() }, 250);
-      //setTimeout(() => { this.props.projectCardListHandler(uuid, nid, images) }, 500)
-      this.props.projectCardListHandler(entity);
-    }).catch((error) => {
-      console.log('error ' + error);
-    });
-  }
-
-  deleteNodeFromState = (nid) => {
-    let newNodes = this.state.nodes.slice();
-    const index = newNodes.findIndex((n) => { return n.nid === nid;});
-    if (index === -1) { return false; }
-
-    newNodes.splice(index,1);
-    this.setState({ nodes: newNodes});
-
-    return true;
-  }
-
-  deletePageMutation = (nid) => {    
-    if(this.deleteNodeFromState(nid)){
-      const variables = {"id": nid};
-      this.props.client.mutate({ mutation: deletePageMutation, variables: variables})
-      .then(response => {
-        console.log('PAGE DELETED COMPLETE')
-      }).catch((error) => {
-        console.log('error ' + error);
-      });
+  const scrollToBottom = () => {
+    if(listEnd){
+      listEnd.scrollIntoView({ behavior: "smooth" });
     }
   }
 
-  ctaHandler = (activeNode) => {
-    this.props.projectCardListHandler(activeNode);
-  }
-
-  scrollToBottom = () => {
-    if(this.listEnd){
-      this.listEnd.scrollIntoView({ behavior: "smooth" });
-    }
-  }
-
-  deleteItemHandler = (event, nid) => {
-    event.stopPropagation(); 
-    this.setState({
-      activeNode: nid,
-      isModalVisible: true
-    });
-  }
-
-  onModalOk = (event) => {
-    event.stopPropagation(); 
-    this.deletePageMutation(this.state.activeNode); 
-    this.setState({
-        isModalVisible: false, 
-        activeNode: ''
-      });
-  }
-
-  onModalToggle = (event) => { 
-    this.setState({
-      isModalVisible: !this.state.isModalVisible, 
-      activeNode: ''
-    });
-  }
-
-  listItems = () => {
-    const items = this.state.nodes.map((item, id) => {
+  const listItems = () => {
+    const items = props.nodes.map((item, id) => {
         return (
           <Fade duration={1000} key={item.nid} timeout={{enter:0, exit: 1000}}>
             <Card 
               node={item}
-              ctaHandler={this.ctaHandler} 
-              deleteHandler={ (event) => { this.deleteItemHandler(event, item.nid) }  } 
+              ctaHandler={props.ctaHandler} 
+              deleteHandler={ (event) => { props.deleteItemHandler(event, item.nid) }  } 
             />
           </Fade>
         )
@@ -148,44 +43,46 @@ export class CardList extends Component {
     return items;
   }
 
-  render() {
-    return (
-      <div className="">
-
-        <div className="container">
-
-            <div className="py-3" onClick={() => { this.addPageMutation('NULL');} }>
-              <div className="add">
-                <MdAdd />
-                <h2 className="card-title">Add</h2>
-              </div>
-            </div>
-
-            <TransitionGroup className="item-list">
-              {this.listItems()}
-            </TransitionGroup>
-
-            <Modal isOpen={this.state.isModalVisible} toggle={this.onModalToggle} backdrop={true}>
-              <ModalHeader toggle={this.onModalToggle}>Confirmation</ModalHeader>
-              <ModalBody>
-                Are you sure you want to remove this?
-              </ModalBody>
-              <ModalFooter>
-                <Button color="secondary" onClick={this.onModalToggle}>Cancel</Button>
-                {' '}
-                <Button color="primary" onClick={this.onModalOk}>Delete</Button>
-              </ModalFooter>
-            </Modal>
-
-            <div style={{ float:"left", clear: "both" }}
-              ref={(el) => { this.listEnd = el; }}>
-            </div>
+  return (
+    <div className="">
+      <div className="container">
+        <div className="py-3" onClick={() => { props.addPageMutation('NULL');} }>
+          <div className="add">
+            <MdAdd />
+            <h2 className="card-title">Add</h2>
+          </div>
         </div>
-          
+
+        <TransitionGroup className="item-list">
+          {listItems()}
+        </TransitionGroup>
+
+        <Modal isOpen={props.isModalVisible} toggle={props.onModalToggle} backdrop={true}>
+          <ModalHeader toggle={props.onModalToggle}>Confirmation</ModalHeader>
+          <ModalBody>
+            Are you sure you want to remove this?
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={props.onModalToggle}>Cancel</Button>
+            {' '}
+            <Button color="primary" onClick={props.onModalOk}>Delete</Button>
+          </ModalFooter>
+        </Modal>
+
+        <div style={{ float:"left", clear: "both" }}
+          ref={(el) => { listEnd = el; }}>
+        </div>
       </div>
-    )
-  }
+    </div>
+  );
+}
+ 
+CardList.propTypes = {
+  ctaHandler: PropTypes.func.isRequired,
+  deleteItemHandler: PropTypes.func.isRequired,
+  addPageMutation: PropTypes.func.isRequired,
+  onModalToggle: PropTypes.func.isRequired,
+  onModalOk: PropTypes.func.isRequired
 }
 
-const CardListWrapper = withApollo(CardList);
-export default CardListWrapper;
+export default CardList;
