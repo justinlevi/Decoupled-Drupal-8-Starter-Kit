@@ -1,7 +1,7 @@
 import React from 'react';
 import MdRemove from 'react-icons/lib/md/remove-circle-outline';
 
-const HCard = props => {
+const Card = props => {
 
   return (
     <div className="py-3">
@@ -38,4 +38,4 @@ const HCard = props => {
   );
 }
 
-export default HCard;
+export default Card;

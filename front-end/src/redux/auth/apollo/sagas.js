@@ -1,11 +1,11 @@
 import {put, takeLatest,select} from 'redux-saga/effects';
-import {SetApolloClient} from '../../../rootActions';
+import {SetApolloClient} from 'redux/rootActions';
 
 import { ApolloLink, concat } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import introspectionQueryResultData from '../../../shared/fragmentTypes.json';
+import introspectionQueryResultData from 'api/fragmentTypes.json';
 
 const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
 const URL = process.env.REACT_APP_HOST_DOMAIN;
