@@ -1,6 +1,6 @@
-import {initCsrfToken,setCsrfToken,csrfTokenSuccess} from './actions-reducers-sagas/auth/csrf/actions';
-import {setApolloClient,csrfAccessTokensSet} from './actions-reducers-sagas/auth/apollo/actions';
-import {initOAuth,setOAuth,oauthSuccess,setAuthCheck,refreshOAuth,setUsername,setAccessToken} from './actions-reducers-sagas/auth/oauth/actions';
+import {initCsrfToken,setCsrfToken,csrfTokenSuccess} from 'redux/auth/csrf/actions';
+import {setApolloClient,csrfAccessTokensSet} from 'redux/auth/apollo/actions';
+import {initOAuth,setOAuth,oauthSuccess,setAuthCheck,refreshOAuth,setUsername,setAccessToken} from 'redux/auth/oauth/actions';
 
 export const InitCsrfToken = initCsrfToken;
 export const SetCsrfToken = setCsrfToken;

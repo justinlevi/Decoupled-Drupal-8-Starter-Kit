@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import App from './App';
+import App from 'components/App';
 
 import { connect } from 'react-redux';
-import {InitOAuth,SetAuthCheck,RefreshOAuth,SetUsername,SetAccessToken,InitCsrfToken} from './rootActions';
+import { InitOAuth, SetAuthCheck, RefreshOAuth, SetUsername, SetAccessToken, InitCsrfToken } from 'redux/rootActions';
 
 const isTokenValid = (accessToken, expiresStamp) => {
   const currentTime = new Date().getTime();
@@ -34,7 +34,7 @@ export class AppContainer extends Component {
       handleLogin: this.handleLogin,
       handleLogout: this.onLogoutClick,
       handleInputChange: this.handleInputChange,
-      projectCreateSelectHandler: this.projectCreateSelectHandler
+      projectCardListHandler: this.projectCardListHandler
     }
   }
 
@@ -64,7 +64,7 @@ export class AppContainer extends Component {
 
   }
 
-  projectCreateSelectHandler = (node) => {
+  projectCardListHandler = (node) => {
     this.setState({activeNode: node});
   }
 

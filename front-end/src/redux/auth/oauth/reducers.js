@@ -18,10 +18,10 @@ export const reducer = (state = initState, {type, payload}) => {
 
     case 'SET_OAUTH':
 
-      sessionStorage.setItem('accessToken',payload.accessToken);
-      sessionStorage.setItem('expirationTime',payload.expiration);
-      localStorage.setItem('refreshToken',payload.refreshToken);
-      localStorage.setItem('lastRefreshedToken',payload.timestamp);
+      sessionStorage.setItem('accessToken', payload.accessToken);
+      sessionStorage.setItem('expirationTime', payload.expiration);
+      localStorage.setItem('refreshToken', payload.refreshToken);
+      localStorage.setItem('lastRefreshedToken', payload.timestamp);
 
       return {
         ...state,

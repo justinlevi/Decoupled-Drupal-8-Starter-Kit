@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {OAuthSuccess,SetOAuth,CsrfAccessTokensSet} from '../../../rootActions';
+import {OAuthSuccess,SetOAuth,CsrfAccessTokensSet} from 'redux/rootActions';
 import Querystring from 'query-string';
 import axios from 'axios';
 

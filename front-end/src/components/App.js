@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 
 import { ApolloProvider } from 'react-apollo';
 
-import {UploadComponent} from './components/index';
+import NodeEditPage from 'containers/NodeEditPage';
 
-import CreateSelect from './components/CreateSelect';
-import SignIn from './components/SignIn';
-import Navbar from './components/Navbar';
+import CardList from 'components/CardList';
+import SignIn from 'components/SignIn';
+import Navbar from 'components/Navbar';
 
 import { connect } from 'react-redux';
 
@@ -20,7 +20,7 @@ export class App extends Component {
 
   renderAuthenticated = () => {
 
-    const {handleLogout, apolloclient, activeNode } = this.props;
+    const { handleLogout, apolloclient, activeNode } = this.props;
 
     return (
       <div>
@@ -30,9 +30,9 @@ export class App extends Component {
                 <Navbar handleLogout={handleLogout} />
                 {
                   !this.props.activeNode ?
-                    <CreateSelect projectCreateSelectHandler={this.props.projectCreateSelectHandler}/>
+                    <CardList projectCardListHandler={this.props.projectCardListHandler}/>
                   :
-                    <UploadComponent activeNode={activeNode} />
+                    <NodeEditPage activeNode={activeNode} />
                 }
             </div>
           </ApolloProvider> : ''
@@ -43,8 +43,8 @@ export class App extends Component {
   }
 
   renderAnonymous = () => {
-    const {handleInputChange, handleLogin, isLoginFailed} = this.props;
-    return <SignIn handleInputChange={handleInputChange} handleLogin={handleLogin} isLoginFailed={isLoginFailed} />;
+    const { handleInputChange, handleLogin, isLoginFailed } = this.props;
+    return <SignIn handleInputChange={ handleInputChange } handleLogin={ handleLogin } isLoginFailed={ isLoginFailed } />;
   }
 
   renderError = () => {

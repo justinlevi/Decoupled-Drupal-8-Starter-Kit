@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { withApollo } from 'react-apollo';
-import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../shared/queries';
-import HCard from './HCard';
+import { pagesByUserQuery, addPageMutation, deletePageMutation } from 'api/queries';
+import Card from 'components/Card';
 import MdAdd from 'react-icons/lib/md/add';
 
 const Fade = ({ children, ...props }) => (
@@ -17,10 +17,10 @@ const Fade = ({ children, ...props }) => (
   </CSSTransition>
 );
 
-export class CreateSelect extends Component {
+export class CardList extends Component {
 
   static propTypes = {
-    projectCreateSelectHandler: PropTypes.func.isRequired,
+    projectCardListHandler: PropTypes.func.isRequired,
   }
   
   listEnd = undefined;
@@ -68,8 +68,8 @@ export class CreateSelect extends Component {
       })
 
       //setTimeout(() => { this.scrollToBottom() }, 250);
-      //setTimeout(() => { this.props.projectCreateSelectHandler(uuid, nid, images) }, 500)
-      this.props.projectCreateSelectHandler(entity);
+      //setTimeout(() => { this.props.projectCardListHandler(uuid, nid, images) }, 500)
+      this.props.projectCardListHandler(entity);
     }).catch((error) => {
       console.log('error ' + error);
     });
@@ -99,7 +99,7 @@ export class CreateSelect extends Component {
   }
 
   ctaHandler = (activeNode) => {
-    this.props.projectCreateSelectHandler(activeNode);
+    this.props.projectCardListHandler(activeNode);
   }
 
   scrollToBottom = () => {
@@ -136,7 +136,7 @@ export class CreateSelect extends Component {
     const items = this.state.nodes.map((item, id) => {
         return (
           <Fade duration={1000} key={item.nid} timeout={{enter:0, exit: 1000}}>
-            <HCard 
+            <Card 
               node={item}
               ctaHandler={this.ctaHandler} 
               deleteHandler={ (event) => { this.deleteItemHandler(event, item.nid) }  } 
@@ -187,5 +187,5 @@ export class CreateSelect extends Component {
   }
 }
 
-const CreateSelectWrapper = withApollo(CreateSelect);
-export default CreateSelectWrapper;
+const CardListWrapper = withApollo(CardList);
+export default CardListWrapper;

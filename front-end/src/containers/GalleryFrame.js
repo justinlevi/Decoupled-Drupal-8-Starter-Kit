@@ -1,34 +1,18 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import Dropzone from 'react-dropzone';
-import Thumbnails from './Thumbnails';
-import BrowseButton from './BrowseButton';
-import { readFile } from './ImageHelpers';
 import { withApollo } from 'react-apollo';
-import { getSignedUrls, addS3Files, updatePageMutation } from '../shared/queries';
-import { Form, FormGroup, Input } from 'reactstrap'
 
-const initialState = {
-  totalBytes: 0,
-  title: 'null',
-  body: '',
-  mids: [],
-  files: [],
-  maxWidth: 400,
-  maxHeight: 225,
-  uploading: false,
-  uploadPath: '',
-  saveTimeout: undefined
-};
+import Gallery from "components/frames/gallery/Gallery";
 
-export class UploadComponent extends Component {
+import { readFile } from 'utils/ImageHelpers';
+import { getSignedUrls, addS3Files, updatePageMutation } from 'api/queries';
+
+export class GalleryFrame extends Component {
 
   static propTypes = {
     activeNode: PropTypes.object.isRequired
   }
-
-  dropzoneRef = undefined;
 
   /*
   * Constructor
@@ -39,9 +23,15 @@ export class UploadComponent extends Component {
 
     const uploadPath = props.activeNode.author.name + '/' + props.activeNode.uuid + '/';
     this.state = {
-      ...initialState,
-      title: props.activeNode.title ,
-      body: props.activeNode.body === null ? '' : props.activeNode.body.value,
+      totalBytes: 0,
+      title: 'null',
+      body: '',
+      mids: [],
+      files: [],
+      maxWidth: 400,
+      maxHeight: 225,
+      uploading: false,
+      uploadPath: '',
       uploadPath: uploadPath
     };
   }
@@ -265,8 +255,8 @@ export class UploadComponent extends Component {
     const newMids = mids.concat(activeMids).concat(this.state.mids);
     const variables = {
       id: Number(this.props.activeNode.nid), 
-      title: this.state.title,
-      body: this.state.body,
+      title: this.props.activeNode.title,
+      body: this.props.activeNode.body.value,
       field_media_image: newMids
     };
 
@@ -282,89 +272,22 @@ export class UploadComponent extends Component {
     }).catch(this.catchError);
   }
 
-  handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    if(this.state.saveTimeout) {
-      clearTimeout(this.state.saveTimeout);
-    }
-
-    this.setState({
-      [name]: value,
-      saveTimeout: window.setTimeout( () => { this.updateNode() }, 2000)
-    });
-  }
-
   /*
   * Render
   * ----------------------
   */
 
   render() {
-
-    return (
-
-      <div className="uploadComponentContainer">
-
-        <Form>
-          <FormGroup>
-            <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={this.state.title} />
-            <Input name="body" placeholder="Body" type="textarea"  bsSize="lg" onChange={this.handleInputChange} value={this.state.body} />
-          </FormGroup>
-        </Form>
-
-        { this.state.uploading === false ?
-          <Dropzone ref={(node) => { this.dropzoneRef = node; }} onDrop={this.onDrop} id="dropZone" className="dropZone" disabled={this.state.uploading} >
-            <p>Drop your files here or click to browse.</p>
-          </Dropzone>
-        : <div id="dropZone" className="dropZone disabled">
-          <p>Your files are uploading.</p>
-        </div> }
-
-        { this.state.uploading === false ?
-          <BrowseButton files={this.state.files} totalBytes={this.computedTotalBytes(this.state.files)} totalFiles={this.state.files.length} render={ () => (
-            <button type="button" onClick={() => { this.dropzoneRef.open() }} disabled={this.state.uploadInitiated} >
-                Choose Files
-            </button>
-          )} />
-        : null }
-
-        { this.state.files.length > 0 ? <button className={"btn btn-primary"} onClick={this.onUploadClick}>UPLOAD FILES</button>: null }
-
-        <output id="list" className="container">
-          <div className={"grid"}>
-            {
-              this.state.files.map((item, i) => {
-                const image = this.state.files[i].file;
-                if(image){
-                  return <Thumbnails 
-                    key={i} 
-                    handleCancel={(this.handleCancel)} 
-                    handleDelete={this.handleDelete} 
-                    index={i}
-                    fileSize={image.size || image.fileSize}
-                    fileName={image.name}
-                    percentageComplete={image.percentCompleted ? image.percentCompleted : 0 }
-                    uploadInitiated={image.uploadInitiated ? image.uploadInitiated : false }
-                    uploadSuccess={image.uploadSuccess ? true : false }
-                    render={ () => (
-                      <figure>
-                        <img alt={""} src={item.thumbnail} className={"responsive-image"}/>
-                      </figure>
-                    )} />
-                }else{
-                  return null;
-                }
-              })
-            }
-          </div>
-        </output>
-      </div>
-    )
+    return <Gallery 
+    onDrop={this.onDrop} 
+    computedTotalBytes={this.computedTotalBytes} 
+    onUploadClick={this.onUploadClick}
+    handleCancel={this.handleCancel}
+    handleDelete={this.handleDelete}
+    {...this.state} />
   }
+
 }
 
-export const UploadComponentWrapper = withApollo(UploadComponent);
-export default UploadComponentWrapper; 
+export const GalleryFrameWrapper = withApollo(GalleryFrame);
+export default GalleryFrameWrapper; 
