@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
-
+import { connect } from 'react-redux';
 import { ApolloProvider } from 'react-apollo';
 
-import NodeEditPage from 'containers/NodeEditPage';
-
-import CardList from 'components/CardList';
 import SignIn from 'components/SignIn';
 import Navbar from 'components/Navbar';
 
-import { connect } from 'react-redux';
+import CardListPage from 'containers/CardListPage';
+import NodeEditPage from 'containers/NodeEditPage';
+
 
 export class App extends Component {
 
@@ -30,7 +29,7 @@ export class App extends Component {
                 <Navbar handleLogout={handleLogout} />
                 {
                   !this.props.activeNode ?
-                    <CardList projectCardListHandler={this.props.projectCardListHandler}/>
+                    <CardListPage projectCardListHandler={this.props.projectCardListHandler}/>
                   :
                     <NodeEditPage activeNode={activeNode} />
                 }
