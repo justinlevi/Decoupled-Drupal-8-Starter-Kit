@@ -23,7 +23,7 @@ export class NodeEditPage extends Component {
 
     this.state = {
       saveTimeout: undefined,
-      title: props.activeNode.title ,
+      title: props.activeNode.title === null || props.activeNode.title === 'NULL' ? '' : props.activeNode.title,
       body: props.activeNode.body === null ? '' : props.activeNode.body.value,
     };
   }
@@ -36,7 +36,7 @@ export class NodeEditPage extends Component {
     const activeMids = this.props.activeNode.images.map((item) => { return item.mid })
     const variables = {
       id: Number(this.props.activeNode.nid), 
-      title: this.state.title,
+      title: this.state.title === '' ? 'NULL' : this.state.title,
       body: this.state.body,
       field_media_image: activeMids
     };
