@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { withApollo } from 'react-apollo';
-import { pagesByUserQuery, addPageMutation, deletePageMutation } from 'api/queries';
+
 import Card from 'components/Card';
 import MdAdd from 'react-icons/lib/md/add';
 
@@ -19,13 +18,13 @@ const Fade = ({ children, ...props }) => (
 
 const CardList = (props) => {
 
-  let listEnd = undefined;
+  // let listEnd = undefined;
 
-  const scrollToBottom = () => {
-    if(listEnd){
-      listEnd.scrollIntoView({ behavior: "smooth" });
-    }
-  }
+  // const scrollToBottom = () => {
+  //   if(listEnd){
+  //     listEnd.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // }
 
   const listItems = () => {
     const items = props.nodes.map((item, id) => {
@@ -69,9 +68,9 @@ const CardList = (props) => {
           </ModalFooter>
         </Modal>
 
-        <div style={{ float:"left", clear: "both" }}
+        {/* <div style={{ float:"left", clear: "both" }}
           ref={(el) => { listEnd = el; }}>
-        </div>
+        </div> */}
       </div>
     </div>
   );

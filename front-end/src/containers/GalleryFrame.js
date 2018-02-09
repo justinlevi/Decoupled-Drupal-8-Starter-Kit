@@ -31,7 +31,6 @@ export class GalleryFrame extends Component {
       maxWidth: 400,
       maxHeight: 225,
       uploading: false,
-      uploadPath: '',
       uploadPath: uploadPath
     };
   }

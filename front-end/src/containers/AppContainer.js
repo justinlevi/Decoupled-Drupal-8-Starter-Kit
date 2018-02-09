@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import App from 'components/App';
-
 import { connect } from 'react-redux';
+
 import { InitOAuth, SetAuthCheck, RefreshOAuth, SetUsername, SetAccessToken, InitCsrfToken } from 'redux/rootActions';
+import App from 'components/App';
 
 const isTokenValid = (accessToken, expiresStamp) => {
   const currentTime = new Date().getTime();
@@ -132,7 +132,12 @@ export class AppContainer extends Component {
   }
 
   render() {
-    return <App {...this.state} />
+    return (
+      <App {...this.state}  
+        handleInputChange={this.handleInputChange}
+        handleLogin={this.handleLogin}
+      />
+    );
   }
 }
 

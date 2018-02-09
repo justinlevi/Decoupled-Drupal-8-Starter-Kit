@@ -2,7 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 import renderer from 'react-test-renderer';
-import Thumbnails from 'components/frames/gallery/Thumbnails';
+
+import Thumbnails from './Thumbnails';
 
 
 // snapshot tests.
