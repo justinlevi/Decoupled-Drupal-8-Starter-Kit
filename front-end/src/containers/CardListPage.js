@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { withApollo } from 'react-apollo';
 import { pagesByUserQuery, addPageMutation, deletePageMutation } from 'api/queries';
 

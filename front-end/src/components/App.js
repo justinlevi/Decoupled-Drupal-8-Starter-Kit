@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { ApolloProvider } from 'react-apollo';
+import { connect } from 'react-redux';
 
 import SignIn from 'components/SignIn';
 import Navbar from 'components/Navbar';
@@ -8,8 +9,12 @@ import Navbar from 'components/Navbar';
 import CardListPage from 'containers/CardListPage';
 import NodeEditPage from 'containers/NodeEditPage';
 
-
 export class App extends Component {
+
+  static propTypes = {
+    handleInputChange: PropTypes.func.isRequired,
+    handleLogin: PropTypes.func.isRequired,
+  }
 
   renderLoading = () => {
     return (
@@ -19,23 +24,19 @@ export class App extends Component {
 
   renderAuthenticated = () => {
 
-    const { handleLogout, apolloclient, activeNode } = this.props;
+    const { handleLogout, activeNode } = this.props;
 
     return (
       <div>
-        {apolloclient ?
-          <ApolloProvider client={apolloclient}>
-            <div className="container authenticated">
-                <Navbar handleLogout={handleLogout} />
-                {
-                  !this.props.activeNode ?
-                    <CardListPage projectCardListHandler={this.props.projectCardListHandler}/>
-                  :
-                    <NodeEditPage activeNode={activeNode} />
-                }
-            </div>
-          </ApolloProvider> : ''
-        }
+          <div className="container authenticated">
+              <Navbar handleLogout={handleLogout} />
+              {
+                !this.props.activeNode ?
+                  <CardListPage projectCardListHandler={this.props.projectCardListHandler}/>
+                :
+                  <NodeEditPage activeNode={activeNode} />
+              }
+          </div>
       </div>
 
     );
@@ -65,9 +66,27 @@ export class App extends Component {
   }
 
 }
+
+const AppWrapper = (props) => {
+  if (props.apolloclient){
+    return (
+      <ApolloProvider client={props.apolloclient}>
+        <App {...props} />
+      </ApolloProvider> 
+    );
+  }else{
+    return null;
+  }
+}
+
+AppWrapper.propTypes = {
+  handleInputChange: PropTypes.func.isRequired,
+  handleLogin: PropTypes.func.isRequired,
+}
+
 const mapStateToProps = (state, ownProps) => ({
   authenticated: state.oauth.authenticated,
-  apolloclient: state.apollo.apolloClient
+  apolloclient: state.apollo.apolloClient,
 })
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(AppWrapper);
