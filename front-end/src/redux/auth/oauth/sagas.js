@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {OAuthSuccess,SetOAuth} from 'redux/rootActions';
+import {OAuthSuccess,SetOAuth,SetAuthCheck,RefreshOAuth,InitCsrfToken} from 'redux/rootActions';
 import Querystring from 'query-string';
 import axios from 'axios';
 
@@ -32,6 +32,8 @@ const getCredentials = (type, username, password = '', refreshToken = '') => {
   return credentials;
 }
 
+
+
 function* initOAuth(state){
 
   let credentials;
@@ -59,7 +61,8 @@ function* initOAuth(state){
           resolve(response.data);
         })
         .catch((error) => {
-          reject(error);
+          console.log('Incorrect username or password.');
+          console.log(error);
         });
     });
   })
@@ -83,8 +86,49 @@ function setusername(state){
   sessionStorage.setItem('username',state.payload);
 }
 
+const isTokenValid = (accessToken, expiresStamp) => {
+  const currentTime = new Date().getTime();
+  const expireTime = parseInt(sessionStorage.getItem('expirationTime'), 10) * 1000;
+
+  const currentTimeInt = parseInt(currentTime, 10);
+  const expiresStampInt = parseInt(expiresStamp, 10);
+
+  if(accessToken && (currentTimeInt - expiresStampInt > expireTime)){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+function* refreshCheck(){
+
+  let accessToken = sessionStorage.getItem('accessToken');
+  let expireStamp = localStorage.getItem('lastRefreshedToken');
+  let csrfToken = sessionStorage.getItem('csrfToken');
+
+  if(!csrfToken){
+    yield put(InitCsrfToken());
+  }
+
+  if(accessToken && expireStamp){
+
+    if(isTokenValid(accessToken,expireStamp)){
+      let refreshToken = localStorage.getItem('refreshToken');
+
+      yield put(RefreshOAuth(refreshToken));
+      yield put(SetAuthCheck(true));
+
+    }else{
+
+      yield put(SetAuthCheck(true));
+
+    }
+  }
+};
+
 export function* watchOAuth(){
   yield takeLatest('INIT_OAUTH', initOAuth);
   yield takeLatest('REFRESH_OAUTH', initOAuth);
   yield takeLatest('SET_USERNAME', setusername);
+  yield takeLatest('REFRESH_CHECK', refreshCheck);
 }

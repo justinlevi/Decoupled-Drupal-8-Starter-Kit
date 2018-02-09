@@ -1,5 +1,5 @@
 import {initCsrfToken,setCsrfToken,csrfTokenSuccess} from 'redux/auth/csrf/actions';
-import {initOAuth,setOAuth,oauthSuccess,setAuthCheck,refreshOAuth,setUsername} from 'redux/auth/oauth/actions';
+import {initOAuth,setOAuth,oauthSuccess,setAuthCheck,refreshOAuth,setUsername,checkRefreshToken} from 'redux/auth/oauth/actions';
 
 export const InitCsrfToken = initCsrfToken;
 export const SetCsrfToken = setCsrfToken;
@@ -11,3 +11,4 @@ export const OAuthSuccess = oauthSuccess;
 export const SetAuthCheck = setAuthCheck;
 export const RefreshOAuth = refreshOAuth;
 export const SetUsername = setUsername;
+export const CheckRefreshToken = checkRefreshToken;

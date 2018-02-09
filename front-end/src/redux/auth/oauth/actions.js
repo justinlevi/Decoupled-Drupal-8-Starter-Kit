@@ -10,6 +10,8 @@ export const REFRESH_OAUTH = 'REFRESH_OAUTH';
 export const SET_USERNAME = 'SET_USERNAME';
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
 
+export const REFRESH_CHECK = 'REFRESH_CHECK';
+
 // ---------------
 // Action Creators
 // ---------------
@@ -46,4 +48,8 @@ export const setOAuth = (payload) => ({
 export const setAuthCheck = (payload) => ({
   type: SET_AUTH_CHECK,
   payload: payload
+})
+
+export const checkRefreshToken = () => ({
+  type: REFRESH_CHECK
 })
