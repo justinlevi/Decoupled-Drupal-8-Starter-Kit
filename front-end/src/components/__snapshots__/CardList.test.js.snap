@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardList should render correctly 1`] = `
+<div
+  className=""
+>
+  <div
+    className="container"
+  >
+    <div
+      className="py-3"
+      onClick={[Function]}
+    >
+      <div
+        className="add"
+      >
+        <MdAdd />
+        <h2
+          className="card-title"
+        >
+          Add
+        </h2>
+      </div>
+    </div>
+    <TransitionGroup
+      childFactory={[Function]}
+      className="item-list"
+      component="div"
+    >
+      <Fade
+        duration={1000}
+        key="34"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          ctaHandler={[Function]}
+          deleteHandler={[Function]}
+          node={
+            Object {
+              "author": "test",
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 34,
+              "title": "TEST TITLE",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f",
+            }
+          }
+        />
+      </Fade>
+      <Fade
+        duration={1000}
+        key="34"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          ctaHandler={[Function]}
+          deleteHandler={[Function]}
+          node={
+            Object {
+              "author": "test2",
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 34,
+              "title": "TEST TITLE",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f",
+            }
+          }
+        />
+      </Fade>
+    </TransitionGroup>
+    <Modal
+      autoFocus={true}
+      backdrop={true}
+      backdropTransition={
+        Object {
+          "mountOnEnter": true,
+          "timeout": 150,
+        }
+      }
+      fade={true}
+      isOpen={false}
+      keyboard={true}
+      modalTransition={
+        Object {
+          "timeout": 300,
+        }
+      }
+      onClosed={[Function]}
+      onOpened={[Function]}
+      role="dialog"
+      toggle={[Function]}
+      zIndex={1050}
+    >
+      <ModalHeader
+        closeAriaLabel="Close"
+        tag="h5"
+        toggle={[Function]}
+        wrapTag="div"
+      >
+        Confirmation
+      </ModalHeader>
+      <ModalBody
+        tag="div"
+      >
+        Are you sure you want to remove this?
+      </ModalBody>
+      <ModalFooter
+        tag="div"
+      >
+        <Button
+          color="secondary"
+          onClick={[Function]}
+          tag="button"
+        >
+          Cancel
+        </Button>
+         
+        <Button
+          color="primary"
+          onClick={[Function]}
+          tag="button"
+        >
+          Delete
+        </Button>
+      </ModalFooter>
+    </Modal>
+  </div>
+</div>
+`;

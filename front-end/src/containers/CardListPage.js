@@ -12,14 +12,10 @@ export class CardListPage extends Component {
   static propTypes = {
     projectCardListHandler: PropTypes.func.isRequired,
   }
-  
-  listEnd = undefined;
 
   state = {
-    uid: 0,
     activeNode: '',
     selectValue: 0,
-    title: '',
     nodes: [],
     isModalVisible: false
   }
@@ -32,7 +28,6 @@ export class CardListPage extends Component {
   componentDidMount(){
     this.fetchPagesByUserQuery((result) => {
       this.setState({
-        uid: result.uid,
         nodes: result.nodes.entities
       });
     });
