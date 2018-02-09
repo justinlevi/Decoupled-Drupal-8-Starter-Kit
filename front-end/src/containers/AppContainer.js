@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import { InitOAuth, SetAuthCheck, RefreshOAuth, SetUsername, SetAccessToken, InitCsrfToken } from 'redux/rootActions';
+import { InitOAuth, SetAuthCheck, RefreshOAuth, SetUsername, InitCsrfToken } from 'redux/rootActions';
 import App from 'components/App';
 
 const isTokenValid = (accessToken, expiresStamp) => {
@@ -56,7 +56,6 @@ export class AppContainer extends Component {
         this.props.dispatch(RefreshOAuth(refreshToken));
         this.props.dispatch(SetAuthCheck(true));
       }else{
-        this.props.dispatch(SetAccessToken(accessToken));
         this.props.dispatch(SetAuthCheck(true));
       }
 
@@ -133,7 +132,7 @@ export class AppContainer extends Component {
 
   render() {
     return (
-      <App {...this.state}  
+      <App {...this.state}
         handleInputChange={this.handleInputChange}
         handleLogin={this.handleLogin}
       />

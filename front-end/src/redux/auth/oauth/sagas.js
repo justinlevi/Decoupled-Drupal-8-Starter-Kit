@@ -1,5 +1,5 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {OAuthSuccess,SetOAuth,CsrfAccessTokensSet} from 'redux/rootActions';
+import {OAuthSuccess,SetOAuth} from 'redux/rootActions';
 import Querystring from 'query-string';
 import axios from 'axios';
 
@@ -77,21 +77,14 @@ function* initOAuth(state){
 
   yield put(SetOAuth(payload));
   yield put(OAuthSuccess());
-  yield put(CsrfAccessTokensSet());
-
 };
 
 function setusername(state){
   sessionStorage.setItem('username',state.payload);
 }
 
-function* accessTokenSet(state){
-  yield put(CsrfAccessTokensSet());
-}
-
 export function* watchOAuth(){
   yield takeLatest('INIT_OAUTH', initOAuth);
   yield takeLatest('REFRESH_OAUTH', initOAuth);
   yield takeLatest('SET_USERNAME', setusername);
-  yield takeLatest('SET_ACCESS_TOKEN',accessTokenSet);
 }
