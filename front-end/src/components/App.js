@@ -9,6 +9,8 @@ import Navbar from 'components/Navbar';
 import CardListPage from 'containers/CardListPage';
 import NodeEditPage from 'containers/NodeEditPage';
 
+import ApolloClient from 'api/apolloClient';
+
 export class App extends Component {
 
   static propTypes = {
@@ -68,15 +70,11 @@ export class App extends Component {
 }
 
 const AppWrapper = (props) => {
-  if (props.apolloclient){
     return (
-      <ApolloProvider client={props.apolloclient}>
+      <ApolloProvider client={ApolloClient}>
         <App {...props} />
-      </ApolloProvider> 
+      </ApolloProvider>
     );
-  }else{
-    return null;
-  }
 }
 
 AppWrapper.propTypes = {
@@ -85,8 +83,7 @@ AppWrapper.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  authenticated: state.oauth.authenticated,
-  apolloclient: state.apollo.apolloClient,
+  authenticated: state.oauth.authenticated
 })
 
 export default connect(mapStateToProps)(AppWrapper);

@@ -1,27 +1,16 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 
-import { InitOAuth, SetAuthCheck, RefreshOAuth, SetUsername, SetAccessToken, InitCsrfToken } from 'redux/rootActions';
+import { InitOAuth, SetAuthCheck, SetUsername, CheckRefreshToken } from 'redux/rootActions';
 import App from 'components/App';
-
-const isTokenValid = (accessToken, expiresStamp) => {
-  const currentTime = new Date().getTime();
-  const expireTime = parseInt(sessionStorage.getItem('expirationTime'), 10) * 1000;
-
-  const currentTimeInt = parseInt(currentTime, 10);
-  const expiresStampInt = parseInt(expiresStamp, 10);
-
-  if(accessToken && (currentTimeInt - expiresStampInt > expireTime)){
-    return true;
-  }else{
-    return false;
-  }
-}
 
 export class AppContainer extends Component {
 
   constructor(props) {
     super(props);
+
+    this.props.dispatch(CheckRefreshToken());
+
     this.state = {
       username: '',
       password: '',
@@ -36,32 +25,6 @@ export class AppContainer extends Component {
       handleInputChange: this.handleInputChange,
       projectCardListHandler: this.projectCardListHandler
     }
-  }
-
-  componentDidMount(){
-
-    let accessToken = sessionStorage.getItem('accessToken');
-    let expireStamp = localStorage.getItem('lastRefreshedToken');
-    let csrfToken = sessionStorage.getItem('csrfToken');
-
-    if(!csrfToken){
-      this.props.dispatch(InitCsrfToken());
-    }
-
-    if(accessToken && expireStamp){
-
-      if(isTokenValid(accessToken,expireStamp)){
-        console.log("REFRESH PLEASE")
-        let refreshToken = localStorage.getItem('refreshToken');
-        this.props.dispatch(RefreshOAuth(refreshToken));
-        this.props.dispatch(SetAuthCheck(true));
-      }else{
-        this.props.dispatch(SetAccessToken(accessToken));
-        this.props.dispatch(SetAuthCheck(true));
-      }
-
-    }
-
   }
 
   projectCardListHandler = (node) => {
@@ -133,7 +96,7 @@ export class AppContainer extends Component {
 
   render() {
     return (
-      <App {...this.state}  
+      <App {...this.state}
         handleInputChange={this.handleInputChange}
         handleLogin={this.handleLogin}
       />
@@ -141,9 +104,4 @@ export class AppContainer extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  csrfToken: state.csrf.csrfToken,
-  expirationTime: state.oauth.timestamp
-})
-
-export default connect(mapStateToProps)(AppContainer);
+export default connect()(AppContainer);
