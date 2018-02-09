@@ -12,4 +12,5 @@ permissions:
   - 'access content'
   - 'access shortcuts'
   - 'execute graphql requests'
+  - 'use text format basic_html'
   - 'view media'
