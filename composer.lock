@@ -3944,7 +3944,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/graphql",
-                "reference": "44ec716e22914ed13199e6baa3d27a56650c7f47"
+                "reference": "e753e3166b625c38276aa5a463877f5d5bc4c053"
             },
             "require": {
                 "drupal/core": "~8.0",
@@ -3956,8 +3956,8 @@
                     "dev-3.x": "3.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-3.0-beta4+4-dev",
-                    "datestamp": "1518096180",
+                    "version": "8.x-3.0-beta4+17-dev",
+                    "datestamp": "1518194280",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
@@ -3983,7 +3983,7 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/graphql"
             },
-            "time": "2018-02-09T01:35:23+00:00"
+            "time": "2018-02-09T16:33:25+00:00"
         },
         {
             "name": "drupal/graphql_signed_s3_upload",
@@ -3991,12 +3991,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/justinlevi/graphql_signed_s3_upload.git",
-                "reference": "d80c1b8255855ff2a7422545b143670e2c49b948"
+                "reference": "182b9ea456a02ce3ab6af0e3c7d1c5d0340c7d6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinlevi/graphql_signed_s3_upload/zipball/d80c1b8255855ff2a7422545b143670e2c49b948",
-                "reference": "d80c1b8255855ff2a7422545b143670e2c49b948",
+                "url": "https://api.github.com/repos/justinlevi/graphql_signed_s3_upload/zipball/182b9ea456a02ce3ab6af0e3c7d1c5d0340c7d6b",
+                "reference": "182b9ea456a02ce3ab6af0e3c7d1c5d0340c7d6b",
                 "shasum": ""
             },
             "require": {
@@ -4015,10 +4015,10 @@
             "description": "Adds an GraphQL Query to generate Amazon Simple Storage Service-based pre-signed upload urls.",
             "homepage": "https://www.drupal.org/project/graphql_signed_s3_upload",
             "support": {
-                "source": "https://github.com/justinlevi/graphql_signed_s3_upload/tree/master",
+                "source": "https://github.com/justinlevi/graphql_signed_s3_upload/tree/8.x-01-alpha2",
                 "issues": "https://github.com/justinlevi/graphql_signed_s3_upload/issues"
             },
-            "time": "2018-01-24T18:19:11+00:00"
+            "time": "2018-02-09T17:20:28+00:00"
         },
         {
             "name": "drupal/image_widget_crop",

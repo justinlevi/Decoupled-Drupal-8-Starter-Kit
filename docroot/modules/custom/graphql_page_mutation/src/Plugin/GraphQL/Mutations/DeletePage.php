@@ -16,7 +16,7 @@ use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\DeleteEntityBase;
  *   entity_bundle = "page",
  *   secure = true,
  *   name = "deletePage",
- *   type = "EntityCrudOutput",
+ *   type = "EntityCrudOutput!",
  *   arguments = {
  *     "id" = "Int"
  *   }

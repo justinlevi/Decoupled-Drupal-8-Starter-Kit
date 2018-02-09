@@ -18,7 +18,7 @@ use Youshido\GraphQL\Execution\ResolveInfo;
  *   entity_bundle = "page",
  *   secure = true,
  *   name = "addPage",
- *   type = "EntityCrudOutput",
+ *   type = "EntityCrudOutput!",
  *   arguments = {
  *      "input" = "BasicPageInput"
  *   }
@@ -29,11 +29,11 @@ class AddPage extends CreateEntityBase {
   /**
    * {@inheritdoc}
    */
-    protected function extractEntityInput(array $inputArgs, ResolveInfo $info) {
+    protected function extractEntityInput(array $args, ResolveInfo $info) {
         return [
-            'title' => $inputArgs['title'],
-            'body' => $inputArgs['body'],
-            'field_media_image' => $inputArgs['image_ids']
+            'title' => $args['input']['title'],
+            'body' => $args['input']['body'],
+            'field_media_image' => $args['input']['image_ids']
         ];
     }
 }
