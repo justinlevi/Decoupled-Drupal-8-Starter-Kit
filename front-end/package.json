@@ -26,6 +26,7 @@
     "redux-saga": "^0.16.0"
   },
   "devDependencies": {
+    "@types/react": "^16.0.5",
     "@types/jest": "^22.1.1",
     "bootstrap": "^4.0.0",
     "reactstrap": "^5.0.0-beta",
