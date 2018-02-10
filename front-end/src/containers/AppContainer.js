@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { InitOAuth, SetAuthCheck, SetUsername, CheckRefreshToken } from 'redux/rootActions';
 import App from 'components/App';
 
+import { ApolloProvider } from 'react-apollo';
+import ApolloClient from 'api/apolloClient';
+
 export class AppContainer extends Component {
 
   constructor(props) {
@@ -16,7 +19,6 @@ export class AppContainer extends Component {
       password: '',
       uid: 0,
       activeNode: undefined,
-      isAuthenticated: false,
       isLoading: false,
       isLoginFailed: false,
       statusCode: '',
@@ -96,12 +98,18 @@ export class AppContainer extends Component {
 
   render() {
     return (
-      <App {...this.state}
-        handleInputChange={this.handleInputChange}
-        handleLogin={this.handleLogin}
-      />
+      <ApolloProvider client={ApolloClient}>
+        <App {...this.state} {...this.props}
+          handleInputChange={this.handleInputChange}
+          handleLogin={this.handleLogin}
+        />
+      </ApolloProvider>
     );
   }
 }
 
-export default connect()(AppContainer);
+const mapStateToProps = (state, ownProps) => ({
+  isAuthenticated: state.oauth.authenticated
+})
+
+export default connect(mapStateToProps)(AppContainer);

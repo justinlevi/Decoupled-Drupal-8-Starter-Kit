@@ -1,15 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { ApolloProvider } from 'react-apollo';
-import { connect } from 'react-redux';
 
 import SignIn from 'components/SignIn';
 import Navbar from 'components/Navbar';
 
 import CardListPage from 'containers/CardListPage';
 import NodeEditPage from 'containers/NodeEditPage';
-
-import ApolloClient from 'api/apolloClient';
 
 export class App extends Component {
 
@@ -58,9 +54,9 @@ export class App extends Component {
   render() {
     if (this.props.isLoading) {
       return this.renderLoading();
-    } else if (this.props.authenticated){
+    } else if (this.props.isAuthenticated){
       return this.renderAuthenticated();
-    } else if (!this.props.authenticated && !this.props.isLoading) {
+    } else if (!this.props.isAuthenticated && !this.props.isLoading) {
       return this.renderAnonymous();
     } else {
       return this.renderError();
@@ -69,21 +65,4 @@ export class App extends Component {
 
 }
 
-const AppWrapper = (props) => {
-    return (
-      <ApolloProvider client={ApolloClient}>
-        <App {...props} />
-      </ApolloProvider>
-    );
-}
-
-AppWrapper.propTypes = {
-  handleInputChange: PropTypes.func.isRequired,
-  handleLogin: PropTypes.func.isRequired,
-}
-
-const mapStateToProps = (state, ownProps) => ({
-  authenticated: state.oauth.authenticated
-})
-
-export default connect(mapStateToProps)(AppWrapper);
+export default App;
