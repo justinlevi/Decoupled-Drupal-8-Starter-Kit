@@ -71,6 +71,12 @@ export const pagesByUserQuery = gql `
 export const addPageMutation = gql `
   mutation addPage($title: String!){
     addPage(input: {title: $title}){
+      errors
+      violations {
+        message
+        code	
+        path
+      },
       entity{
         ... NodePageFields
       }
@@ -97,11 +103,17 @@ export const updatePageMutation = gql `
   mutation updatePage($id:Int!, $title:String, $body:String, $field_media_image:[Int]){
     updatePage(id:$id,input:{
       title:$title,
-      body:$body
+      body:$body,
       field_media_image:$field_media_image
     }){
       page:entity{
         ... NodePageFields
+      },
+      errors,
+      violations {
+        message,
+        code,	
+        path
       }
     }
   }
@@ -114,6 +126,12 @@ export const deletePageMutation = gql `
     deletePage(id:$id){
       page:entity{
         ...NodePageFields
+      },
+      errors,
+      violations {
+        message,
+        code,	
+        path
       }
     }
   }
