@@ -2,9 +2,15 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 import renderer from 'react-test-renderer';
+
 import CardList from './CardList';
 
 const props = {
+  ctaHandler: jest.fn(),
+  deleteItemHandler: jest.fn(),
+  addPageMutation: jest.fn(),
+  onModalToggle: jest.fn(),
+  onModalOk: jest.fn(),
   isModalVisible: false,
   nodes: [
     {
@@ -52,22 +58,16 @@ const props = {
   ]
 };
 
-const generateShallowCardList = (props) => {
+const generateShallow = (props) => {
   return shallow(
-    <CardList {...props}
-      ctaHandler={jest.fn()} 
-      deleteItemHandler={jest.fn()} 
-      addPageMutation={jest.fn()} 
-      onModalToggle={jest.fn()} 
-      onModalOk={jest.fn()} 
-    />
+    <CardList {...props} />
   );
 }
 
 
 describe('CardList', () => {
   it('should render correctly', () => {
-    const output = generateShallowCardList(props);
+    const output = generateShallow(props);
     expect(shallowToJson(output)).toMatchSnapshot();
   });
 });

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const BrowseButton = ({totalFiles, totalBytes, render}) => {
+const BrowseButton = ({totalFiles = 0, totalBytes = 0, render}) => {
 
   let message = 'No files chosen'
   if(totalFiles === 1) {
@@ -22,8 +22,6 @@ const BrowseButton = ({totalFiles, totalBytes, render}) => {
 }
 
 BrowseButton.propTypes = {
-  totalFiles: PropTypes.number.isRequired,
-  totalBytes: PropTypes.number.isRequired,
   render: PropTypes.func.isRequired
 }
 

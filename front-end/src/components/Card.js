@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import MdRemove from 'react-icons/lib/md/remove-circle-outline';
 
-const Card = props => {
+const Card = (props) => {
 
   return (
     <div className="py-3">
@@ -36,6 +37,12 @@ const Card = props => {
       </div>
     </div>
   );
+}
+
+Card.propTypes = {
+  node: PropTypes.object.isRequired,
+  ctaHandler: PropTypes.func.isRequired,
+  deleteHandler: PropTypes.func.isRequired
 }
 
 export default Card;

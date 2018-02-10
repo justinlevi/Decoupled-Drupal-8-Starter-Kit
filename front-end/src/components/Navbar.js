@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 
 const Navbar = (props) => {
   return (
@@ -30,5 +31,9 @@ const Navbar = (props) => {
     </header>
   );
 }
- 
+
+Navbar.propTypes = {
+  handleLogout: PropTypes.func.isRequired,
+}
+
 export default Navbar;

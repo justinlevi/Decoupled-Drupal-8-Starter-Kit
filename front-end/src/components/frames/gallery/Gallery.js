@@ -65,6 +65,9 @@ const Gallery = (props) => {
 }
 
 Gallery.propTypes = {
+  uploading: PropTypes.bool.isRequired,
+  files: PropTypes.array.isRequired,
+  uploadInitiated: PropTypes.bool.isRequired,
   onDrop: PropTypes.func.isRequired,
   computedTotalBytes: PropTypes.func.isRequired,
   onUploadClick: PropTypes.func.isRequired,
