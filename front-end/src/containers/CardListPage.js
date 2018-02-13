@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 
 import { withApollo } from 'react-apollo';
-import { pagesByUserQuery, addPageMutation, deletePageMutation } from 'api/queries';
+import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../api/queries';
 
 import CardList from 'components/CardList';
 

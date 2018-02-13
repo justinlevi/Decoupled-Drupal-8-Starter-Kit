@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Navbar should render correctly 1`] = `
+exports[`Navbar Snapshots should render correctly 1`] = `
 <header
   className="navbar navbar-expand navbar-light flex-column flex-md-row bd-navbar"
 >
@@ -95,7 +95,7 @@ exports[`Navbar should render correctly 1`] = `
     </li>
   </ul>
   <a
-    className="btn btn-sm btn-outline-secondary d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3"
+    className="logout btn btn-sm btn-outline-secondary d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3"
     href="/"
     onClick={[Function]}
   >

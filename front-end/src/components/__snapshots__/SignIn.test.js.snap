@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SignIn should render correctly 1`] = `
+exports[`SignIn Snapshots should render correctly 1`] = `
 <div
   className="signin-container"
 >
@@ -17,14 +17,14 @@ exports[`SignIn should render correctly 1`] = `
         Please sign in
       </h1>
       <input
-        className="form-control"
+        className="form-control username"
         name="username"
         onChange={[Function]}
         placeholder="Username"
         type="username"
       />
       <input
-        className="form-control"
+        className="form-control password"
         name="password"
         onChange={[Function]}
         placeholder="Password"
@@ -42,22 +42,12 @@ exports[`SignIn should render correctly 1`] = `
         </label>
       </div>
       <button
-        className="btn btn-lg btn-primary btn-block"
+        className="btn btn-lg btn-primary btn-block submit"
         type="submit"
       >
         Sign in
       </button>
     </form>
-    <p
-      style={
-        Object {
-          "color": "red",
-          "display": "none",
-        }
-      }
-    >
-       Credentials incorrect
-    </p>
   </div>
 </div>
 `;

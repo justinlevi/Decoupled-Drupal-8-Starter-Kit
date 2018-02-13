@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import Card from 'components/Card';
+import Card from './Card';
 import MdAdd from 'react-icons/lib/md/add';
 
 const Fade = ({ children, ...props }) => (
