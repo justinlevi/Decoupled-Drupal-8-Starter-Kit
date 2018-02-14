@@ -27,8 +27,15 @@ export class CardListPage extends Component {
 
   componentDidMount(){
     this.fetchPagesByUserQuery((result) => {
+      let nodes = result.nodes.entities.map(node => { 
+        const newNode = {...node};
+        newNode.images = newNode.images.map(image => {
+          return {url: image.entity.image.derivative.url, mid: image.mid};
+        })
+        return newNode;
+      });
       this.setState({
-        nodes: result.nodes.entities
+        nodes: nodes
       });
     });
   }

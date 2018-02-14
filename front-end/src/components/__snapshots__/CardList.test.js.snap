@@ -10,6 +10,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
     <div
       className="py-3"
       onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
     >
       <div
         className="add"
@@ -42,7 +45,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
           deleteHandler={[Function]}
           node={
             Object {
-              "author": "test0",
+              "author": Object {
+                "name": "test0",
+              },
               "body": Object {
                 "value": "body test value",
               },
@@ -80,7 +85,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
           deleteHandler={[Function]}
           node={
             Object {
-              "author": "test1",
+              "author": Object {
+                "name": "test1",
+              },
               "body": Object {
                 "value": "body test value",
               },
@@ -118,7 +125,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
           deleteHandler={[Function]}
           node={
             Object {
-              "author": "test2",
+              "author": Object {
+                "name": "test2",
+              },
               "body": Object {
                 "value": "body test value",
               },
@@ -156,7 +165,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
           deleteHandler={[Function]}
           node={
             Object {
-              "author": "test3",
+              "author": Object {
+                "name": "test3",
+              },
               "body": Object {
                 "value": "body test value",
               },
@@ -194,7 +205,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
           deleteHandler={[Function]}
           node={
             Object {
-              "author": "test4",
+              "author": Object {
+                "name": "test4",
+              },
               "body": Object {
                 "value": "body test value",
               },
@@ -232,7 +245,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
           deleteHandler={[Function]}
           node={
             Object {
-              "author": "test5",
+              "author": Object {
+                "name": "test5",
+              },
               "body": Object {
                 "value": "body test value",
               },
@@ -270,7 +285,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
           deleteHandler={[Function]}
           node={
             Object {
-              "author": "test6",
+              "author": Object {
+                "name": "test6",
+              },
               "body": Object {
                 "value": "body test value",
               },
@@ -308,7 +325,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
           deleteHandler={[Function]}
           node={
             Object {
-              "author": "test7",
+              "author": Object {
+                "name": "test7",
+              },
               "body": Object {
                 "value": "body test value",
               },
@@ -346,7 +365,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
           deleteHandler={[Function]}
           node={
             Object {
-              "author": "test8",
+              "author": Object {
+                "name": "test8",
+              },
               "body": Object {
                 "value": "body test value",
               },
@@ -384,7 +405,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
           deleteHandler={[Function]}
           node={
             Object {
-              "author": "test9",
+              "author": Object {
+                "name": "test9",
+              },
               "body": Object {
                 "value": "body test value",
               },

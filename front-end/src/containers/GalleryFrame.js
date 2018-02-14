@@ -9,11 +9,6 @@ import { readFile } from 'utils/ImageHelpers';
 import { getSignedUrls, addS3Files, updatePageMutation } from 'api/queries';
 
 export class GalleryFrame extends Component {
-
-  static propTypes = {
-    activeNode: PropTypes.object.isRequired
-  }
-
   /*
   * Constructor
   * ----------------------
@@ -23,7 +18,6 @@ export class GalleryFrame extends Component {
 
     const uploadPath = props.activeNode.author.name + '/' + props.activeNode.uuid + '/';
     this.state = {
-      totalBytes: 0,
       title: 'null',
       body: '',
       mids: [],
@@ -33,7 +27,7 @@ export class GalleryFrame extends Component {
       uploading: false,
       uploadPath: uploadPath
     };
-  }
+  };
 
   /*
   * Computed Properties
@@ -48,7 +42,7 @@ export class GalleryFrame extends Component {
     return files.findIndex((f) => { return f.file.name === file.name;});
   }
 
-  computedTotalBytes = (files) => {
+  totalBytes = (files) => {
     // calculate total file size
     var totalBytes = files
     .map(f => { return f.file.size || f.file.fileSize;})
@@ -280,13 +274,17 @@ export class GalleryFrame extends Component {
   render() {
     return <Gallery
     onDrop={this.onDrop}
-    computedTotalBytes={this.computedTotalBytes}
+    totalBytes={this.totalBytes}
     onUploadClick={this.onUploadClick}
     handleCancel={this.handleCancel}
     handleDelete={this.handleDelete}
     {...this.state} />
   }
 
+}
+
+GalleryFrame.propTypes = {
+  activeNode: PropTypes.object.isRequired
 }
 
 export const GalleryFrameWrapper = withApollo(GalleryFrame);
