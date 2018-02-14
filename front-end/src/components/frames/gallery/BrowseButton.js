@@ -21,8 +21,8 @@ const BrowseButton = ({ totalFiles = 0, totalBytes = 0, render }) => {
 };
 
 BrowseButton.propTypes = {
-  totalFiles: PropTypes.number.isRequired,
-  totalBytes: PropTypes.number.isRequired,
+  totalFiles: PropTypes.number,
+  totalBytes: PropTypes.number,
   render: PropTypes.func.isRequired,
 };
 
