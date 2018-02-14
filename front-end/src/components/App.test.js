@@ -6,8 +6,9 @@ import App from './App';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<App 
+  ReactDOM.render(<App
     handleInputChange={jest.fn()}
     handleLogin={jest.fn()}
-    isLoginFailed={false}/>, div);
+    isLoginFailed={false}
+  />, div);
 });

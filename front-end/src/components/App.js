@@ -1,68 +1,70 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-import SignIn from 'components/SignIn';
-import Navbar from 'components/Navbar';
+import SignIn from './SignIn';
+import Navbar from './Navbar';
 
-import CardListPage from 'containers/CardListPage';
-import NodeEditPage from 'containers/NodeEditPage';
+import CardListPage from '../containers/CardListPage';
+import NodeEditPage from '../containers/NodeEditPage';
 
-export class App extends Component {
+const renderLoading = () => (
+  <div>Loading...</div>
+);
 
-  static propTypes = {
-    handleInputChange: PropTypes.func.isRequired,
-    handleLogin: PropTypes.func.isRequired,
+const renderAuthenticated = ({ handleLogout, activeNode, projectCardListHandler }) => (
+  <div>
+    <div className="container authenticated">
+      <Navbar handleLogout={handleLogout} />
+      {
+        !activeNode ?
+          <CardListPage projectCardListHandler={projectCardListHandler} />
+        :
+          <NodeEditPage activeNode={activeNode} />
+      }
+    </div>
+  </div>
+);
+renderAuthenticated.propTypes = {
+  handleLogout: PropTypes.func.isRequired,
+  projectCardListHandler: PropTypes.func.isRequired,
+};
+
+const renderAnonymous = ({ handleInputChange, handleLogin, isLoginFailed }) => (
+  <SignIn
+    handleInputChange={handleInputChange}
+    handleLogin={handleLogin}
+    isLoginFailed={isLoginFailed}
+  />
+);
+
+renderAnonymous.propTypes = {
+  handleInputChange: PropTypes.func.isRequired,
+  handleLogin: PropTypes.func.isRequired,
+  isLoginFailed: PropTypes.func.isRequired,
+};
+
+const renderError = () => (
+  <div>
+    Sadly, there seems to have been an error.
+    Contact someone super important to help facilitate forward progress.
+  </div>
+);
+
+const App = (props) => {
+  const { isLoading, isAuthenticated } = props;
+  if (isLoading) {
+    return renderLoading();
+  } else if (isAuthenticated) {
+    return renderAuthenticated(props);
+  } else if (!isAuthenticated && !isLoading) {
+    return renderAnonymous(props);
   }
+  return renderError();
+};
 
-  renderLoading = () => {
-    return (
-      <div>Loading...</div>
-    );
-  }
-
-  renderAuthenticated = () => {
-
-    const { handleLogout, activeNode } = this.props;
-
-    return (
-      <div>
-          <div className="container authenticated">
-              <Navbar handleLogout={handleLogout} />
-              {
-                !this.props.activeNode ?
-                  <CardListPage projectCardListHandler={this.props.projectCardListHandler}/>
-                :
-                  <NodeEditPage activeNode={activeNode} />
-              }
-          </div>
-      </div>
-
-    );
-  }
-
-  renderAnonymous = () => {
-    const { handleInputChange, handleLogin, isLoginFailed } = this.props;
-    return <SignIn handleInputChange={ handleInputChange } handleLogin={ handleLogin } isLoginFailed={ isLoginFailed } />;
-  }
-
-  renderError = () => {
-    return (
-      <div>Sadly, there seems to have been an error. Contact someone super important to help facilitate forward progress.</div>
-    )
-  }
-
-  render() {
-    if (this.props.isLoading) {
-      return this.renderLoading();
-    } else if (this.props.isAuthenticated){
-      return this.renderAuthenticated();
-    } else if (!this.props.isAuthenticated && !this.props.isLoading) {
-      return this.renderAnonymous();
-    } else {
-      return this.renderError();
-    }
-  }
-
-}
+App.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+};
 
 export default App;

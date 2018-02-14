@@ -327,11 +327,11 @@ exports[`Thumbnail should render correctly 1`] = `
       data-dz-errormessage="true"
     />
   </div>
-  <a
+  <button
     className="delete"
     onClick={[Function]}
   >
     ✖
-  </a>
+  </button>
 </div>
 `;
