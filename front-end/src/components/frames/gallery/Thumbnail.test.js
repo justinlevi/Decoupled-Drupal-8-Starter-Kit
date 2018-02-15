@@ -5,7 +5,6 @@ import renderer from 'react-test-renderer';
 
 import Thumbnails from './Thumbnails';
 
-
 // snapshot tests.
 
 const generateShallowThumbnail = (

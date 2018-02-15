@@ -26,4 +26,9 @@ BrowseButton.propTypes = {
   render: PropTypes.func.isRequired,
 };
 
+BrowseButton.defaultProps = {
+  totalBytes: 0,
+  totalFiles: 0,
+};
+
 export default BrowseButton;

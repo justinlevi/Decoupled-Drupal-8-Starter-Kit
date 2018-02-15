@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppContainer from 'containers/AppContainer';
 import registerServiceWorker from 'registerServiceWorker';
-import 'styles/index.css';
-import configureStore from 'redux/configureStore';
 import { Provider } from 'react-redux';
+import configureStore from 'redux/configureStore';
 import { InitCsrfToken } from 'redux/rootActions';
+import * as AppContainer from 'containers/AppContainer';
+import 'styles/index.css';
 
 const store = configureStore();
 
@@ -15,5 +15,6 @@ ReactDOM.render(
   <Provider store={store}>
     <AppContainer />
   </Provider>
-  ,document.getElementById('root'));
+  , document.getElementById('root'),
+);
 registerServiceWorker();

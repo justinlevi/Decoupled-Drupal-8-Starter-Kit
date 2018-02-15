@@ -21,7 +21,6 @@ const Card = (props) => {
               <img src={node.images[0].url} alt="" className="w-100" />
               }
           </div>
-
           <div className="col-md-8 px-3">
             <div className="card-body px-3">
               <h4 className="card-title">{node.title === 'NULL' ? 'NO TITLE' : node.title }</h4>
@@ -36,10 +35,8 @@ const Card = (props) => {
               >
                 <MdRemove className="remove" />
               </button>
-
             </div>
           </div>
-
         </div>
       </div>
     </div>

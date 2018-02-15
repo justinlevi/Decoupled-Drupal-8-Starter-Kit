@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import SignIn from './SignIn';
 import Navbar from './Navbar';
 
-import CardListPage from '../containers/CardListPage';
-import NodeEditPage from '../containers/NodeEditPage';
+import * as CardListPage from '../containers/CardListPage';
+import * as NodeEditPage from '../containers/NodeEditPage';
 
 const renderLoading = () => (
   <div>Loading...</div>
@@ -25,8 +25,13 @@ const renderAuthenticated = ({ handleLogout, activeNode, projectCardListHandler 
   </div>
 );
 renderAuthenticated.propTypes = {
+  activeNode: PropTypes.object,
   handleLogout: PropTypes.func.isRequired,
   projectCardListHandler: PropTypes.func.isRequired,
+};
+
+renderAuthenticated.defaultProps = {
+  activeNode: undefined,
 };
 
 const renderAnonymous = ({ handleInputChange, handleLogin, isLoginFailed }) => (
