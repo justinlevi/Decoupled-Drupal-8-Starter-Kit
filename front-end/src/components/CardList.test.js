@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 
 import CardList from './CardList';
@@ -49,27 +49,9 @@ const initialPropsState = {
   nodes,
 };
 
-let props;
-let mounted;
-const component = () => {
-  if (!mounted) {
-    mounted = mount(<CardList {...props} />);
-  }
-  return mounted;
-};
-
-
-const generateShallow = p => shallow(<CardList {...p} />);
-
-
 describe('CardList', () => {
-  beforeEach(() => {
-    props = initialPropsState;
-    mounted = undefined;
-  });
-
   describe('Snapshots', () => {
-    const output = generateShallow(initialPropsState);
+    const output = shallow(<CardList {...initialPropsState} />);
 
     it('should render correctly', () => {
       expect(shallowToJson(output)).toMatchSnapshot();

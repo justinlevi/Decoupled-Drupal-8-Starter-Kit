@@ -33,13 +33,11 @@ exports[`SignIn Snapshots should render correctly 1`] = `
       <div
         className="checkbox mb-3"
       >
-        <label>
-          <input
-            type="checkbox"
-            value="remember-me"
-          />
-           Remember me
-        </label>
+        <input
+          type="checkbox"
+          value="remember-me"
+        />
+         Remember me
       </div>
       <button
         className="btn btn-lg btn-primary btn-block submit"

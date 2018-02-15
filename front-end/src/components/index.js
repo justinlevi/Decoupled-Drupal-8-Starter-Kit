@@ -7,4 +7,4 @@ export { Card } from 'components/Card';
 
 // GALLERY FRAME
 // export { UploadComponentWrapper as UploadComponent } from 'components/UploadComponent';
-export { Thumbnails } from 'components/Thumbnails';
+// export { Thumbnails } from 'components/Thumbnails';

@@ -1,24 +1,19 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withApollo } from 'react-apollo';
-import { Form, FormGroup, Input } from 'reactstrap'
+import { Form, FormGroup, Input } from 'reactstrap';
 
 import { updatePageMutation } from 'api/queries';
 
-import GalleryFrame from "containers/GalleryFrame";
+import * as GalleryFrame from 'containers/GalleryFrame';
 
 
 export class NodeEditPage extends Component {
-
-  static propTypes = {
-    activeNode: PropTypes.object.isRequired
-  }
-
   /*
   * Constructor
   * ----------------------
   */
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -29,39 +24,39 @@ export class NodeEditPage extends Component {
   }
 
   catchError = (error) => {
-    console.log('Error ' + error);
+    console.log(`Error ${error}`);
   }
 
   updateNode = () => {
-    const activeMids = this.props.activeNode.images.map((item) => { return item.mid })
+    const { client, activeNode } = this.props;
+    const activeMids = activeNode.images.map(item => item.mid);
     const variables = {
-      id: Number(this.props.activeNode.nid), 
+      id: Number(activeNode.nid),
       title: this.state.title === '' ? 'NULL' : this.state.title,
       body: this.state.body,
-      field_media_image: activeMids
+      field_media_image: activeMids,
     };
 
-    this.props.client.mutate({ mutation: updatePageMutation, variables: variables})
-    .then(response => {
-      const msg = response.data.updatePage.page !== null ? 
-        'SUCCESS: UPDATE PAGE COMPLETE' : 
-        "ERROR: The page was not updated correctly";
-      console.log(msg);
-    }).catch(this.catchError);
+    client.mutate({ mutation: updatePageMutation, variables })
+      .then((response) => {
+        const msg = response.data.updatePage.page !== null ?
+          'SUCCESS: UPDATE PAGE COMPLETE' :
+          'ERROR: The page was not updated correctly';
+        console.log(msg);
+      }).catch(this.catchError);
   }
 
-  handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    if(this.state.saveTimeout) {
+  handleInputChange = ({
+    target, name, type,
+  }) => {
+    const nValue = type === 'checkbox' ? target.checked : target.value;
+    if (this.state.saveTimeout) {
       clearTimeout(this.state.saveTimeout);
     }
 
     this.setState({
-      [name]: value,
-      saveTimeout: window.setTimeout( () => { this.updateNode() }, 2000)
+      [name]: nValue,
+      saveTimeout: window.setTimeout(() => { this.updateNode(); }, 2000),
     });
   }
 
@@ -71,22 +66,28 @@ export class NodeEditPage extends Component {
   */
 
   render() {
+    const { activeNode } = this.props;
     return (
       <div className="NodeEditPageContainer">
 
         <Form>
           <FormGroup>
             <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={this.state.title} />
-            <Input name="body" placeholder="Body" type="textarea"  bsSize="lg" onChange={this.handleInputChange} value={this.state.body} />
+            <Input name="body" placeholder="Body" type="textarea" bsSize="lg" onChange={this.handleInputChange} value={this.state.body} />
           </FormGroup>
         </Form>
 
-        <GalleryFrame activeNode={this.props.activeNode} />
+        <GalleryFrame activeNode={activeNode} />
 
       </div>
-    )
+    );
   }
 }
 
+NodeEditPage.propTypes = {
+  client: PropTypes.func.isRequired,
+  activeNode: PropTypes.object.isRequired,
+};
+
 export const NodeEditPageWrapper = withApollo(NodeEditPage);
-export default NodeEditPageWrapper; 
+export default NodeEditPageWrapper;
