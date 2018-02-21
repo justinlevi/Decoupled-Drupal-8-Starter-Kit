@@ -1,52 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Routes from 'routes';
 
-import SignIn from './SignIn';
 import Navbar from './Navbar';
-
-import * as CardListPage from '../containers/CardListPage';
-import * as NodeEditPage from '../containers/NodeEditPage';
 
 const renderLoading = () => (
   <div>Loading...</div>
 );
 
-const renderAuthenticated = ({ handleLogout, activeNode, projectCardListHandler }) => (
+const renderRoutes = props => (
   <div>
     <div className="container authenticated">
-      <Navbar handleLogout={handleLogout} />
-      {
-        !activeNode ?
-          <CardListPage projectCardListHandler={projectCardListHandler} />
-        :
-          <NodeEditPage activeNode={activeNode} />
-      }
+      <Navbar />
+      <Routes {...props} />
     </div>
   </div>
 );
-renderAuthenticated.propTypes = {
-  activeNode: PropTypes.object,
-  handleLogout: PropTypes.func.isRequired,
-  projectCardListHandler: PropTypes.func.isRequired,
-};
-
-renderAuthenticated.defaultProps = {
-  activeNode: undefined,
-};
-
-const renderAnonymous = ({ handleInputChange, handleLogin, isLoginFailed }) => (
-  <SignIn
-    handleInputChange={handleInputChange}
-    handleLogin={handleLogin}
-    isLoginFailed={isLoginFailed}
-  />
-);
-
-renderAnonymous.propTypes = {
-  handleInputChange: PropTypes.func.isRequired,
-  handleLogin: PropTypes.func.isRequired,
-  isLoginFailed: PropTypes.func.isRequired,
-};
 
 const renderError = () => (
   <div>
@@ -56,20 +25,25 @@ const renderError = () => (
 );
 
 const App = (props) => {
-  const { isLoading, isAuthenticated } = props;
+  const { isLoading = false, error } = props;
+  if (error) {
+    return renderError();
+  }
+
   if (isLoading) {
     return renderLoading();
-  } else if (isAuthenticated) {
-    return renderAuthenticated(props);
-  } else if (!isAuthenticated && !isLoading) {
-    return renderAnonymous(props);
   }
-  return renderError();
+
+  return renderRoutes(props);
 };
 
 App.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+};
+
+App.defaultProps = {
+  isLoading: false,
 };
 
 export default App;

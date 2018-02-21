@@ -2,54 +2,74 @@
 // Actions
 // ---------------
 
-export const INIT_OAUTH = 'INIT_OAUTH';
-export const OAUTH_SUCCESS = 'OAUTH_SUCCESS';
-export const SET_OAUTH= 'SET_OAUTH';
-export const SET_AUTH_CHECK = 'SET_AUTH_CHECK';
-export const REFRESH_OAUTH = 'REFRESH_OAUTH';
-export const SET_USERNAME = 'SET_USERNAME';
-export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
-export const REFRESH_CHECK = 'REFRESH_CHECK';
+export const LOGOUT = 'LOCOUT';
+
+export const REFRESH_TOKEN_EXPIRED_CHECK = 'REFRESH_TOKEN_EXPIRED_CHECK';
+export const REFRESH_TOKEN_VALID = 'REFRESH_TOKEN_VALID';
+
+export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
+export const REFRESH_TOKEN_REQUEST_SUCCESS = 'REFRESH_TOKEN_REQUEST_SUCCESS';
+export const REFRESH_TOKEN_REQUEST_FAILURE = 'REFRESH_TOKEN_REQUEST_FAILURE';
+
+export const ACTIONS = {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT,
+  REFRESH_TOKEN_EXPIRED_CHECK,
+  REFRESH_TOKEN_VALID,
+  REFRESH_TOKEN_REQUEST,
+  REFRESH_TOKEN_REQUEST_SUCCESS,
+  REFRESH_TOKEN_REQUEST_FAILURE,
+};
 
 // ---------------
 // Action Creators
 // ---------------
 
-export const setAccessToken = (payload) => ({
-  type: SET_ACCESS_TOKEN,
-  payload: payload
-})
-
-export const initOAuth = (payload) => ({
-  type: INIT_OAUTH,
-  payload: payload
+export const loginRequest = payload => ({
+  type: LOGIN_REQUEST,
+  payload,
 });
 
-export const refreshOAuth = (payload) => ({
-  type: REFRESH_OAUTH,
-  payload
-})
-
-export const setUsername = (payload) => ({
-  type: SET_USERNAME,
-  payload
-})
-
-export const oauthSuccess = () => ({
-  type: OAUTH_SUCCESS
+export const loginSuccess = payload => ({
+  type: LOGIN_SUCCESS,
+  payload,
 });
 
-export const setOAuth = (payload) => ({
-  type: SET_OAUTH,
-  payload: payload
+export const loginFailure = error => ({
+  type: LOGIN_FAILURE,
+  error,
 });
 
-export const setAuthCheck = (payload) => ({
-  type: SET_AUTH_CHECK,
-  payload: payload
-})
+export const logout = () => ({
+  type: LOGOUT,
+});
 
-export const checkRefreshToken = () => ({
-  type: REFRESH_CHECK
-})
+export const refreshTokenExpiredCheck = payload => ({
+  type: REFRESH_TOKEN_EXPIRED_CHECK,
+  payload,
+});
+
+export const refreshTokenValid = () => ({
+  type: REFRESH_TOKEN_VALID,
+});
+
+export const refreshTokenRequest = payload => ({
+  type: REFRESH_TOKEN_REQUEST,
+  payload,
+});
+
+export const refreshTokenRequestSuccess = payload => ({
+  type: REFRESH_TOKEN_REQUEST_SUCCESS,
+  payload,
+});
+
+export const refreshTokenRequestFailure = error => ({
+  type: REFRESH_TOKEN_REQUEST_FAILURE,
+  error,
+});

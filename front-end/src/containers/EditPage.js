@@ -8,7 +8,7 @@ import { updatePageMutation } from 'api/queries';
 import * as GalleryFrame from 'containers/GalleryFrame';
 
 
-export class NodeEditPage extends Component {
+export class EditPage extends Component {
   /*
   * Constructor
   * ----------------------
@@ -68,7 +68,7 @@ export class NodeEditPage extends Component {
   render() {
     const { activeNode } = this.props;
     return (
-      <div className="NodeEditPageContainer">
+      <div className="EditPageContainer">
 
         <Form>
           <FormGroup>
@@ -84,10 +84,10 @@ export class NodeEditPage extends Component {
   }
 }
 
-NodeEditPage.propTypes = {
+EditPage.propTypes = {
   client: PropTypes.func.isRequired,
   activeNode: PropTypes.object.isRequired,
 };
 
-export const NodeEditPageWrapper = withApollo(NodeEditPage);
-export default NodeEditPageWrapper;
+export const EditPageWrapper = withApollo(EditPage);
+export default EditPageWrapper;

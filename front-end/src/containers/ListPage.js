@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import { withApollo } from 'react-apollo';
 import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../api/queries';
@@ -7,7 +6,7 @@ import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../api/qu
 import CardList from '../components/CardList';
 
 
-export class CardListPage extends Component {
+export class ListPage extends Component {
   state = {
     activeNode: '',
     selectValue: 0,
@@ -106,8 +105,9 @@ export class CardListPage extends Component {
   }
 
   ctaHandler = (activeNode) => {
-    const { projectCardListHandler } = this.props;
-    projectCardListHandler(activeNode);
+    // const { projectCardListHandler } = this.props;
+    // projectCardListHandler(activeNode);
+
   }
 
   deleteItemHandler = (event, nid) => {
@@ -135,10 +135,5 @@ export class CardListPage extends Component {
   }
 }
 
-CardListPage.propTypes = {
-  projectCardListHandler: PropTypes.func.isRequired,
-  client: PropTypes.func.isRequired,
-};
-
-const CardListWrapper = withApollo(CardListPage);
-export default CardListWrapper;
+export const ListPageWrapper = withApollo(ListPage);
+export default ListPageWrapper;

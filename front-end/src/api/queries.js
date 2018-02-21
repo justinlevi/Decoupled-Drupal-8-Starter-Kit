@@ -28,10 +28,10 @@ const fragments = {
         }
       }
     }
-  `
-}
+  `,
+};
 
-export const currentUserUid = gql `
+export const currentUserUid = gql`
   query{
     currentUserContext{
       uid,
@@ -41,7 +41,7 @@ export const currentUserUid = gql `
 `;
 
 
-export const pagesByUserQuery = gql `
+export const pagesByUserQuery = gql`
   query pagesByUserQuery{
     user:currentUserContext{
       ...on User{
@@ -68,7 +68,7 @@ export const pagesByUserQuery = gql `
 // ${fragments.nodePage}
 // `;
 
-export const addPageMutation = gql `
+export const addPageMutation = gql`
   mutation addPage($title: String!){
     addPage(input: {title: $title}){
       errors
@@ -85,13 +85,13 @@ export const addPageMutation = gql `
   ${fragments.nodePage}
 `;
 
-export const getSignedUrls = gql `
+export const getSignedUrls = gql`
   query signedUploadURL ($input: SignedUploadInput!) {
     signedUploadURL(input:$input)
   }
 `;
 
-export const addS3Files = gql `
+export const addS3Files = gql`
   mutation addS3Files($input: S3FilesInput!) {
     addS3Files(input:$input){
       mid
@@ -99,7 +99,7 @@ export const addS3Files = gql `
   }
 `;
 
-export const updatePageMutation = gql `
+export const updatePageMutation = gql`
   mutation updatePage($id:Int!, $title:String, $body:String, $field_media_image:[Int]){
     updatePage(id:$id,input:{
       title:$title,
@@ -112,7 +112,7 @@ export const updatePageMutation = gql `
       errors,
       violations {
         message,
-        code,	
+        code,
         path
       }
     }
@@ -121,7 +121,7 @@ export const updatePageMutation = gql `
 `;
 
 
-export const deletePageMutation = gql `
+export const deletePageMutation = gql`
   mutation deletePage($id:Int!){
     deletePage(id:$id){
       page:entity{
@@ -130,7 +130,7 @@ export const deletePageMutation = gql `
       errors,
       violations {
         message,
-        code,	
+        code,
         path
       }
     }

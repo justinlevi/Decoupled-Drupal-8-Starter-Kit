@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-const Navbar = props => (
+const Navbar = () => (
   <header className="navbar navbar-expand navbar-light flex-column flex-md-row bd-navbar">
     <a className="navbar-brand mr-0 mr-md-2" href="/" aria-label="Decouple D8 Editorial Experience">
       <svg
@@ -40,15 +39,10 @@ const Navbar = props => (
 
     <a
       className="logout btn btn-sm btn-outline-secondary d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3"//eslint-disable-line
-      onClick={props.handleLogout}
-      href="/"
+      href="/logout"
     >Logout
     </a>
   </header>
 );
-
-Navbar.propTypes = {
-  handleLogout: PropTypes.func.isRequired,
-};
 
 export default Navbar;
