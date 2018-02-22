@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 // import { withApollo } from 'react-apollo';
-import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../api/apolloProxy';
+// import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../api/apolloProxy';
 
 import CardList from '../components/CardList';
 
-import { fetchPages } from '../redux/page/actions';
+import { fetchPages, addPage, deletePage } from '../redux/page/actions';
 
 export class ListPage extends Component {
   state = {
     // activeNode: '',
     // selectValue: 0,
     // nodes: [],
+    nid: 0,
     isModalVisible: false,
   }
 
@@ -22,7 +23,8 @@ export class ListPage extends Component {
   */
 
   componentDidMount() {
-    this.props.dispatch(fetchPages());
+    const { dispatch } = this.props;
+    dispatch(fetchPages());
 
 
     // this.fetchPagesByUserQuery((result) => {
@@ -39,16 +41,19 @@ export class ListPage extends Component {
     // });
   }
 
-  onModalOk = (event) => {
+  onDeleteModalOk = (event) => {
     event.stopPropagation();
-    this.deletePageMutation(this.state.activeNode);
+    // this.deletePageMutation(this.state.activeNode);
+    const { dispatch } = this.props;
+    const { nid } = this.state;
+
+    dispatch(deletePage({ id: nid }));
     this.setState({
       isModalVisible: false,
-      activeNode: '',
     });
   }
 
-  onModalToggle = () => {
+  onDeleteModalToggle = () => {
     this.setState({
       isModalVisible: !this.state.isModalVisible,
       activeNode: '',
@@ -56,58 +61,60 @@ export class ListPage extends Component {
   }
 
 
-  fetchPagesByUserQuery = (onFetchComplete) => {
-    const { client } = this.props;
-    client.query({ query: pagesByUserQuery })
-      .then((response) => {
-        onFetchComplete(response.data.user);
-      }).catch((error) => {
-        console.log(`error ${error}`);
-      });
+  // fetchPagesByUserQuery = (onFetchComplete) => {
+  //   const { client } = this.props;
+  //   client.query({ query: pagesByUserQuery })
+  //     .then((response) => {
+  //       onFetchComplete(response.data.user);
+  //     }).catch((error) => {
+  //       console.log(`error ${error}`);
+  //     });
+  // }
+
+  addPageHandler= (title) => {
+    const { dispatch } = this.props;
+    dispatch(addPage({ title }));
+    // const { client, projectCardListHandler } = this.props;
+    // const variables = { title };
+    // client.mutate({ mutation: addPageMutation, variables })
+    //   .then((response) => {
+    //     console.log('ADD PAGE COMPLETE');
+    //     const { entity } = response.data.addPage;
+    //     this.setState({
+    //       nodes: this.state.nodes.concat([entity]),
+    //     });
+
+    //     // setTimeout(() => { this.scrollToBottom() }, 250);
+    //     // setTimeout(() => { projectCardListHandler(uuid, nid, images) }, 500)
+    //     projectCardListHandler(entity);
+    //   }).catch((error) => {
+    //     console.log(`error ${error}`);
+    //   });
   }
 
-  addPageMutation = (title) => {
-    const { client, projectCardListHandler } = this.props;
-    const variables = { title };
-    client.mutate({ mutation: addPageMutation, variables })
-      .then((response) => {
-        console.log('ADD PAGE COMPLETE');
-        const { entity } = response.data.addPage;
-        this.setState({
-          nodes: this.state.nodes.concat([entity]),
-        });
+  // deleteNodeFromState = (nid) => {
+  //   const newNodes = this.state.nodes.slice();
+  //   const index = newNodes.findIndex(n => n.nid === nid);
+  //   if (index === -1) { return false; }
 
-        // setTimeout(() => { this.scrollToBottom() }, 250);
-        // setTimeout(() => { projectCardListHandler(uuid, nid, images) }, 500)
-        projectCardListHandler(entity);
-      }).catch((error) => {
-        console.log(`error ${error}`);
-      });
-  }
+  //   newNodes.splice(index, 1);
+  //   this.setState({ nodes: newNodes });
 
-  deleteNodeFromState = (nid) => {
-    const newNodes = this.state.nodes.slice();
-    const index = newNodes.findIndex(n => n.nid === nid);
-    if (index === -1) { return false; }
+  //   return true;
+  // }
 
-    newNodes.splice(index, 1);
-    this.setState({ nodes: newNodes });
-
-    return true;
-  }
-
-  deletePageMutation = (nid) => {
-    const { client } = this.props;
-    if (this.deleteNodeFromState(nid)) {
-      const variables = { id: nid };
-      client.mutate({ mutation: deletePageMutation, variables })
-        .then((response) => {
-          console.log(`PAGE DELETED COMPLETE${response}`);
-        }).catch((error) => {
-          console.log(`error ${error}`);
-        });
-    }
-  }
+  // deletePageMutation = (nid) => {
+  //   const { client } = this.props;
+  //   if (this.deleteNodeFromState(nid)) {
+  //     const variables = { id: nid };
+  //     client.mutate({ mutation: deletePageMutation, variables })
+  //       .then((response) => {
+  //         console.log(`PAGE DELETED COMPLETE${response}`);
+  //       }).catch((error) => {
+  //         console.log(`error ${error}`);
+  //       });
+  //   }
+  // }
 
   ctaHandler = (activeNode) => {
     // const { projectCardListHandler } = this.props;
@@ -115,10 +122,10 @@ export class ListPage extends Component {
 
   }
 
-  deleteItemHandler = (event, nid) => {
+  deletePageHandler = (event, nid) => {
     event.stopPropagation();
     this.setState({
-      activeNode: nid,
+      nid,
       isModalVisible: true,
     });
   }
@@ -133,10 +140,10 @@ export class ListPage extends Component {
       {...this.props}
       {...this.state}
       ctaHandler={this.ctaHandler}
-      deleteItemHandler={this.deleteItemHandler}
-      addPageMutation={this.addPageMutation}
-      onModalToggle={this.onModalToggle}
-      onModalOk={this.onModalOk}
+      deletePageHandler={this.deletePageHandler}
+      addPageHandler={this.addPageHandler}
+      onDeleteModalToggle={this.onDeleteModalToggle}
+      onDeleteModalOk={this.onDeleteModalOk}
     />);
   }
 }

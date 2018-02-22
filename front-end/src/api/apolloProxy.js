@@ -93,22 +93,50 @@ export const pagesByUserQuery = () => apolloClient.query({
 // ${fragments.nodePage}
 // `;
 
-export const addPageMutation = gql`
-  mutation addPage($title: String!){
-    addPage(input: {title: $title}){
-      errors
-      violations {
-        message
-        code
-        path
-      },
-      entity{
-        ... NodePageFields
+export const addPageMutation = ({ title }) => apolloClient.mutate({
+  mutation: gql`
+    mutation addPage($title: String!){
+      addPage(input: {title: $title}){
+        errors
+        violations {
+          message
+          code
+          path
+        },
+        entity{
+          ... NodePageFields
+        }
       }
     }
-  }
-  ${fragments.nodePage}
-`;
+    ${fragments.nodePage}
+  `,
+  variables: {
+    title,
+  },
+});
+
+export const deletePageMutation = ({ id }) => apolloClient.mutate({
+  mutation: gql`
+    mutation deletePage($id:Int!){
+      deletePage(id:$id){
+        page:entity{
+          ...NodePageFields
+        },
+        errors,
+        violations {
+          message,
+          code,
+          path
+        }
+      }
+    }
+    ${fragments.nodePage}
+  `,
+  variables: {
+    id,
+  },
+});
+
 
 export const getSignedUrls = gql`
   query signedUploadURL ($input: SignedUploadInput!) {
@@ -133,24 +161,6 @@ export const updatePageMutation = gql`
     }){
       page:entity{
         ... NodePageFields
-      },
-      errors,
-      violations {
-        message,
-        code,
-        path
-      }
-    }
-  }
-  ${fragments.nodePage}
-`;
-
-
-export const deletePageMutation = gql`
-  mutation deletePage($id:Int!){
-    deletePage(id:$id){
-      page:entity{
-        ...NodePageFields
       },
       errors,
       violations {

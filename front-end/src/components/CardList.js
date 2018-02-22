@@ -19,12 +19,12 @@ Fade.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const listItems = ({ pages, ctaHandler, deleteItemHandler }) => pages.map(node => (
+const listItems = ({ pages, ctaHandler, deletePageHandler }) => pages.map(node => (
   <Fade duration={1000} key={node.nid} timeout={{ enter: 0, exit: 1000 }}>
     <Card
       node={node}
       ctaHandler={ctaHandler}
-      deleteHandler={(event) => { deleteItemHandler(event, node.nid); }}
+      deleteHandler={(event) => { deletePageHandler(event, node.nid); }}
     />
   </Fade>
 ));
@@ -46,12 +46,12 @@ const listItems = ({ pages, ctaHandler, deleteItemHandler }) => pages.map(node =
 //     uuid: PropTypes.string,
 //   })).isRequired,
 //   ctaHandler: PropTypes.func.isRequired,
-//   deleteItemHandler: PropTypes.func.isRequired,
+//   deletePageHandler: PropTypes.func.isRequired,
 // };
 
 const CardList = (props) => {
   const {
-    addPageMutation, isModalVisible, onModalToggle, onModalOk,
+    addPageHandler, isModalVisible, onDeleteModalToggle, onDeleteModalOk,
   } = props;
   return (
     <div className="">
@@ -59,9 +59,9 @@ const CardList = (props) => {
         <div
           role="button"
           tabIndex={0}
-          onKeyUp={() => { addPageMutation('NULL'); }}
+          onKeyUp={() => { addPageHandler('NULL'); }}
           className="py-3"
-          onClick={() => { addPageMutation('NULL'); }}
+          onClick={() => { addPageHandler('NULL'); }}
         >
           <div className="add">
             <MdAdd />
@@ -73,15 +73,15 @@ const CardList = (props) => {
           {listItems(props)}
         </TransitionGroup>
 
-        <Modal isOpen={isModalVisible} toggle={onModalToggle} backdrop>
-          <ModalHeader toggle={onModalToggle}>Confirmation</ModalHeader>
+        <Modal isOpen={isModalVisible} toggle={onDeleteModalToggle} backdrop>
+          <ModalHeader toggle={onDeleteModalToggle}>Confirmation</ModalHeader>
           <ModalBody>
             Are you sure you want to remove this?
           </ModalBody>
           <ModalFooter>
-            <Button color="secondary" onClick={onModalToggle}>Cancel</Button>
+            <Button color="secondary" onClick={onDeleteModalToggle}>Cancel</Button>
             {' '}
-            <Button color="primary" onClick={onModalOk}>Delete</Button>
+            <Button color="primary" onClick={onDeleteModalOk}>Delete</Button>
           </ModalFooter>
         </Modal>
       </div>
@@ -91,9 +91,9 @@ const CardList = (props) => {
 
 CardList.propTypes = {
   isModalVisible: PropTypes.bool.isRequired,
-  addPageMutation: PropTypes.func.isRequired,
-  onModalToggle: PropTypes.func.isRequired,
-  onModalOk: PropTypes.func.isRequired,
+  addPageHandler: PropTypes.func.isRequired,
+  onDeleteModalToggle: PropTypes.func.isRequired,
+  onDeleteModalOk: PropTypes.func.isRequired,
 };
 
 export default CardList;

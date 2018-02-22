@@ -41,7 +41,6 @@ const fetchToken = credentials => axios.post(`${URL}/oauth/token${POSTFIX}`, Que
 
 
 function* loginRequestSaga(action) {
-  console.log(action.type);
   const { username, password } = action.payload;
   const credentials = generateCredentials('password', username, password, '');
 
@@ -59,7 +58,6 @@ function* loginRequestSaga(action) {
 }
 
 function* refreshTokensRequestSaga(action) {
-  console.log(action.type);
   const { refreshToken } = action.payload;
   const username = sessionStorage.getItem('username');
   const credentials = generateCredentials('refresh_token', username, '', refreshToken);
@@ -68,21 +66,17 @@ function* refreshTokensRequestSaga(action) {
     const result = yield call(fetchToken, credentials);
     result.username = username;
     if (result.accessToken) {
-      console.log('REFRESH TOKEN SUCCESS');
       yield put(refreshTokensRequestSuccess(result));
     } else {
-      console.log('REFRESH TOKEN FAILURE');
       yield put(refreshTokensRequestFailure(result));
     }
   } catch (error) {
-    console.log('REFRESH TOKEN FAILURE');
     yield put(refreshTokensRequestFailure(error));
   }
 }
 
 
 function* tokenExpiredCheckSaga(action) {
-  console.log(action.type);
   const {
     csrfToken, accessToken, expireStamp, refreshToken,
   } = getLocalCredentials();
@@ -95,13 +89,11 @@ function* tokenExpiredCheckSaga(action) {
   if (accessToken && expireStamp) {
     if (!isTokenValid(accessToken, expireStamp)) {
       try {
-        console.log('REFRESH TOKEN IS NOT VALID');
         yield put(refreshTokensRequest({ refreshToken }));
       } catch (e) {
         console.log(e);
       }
     } else {
-      console.log('REFRESH TOKEN IS VALID');
       yield put(tokensExpiredCheckValid());
     }
   }

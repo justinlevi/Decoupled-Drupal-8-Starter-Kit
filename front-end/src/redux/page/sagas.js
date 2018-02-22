@@ -1,8 +1,8 @@
-import { call, take, put, takeLatest, takeEvery } from 'redux-saga/effects';
+import { call, take, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
 
 import { ACTIONS as OAUTH_ACTIONS, tokensExpiredCheck } from '../auth/oauth/actions';
-
-import { pagesByUserQuery } from '../../api/apolloProxy';
+import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../../api/apolloProxy';
+import { formatFetchPageResult, removePageFromPages } from './utilities';
 
 import {
   ACTIONS,
@@ -10,25 +10,42 @@ import {
   // deletePage,
   // editPage,
   fetchPagesSuccess,
+  addPageSuccess,
+  addPageFailure,
+  deletePageSuccess,
 } from './actions';
 
-
-function* fetchPageSaga(action) {
-  console.log(action.type);
+function* fetchPageSaga() {
   yield put(tokensExpiredCheck());
   yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
-  console.log('CHECK VALID - FETCH PAGES');
+
   const result = yield call(pagesByUserQuery);
-  console.log('FETCH SUCCESS');
-  yield put(fetchPagesSuccess(result));
+  yield put(fetchPagesSuccess({ pages: formatFetchPageResult(result) }));
 }
 
 function* addPageSaga(action) {
-  console.log(action.type);
+  const { payload } = action;
+  yield put(tokensExpiredCheck());
+  yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
+
+  try {
+    const result = yield call(addPageMutation, { title: payload.title });
+    const { entity } = result.data.addPage;
+    yield put(addPageSuccess({ page: [entity] }));
+  } catch (error) {
+    yield put(addPageFailure(error));
+  }
 }
 
 function* deletePageSaga(action) {
-  console.log(action.type);
+  const { payload } = action;
+  yield put(tokensExpiredCheck());
+  yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
+
+  const result = yield call(deletePageMutation, { id: payload.id });
+  const { page } = result.data.deletePage;
+  const pages = yield select(state => state.pageReducer.pages);
+  yield put(deletePageSuccess({ pages: removePageFromPages(pages, page.nid) }));
 }
 
 function* editPageSaga(action) {
