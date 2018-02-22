@@ -19,7 +19,7 @@ Fade.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const listItems = ({ nodes, ctaHandler, deleteItemHandler }) => nodes.map(node => (
+const listItems = ({ pages, ctaHandler, deleteItemHandler }) => pages.map(node => (
   <Fade duration={1000} key={node.nid} timeout={{ enter: 0, exit: 1000 }}>
     <Card
       node={node}

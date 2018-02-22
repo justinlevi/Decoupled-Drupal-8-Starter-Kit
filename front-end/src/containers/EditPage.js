@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withApollo } from 'react-apollo';
 import { Form, FormGroup, Input } from 'reactstrap';
 
-import { updatePageMutation } from 'api/queries';
+import { updatePageMutation } from 'api/apolloProxy';
 
 import * as GalleryFrame from 'containers/GalleryFrame';
 

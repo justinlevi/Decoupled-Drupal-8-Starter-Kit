@@ -6,7 +6,7 @@ import { withApollo } from 'react-apollo';
 import Gallery from 'components/frames/gallery/Gallery';
 
 import { readFile } from 'utils/ImageHelpers';
-import { getSignedUrls, addS3Files, updatePageMutation } from 'api/queries';
+import { getSignedUrls, addS3Files, updatePageMutation } from 'api/apolloProxy';
 
 export class GalleryFrame extends Component {
   /*

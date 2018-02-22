@@ -4,7 +4,7 @@ const CLIENT_INFO = {
   client_secret: process.env.REACT_APP_CLIENT_SECRET,
 };
 
-export const getCredentials = (type, username, password = '', refreshToken = '') => {
+export const generateCredentials = (type, username, password = '', refreshToken = '') => {
   let credentials = {
     ...CLIENT_INFO,
     grant_type: type,
@@ -26,8 +26,8 @@ export const getCredentials = (type, username, password = '', refreshToken = '')
   return credentials;
 };
 
-export const persistUsername = (state) => {
-  sessionStorage.setItem('username', state.payload);
+export const persistUsername = (username) => {
+  sessionStorage.setItem('username', username);
 };
 
 export const persistCredentials = ({
@@ -39,15 +39,50 @@ export const persistCredentials = ({
   localStorage.setItem('lastRefreshedToken', timestamp);
 };
 
+export const getLocalCredentials = () => ({
+  accessToken: sessionStorage.getItem('accessToken'),
+  expireStamp: localStorage.getItem('lastRefreshedToken'),
+  csrfToken: sessionStorage.getItem('csrfToken'),
+  refreshToken: localStorage.getItem('refreshToken'),
+});
+
+export const unsetLocalStorageCredentials = () => {
+  sessionStorage.removeItem('accessToken');
+  sessionStorage.removeItem('username');
+  sessionStorage.removeItem('csrfToken');
+  sessionStorage.removeItem('expirationTime');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('lastRefreshedToken');
+};
+
+const convertDate = (unixTimestamp) => {
+  // Create a new JavaScript Date object based on the timestamp
+  // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+  const date = new Date(unixTimestamp);
+  // Hours part from the timestamp
+  const hours = date.getHours();
+  // Minutes part from the timestamp
+  const minutes = `0${date.getMinutes()}`;
+  // Seconds part from the timestamp
+  const seconds = `0${date.getSeconds()}`;
+
+  // Will display time in 10:30:23 format
+  const formattedTime = `${hours}:${minutes.substr(-2)}:${seconds.substr(-2)}`;
+  return formattedTime;
+};
+
 export const isTokenValid = (accessToken, expiresStamp) => {
   const currentTime = new Date().getTime();
   const expireTime = parseInt(sessionStorage.getItem('expirationTime'), 10) * 1000;
 
 
   const currentTimeInt = parseInt(currentTime, 10);
-  const expiresStampInt = parseInt(expiresStamp, 10);
+  const expiresStampInt = parseInt(expiresStamp, 10) + expireTime;
 
-  if (accessToken && (expiresStampInt - currentTimeInt > expireTime)) {
+  console.log(`CURRENT-TIME: ${convertDate(currentTimeInt)}`);
+  console.log(`EXPIRES-TIME: ${convertDate(expiresStampInt)}`);
+
+  if (accessToken && (expiresStampInt > currentTimeInt)) {
     return true;
   }
   return false;

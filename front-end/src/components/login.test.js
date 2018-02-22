@@ -3,10 +3,10 @@ import { mount, shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 // import renderer from 'react-test-renderer';
 
-import SignIn from './SignIn';
+import Login from './Login';
 
 
-describe('SignIn', () => {
+describe('Login', () => {
   const initialPropsState = {
     handleInputChange: jest.fn(),
     handleLogin: jest.fn(),
@@ -14,21 +14,21 @@ describe('SignIn', () => {
   };
 
   let props;
-  let mountedSignIn;
+  let mountedLogin;
   const signIn = () => {
-    if (!mountedSignIn) {
-      mountedSignIn = mount(<SignIn {...props} />);
+    if (!mountedLogin) {
+      mountedLogin = mount(<Login {...props} />);
     }
-    return mountedSignIn;
+    return mountedLogin;
   };
 
   beforeEach(() => {
     props = initialPropsState;
-    mountedSignIn = undefined;
+    mountedLogin = undefined;
   });
 
   describe('Snapshots', () => {
-    const output = shallow(<SignIn {...initialPropsState} />);
+    const output = shallow(<Login {...initialPropsState} />);
     it('should render correctly', () => {
       expect(shallowToJson(output)).toMatchSnapshot();
     });
@@ -63,7 +63,7 @@ describe('SignIn', () => {
     expect(submit.length).toBe(1);
   });
 
-  describe('SignIn differing props', () => {
+  describe('Login differing props', () => {
     beforeEach(() => {
       props.isLoginFailed = true;
     });

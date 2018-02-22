@@ -31,9 +31,9 @@ const link = new HttpLink({
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({ introspectionQueryResultData });
 
-const client = new ApolloClient({
+export const apolloClient = new ApolloClient({
   link: concat(authMiddleware, link),
   cache: new InMemoryCache({ fragmentMatcher }),
 });
 
-export default client;
+export default apolloClient;

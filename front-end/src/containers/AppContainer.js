@@ -1,26 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import { refreshTokenExpiredCheck } from 'redux/rootActions';
-import App from 'components/App';
-
-import createHistory from 'history/createBrowserHistory';
-import { ConnectedRouter } from 'react-router-redux';
-
-import { ApolloProvider } from 'react-apollo';
-import ApolloClient from 'api/apolloClient';
-
 import { connect, Provider } from 'react-redux';
 
+import { ApolloProvider } from 'react-apollo';
 
-const history = createHistory();
+import ApolloClient from 'api/apolloClient';
+import App from 'components/App';
+
+import { tokensExpiredCheck } from '../redux/auth/oauth/actions';
 
 export class AppContainer extends Component {
   constructor(props) {
     super(props);
 
+    props.history.listen((location) => {
+      if (props.isAuthenticated) {
+        this.props.dispatch(tokensExpiredCheck());
+      }
+    });
+  }
+
+  componentWillMount() {
     // this.props.dispatch(loginRequest());
-    this.props.dispatch(refreshTokenExpiredCheck());
+    // this.props.dispatch(refreshTokenExpiredCheck());
+    const { dispatch, isAuthenticated } = this.props;
+    // if (!isAuthenticated) {
+    // this shouldn't be necessary, but clearing out any local storage in case
+    // dispatch(logout());
+    if (sessionStorage.getItem('accessToken')) {
+      dispatch(tokensExpiredCheck());
+    }
+    // }
   }
 
   // state = {
@@ -108,12 +118,10 @@ export class AppContainer extends Component {
     return (
       <Provider store={this.props.store} >
         <ApolloProvider client={ApolloClient}>
-          <ConnectedRouter history={history}>
-            <App
-              {...this.state}
-              {...this.props}
-            />
-          </ConnectedRouter>
+          <App
+            {...this.state}
+            {...this.props}
+          />
         </ApolloProvider>
       </Provider>
     );
@@ -122,13 +130,14 @@ export class AppContainer extends Component {
 
 AppContainer.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  store: PropTypes.shape({
-    dispatch: PropTypes.func.isRequired,
-  }).isRequired,
+  store: PropTypes.shape({}).isRequired,
+  history: PropTypes.shape({}).isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.oauth.isAuthenticated,
+  isAuthenticated: state.authReducer.isAuthenticated,
+  isLoggingIn: state.authReducer.isLoggingIn,
 });
 
 export default connect(mapStateToProps)(AppContainer);

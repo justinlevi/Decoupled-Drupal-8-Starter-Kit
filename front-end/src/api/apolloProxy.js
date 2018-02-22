@@ -1,4 +1,7 @@
 import gql from 'graphql-tag';
+import { apolloClient } from './apolloClient';
+
+export { apolloClient } from './apolloClient';
 
 
 const fragments = {
@@ -31,31 +34,53 @@ const fragments = {
   `,
 };
 
-export const currentUserUid = gql`
-  query{
-    currentUserContext{
-      uid,
-      uuid
+// export const fetchProperty = ({ id }) => apolloClient.query({
+//   query: gql`
+//     query FetchProperty($id: ID!) {
+//       fetchProperty(id: $id) {
+//         ... PropertyAttributes
+//         rooms {
+//           ... RoomAttributes
+//         }
+//       }
+//     }
+//     ${Fragments.Property.attributes}
+//     ${Fragments.Room.attributes}
+//   `,
+//   variables: {
+//     id
+//   }
+// })
+
+export const currentUserUid = () => apolloClient.query({
+  query: gql`
+    query{
+      currentUserContext{
+        uid,
+        uuid
+      }
     }
-  }
-`;
+  `,
+});
 
 
-export const pagesByUserQuery = gql`
-  query pagesByUserQuery{
-    user:currentUserContext{
-      ...on User{
-        uid
-        nodes:reverseUidNode(offset:0, limit:1000){
-          entities{
-            ... NodePageFields
+export const pagesByUserQuery = () => apolloClient.query({
+  query: gql`
+    query pagesByUserQuery{
+      user:currentUserContext{
+        ...on User{
+          uid
+          nodes:reverseUidNode(offset:0, limit:1000){
+            entities{
+              ... NodePageFields
+            }
           }
         }
       }
     }
-  }
-  ${fragments.nodePage}
-`;
+    ${fragments.nodePage}
+  `,
+});
 
 // export const pagesByUserQuery = gql `
 //   query nodeQuery($uid: Int) {
@@ -74,7 +99,7 @@ export const addPageMutation = gql`
       errors
       violations {
         message
-        code	
+        code
         path
       },
       entity{

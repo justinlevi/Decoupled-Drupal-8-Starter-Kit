@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Routes from 'routes';
 
-import Navbar from './Navbar';
+import Nav from './Navbar';
 
 const renderLoading = () => (
-  <div>Loading...</div>
+  <div className="container">
+    Loading...
+  </div>
 );
 
 const renderRoutes = props => (
   <div>
     <div className="container authenticated">
-      <Navbar />
+      <Nav />
       <Routes {...props} />
     </div>
   </div>
@@ -25,12 +27,12 @@ const renderError = () => (
 );
 
 const App = (props) => {
-  const { isLoading = false, error } = props;
+  const { isLoading = false, error, isLoggingIn } = props;
   if (error) {
     return renderError();
   }
 
-  if (isLoading) {
+  if (isLoading || isLoggingIn) {
     return renderLoading();
   }
 
@@ -39,6 +41,7 @@ const App = (props) => {
 
 App.propTypes = {
   isLoading: PropTypes.bool.isRequired,
+  isLoggingIn: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 };
 

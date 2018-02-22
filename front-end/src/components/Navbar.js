@@ -1,8 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { NavItem, NavLink } from 'reactstrap';
 
-const Navbar = () => (
+export const Navbar = ({ dispatch, isAuthenticated }) => (
   <header className="navbar navbar-expand navbar-light flex-column flex-md-row bd-navbar">
-    <a className="navbar-brand mr-0 mr-md-2" href="/" aria-label="Decouple D8 Editorial Experience">
+    <div
+      role="button"
+      className="navbar-brand mr-0 mr-md-2"
+      aria-label="Decouple D8 Editorial Experience"
+      onClick={() => { dispatch(push('/')); }}
+      onKeyUp={() => { dispatch(push('/')); }}
+      tabIndex={0}
+    >
       <svg
         width="36"
         height="36"
@@ -16,13 +27,22 @@ const Navbar = () => (
           d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.06-1.78C8.18 5.31 8.68 2.45 5.05.32L5.03.3l.02.01z" //eslint-disable-line
         />
       </svg>
-    </a>
+    </div>
 
     <div className="navbar-nav-scroll">
       <ul className="navbar-nav bd-navbar-nav flex-row">
-        <li className="nav-item">
-          <a className="nav-link " href="/">Content List</a>
-        </li>
+        {
+          isAuthenticated ?
+            <NavItem>
+              <NavLink
+                onClick={() => { dispatch(push('/list')); }}
+                className="nav-link"
+              >
+              Content List
+              </NavLink>
+            </NavItem>
+          : null
+        }
       </ul>
     </div>
 
@@ -35,14 +55,29 @@ const Navbar = () => (
         <a className="nav-link p-2" href="https://twitter.com/justinlevi" aria-label="Twitter"><svg className="navbar-nav-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 416.32" focusable="false"><title>Twitter</title><path d="M160.83 416.32c193.2 0 298.92-160.22 298.92-298.92 0-4.51 0-9-.2-13.52A214 214 0 0 0 512 49.38a212.93 212.93 0 0 1-60.44 16.6 105.7 105.7 0 0 0 46.3-58.19 209 209 0 0 1-66.79 25.37 105.09 105.09 0 0 0-181.73 71.91 116.12 116.12 0 0 0 2.66 24c-87.28-4.3-164.73-46.3-216.56-109.82A105.48 105.48 0 0 0 68 159.6a106.27 106.27 0 0 1-47.53-13.11v1.43a105.28 105.28 0 0 0 84.21 103.06 105.67 105.67 0 0 1-47.33 1.84 105.06 105.06 0 0 0 98.14 72.94A210.72 210.72 0 0 1 25 370.84a202.17 202.17 0 0 1-25-1.43 298.85 298.85 0 0 0 160.83 46.92" fill="currentColor" /></svg>
         </a>
       </li>
+      {
+        isAuthenticated ?
+          <NavItem>
+            <NavLink
+              onClick={() => { dispatch(push('/logout')); }}
+              className="logout btn btn-sm btn-outline-secondary d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3"
+            >
+            Logout
+            </NavLink>
+          </NavItem>
+        : null
+      }
     </ul>
-
-    <a
-      className="logout btn btn-sm btn-outline-secondary d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3"//eslint-disable-line
-      href="/logout"
-    >Logout
-    </a>
   </header>
 );
 
-export default Navbar;
+Navbar.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.authReducer.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(Navbar);

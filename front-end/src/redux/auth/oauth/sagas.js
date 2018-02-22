@@ -5,85 +5,112 @@ import axios from 'axios';
 import {
   ACTIONS as OAUTH_ACTIONS,
   loginSuccess,
-  // loginRequest,
   loginFailure,
-  refreshTokenRequest,
-  // refreshTokenRequestSuccess,
-  refreshTokenValid,
-  // refreshTokenRequestFailure,
+  // refreshTokensRequest,
+  tokensExpiredCheckValid,
+  // tokensExpiredCheckNotValid,
+  refreshTokensRequestSuccess,
+  refreshTokensRequestFailure,
+  refreshTokensRequest,
 } from './actions';
 
 import {
   ACTIONS as CSRF_ACTIONS,
-  // initCsrfToken,
+  initCsrfToken,
 } from '../csrf/actions';
 
-import { getCredentials, isTokenValid, persistCredentials } from './utilities';
+import { generateCredentials, isTokenValid, getLocalCredentials } from './utilities';
 
 const URL = process.env.REACT_APP_HOST_DOMAIN;
 const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
 
-function* authenticationRequestSaga(action) {
-  const { type, payload } = action;
-  const grantType = (type === OAUTH_ACTIONS.REFRESH_TOKEN_REQUEST) ? 'refresh_token' : 'password';
-  const user = (type === OAUTH_ACTIONS.REFRESH_TOKEN_REQUEST) ? sessionStorage.getItem('username') : payload.username;
-  const pass = (type === OAUTH_ACTIONS.REFRESH_TOKEN_REQUEST) ? '' : payload.password;
-  const refreshToken = (type === OAUTH_ACTIONS.REFRESH_TOKEN_REQUEST) ? payload : '';
-  const credentials = getCredentials(grantType, user, pass, refreshToken);
+
+const fetchToken = credentials => axios.post(`${URL}/oauth/token${POSTFIX}`, Querystring.stringify(credentials))
+  .then((response) => {
+      const { expires_in, access_token, refresh_token } = response.data; // eslint-disable-line
+    return ({
+      expiration: expires_in,
+      accessToken: access_token,
+      refreshToken: refresh_token,
+      timestamp: new Date().getTime(),
+    });
+  }).catch((error) => {
+    console.log(error);
+    return error;
+  });
+
+
+function* loginRequestSaga(action) {
+  console.log(action.type);
+  const { username, password } = action.payload;
+  const credentials = generateCredentials('password', username, password, '');
 
   try {
-    const oAuthTokens = yield call(() => new Promise(((resolve) => {
-      axios.post(`${URL}/oauth/token${POSTFIX}`, Querystring.stringify(credentials))
-        .then((response) => {
-          resolve(response.data);
-        })
-        .catch((error) => {
-          console.log('Incorrect username or password.');
-          console.log(error);
-        });
-    })));
-
-    const newPayload = {
-      expiration: oAuthTokens.expires_in,
-      accessToken: oAuthTokens.access_token,
-      refreshToken: oAuthTokens.refresh_token,
-      timestamp: new Date().getTime(),
-    };
-
-    persistCredentials(newPayload);
-    yield put(loginSuccess(newPayload));
-  } catch (err) {
-    yield put(loginFailure(err));
+    const result = yield call(fetchToken, credentials);
+    result.username = username;
+    if (result.accessToken) {
+      yield put(loginSuccess(result));
+    } else {
+      yield put(loginFailure(result));
+    }
+  } catch (error) {
+    yield put(loginFailure(error));
   }
 }
 
-function* refreshTokenCheckSaga() {
-  const accessToken = sessionStorage.getItem('accessToken');
-  const expireStamp = localStorage.getItem('lastRefreshedToken');
-  const csrfToken = sessionStorage.getItem('csrfToken');
+function* refreshTokensRequestSaga(action) {
+  console.log(action.type);
+  const { refreshToken } = action.payload;
+  const username = sessionStorage.getItem('username');
+  const credentials = generateCredentials('refresh_token', username, '', refreshToken);
+
+  try {
+    const result = yield call(fetchToken, credentials);
+    result.username = username;
+    if (result.accessToken) {
+      console.log('REFRESH TOKEN SUCCESS');
+      yield put(refreshTokensRequestSuccess(result));
+    } else {
+      console.log('REFRESH TOKEN FAILURE');
+      yield put(refreshTokensRequestFailure(result));
+    }
+  } catch (error) {
+    console.log('REFRESH TOKEN FAILURE');
+    yield put(refreshTokensRequestFailure(error));
+  }
+}
+
+
+function* tokenExpiredCheckSaga(action) {
+  console.log(action.type);
+  const {
+    csrfToken, accessToken, expireStamp, refreshToken,
+  } = getLocalCredentials();
 
   if (!csrfToken) {
-    yield take(CSRF_ACTIONS.CSRF_TOKEN_SUCCESS);
+    yield put(initCsrfToken());
+    yield take(CSRF_ACTIONS.CSRF_TOKEN_SUCCESS, tokenExpiredCheckSaga);
   }
 
   if (accessToken && expireStamp) {
     if (!isTokenValid(accessToken, expireStamp)) {
-      const refreshToken = localStorage.getItem('refreshToken');
-      yield put(refreshTokenRequest(refreshToken));
-      // yield put(SetAuthCheck(true));
+      try {
+        console.log('REFRESH TOKEN IS NOT VALID');
+        yield put(refreshTokensRequest({ refreshToken }));
+      } catch (e) {
+        console.log(e);
+      }
     } else {
       console.log('REFRESH TOKEN IS VALID');
-      yield put(refreshTokenValid());
-      // yield put(SetAuthCheck(true));
+      yield put(tokensExpiredCheckValid());
     }
   }
 }
 
-
 export function* watchOAuth() {
-  yield takeLatest(OAUTH_ACTIONS.LOGIN_REQUEST, authenticationRequestSaga);
-  yield takeLatest(OAUTH_ACTIONS.REFRESH_TOKEN_REQUEST, authenticationRequestSaga);
-  yield takeLatest(OAUTH_ACTIONS.REFRESH_TOKEN_EXPIRED_CHECK, refreshTokenCheckSaga);
+  yield takeLatest(OAUTH_ACTIONS.LOGIN_REQUEST, loginRequestSaga);
+  yield takeLatest(OAUTH_ACTIONS.REFRESH_TOKENS_REQUEST, refreshTokensRequestSaga);
+  yield takeLatest(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK, tokenExpiredCheckSaga);
 }
 
 export default watchOAuth;

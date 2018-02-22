@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import '../styles/signin.css';
 
-const SignIn = props => (
+const Login = props => (
   <div className="signin-container">
     <div className="text-center">
       <form className="form-signin" onSubmit={props.handleLogin}>
@@ -32,10 +32,10 @@ const SignIn = props => (
   </div>
 );
 
-SignIn.propTypes = {
+Login.propTypes = {
   handleInputChange: PropTypes.func.isRequired,
   handleLogin: PropTypes.func.isRequired,
   isLoginFailed: PropTypes.bool.isRequired,
 };
 
-export default SignIn;
+export default Login;

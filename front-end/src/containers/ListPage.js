@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 
-import { withApollo } from 'react-apollo';
-import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../api/queries';
+import { connect } from 'react-redux';
+// import { withApollo } from 'react-apollo';
+import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../api/apolloProxy';
 
 import CardList from '../components/CardList';
 
+import { fetchPages } from '../redux/page/actions';
 
 export class ListPage extends Component {
   state = {
-    activeNode: '',
-    selectValue: 0,
-    nodes: [],
+    // activeNode: '',
+    // selectValue: 0,
+    // nodes: [],
     isModalVisible: false,
   }
 
@@ -20,18 +22,21 @@ export class ListPage extends Component {
   */
 
   componentDidMount() {
-    this.fetchPagesByUserQuery((result) => {
-      const nodes = result.nodes.entities.map((node) => {
-        const newNode = { ...node };
-        newNode.images = newNode.images.map(image => (
-          { url: image.entity.image.derivative.url, mid: image.mid }
-        ));
-        return newNode;
-      });
-      this.setState({
-        nodes,
-      });
-    });
+    this.props.dispatch(fetchPages());
+
+
+    // this.fetchPagesByUserQuery((result) => {
+    //   const nodes = result.nodes.entities.map((node) => {
+    //     const newNode = { ...node };
+    //     newNode.images = newNode.images.map(image => (
+    //       { url: image.entity.image.derivative.url, mid: image.mid }
+    //     ));
+    //     return newNode;
+    //   });
+    //   this.setState({
+    //     nodes,
+    //   });
+    // });
   }
 
   onModalOk = (event) => {
@@ -125,6 +130,7 @@ export class ListPage extends Component {
 
   render() {
     return (<CardList
+      {...this.props}
       {...this.state}
       ctaHandler={this.ctaHandler}
       deleteItemHandler={this.deleteItemHandler}
@@ -135,5 +141,12 @@ export class ListPage extends Component {
   }
 }
 
-export const ListPageWrapper = withApollo(ListPage);
+const mapStateToProps = state => ({
+  isAuthenticated: state.authReducer.isAuthenticated,
+  isLoggingIn: state.authReducer.isLoggingIn,
+  pages: state.pageReducer.pages,
+});
+const ListPageWrapper = connect(mapStateToProps)(ListPage);
+// export const ListPageWrapper = withApollo(ListPage);
+
 export default ListPageWrapper;

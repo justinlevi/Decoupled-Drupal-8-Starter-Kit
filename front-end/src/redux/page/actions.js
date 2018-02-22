@@ -23,8 +23,9 @@ export const ACTIONS = {
 // Action Creators
 // ---------------
 
-export const fetchPages = () => ({
+export const fetchPages = payload => ({
   type: ACTIONS.FETCH_PAGES,
+  payload,
 });
 
 export const fetchPagesSuccess = payload => ({

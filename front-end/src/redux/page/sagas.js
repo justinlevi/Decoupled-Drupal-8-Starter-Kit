@@ -1,34 +1,42 @@
-import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
-// import Querystring from 'query-string';
-// import axios from 'axios';
+import { call, take, put, takeLatest, takeEvery } from 'redux-saga/effects';
+
+import { ACTIONS as OAUTH_ACTIONS, tokensExpiredCheck } from '../auth/oauth/actions';
+
+import { pagesByUserQuery } from '../../api/apolloProxy';
 
 import {
   ACTIONS,
   // addPage,
   // deletePage,
   // editPage,
+  fetchPagesSuccess,
 } from './actions';
 
-// function* fetchPageSaga(action) {
-//   // get apolloClient from redux store
 
-// }
+function* fetchPageSaga(action) {
+  console.log(action.type);
+  yield put(tokensExpiredCheck());
+  yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
+  console.log('CHECK VALID - FETCH PAGES');
+  const result = yield call(pagesByUserQuery);
+  console.log('FETCH SUCCESS');
+  yield put(fetchPagesSuccess(result));
+}
 
 function* addPageSaga(action) {
-  yield call(console.log(action.type));
+  console.log(action.type);
 }
 
 function* deletePageSaga(action) {
-  yield call(console.log(action.type));
+  console.log(action.type);
 }
 
 function* editPageSaga(action) {
-  yield call(console.log(action.type));
+  console.log(action.type);
 }
 
 export function* watchPageActions() {
-  // yield takeEvery(ACTIONS.FETCH_PAGES, fetchPageSaga);
-
+  yield takeEvery(ACTIONS.FETCH_PAGES, fetchPageSaga);
 
   yield takeLatest(ACTIONS.ADD_PAGE, addPageSaga);
   yield takeEvery(ACTIONS.DELETE_PAGE, deletePageSaga);
