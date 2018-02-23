@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import { Route } from 'react-router';
 import { Redirect } from 'react-router-dom';
 
-const RedirectToLogin = () => (
-  <Redirect to={{ pathname: '/login' }} />
-);
+const RedirectToLogin = () => (<Redirect to={{ pathname: '/login' }} />);
 
 const PrivateRouteContainer = props => (
   <Route

@@ -5,7 +5,7 @@ import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemo
 import introspectionQueryResultData from 'api/fragmentTypes.json';
 
 const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
-const URL = process.env.REACT_APP_HOST_DOMAIN;
+const URL = process.env.REACT_APP_HOST_DOMAIN ? process.env.REACT_APP_HOST_DOMAIN : '';
 
 const getCsrf = () => sessionStorage.getItem('csrfToken');
 

@@ -137,3 +137,5 @@ keys/*
 /drush/sites/*.yml
 /docroot/sites/default/local.drush.yml
 /deployment_identifier
+/front-end/build
+/front-end/node_modules

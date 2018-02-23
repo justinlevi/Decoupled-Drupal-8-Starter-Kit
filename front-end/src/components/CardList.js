@@ -29,26 +29,6 @@ const listItems = ({ pages, editPageHandler, deletePageHandler }) => pages.map(p
   </Fade>
 ));
 
-// listItems.PropTypes = {
-//   pages: PropTypes.arrayOf(PropTypes.shape({
-//     author: PropTypes.shape({
-//       name: PropTypes.string,
-//     }),
-//     body: {
-//       value: PropTypes.string,
-//     },
-//     images: PropTypes.arrayOf(PropTypes.shape({
-//       url: PropTypes.string,
-//       mid: PropTypes.number,
-//     })),
-//     nid: PropTypes.number,
-//     title: PropTypes.string,
-//     uuid: PropTypes.string,
-//   })).isRequired,
-//   ctaHandler: PropTypes.func.isRequired,
-//   deletePageHandler: PropTypes.func.isRequired,
-// };
-
 const CardList = (props) => {
   const {
     addPageHandler, isModalVisible, onDeleteModalToggle, onDeleteModalOk,

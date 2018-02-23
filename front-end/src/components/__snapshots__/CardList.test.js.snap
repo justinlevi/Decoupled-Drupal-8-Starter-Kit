@@ -41,9 +41,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
         }
       >
         <Card
-          ctaHandler={[Function]}
           deleteHandler={[Function]}
-          node={
+          editPageHandler={[Function]}
+          page={
             Object {
               "author": Object {
                 "name": "test0",
@@ -81,9 +81,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
         }
       >
         <Card
-          ctaHandler={[Function]}
           deleteHandler={[Function]}
-          node={
+          editPageHandler={[Function]}
+          page={
             Object {
               "author": Object {
                 "name": "test1",
@@ -121,9 +121,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
         }
       >
         <Card
-          ctaHandler={[Function]}
           deleteHandler={[Function]}
-          node={
+          editPageHandler={[Function]}
+          page={
             Object {
               "author": Object {
                 "name": "test2",
@@ -161,9 +161,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
         }
       >
         <Card
-          ctaHandler={[Function]}
           deleteHandler={[Function]}
-          node={
+          editPageHandler={[Function]}
+          page={
             Object {
               "author": Object {
                 "name": "test3",
@@ -201,9 +201,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
         }
       >
         <Card
-          ctaHandler={[Function]}
           deleteHandler={[Function]}
-          node={
+          editPageHandler={[Function]}
+          page={
             Object {
               "author": Object {
                 "name": "test4",
@@ -241,9 +241,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
         }
       >
         <Card
-          ctaHandler={[Function]}
           deleteHandler={[Function]}
-          node={
+          editPageHandler={[Function]}
+          page={
             Object {
               "author": Object {
                 "name": "test5",
@@ -281,9 +281,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
         }
       >
         <Card
-          ctaHandler={[Function]}
           deleteHandler={[Function]}
-          node={
+          editPageHandler={[Function]}
+          page={
             Object {
               "author": Object {
                 "name": "test6",
@@ -321,9 +321,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
         }
       >
         <Card
-          ctaHandler={[Function]}
           deleteHandler={[Function]}
-          node={
+          editPageHandler={[Function]}
+          page={
             Object {
               "author": Object {
                 "name": "test7",
@@ -361,9 +361,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
         }
       >
         <Card
-          ctaHandler={[Function]}
           deleteHandler={[Function]}
-          node={
+          editPageHandler={[Function]}
+          page={
             Object {
               "author": Object {
                 "name": "test8",
@@ -401,9 +401,9 @@ exports[`CardList Snapshots should render correctly 1`] = `
         }
       >
         <Card
-          ctaHandler={[Function]}
           deleteHandler={[Function]}
-          node={
+          editPageHandler={[Function]}
+          page={
             Object {
               "author": Object {
                 "name": "test9",

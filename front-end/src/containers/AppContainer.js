@@ -10,18 +10,8 @@ import App from 'components/App';
 import { tokensExpiredCheck } from '../redux/auth/oauth/actions';
 
 export class AppContainer extends Component {
-  constructor(props) {
-    super(props);
-
-    props.history.listen((location) => {
-      if (props.isAuthenticated) {
-        this.props.dispatch(tokensExpiredCheck());
-      }
-    });
-  }
-
   componentWillMount() {
-    const { dispatch, isAuthenticated } = this.props;
+    const { dispatch } = this.props;
     if (sessionStorage.getItem('accessToken')) {
       dispatch(tokensExpiredCheck());
     }
@@ -44,7 +34,6 @@ export class AppContainer extends Component {
 AppContainer.propTypes = {
   dispatch: PropTypes.func.isRequired,
   store: PropTypes.shape({}).isRequired,
-  history: PropTypes.shape({}).isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 };
 

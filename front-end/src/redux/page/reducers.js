@@ -6,7 +6,7 @@ const initialState = {
 };
 
 export const reducer = (state = initialState, { type, payload }) => {
-  console.log(type);
+  // console.log(type);
   switch (type) {
     case ACTIONS.FETCH_PAGES: return { ...state };
     case ACTIONS.FETCH_PAGES_SUCCESS:
@@ -32,7 +32,7 @@ export const reducer = (state = initialState, { type, payload }) => {
     case ACTIONS.EDIT_PAGE_SUCCESS:
       return {
         ...state,
-        // pages: state.pages.concat(payload.page),
+        pages: state.pages.concat(payload.page),
         activePage: payload.page,
       };
     case ACTIONS.SELECT_PAGE:

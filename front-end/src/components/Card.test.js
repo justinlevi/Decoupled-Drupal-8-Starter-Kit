@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 import Card from './Card';
 
-const nodeModel = {
+const pageModel = {
   images: [],
   title: 'test',
   body: {
@@ -11,16 +11,15 @@ const nodeModel = {
   },
 };
 
-const generateShallowCard = node => shallow(<Card
-  node={node}
-  deleteHandler={jest.fn()}
-  ctaHandler={jest.fn()}
-/>);
-
+const initialPropsState = {
+  page: pageModel,
+  deleteHandler: jest.fn(),
+  editPageHandler: jest.fn(),
+};
 
 describe('Card', () => {
   it('should render correctly', () => {
-    const output = generateShallowCard(nodeModel);
+    const output = shallow(<Card {...initialPropsState} />);
     expect(shallowToJson(output)).toMatchSnapshot();
   });
 });

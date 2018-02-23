@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 
+import { history } from '../redux/configureStore';
 import PrivateRoute from './PrivateRoute';
 
 import Login from '../containers/LoginPage';
@@ -22,14 +22,14 @@ const mapStateToProps = state => ({
   error: state.authReducer.error,
 });
 
-const Logout = connect(mapStateToProps)(({ dispatch }) => {
+const Logout = connect()(({ dispatch }) => {
   dispatch(logout());
   return <Redirect to="/" />;
 });
 
-const Routes = props =>
+const Routes = () =>
   (
-    <ConnectedRouter history={props.history}>
+    <ConnectedRouter history={history}>
       <ConnectedSwitch>
         <Route path="/" exact component={connect(mapStateToProps)(Home)} />
         <PrivateRoute path="/list" exact component={List} />
@@ -39,10 +39,5 @@ const Routes = props =>
       </ConnectedSwitch>
     </ConnectedRouter>
   );
-Routes.propTypes = {
-  history: PropTypes.shape({}).isRequired,
-};
 
-
-export default connect(mapStateToProps)(Routes);
-
+export default Routes;

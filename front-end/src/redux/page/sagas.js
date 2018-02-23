@@ -62,8 +62,8 @@ function* editPageSaga(action) {
 
   try {
     const result = yield call(updatePageMutation, { ...payload });
-    const { entity } = result.data.updatePage;
-    yield put(editPageSuccess({ page: entity }));
+    const { page } = result.data.updatePage;
+    yield put(editPageSuccess({ page }));
   } catch (error) {
     yield put(editPageFailure(error));
   }

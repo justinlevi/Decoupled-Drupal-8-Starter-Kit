@@ -4,7 +4,7 @@ import { shallowToJson } from 'enzyme-to-json';
 
 import CardList from './CardList';
 
-const nodeModel = {
+const pageModel = {
   author: {
     name: 'test',
   },
@@ -28,25 +28,26 @@ const nodeModel = {
   uuid: '09ba8da5-e08d-4972-a22b-ad7bb0a44d7f',
 };
 
-const nodes = [];
+const pages = [];
 for (let i = 0; i < 10; i += 1) {
-  nodes.push({
-    ...nodeModel,
+  pages.push({
+    ...pageModel,
     author: { name: `test${i}` },
-    nid: nodeModel.nid + i,
-    title: `${nodeModel.title} ${i}`,
-    uuid: nodeModel.uuid + i,
+    nid: pageModel.nid + i,
+    title: `${pageModel.title} ${i}`,
+    uuid: pageModel.uuid + i,
   });
 }
 
 const initialPropsState = {
-  ctaHandler: jest.fn(),
-  deleteItemHandler: jest.fn(),
-  addPageMutation: jest.fn(),
-  onModalToggle: jest.fn(),
-  onModalOk: jest.fn(),
+  isAuthenticated: true,
+  isLoggingIn: false,
   isModalVisible: false,
-  nodes,
+  addPageHandler: jest.fn(),
+  editPageHandler: jest.fn(),
+  onDeleteModalToggle: jest.fn(),
+  onDeleteModalOk: jest.fn(),
+  pages,
 };
 
 describe('CardList', () => {
@@ -57,8 +58,8 @@ describe('CardList', () => {
       expect(shallowToJson(output)).toMatchSnapshot();
     });
 
-    it('should render a list of nodes as a Card', () => {
-      expect(output.find('Card').length).toEqual(nodes.length);
+    it('should render a list of pages as a Card', () => {
+      expect(output.find('Card').length).toEqual(pages.length);
     });
   });
 });

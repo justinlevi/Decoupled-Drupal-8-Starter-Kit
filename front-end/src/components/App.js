@@ -12,7 +12,7 @@ const renderLoading = () => (
 
 const renderRoutes = props => (
   <div>
-    <div className="container authenticated">
+    <div className="container">
       <Nav />
       <Routes {...props} />
     </div>

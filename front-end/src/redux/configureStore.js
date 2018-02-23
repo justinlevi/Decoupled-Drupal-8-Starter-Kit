@@ -1,15 +1,17 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleWare from 'redux-saga';
 import { routerMiddleware } from 'react-router-redux';
+import createHistory from 'history/createBrowserHistory';
 
 import rootSaga from './rootSaga';
 import { rootReducer } from './rootReducer';
 
 import { loadState, saveState } from './localStorage';
 
-const persistedState = loadState();
+export const history = createHistory();
 
-const configureStore = (history) => {
+const configureStore = () => {
+  const persistedState = loadState();
   const sagaMiddleware = createSagaMiddleWare();
   const store = createStore(
     rootReducer,

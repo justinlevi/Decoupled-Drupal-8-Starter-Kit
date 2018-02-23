@@ -1,16 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { shallow } from 'enzyme';
 
 import App from './App';
 
-
 it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App
+  const component = shallow(<App
     isLoading={false}
+    isLoggingIn={false}
     isAuthenticated={false}
-    handleInputChange={jest.fn()}
-    handleLogin={jest.fn()}
-    isLoginFailed={false}
-  />, div);
+  />);
+  expect(component.exists()).toEqual(true);
 });
