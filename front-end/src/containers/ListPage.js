@@ -4,7 +4,7 @@ import { push } from 'react-router-redux';
 
 import CardList from '../components/CardList';
 
-import { fetchPages, addPage, deletePage, editPage } from '../redux/page/actions';
+import { fetchPages, addPage, deletePage, selectPage } from '../redux/page/actions';
 
 export class ListPage extends Component {
   state = {
@@ -58,7 +58,7 @@ export class ListPage extends Component {
 
   editPageHandler = (activePage) => {
     const { dispatch } = this.props;
-    dispatch(editPage({ activePage }));
+    dispatch(selectPage({ activePage }));
     dispatch(push(`/edit/${activePage.nid}/${activePage.title.replace(/ /g, '-').toLowerCase()}`));
   }
 

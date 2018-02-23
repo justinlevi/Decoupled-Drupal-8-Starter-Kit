@@ -1,7 +1,7 @@
 import { call, take, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
 
 import { ACTIONS as OAUTH_ACTIONS, tokensExpiredCheck } from '../auth/oauth/actions';
-import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../../api/apolloProxy';
+import { pagesByUserQuery, addPageMutation, deletePageMutation, updatePageMutation } from '../../api/apolloProxy';
 import { formatFetchPageResult, removePageFromPages } from './utilities';
 
 import {
@@ -13,6 +13,9 @@ import {
   addPageSuccess,
   addPageFailure,
   deletePageSuccess,
+  deletePageFailure,
+  editPageSuccess,
+  editPageFailure,
 } from './actions';
 
 function* fetchPageSaga() {
@@ -29,7 +32,7 @@ function* addPageSaga(action) {
   yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
-    const result = yield call(addPageMutation, { title: payload.title });
+    const result = yield call(addPageMutation, { ...payload });
     const { entity } = result.data.addPage;
     yield put(addPageSuccess({ page: [entity] }));
   } catch (error) {
@@ -42,14 +45,28 @@ function* deletePageSaga(action) {
   yield put(tokensExpiredCheck());
   yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
 
-  const result = yield call(deletePageMutation, { id: payload.id });
-  const { page } = result.data.deletePage;
-  const pages = yield select(state => state.pageReducer.pages);
-  yield put(deletePageSuccess({ pages: removePageFromPages(pages, page.nid) }));
+  try {
+    const result = yield call(deletePageMutation, { ...payload });
+    const { page } = result.data.deletePage;
+    const pages = yield select(state => state.pageReducer.pages);
+    yield put(deletePageSuccess({ pages: removePageFromPages(pages, page.nid) }));
+  } catch (error) {
+    yield put(deletePageFailure(error));
+  }
 }
 
 function* editPageSaga(action) {
-  console.log(action.type);
+  const { payload } = action;
+  yield put(tokensExpiredCheck());
+  yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
+
+  try {
+    const result = yield call(updatePageMutation, { ...payload });
+    const { entity } = result.data.updatePage;
+    yield put(editPageSuccess({ page: entity }));
+  } catch (error) {
+    yield put(editPageFailure(error));
+  }
 }
 
 export function* watchPageActions() {

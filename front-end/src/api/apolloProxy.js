@@ -34,24 +34,6 @@ const fragments = {
   `,
 };
 
-// export const fetchProperty = ({ id }) => apolloClient.query({
-//   query: gql`
-//     query FetchProperty($id: ID!) {
-//       fetchProperty(id: $id) {
-//         ... PropertyAttributes
-//         rooms {
-//           ... RoomAttributes
-//         }
-//       }
-//     }
-//     ${Fragments.Property.attributes}
-//     ${Fragments.Room.attributes}
-//   `,
-//   variables: {
-//     id
-//   }
-// })
-
 export const currentUserUid = () => apolloClient.query({
   query: gql`
     query{
@@ -138,21 +120,34 @@ export const deletePageMutation = ({ id }) => apolloClient.mutate({
 });
 
 
-export const getSignedUrls = gql`
-  query signedUploadURL ($input: SignedUploadInput!) {
-    signedUploadURL(input:$input)
-  }
-`;
-
-export const addS3Files = gql`
-  mutation addS3Files($input: S3FilesInput!) {
-    addS3Files(input:$input){
-      mid
+export const getSignedUrls = ({ files }) => apolloClient.query({
+  query: gql`
+    query signedUploadURL ($input: SignedUploadInput!) {
+      signedUploadURL(input:$input)
     }
-  }
-`;
+  `,
+  variables: {
+    input: { fileNames: files },
+  },
+});
 
-export const updatePageMutation = gql`
+export const addS3Files = ({ files }) => apolloClient.query({
+  query: gql`
+    mutation addS3Files($input: S3FilesInput!) {
+      addS3Files(input:$input){
+        mid
+      }
+    }
+  `,
+  variables: {
+    input: { files },
+  },
+});
+
+export const updatePageMutation = ({
+  id, title, body, field_media_image,
+}) => apolloClient.mutate({
+  mutation: gql`
   mutation updatePage($id:Int!, $title:String, $body:String, $field_media_image:[Int]){
     updatePage(id:$id,input:{
       title:$title,
@@ -171,4 +166,11 @@ export const updatePageMutation = gql`
     }
   }
   ${fragments.nodePage}
-`;
+`,
+  variables: {
+    id,
+    title,
+    body,
+    field_media_image,
+  },
+});

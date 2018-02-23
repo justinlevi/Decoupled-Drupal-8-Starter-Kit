@@ -22,16 +22,20 @@ export const reducer = (state = initialState, { type, payload }) => {
         pages: state.pages.concat(payload.page),
         activePage: payload.page,
       };
-    case ACTIONS.DELETE_PAGE:
-      return {
-        ...state,
-      };
+    case ACTIONS.DELETE_PAGE: return { ...state };
     case ACTIONS.DELETE_PAGE_SUCCESS:
       return {
         ...state,
         pages: payload.pages ? payload.pages : [],
       };
-    case ACTIONS.EDIT_PAGE:
+    case ACTIONS.EDIT_PAGE: return { ...state };
+    case ACTIONS.EDIT_PAGE_SUCCESS:
+      return {
+        ...state,
+        // pages: state.pages.concat(payload.page),
+        activePage: payload.page,
+      };
+    case ACTIONS.SELECT_PAGE:
       return {
         ...state,
         activePage: payload.activePage,

@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { Form, FormGroup, Input } from 'reactstrap';
 
 // import { updatePageMutation } from 'api/apolloProxy';
-
-import * as GalleryFrame from 'containers/GalleryFrame';
+import { editPage } from '../redux/page/actions';
+import { GalleryFrame } from './GalleryFrame';
 
 
 export class EditPage extends Component {
@@ -17,10 +17,12 @@ export class EditPage extends Component {
   constructor(props) {
     super(props);
 
+    const { title, body } = props.activePage;
+
     this.state = {
       saveTimeout: undefined,
-      title: props.activePage.title === null || props.activePage.title === 'NULL' ? '' : props.activePage.title,
-      body: props.activePage.body === null ? '' : props.activePage.body.value,
+      title: title === null || title === 'NULL' ? '' : title,
+      body: body === null ? '' : body.value,
     };
   }
 
@@ -29,7 +31,7 @@ export class EditPage extends Component {
   }
 
   updateNode = () => {
-    const { client, activePage } = this.props;
+    const { dispatch, activePage } = this.props;
     const activeMids = activePage.images.map(item => item.mid);
     const variables = {
       id: Number(activePage.nid),
@@ -37,6 +39,8 @@ export class EditPage extends Component {
       body: this.state.body,
       field_media_image: activeMids,
     };
+
+    dispatch(editPage({ ...variables }));
 
     // client.mutate({ mutation: updatePageMutation, variables })
     //   .then((response) => {
@@ -48,15 +52,16 @@ export class EditPage extends Component {
   }
 
   handleInputChange = ({
-    target, name, type,
+    target, type,
   }) => {
-    const nValue = type === 'checkbox' ? target.checked : target.value;
+    const { checked, value, name } = target;
+    const newValue = type === 'checkbox' ? checked : value;
     if (this.state.saveTimeout) {
       clearTimeout(this.state.saveTimeout);
     }
 
     this.setState({
-      [name]: nValue,
+      [name]: newValue,
       saveTimeout: window.setTimeout(() => { this.updateNode(); }, 2000),
     });
   }
@@ -78,7 +83,7 @@ export class EditPage extends Component {
           </FormGroup>
         </Form>
 
-        {/* <GalleryFrame activePage={activePage} /> */}
+        <GalleryFrame activePage={activePage} />
 
       </div>
     );
@@ -94,8 +99,6 @@ EditPage.propTypes = {
 // export default EditPageWrapper;
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.authReducer.isAuthenticated,
-  isLoggingIn: state.authReducer.isLoggingIn,
   activePage: state.pageReducer.activePage,
 });
 const EditPageWrapper = connect(mapStateToProps)(EditPage);

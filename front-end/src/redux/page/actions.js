@@ -18,6 +18,8 @@ export const EDIT_PAGE = 'EDIT_PAGE';
 export const EDIT_PAGE_SUCCESS = 'EDIT_PAGE_SUCCESS';
 export const EDIT_PAGE_FAILURE = 'EDIT_PAGE_FAILURE';
 
+export const SELECT_PAGE = 'SELECT_PAGE';
+
 export const ACTIONS = {
   FETCH_PAGES,
   FETCH_PAGES_SUCCESS,
@@ -31,6 +33,7 @@ export const ACTIONS = {
   EDIT_PAGE,
   EDIT_PAGE_SUCCESS,
   EDIT_PAGE_FAILURE,
+  SELECT_PAGE,
 };
 
 // ---------------
@@ -94,4 +97,9 @@ export const editPageSuccess = payload => ({
 export const editPageFailure = error => ({
   type: ACTIONS.EDIT_PAGE_FAILURE,
   error,
+});
+
+export const selectPage = payload => ({
+  type: ACTIONS.SELECT_PAGE,
+  payload,
 });
