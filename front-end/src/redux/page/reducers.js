@@ -37,7 +37,8 @@ export const reducer = (state = initialState, { type, payload }) => {
         activePage: payload.activePage,
       };
 
-    default: return { ...state };
+    default:
+      return { ...state };
   }
 };
 

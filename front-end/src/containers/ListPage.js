@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-
 import { connect } from 'react-redux';
-// import { withApollo } from 'react-apollo';
-// import { pagesByUserQuery, addPageMutation, deletePageMutation } from '../api/apolloProxy';
+import { push } from 'react-router-redux';
 
 import CardList from '../components/CardList';
 
-import { fetchPages, addPage, deletePage } from '../redux/page/actions';
+import { fetchPages, addPage, deletePage, editPage } from '../redux/page/actions';
 
 export class ListPage extends Component {
   state = {
-    // activeNode: '',
-    // selectValue: 0,
-    // nodes: [],
     nid: 0,
     isModalVisible: false,
   }
@@ -25,25 +20,16 @@ export class ListPage extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchPages());
-
-
-    // this.fetchPagesByUserQuery((result) => {
-    //   const nodes = result.nodes.entities.map((node) => {
-    //     const newNode = { ...node };
-    //     newNode.images = newNode.images.map(image => (
-    //       { url: image.entity.image.derivative.url, mid: image.mid }
-    //     ));
-    //     return newNode;
-    //   });
-    //   this.setState({
-    //     nodes,
-    //   });
-    // });
   }
+
+  /**
+  * MODAL HANDLERS
+  * ----------
+  */
 
   onDeleteModalOk = (event) => {
     event.stopPropagation();
-    // this.deletePageMutation(this.state.activeNode);
+    // this.deletePageMutation(this.state.activePage);
     const { dispatch } = this.props;
     const { nid } = this.state;
 
@@ -56,70 +42,24 @@ export class ListPage extends Component {
   onDeleteModalToggle = () => {
     this.setState({
       isModalVisible: !this.state.isModalVisible,
-      activeNode: '',
+      activePage: '',
     });
   }
 
+  /**
+  * ACTION EVENT HANDLERS
+  * ----------
+  */
 
-  // fetchPagesByUserQuery = (onFetchComplete) => {
-  //   const { client } = this.props;
-  //   client.query({ query: pagesByUserQuery })
-  //     .then((response) => {
-  //       onFetchComplete(response.data.user);
-  //     }).catch((error) => {
-  //       console.log(`error ${error}`);
-  //     });
-  // }
-
-  addPageHandler= (title) => {
+  addPageHandler= () => {
     const { dispatch } = this.props;
-    dispatch(addPage({ title }));
-    // const { client, projectCardListHandler } = this.props;
-    // const variables = { title };
-    // client.mutate({ mutation: addPageMutation, variables })
-    //   .then((response) => {
-    //     console.log('ADD PAGE COMPLETE');
-    //     const { entity } = response.data.addPage;
-    //     this.setState({
-    //       nodes: this.state.nodes.concat([entity]),
-    //     });
-
-    //     // setTimeout(() => { this.scrollToBottom() }, 250);
-    //     // setTimeout(() => { projectCardListHandler(uuid, nid, images) }, 500)
-    //     projectCardListHandler(entity);
-    //   }).catch((error) => {
-    //     console.log(`error ${error}`);
-    //   });
+    dispatch(addPage({ title: 'NULL' }));
   }
 
-  // deleteNodeFromState = (nid) => {
-  //   const newNodes = this.state.nodes.slice();
-  //   const index = newNodes.findIndex(n => n.nid === nid);
-  //   if (index === -1) { return false; }
-
-  //   newNodes.splice(index, 1);
-  //   this.setState({ nodes: newNodes });
-
-  //   return true;
-  // }
-
-  // deletePageMutation = (nid) => {
-  //   const { client } = this.props;
-  //   if (this.deleteNodeFromState(nid)) {
-  //     const variables = { id: nid };
-  //     client.mutate({ mutation: deletePageMutation, variables })
-  //       .then((response) => {
-  //         console.log(`PAGE DELETED COMPLETE${response}`);
-  //       }).catch((error) => {
-  //         console.log(`error ${error}`);
-  //       });
-  //   }
-  // }
-
-  ctaHandler = (activeNode) => {
-    // const { projectCardListHandler } = this.props;
-    // projectCardListHandler(activeNode);
-
+  editPageHandler = (activePage) => {
+    const { dispatch } = this.props;
+    dispatch(editPage({ activePage }));
+    dispatch(push(`/edit/${activePage.nid}/${activePage.title.replace(/ /g, '-').toLowerCase()}`));
   }
 
   deletePageHandler = (event, nid) => {
@@ -139,7 +79,7 @@ export class ListPage extends Component {
     return (<CardList
       {...this.props}
       {...this.state}
-      ctaHandler={this.ctaHandler}
+      editPageHandler={this.editPageHandler}
       deletePageHandler={this.deletePageHandler}
       addPageHandler={this.addPageHandler}
       onDeleteModalToggle={this.onDeleteModalToggle}
@@ -154,6 +94,5 @@ const mapStateToProps = state => ({
   pages: state.pageReducer.pages,
 });
 const ListPageWrapper = connect(mapStateToProps)(ListPage);
-// export const ListPageWrapper = withApollo(ListPage);
 
 export default ListPageWrapper;

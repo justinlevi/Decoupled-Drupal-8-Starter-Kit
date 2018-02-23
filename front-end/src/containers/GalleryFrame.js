@@ -16,7 +16,7 @@ export class GalleryFrame extends Component {
   constructor(props) {
     super(props);
 
-    const uploadPath = `${props.activeNode.author.name}/${props.activeNode.uuid}/`;
+    const uploadPath = `${props.activePage.author.name}/${props.activePage.uuid}/`;
     this.state = {
       title: 'null',
       body: '',
@@ -236,14 +236,14 @@ export class GalleryFrame extends Component {
 
   // STEP 5 -
   updateNode = (mids = []) => {
-    const { client, activeNode } = this.props;
-    const activeMids = activeNode.images.map(item => item.mid);
+    const { client, activePage } = this.props;
+    const activeMids = activePage.images.map(item => item.mid);
     const newMids = mids.concat(activeMids).concat(this.state.mids);
 
     const variables = {
-      id: Number(activeNode.nid),
-      title: activeNode.title,
-      body: activeNode.body.value,
+      id: Number(activePage.nid),
+      title: activePage.title,
+      body: activePage.body.value,
       field_media_image: newMids,
     };
 
@@ -278,7 +278,7 @@ export class GalleryFrame extends Component {
 
 GalleryFrame.propTypes = {
   client: PropTypes.func.isRequired,
-  activeNode: PropTypes.object.isRequired,
+  activePage: PropTypes.object.isRequired,
 };
 
 export const GalleryFrameWrapper = withApollo(GalleryFrame);

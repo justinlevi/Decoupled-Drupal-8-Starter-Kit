@@ -3,30 +3,30 @@ import PropTypes from 'prop-types';
 import MdRemove from 'react-icons/lib/md/remove-circle-outline';
 
 const Card = (props) => {
-  const { node, ctaHandler, deleteHandler } = props;
+  const { page, editPageHandler, deleteHandler } = props;
   return (
     <div className="py-3">
       <div
         role="button"
         tabIndex={0}
         className="card"
-        onClick={() => { ctaHandler(node); }}
-        onKeyUp={() => { ctaHandler(node); }}
+        onClick={() => { editPageHandler(page); }}
+        onKeyUp={() => { editPageHandler(page); }}
       >
         <div className="row ">
           <div className="col-md-4">
-            { node.images.length === 0 ?
+            { page.images.length === 0 ?
               <img src="https://placeholdit.imgix.net/~text?txtsize=38&amp;txt=¯\_(ツ)_/¯&amp;w=400&amp;h=400" alt="" className="w-100" />
                 :
-              <img src={node.images[0].url} alt="" className="w-100" />
+              <img src={page.images[0].url} alt="" className="w-100" />
               }
           </div>
           <div className="col-md-8 px-3">
             <div className="card-body px-3">
-              <h4 className="card-title">{node.title === 'NULL' ? 'NO TITLE' : node.title }</h4>
-              {node.body !== null ?
-                <p className="card-text">{node.body.value}</p> : null }
-              <p className="card-text">NID: {node.nid}</p>
+              <h4 className="card-title">{page.title === 'NULL' ? 'NO TITLE' : page.title }</h4>
+              {page.body !== null ?
+                <p className="card-text">{page.body.value}</p> : null }
+              <p className="card-text">NID: {page.nid}</p>
               <button
                 className="delete"
                 onClick={deleteHandler}
@@ -44,7 +44,7 @@ const Card = (props) => {
 };
 
 Card.propTypes = {
-  // node: PropTypes.shape({
+  // page: PropTypes.shape({
   //   author: PropTypes.shape({
   //     name: PropTypes.string,
   //   }),
@@ -59,7 +59,7 @@ Card.propTypes = {
   //   title: PropTypes.string,
   //   uuid: PropTypes.string,
   // }).isRequired,
-  ctaHandler: PropTypes.func.isRequired,
+  editPageHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
 };
 

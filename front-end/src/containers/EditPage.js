@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withApollo } from 'react-apollo';
+// import { withApollo } from 'react-apollo';
+import { connect } from 'react-redux';
 import { Form, FormGroup, Input } from 'reactstrap';
 
-import { updatePageMutation } from 'api/apolloProxy';
+// import { updatePageMutation } from 'api/apolloProxy';
 
 import * as GalleryFrame from 'containers/GalleryFrame';
 
@@ -18,8 +19,8 @@ export class EditPage extends Component {
 
     this.state = {
       saveTimeout: undefined,
-      title: props.activeNode.title === null || props.activeNode.title === 'NULL' ? '' : props.activeNode.title,
-      body: props.activeNode.body === null ? '' : props.activeNode.body.value,
+      title: props.activePage.title === null || props.activePage.title === 'NULL' ? '' : props.activePage.title,
+      body: props.activePage.body === null ? '' : props.activePage.body.value,
     };
   }
 
@@ -28,22 +29,22 @@ export class EditPage extends Component {
   }
 
   updateNode = () => {
-    const { client, activeNode } = this.props;
-    const activeMids = activeNode.images.map(item => item.mid);
+    const { client, activePage } = this.props;
+    const activeMids = activePage.images.map(item => item.mid);
     const variables = {
-      id: Number(activeNode.nid),
+      id: Number(activePage.nid),
       title: this.state.title === '' ? 'NULL' : this.state.title,
       body: this.state.body,
       field_media_image: activeMids,
     };
 
-    client.mutate({ mutation: updatePageMutation, variables })
-      .then((response) => {
-        const msg = response.data.updatePage.page !== null ?
-          'SUCCESS: UPDATE PAGE COMPLETE' :
-          'ERROR: The page was not updated correctly';
-        console.log(msg);
-      }).catch(this.catchError);
+    // client.mutate({ mutation: updatePageMutation, variables })
+    //   .then((response) => {
+    //     const msg = response.data.updatePage.page !== null ?
+    //       'SUCCESS: UPDATE PAGE COMPLETE' :
+    //       'ERROR: The page was not updated correctly';
+    //     console.log(msg);
+    //   }).catch(this.catchError);
   }
 
   handleInputChange = ({
@@ -66,7 +67,7 @@ export class EditPage extends Component {
   */
 
   render() {
-    const { activeNode } = this.props;
+    const { activePage } = this.props;
     return (
       <div className="EditPageContainer">
 
@@ -77,7 +78,7 @@ export class EditPage extends Component {
           </FormGroup>
         </Form>
 
-        <GalleryFrame activeNode={activeNode} />
+        {/* <GalleryFrame activePage={activePage} /> */}
 
       </div>
     );
@@ -85,9 +86,18 @@ export class EditPage extends Component {
 }
 
 EditPage.propTypes = {
-  client: PropTypes.func.isRequired,
-  activeNode: PropTypes.object.isRequired,
+  // client: PropTypes.func.isRequired,
+  activePage: PropTypes.shape({}).isRequired,
 };
 
-export const EditPageWrapper = withApollo(EditPage);
+// export const EditPageWrapper = withApollo(EditPage);
+// export default EditPageWrapper;
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.authReducer.isAuthenticated,
+  isLoggingIn: state.authReducer.isLoggingIn,
+  activePage: state.pageReducer.activePage,
+});
+const EditPageWrapper = connect(mapStateToProps)(EditPage);
+
 export default EditPageWrapper;

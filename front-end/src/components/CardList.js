@@ -19,18 +19,18 @@ Fade.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const listItems = ({ pages, ctaHandler, deletePageHandler }) => pages.map(node => (
-  <Fade duration={1000} key={node.nid} timeout={{ enter: 0, exit: 1000 }}>
+const listItems = ({ pages, editPageHandler, deletePageHandler }) => pages.map(page => (
+  <Fade duration={1000} key={page.nid} timeout={{ enter: 0, exit: 1000 }}>
     <Card
-      node={node}
-      ctaHandler={ctaHandler}
-      deleteHandler={(event) => { deletePageHandler(event, node.nid); }}
+      page={page}
+      editPageHandler={editPageHandler}
+      deleteHandler={(event) => { deletePageHandler(event, page.nid); }}
     />
   </Fade>
 ));
 
 // listItems.PropTypes = {
-//   nodes: PropTypes.arrayOf(PropTypes.shape({
+//   pages: PropTypes.arrayOf(PropTypes.shape({
 //     author: PropTypes.shape({
 //       name: PropTypes.string,
 //     }),
@@ -59,9 +59,9 @@ const CardList = (props) => {
         <div
           role="button"
           tabIndex={0}
-          onKeyUp={() => { addPageHandler('NULL'); }}
+          onKeyUp={() => { addPageHandler(); }}
           className="py-3"
-          onClick={() => { addPageHandler('NULL'); }}
+          onClick={() => { addPageHandler(); }}
         >
           <div className="add">
             <MdAdd />

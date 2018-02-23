@@ -2,15 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { NavItem, NavLink } from 'reactstrap';
+import { Nav, NavItem, NavLink } from 'reactstrap';
 
 export const Navbar = ({ dispatch, isAuthenticated }) => (
   <header className="navbar navbar-expand navbar-light flex-column flex-md-row bd-navbar">
-    <div
+    <NavLink
       role="button"
       className="navbar-brand mr-0 mr-md-2"
       aria-label="Decouple D8 Editorial Experience"
-      onClick={() => { dispatch(push('/')); }}
+      href="/"
+      onClick={(e) => { e.preventDefault(); dispatch(push('/')); }}
       onKeyUp={() => { dispatch(push('/')); }}
       tabIndex={0}
     >
@@ -27,15 +28,16 @@ export const Navbar = ({ dispatch, isAuthenticated }) => (
           d="M5.05.31c.81 2.17.41 3.38-.52 4.31C3.55 5.67 1.98 6.45.9 7.98c-1.45 2.05-1.7 6.53 3.53 7.7-2.2-1.16-2.67-4.52-.3-6.61-.61 2.03.53 3.33 1.94 2.86 1.39-.47 2.3.53 2.27 1.67-.02.78-.31 1.44-1.13 1.81 3.42-.59 4.78-3.42 4.78-5.56 0-2.84-2.53-3.22-1.25-5.61-1.52.13-2.03 1.13-1.89 2.75.09 1.08-1.02 1.8-1.86 1.33-.67-.41-.66-1.19-.06-1.78C8.18 5.31 8.68 2.45 5.05.32L5.03.3l.02.01z" //eslint-disable-line
         />
       </svg>
-    </div>
+    </NavLink>
 
-    <div className="navbar-nav-scroll">
+    <Nav className="navbar-nav-scroll" navbar>
       <ul className="navbar-nav bd-navbar-nav flex-row">
         {
           isAuthenticated ?
             <NavItem>
               <NavLink
-                onClick={() => { dispatch(push('/list')); }}
+                href="/list"
+                onClick={(e) => { e.preventDefault(); dispatch(push('/list')); }}
                 className="nav-link"
               >
               Content List
@@ -44,7 +46,7 @@ export const Navbar = ({ dispatch, isAuthenticated }) => (
           : null
         }
       </ul>
-    </div>
+    </Nav>
 
     <ul className="navbar-nav flex-row ml-md-auto d-none d-md-flex">
       <li className="nav-item">

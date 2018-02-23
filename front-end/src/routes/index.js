@@ -4,14 +4,10 @@ import { Route, Switch } from 'react-router';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
-// import { graphql } from 'react-apollo';
-
 
 import PrivateRoute from './PrivateRoute';
-import { LoginPage, HomePage, ListPage } from '../containers';
+import { LoginPage, HomePage, ListPage, EditPage } from '../containers';
 import { logout } from '../redux/auth/oauth/actions';
-
-// import { pagesByUserQuery } from '../api/apolloProxy';
 
 const ConnectedSwitch = connect(state => ({ location: state.routerReducer.location }))(Switch);
 
@@ -32,6 +28,7 @@ const Routes = props =>
       <ConnectedSwitch>
         <Route path="/" exact component={connect(mapStateToProps)(HomePage)} />
         <PrivateRoute path="/list" exact component={ListPage} />
+        <PrivateRoute path="/edit" component={EditPage} />
         <Route path="/login" exact component={connect(mapStateToProps)(LoginPage)} />
         <Route path="/logout" exact component={Logout} />
       </ConnectedSwitch>
