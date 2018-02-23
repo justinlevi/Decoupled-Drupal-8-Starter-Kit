@@ -6,7 +6,6 @@ import {
   ACTIONS as OAUTH_ACTIONS,
   loginSuccess,
   loginFailure,
-  // refreshTokensRequest,
   tokensExpiredCheckValid,
   // tokensExpiredCheckNotValid,
   refreshTokensRequestSuccess,
@@ -88,11 +87,7 @@ function* tokenExpiredCheckSaga(action) {
 
   if (accessToken && expireStamp) {
     if (!isTokenValid(accessToken, expireStamp)) {
-      try {
-        yield put(refreshTokensRequest({ refreshToken }));
-      } catch (e) {
-        console.log(e);
-      }
+      yield put(refreshTokensRequest({ refreshToken }));
     } else {
       yield put(tokensExpiredCheckValid());
     }

@@ -6,7 +6,12 @@ import { Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 
 import PrivateRoute from './PrivateRoute';
-import { LoginPage, HomePage, ListPage, EditPage } from '../containers';
+
+import Login from '../containers/LoginPage';
+import Home from '../containers/HomePage';
+import List from '../containers/ListPage';
+import Edit from '../containers/EditPage';
+
 import { logout } from '../redux/auth/oauth/actions';
 
 const ConnectedSwitch = connect(state => ({ location: state.routerReducer.location }))(Switch);
@@ -26,10 +31,10 @@ const Routes = props =>
   (
     <ConnectedRouter history={props.history}>
       <ConnectedSwitch>
-        <Route path="/" exact component={connect(mapStateToProps)(HomePage)} />
-        <PrivateRoute path="/list" exact component={ListPage} />
-        <PrivateRoute path="/edit" component={EditPage} />
-        <Route path="/login" exact component={connect(mapStateToProps)(LoginPage)} />
+        <Route path="/" exact component={connect(mapStateToProps)(Home)} />
+        <PrivateRoute path="/list" exact component={List} />
+        <PrivateRoute path="/edit" component={Edit} />
+        <Route path="/login" exact component={connect(mapStateToProps)(Login)} />
         <Route path="/logout" exact component={Logout} />
       </ConnectedSwitch>
     </ConnectedRouter>

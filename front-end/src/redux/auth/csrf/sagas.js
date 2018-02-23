@@ -1,6 +1,6 @@
-import { call, put, takeLatest } from 'redux-saga/effects';
-import { SetCsrfToken, CsrfTokenSuccess } from 'redux/rootActions';
 import axios from 'axios';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { setCsrfToken, csrfTokenSuccess } from '../csrf/actions';
 
 const URL = process.env.REACT_APP_HOST_DOMAIN;
 
@@ -14,8 +14,8 @@ function* initCsrfToken() {
         console.log(`error ${error}`);
       });
   })));
-  yield put(SetCsrfToken(csrfToken));
-  yield put(CsrfTokenSuccess());
+  yield put(setCsrfToken(csrfToken));
+  yield put(csrfTokenSuccess());
 }
 
 export function* watchCsrfToken() {

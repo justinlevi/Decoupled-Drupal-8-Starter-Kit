@@ -44,21 +44,7 @@ const Card = (props) => {
 };
 
 Card.propTypes = {
-  // page: PropTypes.shape({
-  //   author: PropTypes.shape({
-  //     name: PropTypes.string,
-  //   }),
-  //   body: {
-  //     value: PropTypes.string,
-  //   },
-  //   images: PropTypes.arrayOf(PropTypes.shape({
-  //     url: PropTypes.string,
-  //     mid: PropTypes.number,
-  //   })),
-  //   nid: PropTypes.number,
-  //   title: PropTypes.string,
-  //   uuid: PropTypes.string,
-  // }).isRequired,
+  page: PropTypes.shape({}).isRequired,
   editPageHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
 };

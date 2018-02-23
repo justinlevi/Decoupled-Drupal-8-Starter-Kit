@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
 import Login from '../components/Login';
-import { loginRequest } from '../redux/rootActions';
+import { loginRequest } from '../redux/auth/oauth/actions';
 
 export class LoginPage extends Component {
   state = {
