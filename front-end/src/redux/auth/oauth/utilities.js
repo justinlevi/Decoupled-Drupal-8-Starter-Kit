@@ -53,6 +53,7 @@ export const unsetLocalStorageCredentials = () => {
   sessionStorage.removeItem('expirationTime');
   localStorage.removeItem('refreshToken');
   localStorage.removeItem('lastRefreshedToken');
+  localStorage.removeItem('state');
 };
 
 const convertDate = (unixTimestamp) => {

@@ -4,7 +4,7 @@ import { routerMiddleware } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 
 import rootSaga from './rootSaga';
-import { rootReducer } from './rootReducer';
+import rootReducer from './rootReducer';
 
 import { loadState, saveState } from './localStorage';
 
