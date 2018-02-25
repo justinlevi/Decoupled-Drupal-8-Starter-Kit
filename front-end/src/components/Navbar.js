@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Nav, NavItem, NavLink } from 'reactstrap';
-import { deselectPage } from '../redux/page/actions';
 
 export const Navbar = ({ dispatch, isAuthenticated }) => (
   <header className="navbar navbar-expand navbar-light flex-column flex-md-row bd-navbar">
@@ -15,7 +14,6 @@ export const Navbar = ({ dispatch, isAuthenticated }) => (
       onClick={(e) => {
         e.preventDefault();
         dispatch(push('/'));
-        dispatch(deselectPage());
       }}
       onKeyUp={() => { dispatch(push('/')); }}
       tabIndex={0}
@@ -42,7 +40,7 @@ export const Navbar = ({ dispatch, isAuthenticated }) => (
             <NavItem>
               <NavLink
                 href="/list"
-                onClick={(e) => { e.preventDefault(); dispatch(push('/list')); dispatch(deselectPage()); }}
+                onClick={(e) => { e.preventDefault(); dispatch(push('/list')); }}
                 className="nav-link"
               >
               Content List

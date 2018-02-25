@@ -13,7 +13,7 @@ export const reducer = (state = initialState, { type, payload, error }) => {
     case ACTIONS.FETCH_PAGES: return { ...state };
     case ACTIONS.FETCH_PAGES_SUCCESS: {
       const { pages } = payload;
-      return { ...state, pages };
+      return { ...state, pages, activePageNid: 0 };
     }
     case ACTIONS.FETCH_PAGES_FAILURE: return { ...state };
 
@@ -54,8 +54,6 @@ export const reducer = (state = initialState, { type, payload, error }) => {
       const { activePageNid } = payload;
       return { ...state, activePageNid };
     }
-    case ACTIONS.DESELECT_PAGE:
-      return { ...state, activePageNid: 0 };
 
     default:
       return { ...state };

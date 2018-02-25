@@ -19,7 +19,6 @@ export const SAVE_PAGE_UPDATES_SUCCESS = 'SAVE_PAGE_UPDATES_SUCCESS';
 export const SAVE_PAGE_UPDATES_FAILURE = 'SAVE_PAGE_UPDATES_FAILURE';
 
 export const SELECT_PAGE = 'SELECT_PAGE';
-export const DESELECT_PAGE = 'DESELECT_PAGE';
 
 export const ACTIONS = {
   FETCH_PAGES,
@@ -35,7 +34,6 @@ export const ACTIONS = {
   SAVE_PAGE_UPDATES_SUCCESS,
   SAVE_PAGE_UPDATES_FAILURE,
   SELECT_PAGE,
-  DESELECT_PAGE,
 };
 
 // ---------------
@@ -104,8 +102,4 @@ export const savePageUpdatesFailure = error => ({
 export const selectPage = payload => ({
   type: ACTIONS.SELECT_PAGE,
   payload,
-});
-
-export const deselectPage = () => ({
-  type: ACTIONS.DESELECT_PAGE,
 });
