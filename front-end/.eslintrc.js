@@ -1,6 +1,7 @@
 const path = require('path')  // assuming you use cwd-relative paths in your NODE_PATH
 
 module.exports = {
+    "parser": "babel-eslint",
     "extends": "airbnb",
     "plugins": [
         "react",
@@ -8,15 +9,18 @@ module.exports = {
         "import"
     ],
     "rules": {
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "import/no-extraneous-dependencies": [2, { devDependencies: true }],
     },
     "env": {
-        "jest": true
+        "jest": true,
+        "browser": true,
+        "node": true,
     }
 };
 
 module.exports.settings = {
     "import/resolver": {
-    node: { paths: process.env.NODE_PATH.split(":").map(path.resolve) }
+    node: { paths: 'src/' }
     }
 }

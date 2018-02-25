@@ -1,61 +1,35 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import { withApollo } from 'react-apollo';
 
-import Gallery from "components/frames/gallery/Gallery";
+import Gallery from 'components/frames/gallery/Gallery';
 
 import { readFile } from 'utils/ImageHelpers';
-import { getSignedUrls, addS3Files, updatePageMutation } from 'api/queries';
+import { getSignedUrls, addS3Files } from 'api/apolloProxy';
+
+import { savePageUpdates } from '../redux/page/actions';
 
 export class GalleryFrame extends Component {
   /*
   * Constructor
   * ----------------------
   */
-  constructor(props){
+  constructor(props) {
     super(props);
 
-    const uploadPath = props.activeNode.author.name + '/' + props.activeNode.uuid + '/';
+    const { author, uuid } = props.page;
+
+    const uploadPath = `${author.name}/${uuid}/`;
     this.state = {
-      title: 'null',
-      body: '',
       mids: [],
       files: [],
       maxWidth: 400,
       maxHeight: 225,
       uploading: false,
-      uploadPath: uploadPath
+      uploadPath,
     };
-  };
-
-  /*
-  * Computed Properties
-  * ----------------------
-  */
-
-  computedPath = (files) => {
-    return files.map(f => { return this.state.uploadPath + f.file.name; })
-  }
-
-  computedFileIndex = (files, file) => {
-    return files.findIndex((f) => { return f.file.name === file.name;});
-  }
-
-  totalBytes = (files) => {
-    // calculate total file size
-    var totalBytes = files
-    .map(f => { return f.file.size || f.file.fileSize;})
-    .reduce((a, c) => { return a + c; }, 0);
-    return totalBytes;
-  }
-
-  isAllFilesUploaded = (files) => {
-    const finished = files.filter((f) => {
-      return f.file.uploadSuccess ? false : true;
-    });
-
-    return finished.length === 0 ? true : false;
   }
 
   /*
@@ -63,35 +37,95 @@ export class GalleryFrame extends Component {
   * ----------------------
   */
 
+  onDrop = (files) => {
+    const len = files.length;
+    for (let i = 0; i < len; i += 1) {
+      const file = files[i];
+      // Only process image files.
+      if (!file.type.match('image.*')) { break; }
+      this.createFileObject(file, i);
+    }
+  };
+
+  // STEP 1 - Upload button clicked
+  onUploadClick = () => {
+    this.setState({ uploading: true });
+    const { files } = this.state;
+    this.fetchSignedUrls(files, this.onFetchSignedUrlsCompletionHandler);
+  }
+
+  onFetchSignedUrlsCompletionHandler = (files, signedUrls) => {
+    // Assumptions: the returned signedURLs order matches the files state - always the case?
+    signedUrls.map((item, i) => {
+      this.handleUpload(item, files[i].file, this.onUploadCompletionHandler);
+      return true;
+    });
+  }
+
+  onUploadCompletionHandler = () => {
+    this.syncS3FilesBackToDrupalAndCreateMediaEntities(
+      this.state.files,
+      this.onSyncCompletionHandler,
+    );
+  }
+
+  onSyncCompletionHandler = (mids) => {
+    this.updateNode(mids);
+    setTimeout(() => { this.setState({ files: [] }); }, 500);
+  }
+
   setPropOnFile = (file, prop, value) => {
     const newFiles = this.state.files;
     const index = this.computedFileIndex(newFiles, file);
-    if(index >= 0){
+    if (index >= 0) {
       newFiles[index].file[prop] = value;
-      this.setState({files: newFiles});
+      this.setState({ files: newFiles });
     }
   }
 
-  createFileObject = (file, index) => {
+  /*
+  * Computed Properties
+  * ----------------------
+  */
+
+  computedPath = files => files.map(f => this.state.uploadPath + f.file.name)
+
+  computedFileIndex = (files, file) => files.findIndex(f => f.file.name === file.name)
+
+  totalBytes = (files) => {
+    // calculate total file size
+    const totalBytes = files
+      .map(f => f.file.size || f.file.fileSize)
+      .reduce((a, c) => a + c, 0);
+    return totalBytes;
+  }
+
+  isAllFilesUploaded = (files) => {
+    const finished = files.filter(f => (!f.file.uploadSuccess));
+
+    return finished.length === 0;
+  }
+
+  createFileObject = (file) => {
     const { maxWidth, maxHeight } = this.state;
     readFile(file, maxWidth, maxHeight, (resizeDataUrl) => {
-      let fileObject = {
-        file: file,
-        thumbnail: resizeDataUrl
-      }
+      const fileObject = {
+        file,
+        thumbnail: resizeDataUrl,
+      };
 
       this.setState({
-        files:[
+        files: [
           ...this.state.files,
-          fileObject
-        ]
-      })
+          fileObject,
+        ],
+      });
     });
   }
 
   handleDelete = (index) => {
-    let newFileArray = this.state.files;
-    newFileArray.splice(index,1);
+    const newFileArray = this.state.files;
+    newFileArray.splice(index, 1);
     this.setState({
       files: newFileArray,
     });
@@ -103,19 +137,8 @@ export class GalleryFrame extends Component {
   }
 
   catchError = (error) => {
-    console.log('Error ' + error);
+    console.log(`Error ${error}`);
   }
-
-  onDrop = (files) => {
-    const len = files.length;
-    for (var i = 0; i < len; i++) {
-      let file = files[i];
-      // Only process image files.
-      if (!file.type.match('image.*')) { continue; }
-      this.createFileObject(file, i);
-    }
-  };
-
 
   /**
   * NETWORKING - REMOTE FETCH/GRAPHQL
@@ -126,84 +149,66 @@ export class GalleryFrame extends Component {
   * ----------------------
   */
 
-
-  // STEP 1 - Upload button clicked
-  onUploadClick = () => {
-    this.setState({ uploading: true });
-    const files = this.state.files;
-    this.fetchSignedUrls(files, this.onFetchSignedUrlsCompletionHandler);
-  }
-
   // STEP 2 - Fetch remote upload Urls
   fetchSignedUrls = (files, onFetchSignedUrlsCompletionHandler = () => {}) => {
+    const { client } = this.props;
     this.setState({ uploading: true });
-    const variables = {"input": {"fileNames": this.computedPath(files)}};
-    this.props.client.query({ query: getSignedUrls, variables: variables})
-    .then(response => {
+    const variables = { input: { fileNames: this.computedPath(files) } };
+    client.query({ query: getSignedUrls, variables })
+      .then((response) => {
       // send signedUrls to callback
-      onFetchSignedUrlsCompletionHandler(files, response.data.signedUploadURL)
-    }).catch(this.catchError);
-  }
-
-  onFetchSignedUrlsCompletionHandler = (files, signedUrls) => {
-    // Assumptions: the returned signedURLs order matches the files state - always the case?
-    signedUrls.map(
-      (item,i) => {
-        this.handleUpload(item, files[i].file, this.onUploadCompletionHandler);
-        return true;
-      }
-    )
+        onFetchSignedUrlsCompletionHandler(files, response.data.signedUploadURL);
+      }).catch(this.catchError);
   }
 
   // STEP 3 - Upload to S3 w/ progress
   handleUpload = (signedUrl, file, onUploadCompletionHandler = () => {}) => {
-    const CancelToken = axios.CancelToken;
+    const { CancelToken } = axios;
     let cancel;
     const config = {
-      headers: {'Content-Type': file.type},
-      onUploadProgress: progressEvent => {
-        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+      headers: { 'Content-Type': file.type },
+      onUploadProgress: (progressEvent) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
         // update progress on image object
         this.setPropOnFile(file, 'percentCompleted', percentCompleted);
       },
-      cancelToken: new CancelToken(function executor(c) {
+      cancelToken: new CancelToken(((c) => {
         // An executor function receives a cancel function as a parameter
         cancel = c;
-      })
+      })),
     };
 
-    const {files} = this.state;
+    const { files } = this.state;
     axios.put(signedUrl, file, config)
-    .then((response) => {
-      this.setPropOnFile(file, 'uploadSuccess', true);
-      if (this.isAllFilesUploaded(files)){
-        console.log('ALL FILES ARE UPLOADED')
-        onUploadCompletionHandler()
-      }
-    }).catch(error => {
-      if(axios.isCancel(error)) {
-        if (this.isAllFilesUploaded(files)){
-          console.log('ALL FILES ARE UPLOADED')
-          onUploadCompletionHandler()
+      .then(() => {
+        this.setPropOnFile(file, 'uploadSuccess', true);
+        if (this.isAllFilesUploaded(files)) {
+          console.log('ALL FILES ARE UPLOADED');
+          onUploadCompletionHandler();
         }
-      }else{
-        console.log('Error ' + error)
-      }
-    });
+      }).catch((error) => {
+        if (axios.isCancel(error)) {
+          if (this.isAllFilesUploaded(files)) {
+            console.log('ALL FILES ARE UPLOADED');
+            onUploadCompletionHandler();
+          }
+        } else {
+          console.log(`Error ${error}`);
+        }
+      });
 
-    if(this.state.files.length > 0){
-      let localFileArray = this.state.files;
+    if (this.state.files.length > 0) {
+      const localFileArray = this.state.files;
 
-      for(let i = 0; i < localFileArray.length; i++){
-        if(localFileArray[i].file.name === file.name){
-          let curFile = localFileArray[i];
-          curFile['cancel'] = cancel;
+      for (let i = 0; i < localFileArray.length; i += 1) {
+        if (localFileArray[i].file.name === file.name) {
+          const curFile = localFileArray[i];
+          curFile.cancel = cancel;
 
           this.setState({
             ...this.state.files,
-            curFile
-          })
-
+            curFile,
+          });
         }
       }
     }
@@ -211,59 +216,52 @@ export class GalleryFrame extends Component {
     this.setPropOnFile(file, 'uploadInitiated', true);
   }
 
-  onUploadCompletionHandler = () => {
-    this.syncS3FilesBackToDrupalAndCreateMediaEntities(this.state.files, this.onSyncCompletionHandler);
-  }
-
   // STEP 4 - SyncS3withDrupal
-  syncS3FilesBackToDrupalAndCreateMediaEntities(files, onSyncCompletionHandler = () => {} ){
+  syncS3FilesBackToDrupalAndCreateMediaEntities(files, onSyncCompletionHandler = () => {}) {
+    const { client } = this.props;
     const p = this.state.uploadPath;
-    const filesMap = files.map(f => {
-      return {
-        filename: f.file.name,
-        filesize: f.file.size,
-        url: p + f.file.name
-      };
-    });
+    const filesMap = files.map(f => ({
+      filename: f.file.name,
+      filesize: f.file.size,
+      url: p + f.file.name,
+    }));
 
     this.setState({ synchronizing: true });
-    const variables = {"input": {"files": filesMap}};
-    this.props.client.mutate({ mutation: addS3Files, variables: variables})
-    .then(response => {
+    const variables = { input: { files: filesMap } };
+    client.mutate({ mutation: addS3Files, variables })
+      .then((response) => {
       // send signedUrls to callback
-      console.log('SYNC COMPLETE')
-      const mids = response.data.addS3Files.map(item => { return item.mid});
-      onSyncCompletionHandler(mids)
-    }).catch(this.catchError);
+        console.log('SYNC COMPLETE');
+        const mids = response.data.addS3Files.map(item => item.mid);
+        onSyncCompletionHandler(mids);
+      }).catch(this.catchError);
   }
 
-  onSyncCompletionHandler = (mids) => {
-    this.updateNode(mids);
-    setTimeout(() => { this.setState({files:[]}); }, 500);
-  }
-
-  //STEP 5 -
+  // STEP 5 -
   updateNode = (mids = []) => {
-    const activeMids = this.props.activeNode.images.map((item) => { return item.mid })
+    const { page, dispatch } = this.props;
+    const activeMids = page.images.map(item => item.mid);
     const newMids = mids.concat(activeMids).concat(this.state.mids);
 
     const variables = {
-        id: Number(this.props.activeNode.nid),
-        title: this.props.activeNode.title,
-        body: this.props.activeNode.body.value,
-        field_media_image: newMids
-      };
+      id: Number(page.nid),
+      title: page.title,
+      body: page.body.value,
+      field_media_image: newMids,
+    };
 
-    this.props.client.mutate({ mutation: updatePageMutation, variables: variables})
-    .then(response => {
-      // send signedUrls to callback
-      if(response.data.updatePage.page !== null){
-        console.log('UPDATE PAGE WITH UPLOADED MEDIA COMPLETE');
-      }else{
-        console.error("ERROR: The page was not updated correctly")
-      }
-      this.setState({mids: newMids});
-    }).catch(this.catchError);
+    dispatch(savePageUpdates(variables));
+
+    // client.mutate({ mutation: updatePageMutation, variables })
+    //   .then((response) => {
+    //   // send signedUrls to callback
+    //     if (response.data.updatePage.page !== null) {
+    //       console.log('UPDATE PAGE WITH UPLOADED MEDIA COMPLETE');
+    //     } else {
+    //       console.error('ERROR: The page was not updated correctly');
+    //     }
+    //     this.setState({ mids: newMids });
+    //   }).catch(this.catchError);
   }
 
   /*
@@ -272,20 +270,22 @@ export class GalleryFrame extends Component {
   */
 
   render() {
-    return <Gallery
-    onDrop={this.onDrop}
-    totalBytes={this.totalBytes}
-    onUploadClick={this.onUploadClick}
-    handleCancel={this.handleCancel}
-    handleDelete={this.handleDelete}
-    {...this.state} />
+    return (<Gallery
+      onDrop={this.onDrop}
+      totalBytes={this.totalBytes}
+      onUploadClick={this.onUploadClick}
+      handleCancel={this.handleCancel}
+      handleDelete={this.handleDelete}
+      {...this.state}
+    />);
   }
-
 }
 
 GalleryFrame.propTypes = {
-  activeNode: PropTypes.object.isRequired
-}
+  dispatch: PropTypes.func.isRequired,
+  page: PropTypes.shape({}).isRequired,
+  client: PropTypes.shape({}).isRequired,
+};
 
-export const GalleryFrameWrapper = withApollo(GalleryFrame);
+const GalleryFrameWrapper = connect()(withApollo(GalleryFrame));
 export default GalleryFrameWrapper;

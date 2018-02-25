@@ -1,48 +1,95 @@
-const initState = {
+import { ACTIONS } from './actions';
+import { persistCredentials, unsetLocalStorageCredentials, getLocalCredentials, persistUsername } from './utilities';
+
+const initialState = {
+  credentials: {
     accessToken: null,
     refreshToken: null,
     expiration: null,
-    authenticated: false,
     timestamp: null,
-    username: null
-  };
+    username: null,
+  },
+  isAuthenticated: false,
+  isLoading: false,
+  isLoggingIn: !!getLocalCredentials().accessToken,
+  error: undefined,
+};
 
-export const reducer = (state = initState, {type, payload}) => {
+const loginSuccessHandler = (payload) => {
+  persistCredentials(payload);
+  if (payload.username) {
+    persistUsername(payload.username);
+  }
+};
+
+
+export const reducer = (state = initialState, { type, payload, error }) => {
   switch (type) {
-
-    case 'SET_ACCESS_TOKEN':
+    case ACTIONS.LOGIN_REQUEST:
       return {
         ...state,
-        accessToken: payload
-      }
-
-    case 'SET_OAUTH':
-
-      sessionStorage.setItem('accessToken', payload.accessToken);
-      sessionStorage.setItem('expirationTime', payload.expiration);
-      localStorage.setItem('refreshToken', payload.refreshToken);
-      localStorage.setItem('lastRefreshedToken', payload.timestamp);
-
-      return {
-        ...state,
-        accessToken: payload.accessToken,
-        refreshToken: payload.refreshToken,
-        expiration: payload.expiration,
-        authenticated: payload.authenticated,
-        timestamp: payload.timestamp
+        credentials: { ...payload },
+        isLoggingIn: true,
       };
 
-    case 'SET_USERNAME':
+    case ACTIONS.LOGIN_SUCCESS:
+      loginSuccessHandler(payload);
       return {
         ...state,
-        username: payload
-      }
-
-    case 'SET_AUTH_CHECK':
-      return{
-        ...state,
-        authenticated: payload
+        credentials: { ...payload },
+        isAuthenticated: true,
+        isLoggingIn: false,
       };
+    case ACTIONS.LOGIN_FAILURE:
+      unsetLocalStorageCredentials();
+      return { ...initialState, isLoggingIn: false, error };
+    case ACTIONS.LOGOUT:
+      unsetLocalStorageCredentials();
+      return {
+        ...state,
+        isAuthenticated: false,
+        isLoggingIn: false,
+      };
+
+    case ACTIONS.REFRESH_TOKEN_EXPIRED_CHECK:
+      return {
+        ...state,
+      };
+    case ACTIONS.TOKENS_EXPIRED_CHECK_VALID:
+      return {
+        ...state,
+        isAuthenticated: true,
+        isLoggingIn: false,
+      };
+    case ACTIONS.TOKENS_EXPIRED_CHECK_NOT_VALID:
+      return {
+        ...state,
+        isAuthenticated: false,
+        isLoggingIn: false,
+      };
+
+    case ACTIONS.REFRESH_TOKENS_REQUEST:
+      return {
+        ...state,
+        credentials: { ...payload },
+        isLoggingIn: true,
+      };
+    case ACTIONS.REFRESH_TOKENS_REQUEST_SUCCESS:
+      loginSuccessHandler(payload);
+      return {
+        ...state,
+        credentials: { ...payload },
+        isAuthenticated: true,
+        isLoggingIn: false,
+      };
+    case ACTIONS.REFRESH_TOKENS_REQUEST_FAILURE:
+      unsetLocalStorageCredentials();
+      return {
+        ...initialState,
+        isLoggingIn: false,
+        error: payload,
+      };
+
 
     default:
       return state;

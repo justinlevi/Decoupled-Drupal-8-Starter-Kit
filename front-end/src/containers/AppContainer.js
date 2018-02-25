@@ -1,115 +1,45 @@
-import React, {Component} from 'react';
-import { connect } from 'react-redux';
-
-import { InitOAuth, SetAuthCheck, SetUsername, CheckRefreshToken } from 'redux/rootActions';
-import App from 'components/App';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect, Provider } from 'react-redux';
 
 import { ApolloProvider } from 'react-apollo';
+
 import ApolloClient from 'api/apolloClient';
+import App from 'components/App';
+
+import { tokensExpiredCheck } from '../redux/auth/oauth/actions';
 
 export class AppContainer extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.props.dispatch(CheckRefreshToken());
-
-    this.state = {
-      username: '',
-      password: '',
-      uid: 0,
-      activeNode: undefined,
-      isLoading: false,
-      isLoginFailed: false,
-      statusCode: '',
-      handleLogin: this.handleLogin,
-      handleLogout: this.onLogoutClick,
-      handleInputChange: this.handleInputChange,
-      projectCardListHandler: this.projectCardListHandler
+  componentWillMount() {
+    const { dispatch } = this.props;
+    if (sessionStorage.getItem('accessToken')) {
+      dispatch(tokensExpiredCheck());
     }
-  }
-
-  projectCardListHandler = (node) => {
-    this.setState({activeNode: node});
-  }
-
-  // is used by both login and password reset
-  onFailure = (error) => {
-    console.log("onFailure");
-    console.log(error);
-    this.setState({
-      isAuthenticated: false,
-      isLoginFailed: true,
-      statusCode: error,
-    });
-  };
-
-  handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  handleLogout = (reload = false) => {
-
-    this.setState({username: '', password: ''});
-
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('username');
-    sessionStorage.removeItem('csrfToken');
-    sessionStorage.removeItem('expirationTime');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('lastRefreshedToken');
-
-    if(reload){
-      window.location.reload(true);
-    }
-  }
-
-  handleLogin = (event) => {
-    event.preventDefault();
-
-    const { username, password } = this.state;
-
-    if(!username || !password){
-      this.onFailure('Username and Password are required');
-      this.handleLogout();
-      return;
-    }
-
-    const payload = {
-      grantType: 'password',
-      username: username,
-      password: password
-    }
-    this.props.dispatch(SetUsername(username));
-    this.props.dispatch(InitOAuth(payload));
-  };
-
-  onLogoutClick = (event) => {
-    event.preventDefault();
-    this.props.dispatch(SetAuthCheck(false));
-    this.handleLogout();
   }
 
   render() {
     return (
-      <ApolloProvider client={ApolloClient}>
-        <App {...this.state} {...this.props}
-          handleInputChange={this.handleInputChange}
-          handleLogin={this.handleLogin}
-        />
-      </ApolloProvider>
+      <Provider store={this.props.store} >
+        <ApolloProvider client={ApolloClient}>
+          <App
+            {...this.state}
+            {...this.props}
+          />
+        </ApolloProvider>
+      </Provider>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  isAuthenticated: state.oauth.authenticated
-})
+AppContainer.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  store: PropTypes.shape({}).isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.authReducer.isAuthenticated,
+  isLoggingIn: state.authReducer.isLoggingIn,
+});
 
 export default connect(mapStateToProps)(AppContainer);

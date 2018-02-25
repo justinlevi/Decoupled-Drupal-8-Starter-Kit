@@ -4,10 +4,15 @@ exports[`Navbar Snapshots should render correctly 1`] = `
 <header
   className="navbar navbar-expand navbar-light flex-column flex-md-row bd-navbar"
 >
-  <a
+  <NavLink
     aria-label="Decouple D8 Editorial Experience"
     className="navbar-brand mr-0 mr-md-2"
     href="/"
+    onClick={[Function]}
+    onKeyUp={[Function]}
+    role="button"
+    tabIndex={0}
+    tag="a"
   >
     <svg
       aria-hidden="true"
@@ -22,25 +27,17 @@ exports[`Navbar Snapshots should render correctly 1`] = `
         fillRule="evenodd"
       />
     </svg>
-  </a>
-  <div
+  </NavLink>
+  <Nav
     className="navbar-nav-scroll"
+    navbar={true}
+    tag="ul"
+    vertical={false}
   >
     <ul
       className="navbar-nav bd-navbar-nav flex-row"
-    >
-      <li
-        className="nav-item"
-      >
-        <a
-          className="nav-link "
-          href="/"
-        >
-          Content List
-        </a>
-      </li>
-    </ul>
-  </div>
+    />
+  </Nav>
   <ul
     className="navbar-nav flex-row ml-md-auto d-none d-md-flex"
   >
@@ -94,12 +91,5 @@ exports[`Navbar Snapshots should render correctly 1`] = `
       </a>
     </li>
   </ul>
-  <a
-    className="logout btn btn-sm btn-outline-secondary d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3"
-    href="/"
-    onClick={[Function]}
-  >
-    Logout
-  </a>
 </header>
 `;
