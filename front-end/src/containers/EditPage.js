@@ -35,12 +35,12 @@ export class EditPage extends Component {
     const { dispatch } = this.props;
     const { title, body, page } = this.state;
 
-    const activeMids = page.images.map(item => item.mid);
+    const mids = page.images.map(item => item.mid);
     const variables = {
       id: Number(page.nid),
       title: title === '' ? 'NULL' : title,
       body,
-      field_media_image: activeMids,
+      field_media_image: mids,
     };
 
     dispatch(savePageUpdates(variables));

@@ -120,31 +120,6 @@ export const deletePageMutation = ({ id }) => apolloClient.mutate({
   },
 });
 
-
-export const getSignedUrls = ({ files }) => apolloClient.query({
-  query: gql`
-    query signedUploadURL ($input: SignedUploadInput!) {
-      signedUploadURL(input:$input)
-    }
-  `,
-  variables: {
-    input: { fileNames: files },
-  },
-});
-
-export const addS3Files = ({ files }) => apolloClient.query({
-  query: gql`
-    mutation addS3Files($input: S3FilesInput!) {
-      addS3Files(input:$input){
-        mid
-      }
-    }
-  `,
-  variables: {
-    input: { files },
-  },
-});
-
 export const updatePageMutation = ({
   id, title, body, field_media_image,
 }) => apolloClient.mutate({
@@ -175,3 +150,17 @@ export const updatePageMutation = ({
     field_media_image,
   },
 });
+
+export const getSignedUrls = gql`
+  query signedUploadURL ($input: SignedUploadInput!) {
+    signedUploadURL(input:$input)
+  }
+`;
+
+export const addS3Files = gql`
+  mutation addS3Files($input: S3FilesInput!) {
+    addS3Files(input:$input){
+      mid
+    }
+  }
+`;

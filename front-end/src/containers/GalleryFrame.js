@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
-// import { withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 
 import Gallery from 'components/frames/gallery/Gallery';
 
 import { readFile } from 'utils/ImageHelpers';
-// import { getSignedUrls, addS3Files, updatePageMutation } from 'api/apolloProxy';
+import { getSignedUrls, addS3Files } from 'api/apolloProxy';
+
+import { savePageUpdates } from '../redux/page/actions';
 
 export class GalleryFrame extends Component {
   /*
@@ -21,8 +23,6 @@ export class GalleryFrame extends Component {
 
     const uploadPath = `${author.name}/${uuid}/`;
     this.state = {
-      title: 'null',
-      body: '',
       mids: [],
       files: [],
       maxWidth: 400,
@@ -151,14 +151,14 @@ export class GalleryFrame extends Component {
 
   // STEP 2 - Fetch remote upload Urls
   fetchSignedUrls = (files, onFetchSignedUrlsCompletionHandler = () => {}) => {
-    // const { client } = this.props;
-    // this.setState({ uploading: true });
-    // const variables = { input: { fileNames: this.computedPath(files) } };
-    // client.query({ query: getSignedUrls, variables })
-    //   .then((response) => {
-    //   // send signedUrls to callback
-    //     onFetchSignedUrlsCompletionHandler(files, response.data.signedUploadURL);
-    //   }).catch(this.catchError);
+    const { client } = this.props;
+    this.setState({ uploading: true });
+    const variables = { input: { fileNames: this.computedPath(files) } };
+    client.query({ query: getSignedUrls, variables })
+      .then((response) => {
+      // send signedUrls to callback
+        onFetchSignedUrlsCompletionHandler(files, response.data.signedUploadURL);
+      }).catch(this.catchError);
   }
 
   // STEP 3 - Upload to S3 w/ progress
@@ -217,50 +217,52 @@ export class GalleryFrame extends Component {
   }
 
   // STEP 4 - SyncS3withDrupal
-  // syncS3FilesBackToDrupalAndCreateMediaEntities(files, onSyncCompletionHandler = () => {}) {
-  //   const { client } = this.props;
-  //   const p = this.state.uploadPath;
-  //   const filesMap = files.map(f => ({
-  //     filename: f.file.name,
-  //     filesize: f.file.size,
-  //     url: p + f.file.name,
-  //   }));
+  syncS3FilesBackToDrupalAndCreateMediaEntities(files, onSyncCompletionHandler = () => {}) {
+    const { client } = this.props;
+    const p = this.state.uploadPath;
+    const filesMap = files.map(f => ({
+      filename: f.file.name,
+      filesize: f.file.size,
+      url: p + f.file.name,
+    }));
 
-  //   this.setState({ synchronizing: true });
-  //   const variables = { input: { files: filesMap } };
-  //   client.mutate({ mutation: addS3Files, variables })
-  //     .then((response) => {
-  //     // send signedUrls to callback
-  //       console.log('SYNC COMPLETE');
-  //       const mids = response.data.addS3Files.map(item => item.mid);
-  //       onSyncCompletionHandler(mids);
-  //     }).catch(this.catchError);
-  // }
+    this.setState({ synchronizing: true });
+    const variables = { input: { files: filesMap } };
+    client.mutate({ mutation: addS3Files, variables })
+      .then((response) => {
+      // send signedUrls to callback
+        console.log('SYNC COMPLETE');
+        const mids = response.data.addS3Files.map(item => item.mid);
+        onSyncCompletionHandler(mids);
+      }).catch(this.catchError);
+  }
 
   // STEP 5 -
-  // updateNode = (mids = []) => {
-  //   const { client, page } = this.props;
-  //   const activeMids = page.images.map(item => item.mid);
-  //   const newMids = mids.concat(activeMids).concat(this.state.mids);
+  updateNode = (mids = []) => {
+    const { page, dispatch } = this.props;
+    const activeMids = page.images.map(item => item.mid);
+    const newMids = mids.concat(activeMids).concat(this.state.mids);
 
-  //   const variables = {
-  //     id: Number(page.nid),
-  //     title: page.title,
-  //     body: page.body.value,
-  //     field_media_image: newMids,
-  //   };
+    const variables = {
+      id: Number(page.nid),
+      title: page.title,
+      body: page.body.value,
+      field_media_image: newMids,
+    };
 
-  //   client.mutate({ mutation: updatePageMutation, variables })
-  //     .then((response) => {
-  //     // send signedUrls to callback
-  //       if (response.data.updatePage.page !== null) {
-  //         console.log('UPDATE PAGE WITH UPLOADED MEDIA COMPLETE');
-  //       } else {
-  //         console.error('ERROR: The page was not updated correctly');
-  //       }
-  //       this.setState({ mids: newMids });
-  //     }).catch(this.catchError);
-  // }
+    dispatch(savePageUpdates(variables));
+
+    // client.mutate({ mutation: updatePageMutation, variables })
+    //   .then((response) => {
+    //   // send signedUrls to callback
+    //     if (response.data.updatePage.page !== null) {
+    //       console.log('UPDATE PAGE WITH UPLOADED MEDIA COMPLETE');
+    //     } else {
+    //       console.error('ERROR: The page was not updated correctly');
+    //     }
+    //     this.setState({ mids: newMids });
+    //   }).catch(this.catchError);
+  }
 
   /*
   * Render
@@ -282,9 +284,8 @@ export class GalleryFrame extends Component {
 GalleryFrame.propTypes = {
   dispatch: PropTypes.func.isRequired,
   page: PropTypes.shape({}).isRequired,
+  client: PropTypes.shape({}).isRequired,
 };
 
-// export const GalleryFrameWrapper = withApollo(GalleryFrame);
-const GalleryFrameWrapper = connect()(GalleryFrame);
-
+const GalleryFrameWrapper = connect()(withApollo(GalleryFrame));
 export default GalleryFrameWrapper;
