@@ -62,6 +62,7 @@ export const pagesByUserQuery = () => apolloClient.query({
     }
     ${fragments.nodePage}
   `,
+  fetchPolicy: 'network-only',
 });
 
 // export const pagesByUserQuery = gql `

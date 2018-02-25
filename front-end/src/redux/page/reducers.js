@@ -38,13 +38,11 @@ export const reducer = (state = initialState, { type, payload, error }) => {
     case ACTIONS.DELETE_PAGE_FAILURE: return { ...state };
 
     /**
-     * EDIT PAGE
+     * SAVE PAGE
      */
     case ACTIONS.SAVE_PAGE_UPDATES: return { ...state };
     case ACTIONS.SAVE_PAGE_UPDATES_SUCCESS: {
       const { pages } = payload;
-
-
       return { ...state, pages };
     }
     case ACTIONS.SAVE_PAGE_UPDATES_FAILURE: return { ...state };

@@ -43,7 +43,7 @@ export class EditPage extends Component {
       field_media_image: activeMids,
     };
 
-    dispatch(savePageUpdates({ ...variables }));
+    dispatch(savePageUpdates(variables));
 
     // client.mutate({ mutation: updatePageMutation, variables })
     //   .then((response) => {
