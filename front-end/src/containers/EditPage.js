@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { withApollo } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Form, FormGroup, Input } from 'reactstrap';
 
-// import { updatePageMutation } from 'api/apolloProxy';
-import { editPage } from '../redux/page/actions';
-import { GalleryFrame } from './GalleryFrame';
-
+import { savePageUpdates } from '../redux/page/actions';
+import Gallery from './GalleryFrame';
+import { getPageFromNid } from '../redux/page/utilities';
 
 export class EditPage extends Component {
   /*
@@ -17,10 +15,13 @@ export class EditPage extends Component {
   constructor(props) {
     super(props);
 
-    const { title, body } = props.activePage;
+    const { activePageNid, pages } = props;
+    const page = getPageFromNid(pages, activePageNid);
+    const { title, body } = page;
 
     this.state = {
       saveTimeout: undefined,
+      page,
       title: title === null || title === 'NULL' ? '' : title,
       body: body === null ? '' : body.value,
     };
@@ -31,16 +32,18 @@ export class EditPage extends Component {
   }
 
   updateNode = () => {
-    const { dispatch, activePage } = this.props;
-    const activeMids = activePage.images.map(item => item.mid);
+    const { dispatch } = this.props;
+    const { title, body, page } = this.state;
+
+    const activeMids = page.images.map(item => item.mid);
     const variables = {
-      id: Number(activePage.nid),
-      title: this.state.title === '' ? 'NULL' : this.state.title,
-      body: this.state.body,
+      id: Number(page.nid),
+      title: title === '' ? 'NULL' : title,
+      body,
       field_media_image: activeMids,
     };
 
-    dispatch(editPage({ ...variables }));
+    dispatch(savePageUpdates({ ...variables }));
 
     // client.mutate({ mutation: updatePageMutation, variables })
     //   .then((response) => {
@@ -72,18 +75,18 @@ export class EditPage extends Component {
   */
 
   render() {
-    const { activePage } = this.props;
+    const { page, title, body } = this.state;
     return (
       <div className="EditPageContainer">
 
         <Form>
           <FormGroup>
-            <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={this.state.title} />
-            <Input name="body" placeholder="Body" type="textarea" bsSize="lg" onChange={this.handleInputChange} value={this.state.body} />
+            <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={title} />
+            <Input name="body" placeholder="Body" type="textarea" bsSize="lg" onChange={this.handleInputChange} value={body} />
           </FormGroup>
         </Form>
 
-        <GalleryFrame activePage={activePage} />
+        <Gallery page={page} />
 
       </div>
     );
@@ -92,14 +95,17 @@ export class EditPage extends Component {
 
 EditPage.propTypes = {
   // client: PropTypes.func.isRequired,
-  activePage: PropTypes.shape({}).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  activePageNid: PropTypes.number.isRequired,
+  pages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 // export const EditPageWrapper = withApollo(EditPage);
 // export default EditPageWrapper;
 
 const mapStateToProps = state => ({
-  activePage: state.pageReducer.activePage,
+  activePageNid: state.pageReducer.activePageNid,
+  pages: state.pageReducer.pages,
 });
 const EditPageWrapper = connect(mapStateToProps)(EditPage);
 

@@ -30,7 +30,7 @@ export class LoginPage extends Component {
   }
 
   render() {
-    const { isLoggingIn, isAuthenticated, error } = this.props;
+    const { isLoggingIn, isAuthenticated } = this.props;
 
     if (isAuthenticated) {
       return <Redirect to="/" />;
@@ -40,12 +40,13 @@ export class LoginPage extends Component {
       return <div>Logging in...</div>;
     }
 
-    if (error) {
-      return <div>Error: {error}</div>;
-    }
-
     return (
-      <Login {...this.state} handleInputChange={this.handleInputChange} handleLogin={this.handleLogin} />
+      <Login
+        {...this.props}
+        {...this.state}
+        handleInputChange={this.handleInputChange}
+        handleLogin={this.handleLogin}
+      />
     );
   }
 }

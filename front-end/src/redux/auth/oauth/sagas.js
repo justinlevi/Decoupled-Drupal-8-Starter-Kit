@@ -49,7 +49,7 @@ function* loginRequestSaga(action) {
     if (result.accessToken) {
       yield put(loginSuccess(result));
     } else {
-      yield put(loginFailure(result));
+      yield put(loginFailure('Login failed: Please check your username and password.'));
     }
   } catch (error) {
     yield put(loginFailure(error));
@@ -75,11 +75,12 @@ function* refreshTokensRequestSaga(action) {
 }
 
 
-function* tokenExpiredCheckSaga(action) {
+function* tokenExpiredCheckSaga() {
   const {
     csrfToken, accessToken, expireStamp, refreshToken,
   } = getLocalCredentials();
 
+  // TODO: This definitely needs to be tested.
   if (!csrfToken) {
     yield put(initCsrfToken());
     yield take(CSRF_ACTIONS.CSRF_TOKEN_SUCCESS, tokenExpiredCheckSaga);

@@ -53,7 +53,7 @@ export const pagesByUserQuery = () => apolloClient.query({
         ...on User{
           uid
           nodes:reverseUidNode(offset:0, limit:1000){
-            entities{
+            pages: entities{
               ... NodePageFields
             }
           }
@@ -85,7 +85,7 @@ export const addPageMutation = ({ title }) => apolloClient.mutate({
           code
           path
         },
-        entity{
+        page:entity{
           ... NodePageFields
         }
       }

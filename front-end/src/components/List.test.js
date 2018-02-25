@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 
-import CardList from './CardList';
+import List from './List';
 
 const pageModel = {
   author: {
@@ -44,15 +44,15 @@ const initialPropsState = {
   isLoggingIn: false,
   isModalVisible: false,
   addPageHandler: jest.fn(),
-  editPageHandler: jest.fn(),
+  selectPageHandler: jest.fn(),
   onDeleteModalToggle: jest.fn(),
   onDeleteModalOk: jest.fn(),
   pages,
 };
 
-describe('CardList', () => {
+describe('List', () => {
   describe('Snapshots', () => {
-    const output = shallow(<CardList {...initialPropsState} />);
+    const output = shallow(<List {...initialPropsState} />);
 
     it('should render correctly', () => {
       expect(shallowToJson(output)).toMatchSnapshot();

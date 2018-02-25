@@ -14,11 +14,12 @@ export const DELETE_PAGE = 'DELETE_PAGE';
 export const DELETE_PAGE_SUCCESS = 'DELETE_PAGE_SUCCESS';
 export const DELETE_PAGE_FAILURE = 'DELETE_PAGE_FAILURE';
 
-export const EDIT_PAGE = 'EDIT_PAGE';
-export const EDIT_PAGE_SUCCESS = 'EDIT_PAGE_SUCCESS';
-export const EDIT_PAGE_FAILURE = 'EDIT_PAGE_FAILURE';
+export const SAVE_PAGE_UPDATES = 'SAVE_PAGE_UPDATES';
+export const SAVE_PAGE_UPDATES_SUCCESS = 'SAVE_PAGE_UPDATES_SUCCESS';
+export const SAVE_PAGE_UPDATES_FAILURE = 'SAVE_PAGE_UPDATES_FAILURE';
 
 export const SELECT_PAGE = 'SELECT_PAGE';
+export const DESELECT_PAGE = 'DESELECT_PAGE';
 
 export const ACTIONS = {
   FETCH_PAGES,
@@ -30,10 +31,11 @@ export const ACTIONS = {
   DELETE_PAGE,
   DELETE_PAGE_SUCCESS,
   DELETE_PAGE_FAILURE,
-  EDIT_PAGE,
-  EDIT_PAGE_SUCCESS,
-  EDIT_PAGE_FAILURE,
+  SAVE_PAGE_UPDATES,
+  SAVE_PAGE_UPDATES_SUCCESS,
+  SAVE_PAGE_UPDATES_FAILURE,
   SELECT_PAGE,
+  DESELECT_PAGE,
 };
 
 // ---------------
@@ -84,22 +86,26 @@ export const deletePageFailure = error => ({
   error,
 });
 
-export const editPage = payload => ({
-  type: ACTIONS.EDIT_PAGE,
+export const savePageUpdates = payload => ({
+  type: ACTIONS.SAVE_PAGE_UPDATES,
   payload,
 });
 
-export const editPageSuccess = payload => ({
-  type: ACTIONS.EDIT_PAGE_SUCCESS,
+export const savePageUpdatesSuccess = payload => ({
+  type: ACTIONS.SAVE_PAGE_UPDATES_SUCCESS,
   payload,
 });
 
-export const editPageFailure = error => ({
-  type: ACTIONS.EDIT_PAGE_FAILURE,
+export const savePageUpdatesFailure = error => ({
+  type: ACTIONS.SAVE_PAGE_UPDATES_FAILURE,
   error,
 });
 
 export const selectPage = payload => ({
   type: ACTIONS.SELECT_PAGE,
   payload,
+});
+
+export const deselectPage = () => ({
+  type: ACTIONS.DESELECT_PAGE,
 });

@@ -19,17 +19,17 @@ Fade.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const listItems = ({ pages, editPageHandler, deletePageHandler }) => pages.map(page => (
+const listItems = ({ pages, selectPageHandler, deletePageHandler }) => pages.map(page => (
   <Fade duration={1000} key={page.nid} timeout={{ enter: 0, exit: 1000 }}>
     <Card
       page={page}
-      editPageHandler={editPageHandler}
+      selectPageHandler={selectPageHandler}
       deleteHandler={(event) => { deletePageHandler(event, page.nid); }}
     />
   </Fade>
 ));
 
-const CardList = (props) => {
+const List = (props) => {
   const {
     addPageHandler, isModalVisible, onDeleteModalToggle, onDeleteModalOk,
   } = props;
@@ -69,11 +69,11 @@ const CardList = (props) => {
   );
 };
 
-CardList.propTypes = {
+List.propTypes = {
   isModalVisible: PropTypes.bool.isRequired,
   addPageHandler: PropTypes.func.isRequired,
   onDeleteModalToggle: PropTypes.func.isRequired,
   onDeleteModalOk: PropTypes.func.isRequired,
 };
 
-export default CardList;
+export default List;

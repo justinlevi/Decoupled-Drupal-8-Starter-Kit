@@ -14,7 +14,7 @@ const pageModel = {
 const initialPropsState = {
   page: pageModel,
   deleteHandler: jest.fn(),
-  editPageHandler: jest.fn(),
+  selectPageHandler: jest.fn(),
 };
 
 describe('Card', () => {

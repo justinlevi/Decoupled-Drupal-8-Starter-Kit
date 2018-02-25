@@ -1,4 +1,4 @@
-export const formatFetchPageResult = result => result.data.user.nodes.entities.map((node) => {
+export const formatFetchPageResult = result => result.data.user.nodes.pages.map((node) => {
   const newNode = { ...node };
   newNode.images = newNode.images.map(image => (
     { url: image.entity.image.derivative.url, mid: image.mid }
@@ -8,14 +8,21 @@ export const formatFetchPageResult = result => result.data.user.nodes.entities.m
 
 export const removePageFromPages = (pages, nid) => {
   const newPages = pages.slice();
-  const index = newPages.findIndex(n => n.nid === nid);
+  const index = newPages.findIndex(item => item.nid === nid);
   if (index === -1) { return false; }
   newPages.splice(index, 1);
   return newPages;
 };
 
-const utilities = {
-  formatFetchPageResult,
+export const updatePagesWithPage = (pages, page) => {
+  const newPages = pages.slice();
+  const index = newPages.findIndex(item => item.nid === page.nid);
+  if (index === -1) { return newPages; }
+  newPages[index] = page;
+  return newPages;
 };
 
-export default utilities;
+export const getPageFromNid = (pages, nid) => {
+  const index = pages.findIndex(item => item.nid === nid);
+  return pages[index];
+};

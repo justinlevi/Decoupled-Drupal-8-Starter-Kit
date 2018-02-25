@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+// import { push } from 'react-router-redux';
 
-import CardList from '../components/CardList';
+import List from '../components/List';
 
 import { fetchPages, addPage, deletePage, selectPage } from '../redux/page/actions';
 
@@ -29,7 +30,7 @@ export class ListPage extends Component {
 
   onDeleteModalOk = (event) => {
     event.stopPropagation();
-    // this.deletePageMutation(this.state.activePage);
+    // this.deletePageMutation(this.state.activePageNid);
     const { dispatch } = this.props;
     const { nid } = this.state;
 
@@ -42,7 +43,7 @@ export class ListPage extends Component {
   onDeleteModalToggle = () => {
     this.setState({
       isModalVisible: !this.state.isModalVisible,
-      activePage: '',
+      activePageNid: 0,
     });
   }
 
@@ -56,10 +57,10 @@ export class ListPage extends Component {
     dispatch(addPage({ title: 'NULL' }));
   }
 
-  editPageHandler = (activePage) => {
+  selectPageHandler = (activePageNid) => {
     const { dispatch } = this.props;
-    dispatch(selectPage({ activePage }));
-    dispatch(push(`/edit/${activePage.nid}/${activePage.title.replace(/ /g, '-').toLowerCase()}`));
+    dispatch(selectPage({ activePageNid }));
+    // dispatch(push(`/edit/${activePageNid.nid}/${activePageNid.title.replace(/ /g, '-').toLowerCase()}`));
   }
 
   deletePageHandler = (event, nid) => {
@@ -76,10 +77,10 @@ export class ListPage extends Component {
     */
 
   render() {
-    return (<CardList
+    return (<List
       {...this.props}
       {...this.state}
-      editPageHandler={this.editPageHandler}
+      selectPageHandler={this.selectPageHandler}
       deletePageHandler={this.deletePageHandler}
       addPageHandler={this.addPageHandler}
       onDeleteModalToggle={this.onDeleteModalToggle}
@@ -87,6 +88,10 @@ export class ListPage extends Component {
     />);
   }
 }
+
+ListPage.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,

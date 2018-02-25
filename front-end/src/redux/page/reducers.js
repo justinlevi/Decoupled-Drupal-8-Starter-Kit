@@ -2,44 +2,62 @@ import { ACTIONS } from './actions';
 
 const initialState = {
   pages: [],
-  activePage: undefined,
+  activePageNid: 0,
 };
 
-export const reducer = (state = initialState, { type, payload }) => {
-  // console.log(type);
+export const reducer = (state = initialState, { type, payload, error }) => {
   switch (type) {
+    /**
+     * FETCH PAGES
+     */
     case ACTIONS.FETCH_PAGES: return { ...state };
-    case ACTIONS.FETCH_PAGES_SUCCESS:
-      return {
-        ...state,
-        pages: payload.pages,
-      };
+    case ACTIONS.FETCH_PAGES_SUCCESS: {
+      const { pages } = payload;
+      return { ...state, pages };
+    }
     case ACTIONS.FETCH_PAGES_FAILURE: return { ...state };
+
+    /**
+     * ADD PAGE
+     */
     case ACTIONS.ADD_PAGE: return { ...state };
-    case ACTIONS.ADD_PAGE_SUCCESS:
-      return {
-        ...state,
-        pages: state.pages.concat(payload.page),
-        activePage: payload.page,
-      };
+    case ACTIONS.ADD_PAGE_SUCCESS: {
+      const { pages, activePageNid } = payload;
+      return { ...state, pages, activePageNid };
+    }
+    case ACTIONS.ADD_PAGE_FAILURE: return { ...state };
+
+    /**
+     * DELETE PAGE
+     */
     case ACTIONS.DELETE_PAGE: return { ...state };
-    case ACTIONS.DELETE_PAGE_SUCCESS:
-      return {
-        ...state,
-        pages: payload.pages ? payload.pages : [],
-      };
-    case ACTIONS.EDIT_PAGE: return { ...state };
-    case ACTIONS.EDIT_PAGE_SUCCESS:
-      return {
-        ...state,
-        pages: state.pages.concat(payload.page),
-        activePage: payload.page,
-      };
-    case ACTIONS.SELECT_PAGE:
-      return {
-        ...state,
-        activePage: payload.activePage,
-      };
+    case ACTIONS.DELETE_PAGE_SUCCESS: {
+      const { pages } = payload;
+      return { ...state, pages };
+    }
+    case ACTIONS.DELETE_PAGE_FAILURE: return { ...state };
+
+    /**
+     * EDIT PAGE
+     */
+    case ACTIONS.SAVE_PAGE_UPDATES: return { ...state };
+    case ACTIONS.SAVE_PAGE_UPDATES_SUCCESS: {
+      const { pages } = payload;
+
+
+      return { ...state, pages };
+    }
+    case ACTIONS.SAVE_PAGE_UPDATES_FAILURE: return { ...state };
+
+    /**
+     * SELECT PAGE (SET ACTIVE)
+     */
+    case ACTIONS.SELECT_PAGE: {
+      const { activePageNid } = payload;
+      return { ...state, activePageNid };
+    }
+    case ACTIONS.DESELECT_PAGE:
+      return { ...state, activePageNid: 0 };
 
     default:
       return { ...state };

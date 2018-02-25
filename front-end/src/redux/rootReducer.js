@@ -14,7 +14,17 @@ export const combineAppReducers = combineReducers({
 const rootReducer = (state, action) => {
   console.log(action.type);
   if (action.type === 'LOGOUT') {
-    state = undefined;
+    return combineAppReducers(undefined, action);
+  }
+  // Remove error message on refresh
+  if (action.type === '@@INIT') {
+    return combineAppReducers({
+      ...state,
+      authReducer: {
+        ...state.authReducer,
+        error: undefined,
+      },
+    }, action);
   }
   return combineAppReducers(state, action);
 };

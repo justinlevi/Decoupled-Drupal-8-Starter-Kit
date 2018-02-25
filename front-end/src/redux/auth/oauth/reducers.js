@@ -12,7 +12,7 @@ const initialState = {
   isAuthenticated: false,
   isLoading: false,
   isLoggingIn: !!getLocalCredentials().accessToken,
-  error: null,
+  error: undefined,
 };
 
 const loginSuccessHandler = (payload) => {
@@ -23,7 +23,7 @@ const loginSuccessHandler = (payload) => {
 };
 
 
-export const reducer = (state = initialState, { type, payload }) => {
+export const reducer = (state = initialState, { type, payload, error }) => {
   switch (type) {
     case ACTIONS.LOGIN_REQUEST:
       return {
@@ -40,11 +40,9 @@ export const reducer = (state = initialState, { type, payload }) => {
         isAuthenticated: true,
         isLoggingIn: false,
       };
-
     case ACTIONS.LOGIN_FAILURE:
       unsetLocalStorageCredentials();
-      return { ...initialState, isLoggingIn: false, error: payload };
-
+      return { ...initialState, isLoggingIn: false, error };
     case ACTIONS.LOGOUT:
       unsetLocalStorageCredentials();
       return {
@@ -57,14 +55,12 @@ export const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
       };
-
     case ACTIONS.TOKENS_EXPIRED_CHECK_VALID:
       return {
         ...state,
         isAuthenticated: true,
         isLoggingIn: false,
       };
-
     case ACTIONS.TOKENS_EXPIRED_CHECK_NOT_VALID:
       return {
         ...state,
@@ -78,7 +74,6 @@ export const reducer = (state = initialState, { type, payload }) => {
         credentials: { ...payload },
         isLoggingIn: true,
       };
-
     case ACTIONS.REFRESH_TOKENS_REQUEST_SUCCESS:
       loginSuccessHandler(payload);
       return {
@@ -87,7 +82,6 @@ export const reducer = (state = initialState, { type, payload }) => {
         isAuthenticated: true,
         isLoggingIn: false,
       };
-
     case ACTIONS.REFRESH_TOKENS_REQUEST_FAILURE:
       unsetLocalStorageCredentials();
       return {

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CardList Snapshots should render correctly 1`] = `
+exports[`List Snapshots should render correctly 1`] = `
 <div
   className=""
 >
@@ -42,7 +42,7 @@ exports[`CardList Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          editPageHandler={[Function]}
+          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -82,7 +82,7 @@ exports[`CardList Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          editPageHandler={[Function]}
+          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -122,7 +122,7 @@ exports[`CardList Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          editPageHandler={[Function]}
+          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -162,7 +162,7 @@ exports[`CardList Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          editPageHandler={[Function]}
+          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -202,7 +202,7 @@ exports[`CardList Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          editPageHandler={[Function]}
+          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -242,7 +242,7 @@ exports[`CardList Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          editPageHandler={[Function]}
+          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -282,7 +282,7 @@ exports[`CardList Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          editPageHandler={[Function]}
+          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -322,7 +322,7 @@ exports[`CardList Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          editPageHandler={[Function]}
+          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -362,7 +362,7 @@ exports[`CardList Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          editPageHandler={[Function]}
+          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -402,7 +402,7 @@ exports[`CardList Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          editPageHandler={[Function]}
+          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
