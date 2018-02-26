@@ -17,7 +17,7 @@ const rootReducer = (state, action) => {
     return combineAppReducers(undefined, action);
   }
   // Remove error message on refresh
-  if (action.type === '@@INIT') {
+  if (action.type === '@@INIT' && state) {
     return combineAppReducers({
       ...state,
       authReducer: {
