@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, FormGroup, Input, Button } from 'reactstrap';
-import { push } from 'react-router-redux';
 
 import { addPage } from '../redux/page/actions';
 
@@ -42,7 +41,6 @@ class AddPage extends Component {
       }
 
       this.addPageHandler(payload);
-      this.props.dispatch(push('/list'));
 
     }else{
       this.setState({

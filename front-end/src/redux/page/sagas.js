@@ -38,6 +38,7 @@ function* addPageSaga(action) {
     const existingPages = yield select(state => state.pageReducer.pages);
     const pages = existingPages.concat([page]);
     yield put(addPageSuccess({ pages, activePageNid: page.nid }));
+    yield put(push('/list'));
   } catch (error) {
     yield put(addPageFailure(error));
   }
