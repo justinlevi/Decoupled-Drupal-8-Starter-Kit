@@ -11,6 +11,7 @@ import Login from '../containers/LoginPage';
 import Home from '../containers/HomePage';
 import List from '../containers/ListPage';
 import Edit from '../containers/EditPage';
+import AddPage from '../containers/AddPage';
 
 import { logout } from '../redux/auth/oauth/actions';
 
@@ -34,6 +35,7 @@ const Routes = () =>
         <Route path="/" exact component={connect(mapStateToProps)(Home)} />
         <PrivateRoute path="/list" exact component={List} />
         <PrivateRoute path="/edit" component={Edit} />
+        <PrivateRoute path="/node/add" component={AddPage} />
         <Route path="/login" exact component={connect(mapStateToProps)(Login)} />
         <Route path="/logout" exact component={Logout} />
       </ConnectedSwitch>

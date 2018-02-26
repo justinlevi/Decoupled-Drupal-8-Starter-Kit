@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 
 import MdAdd from 'react-icons/lib/md/add';
 import Card from './Card';
@@ -31,7 +33,7 @@ const listItems = ({ pages, selectPageHandler, deletePageHandler }) => pages.map
 
 const List = (props) => {
   const {
-    addPageHandler, isModalVisible, onDeleteModalToggle, onDeleteModalOk,
+    isModalVisible, onDeleteModalToggle, onDeleteModalOk,
   } = props;
   return (
     <div className="">
@@ -39,9 +41,9 @@ const List = (props) => {
         <div
           role="button"
           tabIndex={0}
-          onKeyUp={() => { addPageHandler(); }}
+          onKeyUp={() => { props.dispatch(push('/node/add')); }}
           className="py-3"
-          onClick={() => { addPageHandler(); }}
+          onClick={() => { props.dispatch(push('/node/add')); }}
         >
           <div className="add">
             <MdAdd />
@@ -50,7 +52,7 @@ const List = (props) => {
         </div>
 
         <TransitionGroup className="item-list">
-          {listItems(props)}
+          {props.pages ? listItems(props): '' /* Had to add this condition here because of pages.map undefined error, need to fix. */}
         </TransitionGroup>
 
         <Modal isOpen={isModalVisible} toggle={onDeleteModalToggle} backdrop>
@@ -70,10 +72,10 @@ const List = (props) => {
 };
 
 List.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   isModalVisible: PropTypes.bool.isRequired,
-  addPageHandler: PropTypes.func.isRequired,
   onDeleteModalToggle: PropTypes.func.isRequired,
   onDeleteModalOk: PropTypes.func.isRequired,
 };
 
-export default List;
+export default connect()(List);
