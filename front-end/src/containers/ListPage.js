@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import List from '../components/List';
 
-import { fetchPages, addPage, deletePage, selectPage } from '../redux/page/actions';
+import { fetchPages, deletePage, selectPage } from '../redux/page/actions';
 
 export class ListPage extends Component {
   state = {
@@ -51,11 +51,6 @@ export class ListPage extends Component {
   * ACTION EVENT HANDLERS
   * ----------
   */
-
-  addPageHandler= () => {
-    const { dispatch } = this.props;
-    dispatch(addPage({ title: 'NULL' }));
-  }
 
   selectPageHandler = (activePageNid) => {
     const { dispatch } = this.props;

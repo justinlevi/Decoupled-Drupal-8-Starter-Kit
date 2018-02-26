@@ -2,7 +2,7 @@ import { ACTIONS } from './actions';
 
 const initialState = {
   pages: [],
-  activePageNid: 0,
+  activePageNid: 0
 };
 
 export const reducer = (state = initialState, { type, payload, error }) => {
