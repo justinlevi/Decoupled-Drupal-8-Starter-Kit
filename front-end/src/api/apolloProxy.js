@@ -76,10 +76,10 @@ export const pagesByUserQuery = () => apolloClient.query({
 // ${fragments.nodePage}
 // `;
 
-export const addPageMutation = ({ title }) => apolloClient.mutate({
+export const addPageMutation = ({ title, body }) => apolloClient.mutate({
   mutation: gql`
-    mutation addPage($title: String!){
-      addPage(input: {title: $title}){
+    mutation addPage($title: String!, $body: String!){
+      addPage(input: {title: $title, body: $body}){
         errors
         violations {
           message
@@ -95,6 +95,7 @@ export const addPageMutation = ({ title }) => apolloClient.mutate({
   `,
   variables: {
     title,
+    body
   },
 });
 

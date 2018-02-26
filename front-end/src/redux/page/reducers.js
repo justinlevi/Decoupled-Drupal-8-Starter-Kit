@@ -2,8 +2,7 @@ import { ACTIONS } from './actions';
 
 const initialState = {
   pages: [],
-  activePageNid: 0,
-  addPageStatus: ''
+  activePageNid: 0
 };
 
 export const reducer = (state = initialState, { type, payload, error }) => {
@@ -24,9 +23,9 @@ export const reducer = (state = initialState, { type, payload, error }) => {
     case ACTIONS.ADD_PAGE: return { ...state };
     case ACTIONS.ADD_PAGE_SUCCESS: {
       const { pages, activePageNid } = payload;
-      return { ...state, pages, activePageNid, addPageStatus: 'success' };
+      return { ...state, pages, activePageNid };
     }
-    case ACTIONS.ADD_PAGE_FAILURE: return { ...state, addPageStatus: 'failed' };
+    case ACTIONS.ADD_PAGE_FAILURE: return { ...state };
 
     /**
      * DELETE PAGE

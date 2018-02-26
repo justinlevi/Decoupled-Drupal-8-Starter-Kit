@@ -19,22 +19,30 @@ class AddPage extends Component {
   }
 
   //ACTIONS EVENTS HANDLERS
-  addPageHandler = (title) => {
+  addPageHandler = (payload) => {
     const { dispatch } = this.props;
-    dispatch(addPage({ title: title }));
+    dispatch(addPage(payload));
   }
 
   onSubmitClick = (e) => {
     e.preventDefault();
 
     if(this.state.title.value){
-      this.addPageHandler(this.state.title.value);
-      
-      if(this.props.addPageStatus === 'success'){
-        this.props.dispatch(push('/list'));
-      }else if(this.props.addPageStatus === 'failed'){
-        console.log("FAILED");
+
+      let payload = {
+        title: this.state.title.value,
+        body: ''
       }
+
+      if(this.state.body.value){
+        payload = {
+          ...payload,
+          body: this.state.body.value
+        }
+      }
+
+      this.addPageHandler(payload);
+      this.props.dispatch(push('/list'));
 
     }else{
       this.setState({
@@ -79,7 +87,7 @@ class AddPage extends Component {
         <Form>
           <FormGroup>
             <Input name="title" placeholder="Title (required)" bsSize="lg" className={this.inputValidCheck()} onChange={this.onInputChange} value={this.state.title.value} />
-            <Input name="body" placeholder="Body" type="textarea" bsSize="lg"  value={this.state.body.value} />
+            <Input name="body" placeholder="Body" type="textarea" bsSize="lg"  onChange={this.onInputChange} value={this.state.body.value} />
             <Button name="addpage" className="addpage-submit" onClick={this.onSubmitClick} type="submit">Add Page</Button>
           </FormGroup>
         </Form>
