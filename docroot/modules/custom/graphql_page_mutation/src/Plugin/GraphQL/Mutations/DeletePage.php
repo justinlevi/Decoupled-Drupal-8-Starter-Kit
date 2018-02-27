@@ -2,13 +2,10 @@
 
 namespace Drupal\graphql_page_mutation\Plugin\GraphQL\Mutations;
 
-
-use Drupal\graphql\Annotation\GraphQLMutation;
 use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\DeleteEntityBase;
 
-
 /**
- *  A Simple PageNode mutation.
+ * A Simple PageNode mutation.
  *
  * @GraphQLMutation(
  *   id = "delete_page",

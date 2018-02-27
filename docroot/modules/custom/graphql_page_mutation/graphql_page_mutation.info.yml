@@ -4,5 +4,5 @@ description: 'A GraphQL Page Mutation'
 core: 8.x
 package: 'Custom'
 dependencies:
-  - graphql
-  - s3fs
+  - drupal:graphql
+  - drupal:s3fs
