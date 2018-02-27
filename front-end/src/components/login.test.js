@@ -10,12 +10,16 @@ describe('Login', () => {
   const initialPropsState = {
     handleInputChange: jest.fn(),
     handleLogin: jest.fn(),
-    isLoginFailed: false,
   };
 
   let props;
   let mountedLogin;
-  const signIn = () => {
+  const signIn = (modifiedProps = initialPropsState) => {
+    props = {
+      ...initialPropsState,
+      ...modifiedProps,
+    };
+
     if (!mountedLogin) {
       mountedLogin = mount(<Login {...props} />);
     }
@@ -41,9 +45,20 @@ describe('Login', () => {
       expect(output.find('.password').length).toEqual(1);
     });
 
-    it('should respond to change event', () => {
+    it('should respond to change event on username field', () => {
       output.find('.username').simulate('change', { target: { name: 'username', value: 'test' } });
       expect(props.handleInputChange.mock.calls.length).toBe(1);
+    });
+
+    it('should respond to change event on password field', () => {
+      output.find('.password').simulate('change', { target: { name: 'password', value: 'test' } });
+      expect(props.handleInputChange.mock.calls.length).toBe(2);
+    });
+
+    it('should respond to submit button press', () => {
+      const component = signIn();
+      component.find('[type="submit"]').simulate('submit');
+      expect(props.handleLogin.mock.calls.length).toBe(1);
     });
   });
 
@@ -64,13 +79,16 @@ describe('Login', () => {
   });
 
   describe('Login differing props', () => {
-    beforeEach(() => {
-      props.isLoginFailed = true;
+    it('Displays an error message when `error` is passed in', () => {
+      const component = signIn({ error: 'error' });
+      const found = component.find('.error');
+      expect(found.length).toBe(1);
     });
 
-    it('Displays an error message when `isLoginFailed` is passed in as true', () => {
-      const isLoginFailed = signIn().find('.error');
-      expect(isLoginFailed.length).toBe(1);
+    it('Do NOT displays an error message when `error` is NOT passed in', () => {
+      const component = signIn();
+      const found = component.find('.error');
+      expect(found.length).toBe(0);
     });
   });
 });

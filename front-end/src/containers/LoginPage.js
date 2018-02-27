@@ -9,7 +9,6 @@ export class LoginPage extends Component {
   state = {
     username: '',
     password: '',
-    isLoginFailed: false,
   };
 
   handleInputChange = ({ target }) => {
@@ -22,6 +21,12 @@ export class LoginPage extends Component {
 
   handleLogin = (e) => {
     e.preventDefault();
+
+    if (this.state.username.length < 4 || this.state.password < 4) {
+      this.setState({ error: 'Please enter a username and password.' });
+      return;
+    }
+
     const { dispatch } = this.props;
     dispatch(loginRequest({
       username: this.state.username,
@@ -37,7 +42,7 @@ export class LoginPage extends Component {
     }
 
     if (isLoggingIn) {
-      return <div>Logging in...</div>;
+      return <div className="loggingIn">Logging in...</div>;
     }
 
     return (

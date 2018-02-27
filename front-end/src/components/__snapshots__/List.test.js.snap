@@ -42,7 +42,6 @@ exports[`List Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -68,6 +67,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f0",
             }
           }
+          selectPageHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -82,7 +82,6 @@ exports[`List Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -108,6 +107,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f1",
             }
           }
+          selectPageHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -122,7 +122,6 @@ exports[`List Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -148,6 +147,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f2",
             }
           }
+          selectPageHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -162,7 +162,6 @@ exports[`List Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -188,6 +187,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f3",
             }
           }
+          selectPageHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -202,7 +202,6 @@ exports[`List Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -228,6 +227,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f4",
             }
           }
+          selectPageHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -242,7 +242,6 @@ exports[`List Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -268,6 +267,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f5",
             }
           }
+          selectPageHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -282,7 +282,6 @@ exports[`List Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -308,6 +307,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f6",
             }
           }
+          selectPageHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -322,7 +322,6 @@ exports[`List Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -348,6 +347,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f7",
             }
           }
+          selectPageHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -362,7 +362,6 @@ exports[`List Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -388,6 +387,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f8",
             }
           }
+          selectPageHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -402,7 +402,6 @@ exports[`List Snapshots should render correctly 1`] = `
       >
         <Card
           deleteHandler={[Function]}
-          selectPageHandler={[Function]}
           page={
             Object {
               "author": Object {
@@ -428,6 +427,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f9",
             }
           }
+          selectPageHandler={[Function]}
         />
       </Fade>
     </TransitionGroup>
