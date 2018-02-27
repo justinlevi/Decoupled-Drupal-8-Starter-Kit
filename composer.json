@@ -15,14 +15,15 @@
         }
     ],
     "require": {
-        "acquia/blt": "^9.0@alpha",
+        "acquia/blt": "^8.9",
         "drupal/consumers": "^1.0@beta",
         "drupal/graphql": "dev-3.x",
         "drupal/console": "~1.0",
         "drupal/s3fs": "^3.0@alpha",
         "aws/aws-sdk-php": "^3.48",
         "drupal/admin_toolbar": "^1.22",
-        "drupal/graphql_signed_s3_upload": "*"
+        "drupal/graphql_signed_s3_upload": "*",
+        "drupal/simple_oauth": "3.x"
     },
     "scripts": {
         "post-install-cmd": [
@@ -74,8 +75,8 @@
         },
         "merge-plugin": {
             "require": [
-                "blt/composer.required.json",
-                "blt/composer.suggested.json"
+                "vendor/acquia/blt/composer.required.json",
+                "vendor/acquia/blt/composer.suggested.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,
