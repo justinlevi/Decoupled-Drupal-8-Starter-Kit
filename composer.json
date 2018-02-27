@@ -13,7 +13,6 @@
             "type": "vcs",
             "url": "https://github.com/justinlevi/graphql_signed_s3_upload.git"
         }
-
     ],
     "require": {
         "acquia/blt": "^9.0@alpha",
@@ -65,8 +64,8 @@
         },
         "merge-plugin": {
             "require": [
-                "vendor/acquia/blt/composer.required.json",
-                "vendor/acquia/blt/composer.suggested.json"
+                "blt/composer.required.json",
+                "blt/composer.suggested.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,
