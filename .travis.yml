@@ -52,8 +52,6 @@ before_install:
   - source ${BLT_DIR}/scripts/travis/exit_early
 
 install:
-  - bash -c "echo $NVM_DIR";
-  - bash -c "nvm --version";
   - source ${BLT_DIR}/scripts/travis/setup_environment
   - source ${BLT_DIR}/scripts/travis/setup_project
 
