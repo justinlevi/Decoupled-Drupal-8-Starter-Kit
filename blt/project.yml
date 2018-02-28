@@ -42,3 +42,7 @@ disable-targets:
   git:
     commit-msg: true
     pre-commit: true
+target-hooks:
+  frontend-setup:
+    dir: ${docroot}/../front-end
+    command: './node-setup.sh'
