@@ -12,6 +12,14 @@
         {
             "type": "vcs",
             "url": "https://github.com/justinlevi/graphql_signed_s3_upload.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "https://github.com/lauriii/umami"
+        },
+        {
+            "type": "vcs",
+            "url":  "https://github.com/gareth-fivemile/demo_umami"
         }
     ],
     "require": {
@@ -24,7 +32,12 @@
         "drupal/admin_toolbar": "^1.22",
         "drupal/graphql_signed_s3_upload": "*",
         "drupal/simple_oauth": "3.x",
-        "acquia/lightning": "~3.0.0"
+        "drupal/core": "^8.5",
+        "drupal/demo_umami": "dev-master",
+        "drupal/devel": "^1.2",
+        "drupal/umami": "dev-dev",
+        "webflo/drupal-finder": "^1.0.0",
+        "webmozart/path-util": "^2.3"
     },
     "scripts": {
         "post-install-cmd": [
@@ -77,7 +90,7 @@
         "merge-plugin": {
             "require": [
                 "vendor/acquia/blt/composer.required.json",
-                "vendor/acquia/blt/composer.suggested.json"
+                "composer.suggested.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,
