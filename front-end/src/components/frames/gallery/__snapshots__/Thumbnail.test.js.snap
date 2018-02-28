@@ -89,7 +89,7 @@ exports[`Thumbnail should display the progress bar based on props set 1`] = `
       <g
         fill="none"
         fillRule="evenodd"
-        id="Page-1"
+        id="Article-1"
         stroke="none"
         strokeWidth="1"
       >
@@ -207,7 +207,7 @@ exports[`Thumbnail should display the progress bar based on props set 2`] = `
       <g
         fill="none"
         fillRule="evenodd"
-        id="Page-1"
+        id="Article-1"
         stroke="none"
         strokeWidth="1"
       >
@@ -301,7 +301,7 @@ exports[`Thumbnail should render correctly 1`] = `
       <g
         fill="none"
         fillRule="evenodd"
-        id="Page-1"
+        id="Article-1"
         stroke="none"
         strokeWidth="1"
       >
