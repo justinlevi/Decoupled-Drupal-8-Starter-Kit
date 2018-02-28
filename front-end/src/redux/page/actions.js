@@ -40,66 +40,66 @@ export const ACTIONS = {
 // Action Creators
 // ---------------
 
-export const fetchPages = () => ({
+export const fetchArticles = () => ({
   type: ACTIONS.FETCH_PAGES,
 });
 
-export const fetchPagesSuccess = payload => ({
+export const fetchArticlesSuccess = payload => ({
   type: ACTIONS.FETCH_PAGES_SUCCESS,
   payload,
 });
 
-export const fetchPagesFailure = payload => ({
+export const fetchArticlesFailure = payload => ({
   type: ACTIONS.FETCH_PAGES_FAILURE,
   payload,
 });
 
-export const addPage = payload => ({
+export const addArticle = payload => ({
   type: ACTIONS.ADD_PAGE,
   payload,
 });
 
-export const addPageSuccess = payload => ({
+export const addArticleSuccess = payload => ({
   type: ACTIONS.ADD_PAGE_SUCCESS,
   payload,
 });
 
-export const addPageFailure = error => ({
+export const addArticleFailure = error => ({
   type: ACTIONS.ADD_PAGE_FAILURE,
   error,
 });
 
-export const deletePage = payload => ({
+export const deleteArticle = payload => ({
   type: ACTIONS.DELETE_PAGE,
   payload,
 });
 
-export const deletePageSuccess = payload => ({
+export const deleteArticleSuccess = payload => ({
   type: ACTIONS.DELETE_PAGE_SUCCESS,
   payload,
 });
 
-export const deletePageFailure = error => ({
+export const deleteArticleFailure = error => ({
   type: ACTIONS.DELETE_PAGE_FAILURE,
   error,
 });
 
-export const savePageUpdates = payload => ({
+export const saveArticleUpdates = payload => ({
   type: ACTIONS.SAVE_PAGE_UPDATES,
   payload,
 });
 
-export const savePageUpdatesSuccess = payload => ({
+export const saveArticleUpdatesSuccess = payload => ({
   type: ACTIONS.SAVE_PAGE_UPDATES_SUCCESS,
   payload,
 });
 
-export const savePageUpdatesFailure = error => ({
+export const saveArticleUpdatesFailure = error => ({
   type: ACTIONS.SAVE_PAGE_UPDATES_FAILURE,
   error,
 });
 
-export const selectPage = payload => ({
+export const selectArticle = payload => ({
   type: ACTIONS.SELECT_PAGE,
   payload,
 });

@@ -1,8 +1,8 @@
 import { ACTIONS } from './actions';
 
 const initialState = {
-  pages: [],
-  activePageNid: 0,
+  articles: [],
+  activeArticleNid: 0,
 };
 
 export const reducer = (state = initialState, { type, payload, error }) => {
@@ -12,8 +12,8 @@ export const reducer = (state = initialState, { type, payload, error }) => {
      */
     case ACTIONS.FETCH_PAGES: return { ...state };
     case ACTIONS.FETCH_PAGES_SUCCESS: {
-      const { pages } = payload;
-      return { ...state, pages, activePageNid: 0 };
+      const { articles } = payload;
+      return { ...state, articles, activeArticleNid: 0 };
     }
     case ACTIONS.FETCH_PAGES_FAILURE: return { ...state };
 
@@ -22,8 +22,8 @@ export const reducer = (state = initialState, { type, payload, error }) => {
      */
     case ACTIONS.ADD_PAGE: return { ...state };
     case ACTIONS.ADD_PAGE_SUCCESS: {
-      const { pages, activePageNid } = payload;
-      return { ...state, pages, activePageNid };
+      const { articles, activeArticleNid } = payload;
+      return { ...state, articles, activeArticleNid };
     }
     case ACTIONS.ADD_PAGE_FAILURE: return { ...state };
 
@@ -32,8 +32,8 @@ export const reducer = (state = initialState, { type, payload, error }) => {
      */
     case ACTIONS.DELETE_PAGE: return { ...state };
     case ACTIONS.DELETE_PAGE_SUCCESS: {
-      const { pages } = payload;
-      return { ...state, pages };
+      const { articles } = payload;
+      return { ...state, articles };
     }
     case ACTIONS.DELETE_PAGE_FAILURE: return { ...state };
 
@@ -42,8 +42,8 @@ export const reducer = (state = initialState, { type, payload, error }) => {
      */
     case ACTIONS.SAVE_PAGE_UPDATES: return { ...state };
     case ACTIONS.SAVE_PAGE_UPDATES_SUCCESS: {
-      const { pages } = payload;
-      return { ...state, pages };
+      const { articles } = payload;
+      return { ...state, articles };
     }
     case ACTIONS.SAVE_PAGE_UPDATES_FAILURE: return { ...state };
 
@@ -51,8 +51,8 @@ export const reducer = (state = initialState, { type, payload, error }) => {
      * SELECT PAGE (SET ACTIVE)
      */
     case ACTIONS.SELECT_PAGE: {
-      const { activePageNid } = payload;
-      return { ...state, activePageNid };
+      const { activeArticleNid } = payload;
+      return { ...state, activeArticleNid };
     }
 
     default:

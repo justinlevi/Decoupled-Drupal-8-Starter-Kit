@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 // import { connect } from 'react-redux';
 
-export const HomePage = ({ isAuthenticated }) => (
+export const HomeArticle = ({ isAuthenticated }) => (
   isAuthenticated ?
     (<Redirect to="/list" />) :
     (<Redirect to="/login" />)
 );
 
-HomePage.propTypes = {
+HomeArticle.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
 };
 
-export default HomePage;
+export default HomeArticle;

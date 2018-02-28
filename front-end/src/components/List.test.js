@@ -28,9 +28,9 @@ const pageModel = {
   uuid: '09ba8da5-e08d-4972-a22b-ad7bb0a44d7f',
 };
 
-const pages = [];
+const articles = [];
 for (let i = 0; i < 10; i += 1) {
-  pages.push({
+  articles.push({
     ...pageModel,
     author: { name: `test${i}` },
     nid: pageModel.nid + i,
@@ -43,11 +43,11 @@ const initialPropsState = {
   isAuthenticated: true,
   isLoggingIn: false,
   isModalVisible: false,
-  addPageHandler: jest.fn(),
-  selectPageHandler: jest.fn(),
+  addArticleHandler: jest.fn(),
+  selectArticleHandler: jest.fn(),
   onDeleteModalToggle: jest.fn(),
   onDeleteModalOk: jest.fn(),
-  pages,
+  articles,
 };
 
 describe('List', () => {
@@ -58,8 +58,8 @@ describe('List', () => {
       expect(shallowToJson(output)).toMatchSnapshot();
     });
 
-    it('should render a list of pages as a Card', () => {
-      expect(output.find('Card').length).toEqual(pages.length);
+    it('should render a list of articles as a Card', () => {
+      expect(output.find('Card').length).toEqual(articles.length);
     });
   });
 });

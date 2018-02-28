@@ -9,7 +9,7 @@ import Gallery from 'components/frames/gallery/Gallery';
 import { readFile } from 'utils/ImageHelpers';
 import { getSignedUrls, addS3Files } from 'api/apolloProxy';
 
-import { savePageUpdates } from '../redux/page/actions';
+import { saveArticleUpdates } from '../redux/page/actions';
 
 export class GalleryFrame extends Component {
   /*
@@ -250,12 +250,12 @@ export class GalleryFrame extends Component {
       field_media_image: newMids,
     };
 
-    dispatch(savePageUpdates(variables));
+    dispatch(saveArticleUpdates(variables));
 
-    // client.mutate({ mutation: updatePageMutation, variables })
+    // client.mutate({ mutation: updateArticleMutation, variables })
     //   .then((response) => {
     //   // send signedUrls to callback
-    //     if (response.data.updatePage.page !== null) {
+    //     if (response.data.updateArticle.page !== null) {
     //       console.log('UPDATE PAGE WITH UPLOADED MEDIA COMPLETE');
     //     } else {
     //       console.error('ERROR: The page was not updated correctly');

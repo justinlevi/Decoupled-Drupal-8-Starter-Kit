@@ -2,95 +2,95 @@ import { call, take, put, takeLatest, takeEvery, select } from 'redux-saga/effec
 import { push } from 'react-router-redux';
 
 import { ACTIONS as OAUTH_ACTIONS, tokensExpiredCheck } from '../auth/oauth/actions';
-import { pagesByUserQuery, addPageMutation, deletePageMutation, updatePageMutation } from '../../api/apolloProxy';
-import { formatFetchPageResult, removePageFromPages, updatePagesWithPage, getPageFromNid } from './utilities';
+import { articlesByUserQuery, addArticleMutation, deleteArticleMutation, updateArticleMutation } from '../../api/apolloProxy';
+import { formatFetchArticleResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
 
 import {
   ACTIONS,
-  // addPage,
-  // deletePage,
-  // savePageUpdates,
-  fetchPagesSuccess,
-  addPageSuccess,
-  addPageFailure,
-  deletePageSuccess,
-  deletePageFailure,
-  savePageUpdatesSuccess,
-  savePageUpdatesFailure,
+  // addArticle,
+  // deleteArticle,
+  // saveArticleUpdates,
+  fetchArticlesSuccess,
+  addArticleSuccess,
+  addArticleFailure,
+  deleteArticleSuccess,
+  deleteArticleFailure,
+  saveArticleUpdatesSuccess,
+  saveArticleUpdatesFailure,
 } from './actions';
 
-function* fetchPageSaga() {
+function* fetchArticleSaga() {
   yield put(tokensExpiredCheck());
   yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
 
-  const result = yield call(pagesByUserQuery);
-  yield put(fetchPagesSuccess({ pages: formatFetchPageResult(result) }));
+  const result = yield call(articlesByUserQuery);
+  yield put(fetchArticlesSuccess({ articles: formatFetchArticleResult(result) }));
 }
 
-function* addPageSaga(action) {
+function* addArticleSaga(action) {
   const { payload } = action;
   yield put(tokensExpiredCheck());
   yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
-    const result = yield call(addPageMutation, { ...payload });
-    const { page } = result.data.addPage;
-    const existingPages = yield select(state => state.pageReducer.pages);
-    const pages = existingPages.concat([page]);
-    yield put(addPageSuccess({ pages, activePageNid: page.nid }));
+    const result = yield call(addArticleMutation, { ...payload });
+    const { page } = result.data.addArticle;
+    const existingArticles = yield select(state => state.pageReducer.articles);
+    const articles = existingArticles.concat([page]);
+    yield put(addArticleSuccess({ articles, activeArticleNid: page.nid }));
   } catch (error) {
-    yield put(addPageFailure(error));
+    yield put(addArticleFailure(error));
   }
 }
 
-function* deletePageSaga(action) {
+function* deleteArticleSaga(action) {
   const { payload } = action;
   yield put(tokensExpiredCheck());
   yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
-    const result = yield call(deletePageMutation, { ...payload });
-    const { page } = result.data.deletePage;
-    const pages = yield select(state => state.pageReducer.pages);
-    yield put(deletePageSuccess({ pages: removePageFromPages(pages, page.nid) }));
+    const result = yield call(deleteArticleMutation, { ...payload });
+    const { page } = result.data.deleteArticle;
+    const articles = yield select(state => state.pageReducer.articles);
+    yield put(deleteArticleSuccess({ articles: removeArticleFromArticles(articles, page.nid) }));
   } catch (error) {
-    yield put(deletePageFailure(error));
+    yield put(deleteArticleFailure(error));
   }
 }
 
-function* savePageUpdatesSaga(action) {
+function* saveArticleUpdatesSaga(action) {
   const { payload } = action;
   yield put(tokensExpiredCheck());
   yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
-    const result = yield call(updatePageMutation, { ...payload });
-    const { page } = result.data.updatePage;
-    const existingPages = yield select(state => state.pageReducer.pages);
-    const pages = updatePagesWithPage(existingPages, page);
-    yield put(savePageUpdatesSuccess({ pages }));
+    const result = yield call(updateArticleMutation, { ...payload });
+    const { page } = result.data.updateArticle;
+    const existingArticles = yield select(state => state.pageReducer.articles);
+    const articles = updateArticlesWithArticle(existingArticles, page);
+    yield put(saveArticleUpdatesSuccess({ articles }));
   } catch (error) {
-    yield put(savePageUpdatesFailure(error));
+    yield put(saveArticleUpdatesFailure(error));
   }
 }
 
-function* selectPageSaga(action) {
+function* selectArticleSaga(action) {
   const { payload } = action;
-  const { activePageNid } = payload;
-  const pages = yield select(state => state.pageReducer.pages);
-  const page = getPageFromNid(pages, activePageNid);
+  const { activeArticleNid } = payload;
+  const articles = yield select(state => state.pageReducer.articles);
+  const page = getArticleFromNid(articles, activeArticleNid);
 
-  yield put(push(`/edit/${activePageNid}/${page.title.replace(/ /g, '-').toLowerCase()}`));
+  yield put(push(`/edit/${activeArticleNid}/${page.title.replace(/ /g, '-').toLowerCase()}`));
 }
 
-export function* watchPageActions() {
-  yield takeEvery(ACTIONS.FETCH_PAGES, fetchPageSaga);
+export function* watchArticleActions() {
+  yield takeEvery(ACTIONS.FETCH_PAGES, fetchArticleSaga);
 
-  yield takeLatest(ACTIONS.ADD_PAGE, addPageSaga);
-  yield takeEvery(ACTIONS.DELETE_PAGE, deletePageSaga);
-  yield takeLatest(ACTIONS.SAVE_PAGE_UPDATES, savePageUpdatesSaga);
+  yield takeLatest(ACTIONS.ADD_PAGE, addArticleSaga);
+  yield takeEvery(ACTIONS.DELETE_PAGE, deleteArticleSaga);
+  yield takeLatest(ACTIONS.SAVE_PAGE_UPDATES, saveArticleUpdatesSaga);
 
-  yield takeEvery(ACTIONS.SELECT_PAGE, selectPageSaga);
+  yield takeEvery(ACTIONS.SELECT_PAGE, selectArticleSaga);
 }
 
-export default watchPageActions;
+export default watchArticleActions;

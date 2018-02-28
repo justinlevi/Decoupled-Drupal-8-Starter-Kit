@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 
 import List from '../components/List';
 
-import { fetchPages, addPage, deletePage, selectPage } from '../redux/page/actions';
+import { fetchArticles, addArticle, deleteArticle, selectArticle } from '../redux/page/actions';
 
-export class ListPage extends Component {
+export class ListArticle extends Component {
   state = {
     nid: 0,
     isModalVisible: false,
@@ -20,7 +20,7 @@ export class ListPage extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchPages());
+    dispatch(fetchArticles());
   }
 
   /**
@@ -30,11 +30,11 @@ export class ListPage extends Component {
 
   onDeleteModalOk = (event) => {
     event.stopPropagation();
-    // this.deletePageMutation(this.state.activePageNid);
+    // this.deleteArticleMutation(this.state.activeArticleNid);
     const { dispatch } = this.props;
     const { nid } = this.state;
 
-    dispatch(deletePage({ id: nid }));
+    dispatch(deleteArticle({ id: nid }));
     this.setState({
       isModalVisible: false,
     });
@@ -43,7 +43,7 @@ export class ListPage extends Component {
   onDeleteModalToggle = () => {
     this.setState({
       isModalVisible: !this.state.isModalVisible,
-      activePageNid: 0,
+      activeArticleNid: 0,
     });
   }
 
@@ -52,18 +52,18 @@ export class ListPage extends Component {
   * ----------
   */
 
-  addPageHandler= () => {
+  addArticleHandler= () => {
     const { dispatch } = this.props;
-    dispatch(addPage({ title: 'NULL' }));
+    dispatch(addArticle({ title: 'NULL' }));
   }
 
-  selectPageHandler = (activePageNid) => {
+  selectArticleHandler = (activeArticleNid) => {
     const { dispatch } = this.props;
-    dispatch(selectPage({ activePageNid }));
-    // dispatch(push(`/edit/${activePageNid.nid}/${activePageNid.title.replace(/ /g, '-').toLowerCase()}`));
+    dispatch(selectArticle({ activeArticleNid }));
+    // dispatch(push(`/edit/${activeArticleNid.nid}/${activeArticleNid.title.replace(/ /g, '-').toLowerCase()}`));
   }
 
-  deletePageHandler = (event, nid) => {
+  deleteArticleHandler = (event, nid) => {
     event.stopPropagation();
     this.setState({
       nid,
@@ -80,24 +80,24 @@ export class ListPage extends Component {
     return (<List
       {...this.props}
       {...this.state}
-      selectPageHandler={this.selectPageHandler}
-      deletePageHandler={this.deletePageHandler}
-      addPageHandler={this.addPageHandler}
+      selectArticleHandler={this.selectArticleHandler}
+      deleteArticleHandler={this.deleteArticleHandler}
+      addArticleHandler={this.addArticleHandler}
       onDeleteModalToggle={this.onDeleteModalToggle}
       onDeleteModalOk={this.onDeleteModalOk}
     />);
   }
 }
 
-ListPage.propTypes = {
+ListArticle.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
   isLoggingIn: state.authReducer.isLoggingIn,
-  pages: state.pageReducer.pages,
+  articles: state.pageReducer.articles,
 });
-const ListPageWrapper = connect(mapStateToProps)(ListPage);
+const ListArticleWrapper = connect(mapStateToProps)(ListArticle);
 
-export default ListPageWrapper;
+export default ListArticleWrapper;
