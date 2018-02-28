@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, FormGroup, Input } from 'reactstrap';
 
-import { saveArticleUpdates } from '../redux/page/actions';
+import { saveArticleUpdates } from '../redux/article/actions';
 import Gallery from './GalleryFrame';
-import { getArticleFromNid } from '../redux/page/utilities';
+import { getArticleFromNid } from '../redux/article/utilities';
 
 export class EditPage extends Component {
   /*
@@ -48,7 +48,7 @@ export class EditPage extends Component {
     // client.mutate({ mutation: updateArticleMutation, variables })
     //   .then((response) => {
     //     const msg = response.data.updateArticle.page !== null ?
-    //       'SUCCESS: UPDATE PAGE COMPLETE' :
+    //       'SUCCESS: UPDATE ARTICLE COMPLETE' :
     //       'ERROR: The page was not updated correctly';
     //     console.log(msg);
     //   }).catch(this.catchError);
@@ -104,8 +104,8 @@ EditPage.propTypes = {
 // export default EditPageWrapper;
 
 const mapStateToProps = state => ({
-  activeArticleNid: state.pageReducer.activeArticleNid,
-  articles: state.pageReducer.articles,
+  activeArticleNid: state.articleReducer.activeArticleNid,
+  articles: state.articleReducer.articles,
 });
 const EditPageWrapper = connect(mapStateToProps)(EditPage);
 

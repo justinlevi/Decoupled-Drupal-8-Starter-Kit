@@ -67,7 +67,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f0",
             }
           }
-          selectArticleHandler={[Function]}
+          selectHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -107,7 +107,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f1",
             }
           }
-          selectArticleHandler={[Function]}
+          selectHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -147,7 +147,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f2",
             }
           }
-          selectArticleHandler={[Function]}
+          selectHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -187,7 +187,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f3",
             }
           }
-          selectArticleHandler={[Function]}
+          selectHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -227,7 +227,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f4",
             }
           }
-          selectArticleHandler={[Function]}
+          selectHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -267,7 +267,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f5",
             }
           }
-          selectArticleHandler={[Function]}
+          selectHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -307,7 +307,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f6",
             }
           }
-          selectArticleHandler={[Function]}
+          selectHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -347,7 +347,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f7",
             }
           }
-          selectArticleHandler={[Function]}
+          selectHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -387,7 +387,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f8",
             }
           }
-          selectArticleHandler={[Function]}
+          selectHandler={[Function]}
         />
       </Fade>
       <Fade
@@ -427,7 +427,7 @@ exports[`List Snapshots should render correctly 1`] = `
               "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f9",
             }
           }
-          selectArticleHandler={[Function]}
+          selectHandler={[Function]}
         />
       </Fade>
     </TransitionGroup>

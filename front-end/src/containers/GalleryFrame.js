@@ -9,7 +9,7 @@ import Gallery from 'components/frames/gallery/Gallery';
 import { readFile } from 'utils/ImageHelpers';
 import { getSignedUrls, addS3Files } from 'api/apolloProxy';
 
-import { saveArticleUpdates } from '../redux/page/actions';
+import { saveArticleUpdates } from '../redux/article/actions';
 
 export class GalleryFrame extends Component {
   /*
@@ -256,7 +256,7 @@ export class GalleryFrame extends Component {
     //   .then((response) => {
     //   // send signedUrls to callback
     //     if (response.data.updateArticle.page !== null) {
-    //       console.log('UPDATE PAGE WITH UPLOADED MEDIA COMPLETE');
+    //       console.log('UPDATE ARTICLE WITH UPLOADED MEDIA COMPLETE');
     //     } else {
     //       console.error('ERROR: The page was not updated correctly');
     //     }

@@ -93,6 +93,9 @@
         "patches": {
             "drupal/media_entity": {
                 "Make the label form element non-required in the entity form": "https://www.drupal.org/files/issues/2934289-2813685-21.patch"
+            },
+            "drupal/simple_oauth": {
+                "breaking 8.x.3.x issue": "https://www.drupal.org/files/issues/2941522--implement-revisionable-interface--11.patch"
             }
         },
         "merge-plugin": {

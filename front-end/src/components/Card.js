@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import MdRemove from 'react-icons/lib/md/remove-circle-outline';
 
 const Card = (props) => {
-  const { page, selectArticleHandler, deleteHandler } = props;
+  const { page, selectHandler, deleteHandler } = props;
   return (
     <div className="py-3">
       <div
         role="button"
         tabIndex={0}
         className="card"
-        onClick={() => { selectArticleHandler(page.nid); }}
-        onKeyUp={() => { selectArticleHandler(page.nid); }}
+        onClick={() => { selectHandler(page.nid); }}
+        onKeyUp={() => { selectHandler(page.nid); }}
       >
         <div className="row ">
           <div className="col-md-4">
@@ -45,7 +45,7 @@ const Card = (props) => {
 
 Card.propTypes = {
   page: PropTypes.shape({}).isRequired,
-  selectArticleHandler: PropTypes.func.isRequired,
+  selectHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
 };
 

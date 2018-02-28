@@ -8,49 +8,49 @@ const initialState = {
 export const reducer = (state = initialState, { type, payload, error }) => {
   switch (type) {
     /**
-     * FETCH PAGES
+     * FETCH FETCH_ARTICLES
      */
-    case ACTIONS.FETCH_PAGES: return { ...state };
-    case ACTIONS.FETCH_PAGES_SUCCESS: {
+    case ACTIONS.FETCH_ARTICLES: return { ...state };
+    case ACTIONS.FETCH_ARTICLE_SUCCESS: {
       const { articles } = payload;
       return { ...state, articles, activeArticleNid: 0 };
     }
-    case ACTIONS.FETCH_PAGES_FAILURE: return { ...state };
+    case ACTIONS.FETCH_ARTICLE_FAILURE: return { ...state };
 
     /**
-     * ADD PAGE
+     * ADD ARTICLE
      */
-    case ACTIONS.ADD_PAGE: return { ...state };
-    case ACTIONS.ADD_PAGE_SUCCESS: {
+    case ACTIONS.ADD_ARTICLE: return { ...state };
+    case ACTIONS.ADD_ARTICLE_SUCCESS: {
       const { articles, activeArticleNid } = payload;
       return { ...state, articles, activeArticleNid };
     }
-    case ACTIONS.ADD_PAGE_FAILURE: return { ...state };
+    case ACTIONS.ADD_ARTICLE_FAILURE: return { ...state };
 
     /**
-     * DELETE PAGE
+     * DELETE ARTICLE
      */
-    case ACTIONS.DELETE_PAGE: return { ...state };
-    case ACTIONS.DELETE_PAGE_SUCCESS: {
+    case ACTIONS.DELETE_ARTICLE: return { ...state };
+    case ACTIONS.DELETE_ARTICLE_SUCCESS: {
       const { articles } = payload;
       return { ...state, articles };
     }
-    case ACTIONS.DELETE_PAGE_FAILURE: return { ...state };
+    case ACTIONS.DELETE_ARTICLE_FAILURE: return { ...state };
 
     /**
-     * SAVE PAGE
+     * SAVE ARTICLE
      */
-    case ACTIONS.SAVE_PAGE_UPDATES: return { ...state };
-    case ACTIONS.SAVE_PAGE_UPDATES_SUCCESS: {
+    case ACTIONS.SAVE_ARTICLE_UPDATES: return { ...state };
+    case ACTIONS.SAVE_ARTICLE_UPDATES_SUCCESS: {
       const { articles } = payload;
       return { ...state, articles };
     }
-    case ACTIONS.SAVE_PAGE_UPDATES_FAILURE: return { ...state };
+    case ACTIONS.SAVE_ARTICLE_UPDATES_FAILURE: return { ...state };
 
     /**
-     * SELECT PAGE (SET ACTIVE)
+     * SELECT ARTICLE (SET ACTIVE)
      */
-    case ACTIONS.SELECT_PAGE: {
+    case ACTIONS.SELECT_ARTICLE: {
       const { activeArticleNid } = payload;
       return { ...state, activeArticleNid };
     }

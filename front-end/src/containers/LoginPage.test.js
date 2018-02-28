@@ -3,7 +3,7 @@ import { mount, shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 import { Redirect } from 'react-router-dom';
 
-import Login from './LoginArticle';
+import Login from './LoginPage';
 
 
 describe('LoginArticle', () => {

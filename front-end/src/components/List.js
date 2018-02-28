@@ -19,19 +19,19 @@ Fade.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const listItems = ({ articles, selectArticleHandler, deleteArticleHandler }) => articles.map(page => (
+const listItems = ({ articles, selectHandler, deleteHandler }) => articles.map(page => (
   <Fade duration={1000} key={page.nid} timeout={{ enter: 0, exit: 1000 }}>
     <Card
       page={page}
-      selectArticleHandler={selectArticleHandler}
-      deleteHandler={(event) => { deleteArticleHandler(event, page.nid); }}
+      selectHandler={selectHandler}
+      deleteHandler={(event) => { deleteHandler(event, page.nid); }}
     />
   </Fade>
 ));
 
 const List = (props) => {
   const {
-    addArticleHandler, isModalVisible, onDeleteModalToggle, onDeleteModalOk,
+    addHandler, isModalVisible, onDeleteModalToggle, onDeleteModalOk,
   } = props;
   return (
     <div className="">
@@ -39,9 +39,9 @@ const List = (props) => {
         <div
           role="button"
           tabIndex={0}
-          onKeyUp={() => { addArticleHandler(); }}
+          onKeyUp={() => { addHandler(); }}
           className="py-3"
-          onClick={() => { addArticleHandler(); }}
+          onClick={() => { addHandler(); }}
         >
           <div className="add">
             <MdAdd />
@@ -71,7 +71,7 @@ const List = (props) => {
 
 List.propTypes = {
   isModalVisible: PropTypes.bool.isRequired,
-  addArticleHandler: PropTypes.func.isRequired,
+  addHandler: PropTypes.func.isRequired,
   onDeleteModalToggle: PropTypes.func.isRequired,
   onDeleteModalOk: PropTypes.func.isRequired,
 };

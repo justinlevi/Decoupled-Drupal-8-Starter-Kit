@@ -35,7 +35,7 @@ function* addArticleSaga(action) {
   try {
     const result = yield call(addArticleMutation, { ...payload });
     const { page } = result.data.addArticle;
-    const existingArticles = yield select(state => state.pageReducer.articles);
+    const existingArticles = yield select(state => state.articleReducer.articles);
     const articles = existingArticles.concat([page]);
     yield put(addArticleSuccess({ articles, activeArticleNid: page.nid }));
   } catch (error) {
@@ -51,7 +51,7 @@ function* deleteArticleSaga(action) {
   try {
     const result = yield call(deleteArticleMutation, { ...payload });
     const { page } = result.data.deleteArticle;
-    const articles = yield select(state => state.pageReducer.articles);
+    const articles = yield select(state => state.articleReducer.articles);
     yield put(deleteArticleSuccess({ articles: removeArticleFromArticles(articles, page.nid) }));
   } catch (error) {
     yield put(deleteArticleFailure(error));
@@ -66,7 +66,7 @@ function* saveArticleUpdatesSaga(action) {
   try {
     const result = yield call(updateArticleMutation, { ...payload });
     const { page } = result.data.updateArticle;
-    const existingArticles = yield select(state => state.pageReducer.articles);
+    const existingArticles = yield select(state => state.articleReducer.articles);
     const articles = updateArticlesWithArticle(existingArticles, page);
     yield put(saveArticleUpdatesSuccess({ articles }));
   } catch (error) {
@@ -77,20 +77,20 @@ function* saveArticleUpdatesSaga(action) {
 function* selectArticleSaga(action) {
   const { payload } = action;
   const { activeArticleNid } = payload;
-  const articles = yield select(state => state.pageReducer.articles);
+  const articles = yield select(state => state.articleReducer.articles);
   const page = getArticleFromNid(articles, activeArticleNid);
 
   yield put(push(`/edit/${activeArticleNid}/${page.title.replace(/ /g, '-').toLowerCase()}`));
 }
 
 export function* watchArticleActions() {
-  yield takeEvery(ACTIONS.FETCH_PAGES, fetchArticleSaga);
+  yield takeEvery(ACTIONS.FETCH_ARTICLES, fetchArticleSaga);
 
-  yield takeLatest(ACTIONS.ADD_PAGE, addArticleSaga);
-  yield takeEvery(ACTIONS.DELETE_PAGE, deleteArticleSaga);
-  yield takeLatest(ACTIONS.SAVE_PAGE_UPDATES, saveArticleUpdatesSaga);
+  yield takeLatest(ACTIONS.ADD_ARTICLE, addArticleSaga);
+  yield takeEvery(ACTIONS.DELETE_ARTICLE, deleteArticleSaga);
+  yield takeLatest(ACTIONS.SAVE_ARTICLE_UPDATES, saveArticleUpdatesSaga);
 
-  yield takeEvery(ACTIONS.SELECT_PAGE, selectArticleSaga);
+  yield takeEvery(ACTIONS.SELECT_ARTICLE, selectArticleSaga);
 }
 
 export default watchArticleActions;

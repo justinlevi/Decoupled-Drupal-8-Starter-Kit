@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 
 import List from '../components/List';
 
-import { fetchArticles, addArticle, deleteArticle, selectArticle } from '../redux/page/actions';
+import { fetchArticles, addArticle, deleteArticle, selectArticle } from '../redux/article/actions';
 
-export class ListArticle extends Component {
+export class ListPage extends Component {
   state = {
     nid: 0,
     isModalVisible: false,
@@ -52,18 +52,18 @@ export class ListArticle extends Component {
   * ----------
   */
 
-  addArticleHandler= () => {
+  addHandler= () => {
     const { dispatch } = this.props;
     dispatch(addArticle({ title: 'NULL' }));
   }
 
-  selectArticleHandler = (activeArticleNid) => {
+  selectHandler = (activeArticleNid) => {
     const { dispatch } = this.props;
     dispatch(selectArticle({ activeArticleNid }));
     // dispatch(push(`/edit/${activeArticleNid.nid}/${activeArticleNid.title.replace(/ /g, '-').toLowerCase()}`));
   }
 
-  deleteArticleHandler = (event, nid) => {
+  deleteHandler = (event, nid) => {
     event.stopPropagation();
     this.setState({
       nid,
@@ -80,24 +80,24 @@ export class ListArticle extends Component {
     return (<List
       {...this.props}
       {...this.state}
-      selectArticleHandler={this.selectArticleHandler}
-      deleteArticleHandler={this.deleteArticleHandler}
-      addArticleHandler={this.addArticleHandler}
+      selectHandler={this.selectHandler}
+      deleteHandler={this.deleteHandler}
+      addHandler={this.addHandler}
       onDeleteModalToggle={this.onDeleteModalToggle}
       onDeleteModalOk={this.onDeleteModalOk}
     />);
   }
 }
 
-ListArticle.propTypes = {
+ListPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
   isLoggingIn: state.authReducer.isLoggingIn,
-  articles: state.pageReducer.articles,
+  articles: state.articleReducer.articles,
 });
-const ListArticleWrapper = connect(mapStateToProps)(ListArticle);
+const ListPageWrapper = connect(mapStateToProps)(ListPage);
 
-export default ListArticleWrapper;
+export default ListPageWrapper;

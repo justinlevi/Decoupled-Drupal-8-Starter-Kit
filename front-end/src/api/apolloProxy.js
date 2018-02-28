@@ -6,7 +6,7 @@ export { apolloClient } from './apolloClient';
 
 const fragments = {
   nodeArticle: gql`
-    fragment ArticleArticleFields on ArticleArticle{
+    fragment ArticleFields on NodeArticle{
       author:entityOwner{
         name
       },
@@ -21,7 +21,7 @@ const fragments = {
         ... on FieldNodeFieldMediaImage {
           entity{
             ... on MediaImage {
-              image {
+              image:fieldImage {
                 derivative(style:medium) {
                   url
                 }
@@ -54,7 +54,7 @@ export const articlesByUserQuery = () => apolloClient.query({
           uid
           nodes:reverseUidNode(offset:0, limit:1000){
             articles: entities{
-              ... ArticleArticleFields
+              ... ArticleFields
             }
           }
         }
@@ -69,7 +69,7 @@ export const articlesByUserQuery = () => apolloClient.query({
 //   query nodeQuery($uid: Int) {
 //     nodeQuery(offset:0, limit: 10, filter:{uid:$uid}){
 //       entities{
-//         ... on ArticleArticleFields
+//         ... on ArticleFields
 //       }
 //     }
 //   }
@@ -87,7 +87,7 @@ export const addArticleMutation = ({ title }) => apolloClient.mutate({
           path
         },
         page:entity{
-          ... ArticleArticleFields
+          ... ArticleFields
         }
       }
     }
@@ -103,7 +103,7 @@ export const deleteArticleMutation = ({ id }) => apolloClient.mutate({
     mutation deleteArticle($id:Int!){
       deleteArticle(id:$id){
         page:entity{
-          ...ArticleArticleFields
+          ...ArticleFields
         },
         errors,
         violations {
@@ -131,7 +131,7 @@ export const updateArticleMutation = ({
       field_media_image:$field_media_image
     }){
       page:entity{
-        ... ArticleArticleFields
+        ... ArticleFields
       },
       errors,
       violations {
