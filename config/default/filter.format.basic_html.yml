@@ -1,8 +1,0 @@
-uuid: e5af19b7-cf23-4464-9b4d-473a03c714de
-langcode: en
-status: true
-dependencies: {  }
-name: basic_html
-format: basic_html
-weight: 0
-filters: {  }
