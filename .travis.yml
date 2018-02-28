@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 language: php
 dist: trusty
 
@@ -28,7 +28,7 @@ cache:
   - "vendor"
   - ".rules"
   # Cache front end dependencies to dramatically improve build time.
-  # - "docroot/themes/custom/mytheme/node_modules"
+  - "docroot/front-end/node_modules"
   # - "docroot/themes/custom/mytheme/bower_components"
 
 addons:
