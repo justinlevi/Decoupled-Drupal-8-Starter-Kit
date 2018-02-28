@@ -56,6 +56,9 @@ install:
   - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
+  - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.30.2/nvm.sh
+  - bash -c "nvm use $NODE_JS_VERSION" || true
+  - bash -c "source ~/.nvm/nvm.sh; nvm install $NODE_JS_VERSION; node --version"
   - source ${BLT_DIR}/scripts/travis/run_tests
   - cd ./front-end && npm test
 
