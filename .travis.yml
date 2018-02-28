@@ -13,6 +13,7 @@ env:
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR/vendor/acquia/blt
     - BUILD_DIR=$TRAVIS_BUILD_DIR
+    - NODE_JS_VERSION=8
 
 jdk:
   - oraclejdk8
@@ -51,6 +52,8 @@ before_install:
   - source ${BLT_DIR}/scripts/travis/exit_early
 
 install:
+  - echo $NVM_DIR;
+  - nvm --version;
   - source ${BLT_DIR}/scripts/travis/setup_environment
   - source ${BLT_DIR}/scripts/travis/setup_project
 

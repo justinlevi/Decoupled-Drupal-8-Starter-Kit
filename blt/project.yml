@@ -44,5 +44,5 @@ disable-targets:
     pre-commit: true
 target-hooks:
   frontend-setup:
-    dir: ${docroot}/../front-end
-    command: './node-setup.sh'
+    dir: ${docroot}/../
+    command: './front-end/node-setup.sh'
