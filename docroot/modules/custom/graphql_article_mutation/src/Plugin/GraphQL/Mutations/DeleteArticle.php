@@ -1,24 +1,24 @@
 <?php
 
-namespace Drupal\graphql_page_mutation\Plugin\GraphQL\Mutations;
+namespace Drupal\graphql_article_mutation\Plugin\GraphQL\Mutations;
 
 use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\DeleteEntityBase;
 
 /**
- * A Simple PageNode mutation.
+ * A Simple ArticleNode mutation.
  *
  * @GraphQLMutation(
- *   id = "delete_page",
+ *   id = "delete_article",
  *   entity_type = "node",
- *   entity_bundle = "page",
+ *   entity_bundle = "article",
  *   secure = true,
- *   name = "deletePage",
+ *   name = "deleteArticle",
  *   type = "EntityCrudOutput!",
  *   arguments = {
  *     "id" = "Int"
  *   }
  * )
  */
-class DeletePage extends DeleteEntityBase {
+class DeleteArticle extends DeleteEntityBase {
 
 }

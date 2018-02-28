@@ -1,14 +1,14 @@
 <?php
 
-namespace Drupal\Tests\graphql_page_mutation\Functional;
+namespace Drupal\Tests\graphql_article_mutation\Functional;
 
 use Drupal\Core\Url;
 use Drupal\Tests\BrowserTestBase;
 
 /**
- * Simple test to ensure that main page loads with module enabled.
+ * Simple test to ensure that main article loads with module enabled.
  *
- * @group graphql_page_mutation
+ * @group graphql_article_mutation
  */
 class LoadTest extends BrowserTestBase {
 
@@ -17,7 +17,7 @@ class LoadTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['graphql_page_mutation'];
+  public static $modules = ['graphql_article_mutation'];
 
   /**
    * A user with permission to administer site configuration.
@@ -36,7 +36,7 @@ class LoadTest extends BrowserTestBase {
   }
 
   /**
-   * Tests that the home page loads with a 200 response.
+   * Tests that the home article loads with a 200 response.
    */
   public function testLoad() {
     $this->drupalGet(Url::fromRoute('<front>'));

@@ -1,27 +1,27 @@
 <?php
 
-namespace Drupal\graphql_page_mutation\Plugin\GraphQL\Mutations;
+namespace Drupal\graphql_article_mutation\Plugin\GraphQL\Mutations;
 
 use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\UpdateEntityBase;
 use Youshido\GraphQL\Execution\ResolveInfo;
 
 /**
- * A Simple PageNode mutation.
+ * A Simple ArticleNode mutation.
  *
  * @GraphQLMutation(
- *   id = "update_page",
+ *   id = "update_article",
  *   entity_type = "node",
- *   entity_bundle = "page",
+ *   entity_bundle = "article",
  *   secure = true,
- *   name = "updatePage",
+ *   name = "updateArticle",
  *   type = "EntityCrudOutput!",
  *   arguments = {
  *     "id" = "Int",
- *     "input" = "BasicPageUpdate"
+ *     "input" = "ArticleUpdate"
  *   }
  * )
  */
-class UpdatePage extends UpdateEntityBase {
+class UpdateArticle extends UpdateEntityBase {
 
   /**
    * {@inheritdoc}

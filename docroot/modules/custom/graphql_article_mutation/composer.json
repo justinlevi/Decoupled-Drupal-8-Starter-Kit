@@ -1,0 +1,14 @@
+{
+  "name": "drupal/graphql_article_mutation",
+  "type": "drupal-module",
+  "description": "A GraphQL Article Mutation",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homearticle": "https://www.drupal.org/project/graphql_article_mutation",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/graphql_article_mutation",
+    "source": "http://cgit.drupalcode.org/graphql_article_mutation"
+  },
+  "require": { }
+}

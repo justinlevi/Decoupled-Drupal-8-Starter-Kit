@@ -5,9 +5,9 @@
 ADD PAGE MUTATION W/ ENTITY REFERENCE FIELD
 ```$xslt
 mutation{
-  addPage(input: {title: "Hey 2", body:"asdfa", image_ids:[1,2,3]}){
+  addArticle(input: {title: "Hey 2", body:"asdfa", image_ids:[1,2,3]}){
     entity{
-      ...on NodePage {
+      ...on NodeArticle {
         fieldMediaImage {
           ...on FieldNodeFieldMediaImage {
             entity{
@@ -33,7 +33,7 @@ RESULT
 ```$xslt
 {
   "data": {
-    "addPage": {
+    "addArticle": {
       "entity": {
         "fieldMediaImage": [
           {
@@ -78,9 +78,9 @@ UPDATE MUTATION
 
 ```$xslt
 mutation {
-  updatePage(id:110, input:{title:"Justin"}){
+  updateArticle(id:110, input:{title:"Justin"}){
     entity{
-      ...on NodePage {
+      ...on NodeArticle {
         nid
         title
         body{
@@ -97,7 +97,7 @@ RESULT
 ```$xslt
 {
   "data": {
-    "updatePage": {
+    "updateArticle": {
       "entity": {
         "nid": 111,
         "title": "Justin",
@@ -115,9 +115,9 @@ RESULT
 DELETE MUTATION
 ```$xslt
 mutation {
-  deletePage(id:111){
+  deleteArticle(id:111){
     entity{
-      ...on NodePage {
+      ...on NodeArticle {
         nid
         title
         body{
@@ -136,7 +136,7 @@ RESULT
 ```$xslt
 {
   "data": {
-    "deletePage": {
+    "deleteArticle": {
       "entity": {
         "nid": 111,
         "title": "Justin",

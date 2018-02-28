@@ -1,20 +1,17 @@
 <?php
 
-namespace Drupal\graphql_page_mutation\Plugin\GraphQL\InputTypes;
+namespace Drupal\graphql_article_mutation\Plugin\GraphQL\InputTypes;
 
 use Drupal\graphql\Plugin\GraphQL\InputTypes\InputTypePluginBase;
 
 /**
- * BasicPage update type.
+ * Article input type.
  *
  * @GraphQLInputType(
- *   id = "basic_page_update",
- *   name = "BasicPageUpdate",
+ *   id = "article_input",
+ *   name = "ArticleInput",
  *   fields = {
- *     "title" = {
- *        "type" = "String",
- *        "nullable" = "TRUE"
- *     },
+ *     "title" = "String",
  *     "body" = {
  *        "type" = "String",
  *        "nullable" = "TRUE"
@@ -27,6 +24,6 @@ use Drupal\graphql\Plugin\GraphQL\InputTypes\InputTypePluginBase;
  *   }
  * )
  */
-class BasicPageUpdate extends InputTypePluginBase {
+class ArticleInput extends InputTypePluginBase {
 
 }

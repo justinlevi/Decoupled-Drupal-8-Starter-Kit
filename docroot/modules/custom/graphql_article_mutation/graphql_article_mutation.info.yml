@@ -1,6 +1,6 @@
-name: 'graphql_page_mutation'
+name: 'graphql_article_mutation'
 type: module
-description: 'A GraphQL Page Mutation'
+description: 'A GraphQL Article Mutation'
 core: 8.x
 package: 'Custom'
 dependencies:
