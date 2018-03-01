@@ -1,6 +1,4 @@
 import { call, put, take, takeLatest } from 'redux-saga/effects';
-import Querystring from 'query-string';
-import axios from 'axios';
 
 import {
   ACTIONS as OAUTH_ACTIONS,
@@ -18,26 +16,7 @@ import {
   initCsrfToken,
 } from '../csrf/actions';
 
-import { generateCredentials, isTokenValid, getLocalCredentials } from './utilities';
-
-const URL = process.env.REACT_APP_HOST_DOMAIN;
-const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
-
-
-const fetchToken = credentials => axios.post(`${URL}/oauth/token${POSTFIX}`, Querystring.stringify(credentials))
-  .then((response) => {
-      const { expires_in, access_token, refresh_token } = response.data; // eslint-disable-line
-    return ({
-      expiration: expires_in,
-      accessToken: access_token,
-      refreshToken: refresh_token,
-      timestamp: new Date().getTime(),
-    });
-  }).catch((error) => {
-    console.log(error);
-    return error;
-  });
-
+import { generateCredentials, fetchToken, isTokenValid, getLocalCredentials } from './utilities';
 
 function* loginRequestSaga(action) {
   const { username, password } = action.payload;

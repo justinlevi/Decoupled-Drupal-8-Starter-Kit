@@ -1,8 +1,27 @@
+import Querystring from 'query-string';
+import axios from 'axios';
+
+const URL = process.env.REACT_APP_HOST_DOMAIN;
+const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
 
 const CLIENT_INFO = {
   client_id: process.env.REACT_APP_CLIENT_ID,
   client_secret: process.env.REACT_APP_CLIENT_SECRET,
 };
+
+export const fetchToken = credentials => axios.post(`${URL}/oauth/token${POSTFIX}`, Querystring.stringify(credentials))
+  .then((response) => {
+    const { expires_in, access_token, refresh_token } = response.data; // eslint-disable-line
+    return ({
+      expiration: expires_in,
+      accessToken: access_token,
+      refreshToken: refresh_token,
+      timestamp: new Date().getTime(),
+    });
+  }).catch((error) => {
+    console.log(error);
+    return error;
+  });
 
 export const generateCredentials = (type, username, password = '', refreshToken = '') => {
   let credentials = {

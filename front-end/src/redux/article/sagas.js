@@ -2,7 +2,7 @@ import { call, take, put, takeLatest, takeEvery, select } from 'redux-saga/effec
 import { push } from 'react-router-redux';
 
 import { ACTIONS as OAUTH_ACTIONS, tokensExpiredCheck } from '../auth/oauth/actions';
-import { articlesByUserQuery, addArticleMutation, deleteArticleMutation, updateArticleMutation } from '../../api/apolloProxy';
+import { articlesByUser, addArticle, deleteArticle, updateArticle } from '../../api/apolloProxy';
 import { formatFetchArticleResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
 
 import {
@@ -23,7 +23,7 @@ function* fetchArticleSaga() {
   yield put(tokensExpiredCheck());
   yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
 
-  const result = yield call(articlesByUserQuery);
+  const result = yield call(articlesByUser);
   yield put(fetchArticlesSuccess({ articles: formatFetchArticleResult(result) }));
 }
 
@@ -33,7 +33,7 @@ function* addArticleSaga(action) {
   yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
-    const result = yield call(addArticleMutation, { ...payload });
+    const result = yield call(addArticle, { ...payload });
     const { page } = result.data.addArticle;
     const existingArticles = yield select(state => state.articleReducer.articles);
     const articles = existingArticles.concat([page]);
@@ -49,7 +49,7 @@ function* deleteArticleSaga(action) {
   yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
-    const result = yield call(deleteArticleMutation, { ...payload });
+    const result = yield call(deleteArticle, { ...payload });
     const { page } = result.data.deleteArticle;
     const articles = yield select(state => state.articleReducer.articles);
     yield put(deleteArticleSuccess({ articles: removeArticleFromArticles(articles, page.nid) }));
@@ -64,7 +64,7 @@ function* saveArticleUpdatesSaga(action) {
   yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
-    const result = yield call(updateArticleMutation, { ...payload });
+    const result = yield call(updateArticle, { ...payload });
     const { page } = result.data.updateArticle;
     const existingArticles = yield select(state => state.articleReducer.articles);
     const articles = updateArticlesWithArticle(existingArticles, page);

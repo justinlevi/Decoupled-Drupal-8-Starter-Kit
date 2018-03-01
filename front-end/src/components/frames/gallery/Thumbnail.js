@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Thumbnails = ({
+const Thumbnail = ({
   render,
   fileName,
   index,
@@ -58,7 +58,7 @@ const Thumbnails = ({
   );
 };
 
-Thumbnails.propTypes = {
+Thumbnail.propTypes = {
   index: PropTypes.number.isRequired,
   handleDelete: PropTypes.func.isRequired,
   render: PropTypes.func.isRequired,
@@ -70,4 +70,4 @@ Thumbnails.propTypes = {
   handleCancel: PropTypes.func.isRequired,
 };
 
-export default Thumbnails;
+export default Thumbnail;

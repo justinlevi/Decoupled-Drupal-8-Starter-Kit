@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
 
-import Thumbnails from './Thumbnails';
+import Thumbnail from './Thumbnail';
 import BrowseButton from './BrowseButton';
 
 const Gallery = ({
@@ -63,7 +63,7 @@ const Gallery = ({
             files.map((item, i) => {
               const image = files[i].file;
               if (image) {
-                return (<Thumbnails
+                return (<Thumbnail
                   key={i}
                   handleCancel={handleCancel}
                   handleDelete={handleDelete}
