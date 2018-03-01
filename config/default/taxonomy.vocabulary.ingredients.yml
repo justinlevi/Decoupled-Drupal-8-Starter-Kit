@@ -1,0 +1,11 @@
+uuid: 59aa59a8-f3c0-4cc1-bd22-97bc3b4b5abc
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: x17M0aimPe_YUT28hV2H0RsZKGDcql-5IYQSpl2itq8
+name: Ingredients
+vid: ingredients
+description: ''
+hierarchy: 0
+weight: 0
