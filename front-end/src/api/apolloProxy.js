@@ -1,4 +1,6 @@
 import gql from 'graphql-tag';
+// import { graphql } from 'react-apollo';
+
 import { apolloClient } from './apolloClient';
 
 export { apolloClient } from './apolloClient';
@@ -35,20 +37,19 @@ const fragments = {
 };
 
 
-export const currentUserUidQuery = gql`
+export const CURRENT_USER_QUERY = gql`
   query{
-    currentUserContext{
+    user: currentUserContext{
       uid,
       uuid
     }
   }
 `;
-export const currentUserUid = () => apolloClient.query({
-  query: currentUserUidQuery,
+export const currentUser = () => apolloClient.query({
+  query: CURRENT_USER_QUERY,
 });
 
-
-export const articlesByUserQuery = gql`
+export const ARTICLES_BY_USER_QUERY = gql`
   query articlesByUserQuery{
     user:currentUserContext{
       ...on User{
@@ -64,7 +65,7 @@ export const articlesByUserQuery = gql`
   ${fragments.nodeArticle}
 `;
 export const articlesByUser = () => apolloClient.query({
-  query: articlesByUserQuery,
+  query: ARTICLES_BY_USER_QUERY,
   fetchPolicy: 'network-only',
 });
 

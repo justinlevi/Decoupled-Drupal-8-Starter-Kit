@@ -1,12 +1,12 @@
-import { ApolloLink, concat } from 'apollo-link';
-import { HttpLink } from 'apollo-link-http';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import introspectionQueryResultData from 'api/fragmentTypes.json';
+import { introspectionQuery, buildClientSchema, graphql } from 'graphql';
+import { addMockFunctionsToSchema } from 'graphql-tools';
+import { print } from 'graphql/language/printer';
+
+import * as introspectionResult from './schema.json';
 
 import {
-  currentUserUidQuery,
-  articlesByUserQuery,
+  CURRENT_USER_QUERY,
+  ARTICLES_BY_USER_QUERY,
   addArticleMutation,
   deleteArticleMutation,
   updateArticleMutation,
@@ -14,50 +14,43 @@ import {
   addS3Files,
 } from './apolloProxy';
 
-import { fetchCsrfToken } from '../redux/auth/csrf/utilities';
-import { fetchToken, generateCredentials } from '../redux/auth/oauth/utilities';
 
-const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
-const URL = process.env.REACT_APP_HOST_DOMAIN ? process.env.REACT_APP_HOST_DOMAIN : '';
+describe('Testing GraphQL Queries', () => {
+  // Make a GraphQL schema with no resolvers
+  const schema = buildClientSchema(introspectionResult);
 
-describe('ApolloProxy', async () => {
-  const csrfToken = await fetchCsrfToken();
-  const credentials = generateCredentials('password', 'admin', 'admin', '');
-  const tokens = await fetchToken(credentials);
+  // // Add mocks, modifies schema in place
+  addMockFunctionsToSchema({ schema });
 
-  const authMiddleware = new ApolloLink((operation, forward) => {
-    const csrf = csrfToken;
-    const token = tokens.accessToken;
+  it('Check Current User Query', async () => graphql(schema, print(CURRENT_USER_QUERY), null).then((result) => {
+    expect(result.data.user.uuid).toEqual('Hello World');
+  }));
 
-    // add the access_token to the headers
-    operation.setContext(() => ({
-      headers: {
-        authorization: `Bearer ${token}` || null,
-        'X-CSRF-Token': csrf || null,
-      },
-    }));
-    return forward(operation);
-  });
+  it('Check Articles by User Query', async () => graphql(schema, print(ARTICLES_BY_USER_QUERY), null).then((result) => {
+    expect(result.data.user.nodes.articles.length).toBeGreaterThanOrEqual(0);
+  }));
 
-  const link = new HttpLink({
-    uri: URL.concat(`/graphql${POSTFIX}`),
-  });
+  it('Check getSignedUrls Query', async () => graphql(schema, print(getSignedUrls), null, null, { input: { fileNames: ['test.jpg'] } }).then((result) => {
+    expect(result.data.signedUploadURL.length).toBeGreaterThanOrEqual(0);
+  }));
 
-  const fragmentMatcher = new IntrospectionFragmentMatcher({ introspectionQueryResultData });
+  it('Check addArticleMutation', async () => graphql(schema, print(addArticleMutation), null, null, { title: 'Hello Everybody' }).then((result) => {
+    expect(result.data.addArticle.page).toBeDefined();
+  }));
 
-  const apolloClient = new ApolloClient({
-    link: concat(authMiddleware, link),
-    cache: new InMemoryCache({ fragmentMatcher }),
-  });
+  it('Check deleteArticleMutation', async () => graphql(schema, print(deleteArticleMutation), null, null, { id: 1 }).then((result) => {
+    expect(result.data.deleteArticle.page).toBeDefined();
+  }));
 
-  describe('Snapshots', () => {
-    it('should render correctly', async () => {
-      const userUidQuery = await apolloClient.query({ query: currentUserUidQuery });
-      expect(userUidQuery).toMatchSnapshot();
+  it('Check updateArticleMutation', async () => graphql(schema, print(updateArticleMutation), null, null, {
+    id: 1, title: 'asdfasd', body: 'body text', field_media_image: [1, 2, 3],
+  }).then((result) => {
+    expect(result.data.updateArticle.page).toBeDefined();
+  }));
 
-
-      const articlesByUser = await apolloClient.query({ query: articlesByUserQuery });
-      expect(articlesByUser).toMatchSnapshot();
-    });
-  });
+  it('Check addS3Files', async () => graphql(schema, print(addS3Files), null, null, {
+    input: { files: { filename: '1.jpg', filesize: 123, url: 'http://test.jpg' } },
+  }).then((result) => {
+    expect(result.data.addS3Files).toBeDefined();
+  }));
 });
