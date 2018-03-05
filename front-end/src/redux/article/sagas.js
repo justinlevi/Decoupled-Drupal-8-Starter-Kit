@@ -1,12 +1,12 @@
 import { call, take, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
-import { ACTIONS as OAUTH_ACTIONS, tokensExpiredCheck } from '../auth/oauth/actions';
+import { types as oauthActionTypes, tokensExpiredCheck } from '../auth/oauth/actions';
 import { articlesByUser, addArticle, deleteArticle, updateArticle } from '../../api/apolloProxy';
 import { formatFetchArticleResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
 
 import {
-  ACTIONS,
+  types as articleActionTypes,
   // addArticle,
   // deleteArticle,
   // saveArticleUpdates,
@@ -21,7 +21,7 @@ import {
 
 function* fetchArticleSaga() {
   yield put(tokensExpiredCheck());
-  yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
+  yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
   const result = yield call(articlesByUser);
   yield put(fetchArticlesSuccess({ articles: formatFetchArticleResult(result) }));
@@ -30,7 +30,7 @@ function* fetchArticleSaga() {
 function* addArticleSaga(action) {
   const { payload } = action;
   yield put(tokensExpiredCheck());
-  yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
+  yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
     const result = yield call(addArticle, { ...payload });
@@ -46,7 +46,7 @@ function* addArticleSaga(action) {
 function* deleteArticleSaga(action) {
   const { payload } = action;
   yield put(tokensExpiredCheck());
-  yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
+  yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
     const result = yield call(deleteArticle, { ...payload });
@@ -61,7 +61,7 @@ function* deleteArticleSaga(action) {
 function* saveArticleUpdatesSaga(action) {
   const { payload } = action;
   yield put(tokensExpiredCheck());
-  yield take(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK_VALID);
+  yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
     const result = yield call(updateArticle, { ...payload });
@@ -84,13 +84,13 @@ function* selectArticleSaga(action) {
 }
 
 export function* watchArticleActions() {
-  yield takeEvery(ACTIONS.FETCH_ARTICLES, fetchArticleSaga);
+  yield takeEvery(articleActionTypes.FETCH_ARTICLES, fetchArticleSaga);
 
-  yield takeLatest(ACTIONS.ADD_ARTICLE, addArticleSaga);
-  yield takeEvery(ACTIONS.DELETE_ARTICLE, deleteArticleSaga);
-  yield takeLatest(ACTIONS.SAVE_ARTICLE_UPDATES, saveArticleUpdatesSaga);
+  yield takeLatest(articleActionTypes.ADD_ARTICLE, addArticleSaga);
+  yield takeEvery(articleActionTypes.DELETE_ARTICLE, deleteArticleSaga);
+  yield takeLatest(articleActionTypes.SAVE_ARTICLE_UPDATES, saveArticleUpdatesSaga);
 
-  yield takeEvery(ACTIONS.SELECT_ARTICLE, selectArticleSaga);
+  yield takeEvery(articleActionTypes.SELECT_ARTICLE, selectArticleSaga);
 }
 
 export default watchArticleActions;

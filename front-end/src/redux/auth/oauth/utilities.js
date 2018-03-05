@@ -2,14 +2,17 @@ import Querystring from 'query-string';
 import axios from 'axios';
 
 const URL = process.env.REACT_APP_HOST_DOMAIN;
-const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
+const OAUTH_ENDPOINT = `${URL}/oauth/token`;
 
 const CLIENT_INFO = {
   client_id: process.env.REACT_APP_CLIENT_ID,
   client_secret: process.env.REACT_APP_CLIENT_SECRET,
 };
 
-export const fetchToken = credentials => axios.post(`${URL}/oauth/token${POSTFIX}`, Querystring.stringify(credentials))
+export const fetchToken = credentials => axios.post(
+  OAUTH_ENDPOINT,
+  Querystring.stringify(credentials),
+)
   .then((response) => {
     const { expires_in, access_token, refresh_token } = response.data; // eslint-disable-line
     return ({
@@ -23,23 +26,17 @@ export const fetchToken = credentials => axios.post(`${URL}/oauth/token${POSTFIX
     return error;
   });
 
-export const generateCredentials = (type, username, password = '', refreshToken = '') => {
-  let credentials = {
+export const generateCredentials = (type = 'password', username, password = '', refreshToken = '') => {
+  const credentials = {
     ...CLIENT_INFO,
     grant_type: type,
     username,
   };
 
   if (type === 'password') {
-    credentials = {
-      ...credentials,
-      password,
-    };
+    credentials.password = password;
   } else if (type === 'refresh_token') {
-    credentials = {
-      ...credentials,
-      refresh_token: refreshToken,
-    };
+    credentials.refresh_token = refreshToken;
   }
 
   return credentials;
@@ -61,6 +58,7 @@ export const persistCredentials = ({
 export const getLocalCredentials = () => ({
   accessToken: sessionStorage.getItem('accessToken'),
   expireStamp: localStorage.getItem('lastRefreshedToken'),
+  expirationTime: sessionStorage.getItem('expirationTime'),
   csrfToken: sessionStorage.getItem('csrfToken'),
   refreshToken: localStorage.getItem('refreshToken'),
 });
@@ -75,32 +73,31 @@ export const unsetLocalStorageCredentials = () => {
   localStorage.removeItem('state');
 };
 
-const convertDate = (unixTimestamp) => {
-  // Create a new JavaScript Date object based on the timestamp
-  // multiplied by 1000 so that the argument is in milliseconds, not seconds.
-  const date = new Date(unixTimestamp);
-  // Hours part from the timestamp
-  const hours = date.getHours();
-  // Minutes part from the timestamp
-  const minutes = `0${date.getMinutes()}`;
-  // Seconds part from the timestamp
-  const seconds = `0${date.getSeconds()}`;
+// const convertDate = (unixTimestamp) => {
+//   // Create a new JavaScript Date object based on the timestamp
+//   // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+//   const date = new Date(unixTimestamp);
+//   // Hours part from the timestamp
+//   const hours = date.getHours();
+//   // Minutes part from the timestamp
+//   const minutes = `0${date.getMinutes()}`;
+//   // Seconds part from the timestamp
+//   const seconds = `0${date.getSeconds()}`;
 
-  // Will display time in 10:30:23 format
-  const formattedTime = `${hours}:${minutes.substr(-2)}:${seconds.substr(-2)}`;
-  return formattedTime;
-};
+//   // Will display time in 10:30:23 format
+//   const formattedTime = `${hours}:${minutes.substr(-2)}:${seconds.substr(-2)}`;
+//   return formattedTime;
+// };
 
-export const isTokenValid = (accessToken, expiresStamp) => {
+export const isTokenValid = (accessToken, expiresStamp, expirationTime) => {
   const currentTime = new Date().getTime();
-  const expireTime = parseInt(sessionStorage.getItem('expirationTime'), 10) * 1000;
-
+  const expireTime = parseInt(expirationTime, 10) * 1000;
 
   const currentTimeInt = parseInt(currentTime, 10);
   const expiresStampInt = parseInt(expiresStamp, 10) + expireTime;
 
-  console.log(`CURRENT-TIME: ${convertDate(currentTimeInt)}`);
-  console.log(`EXPIRES-TIME: ${convertDate(expiresStampInt)}`);
+  // console.log(`CURRENT-TIME: ${convertDate(currentTimeInt)}`);
+  // console.log(`EXPIRES-TIME: ${convertDate(expiresStampInt)}`);
 
   if (accessToken && (expiresStampInt > currentTimeInt)) {
     return true;

@@ -72,7 +72,7 @@ const Gallery = ({
                   fileName={image.name}
                   percentageComplete={image.percentCompleted ? image.percentCompleted : 0}
                   uploadInitiated={image.uploadInitiated ? image.uploadInitiated : false}
-                  uploadSuccess={image.uploadSuccess}
+                  uploadSuccess={image.uploadSuccess ? image.uploadSuccess : false}
                   render={() => (
                     <figure>
                       <img alt="" src={item.thumbnail} className="responsive-image" />

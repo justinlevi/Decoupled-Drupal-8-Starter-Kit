@@ -20,7 +20,7 @@ export const SAVE_ARTICLE_UPDATES_FAILURE = 'SAVE_ARTICLE_UPDATES_FAILURE';
 
 export const SELECT_ARTICLE = 'SELECT_ARTICLE';
 
-export const ACTIONS = {
+export const types = {
   FETCH_ARTICLES,
   FETCH_ARTICLE_SUCCESS,
   FETCH_ARTICLE_FAILURE,
@@ -41,65 +41,65 @@ export const ACTIONS = {
 // ---------------
 
 export const fetchArticles = () => ({
-  type: ACTIONS.FETCH_ARTICLES,
+  type: types.FETCH_ARTICLES,
 });
 
 export const fetchArticlesSuccess = payload => ({
-  type: ACTIONS.FETCH_ARTICLE_SUCCESS,
+  type: types.FETCH_ARTICLE_SUCCESS,
   payload,
 });
 
 export const fetchArticlesFailure = payload => ({
-  type: ACTIONS.FETCH_ARTICLE_FAILURE,
+  type: types.FETCH_ARTICLE_FAILURE,
   payload,
 });
 
 export const addArticle = payload => ({
-  type: ACTIONS.ADD_ARTICLE,
+  type: types.ADD_ARTICLE,
   payload,
 });
 
 export const addArticleSuccess = payload => ({
-  type: ACTIONS.ADD_ARTICLE_SUCCESS,
+  type: types.ADD_ARTICLE_SUCCESS,
   payload,
 });
 
 export const addArticleFailure = error => ({
-  type: ACTIONS.ADD_ARTICLE_FAILURE,
+  type: types.ADD_ARTICLE_FAILURE,
   error,
 });
 
 export const deleteArticle = payload => ({
-  type: ACTIONS.DELETE_ARTICLE,
+  type: types.DELETE_ARTICLE,
   payload,
 });
 
 export const deleteArticleSuccess = payload => ({
-  type: ACTIONS.DELETE_ARTICLE_SUCCESS,
+  type: types.DELETE_ARTICLE_SUCCESS,
   payload,
 });
 
 export const deleteArticleFailure = error => ({
-  type: ACTIONS.DELETE_ARTICLE_FAILURE,
+  type: types.DELETE_ARTICLE_FAILURE,
   error,
 });
 
 export const saveArticleUpdates = payload => ({
-  type: ACTIONS.SAVE_ARTICLE_UPDATES,
+  type: types.SAVE_ARTICLE_UPDATES,
   payload,
 });
 
 export const saveArticleUpdatesSuccess = payload => ({
-  type: ACTIONS.SAVE_ARTICLE_UPDATES_SUCCESS,
+  type: types.SAVE_ARTICLE_UPDATES_SUCCESS,
   payload,
 });
 
 export const saveArticleUpdatesFailure = error => ({
-  type: ACTIONS.SAVE_ARTICLE_UPDATES_FAILURE,
+  type: types.SAVE_ARTICLE_UPDATES_FAILURE,
   error,
 });
 
 export const selectArticle = payload => ({
-  type: ACTIONS.SELECT_ARTICLE,
+  type: types.SELECT_ARTICLE,
   payload,
 });
