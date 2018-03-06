@@ -1,4 +1,3 @@
-import { applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import configureMockStore from 'redux-mock-store';
 import * as sagas from './sagas';
@@ -8,7 +7,7 @@ const sagaMiddleware = createSagaMiddleware();
 const mockStore = configureMockStore([sagaMiddleware]);
 
 describe('the sagas', () => {
-  it('should execute YOUR_SAGA', (done) => {
+  it('should execute the loginRequestSaga (LOGIN_REQUEST and LOGIN_SUCCESS)', (done) => {
     const store = mockStore({});
     sagaMiddleware.run(sagas.watchOAuth); // has to be executed after the mockStore() call
 
@@ -21,7 +20,11 @@ describe('the sagas', () => {
       },
       {
         payload: {
-          accessToken: 'asdf', expiration: 300, refreshToken: 'asdfasdf', timestamp: 0, username: 'test',
+          accessToken: 'asdf',
+          expiration: 300,
+          refreshToken: 'asdfasdf',
+          timestamp: 0,
+          username: 'test',
         },
         type: 'LOGIN_SUCCESS',
       }];
