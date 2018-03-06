@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for redux/article/utilities.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">redux/article</a> utilities.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">15.38% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>4/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">20% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>4/20</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export const formatFetchArticleResult = <span class="fstat-no" title="function not covered" >re</span>sult =&gt; <span class="cstat-no" title="statement not covered" >result.data.user.nodes.articles.map(<span class="fstat-no" title="function not covered" >(n</span>ode) =&gt; {</span>
+  const newNode = <span class="cstat-no" title="statement not covered" >{ ...node };</span>
+<span class="cstat-no" title="statement not covered" >  newNode.images = newNode.images.map(<span class="fstat-no" title="function not covered" >im</span>age =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >    { url: image.entity.image.derivative.url, mid: image.mid }</span>
+  ));
+<span class="cstat-no" title="statement not covered" >  return newNode;</span>
+});
+&nbsp;
+export const removeArticleFromArticles = <span class="fstat-no" title="function not covered" >(a</span>rticles, nid) =&gt; {
+  const newArticles = <span class="cstat-no" title="statement not covered" >articles.slice();</span>
+  const index = <span class="cstat-no" title="statement not covered" >newArticles.findIndex(<span class="fstat-no" title="function not covered" >it</span>em =&gt; <span class="cstat-no" title="statement not covered" >item.nid === nid)</span>;</span>
+<span class="cstat-no" title="statement not covered" >  if (index === -1) { <span class="cstat-no" title="statement not covered" >return false; </span>}</span>
+<span class="cstat-no" title="statement not covered" >  newArticles.splice(index, 1);</span>
+<span class="cstat-no" title="statement not covered" >  return newArticles;</span>
+};
+&nbsp;
+export const updateArticlesWithArticle = <span class="fstat-no" title="function not covered" >(a</span>rticles, page) =&gt; {
+  const newArticles = <span class="cstat-no" title="statement not covered" >articles.slice();</span>
+  const index = <span class="cstat-no" title="statement not covered" >newArticles.findIndex(<span class="fstat-no" title="function not covered" >it</span>em =&gt; <span class="cstat-no" title="statement not covered" >item.nid === page.nid)</span>;</span>
+<span class="cstat-no" title="statement not covered" >  if (index === -1) { <span class="cstat-no" title="statement not covered" >return newArticles; </span>}</span>
+<span class="cstat-no" title="statement not covered" >  newArticles[index] = page;</span>
+<span class="cstat-no" title="statement not covered" >  return newArticles;</span>
+};
+&nbsp;
+export const getArticleFromNid = <span class="fstat-no" title="function not covered" >(a</span>rticles, nid) =&gt; {
+  const index = <span class="cstat-no" title="statement not covered" >articles.findIndex(<span class="fstat-no" title="function not covered" >it</span>em =&gt; <span class="cstat-no" title="statement not covered" >item.nid === nid)</span>;</span>
+<span class="cstat-no" title="statement not covered" >  return articles[index];</span>
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Mar 06 2018 14:56:43 GMT-0500 (EST)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
