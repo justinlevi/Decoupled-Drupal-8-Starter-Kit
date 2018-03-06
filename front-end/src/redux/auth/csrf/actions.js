@@ -7,7 +7,7 @@ export const CSRF_TOKEN_SUCCESS = 'CSRF_TOKEN_SUCCESS';
 
 export const SET_CSRF_TOKEN = 'SET_CSRF_TOKEN';
 
-export const ACTIONS = {
+export const types = {
   INIT_CSRF_TOKEN,
   CSRF_TOKEN_SUCCESS,
   SET_CSRF_TOKEN,

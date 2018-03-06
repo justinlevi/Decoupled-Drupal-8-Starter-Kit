@@ -165,7 +165,7 @@ parameters:
     # Specify allowed request methods, specify ['*'] to allow all possible ones.
     allowedMethods: ['POST', 'GET', 'OPTIONS', 'DELETE', 'PUT', 'PATCH']
     # Configure requests allowed from specific origins.
-    allowedOrigins: ['*']
+    allowedOrigins: ['http://localhost/','http://localhost:3000','*']
     # Sets the Access-Control-Expose-Headers header.
     exposedHeaders: false
     # Sets the Access-Control-Max-Age header.

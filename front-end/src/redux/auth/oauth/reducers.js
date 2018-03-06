@@ -1,7 +1,7 @@
-import { ACTIONS } from './actions';
+import { types } from './actions';
 import { persistCredentials, unsetLocalStorageCredentials, getLocalCredentials, persistUsername } from './utilities';
 
-const initialState = {
+export const initialState = {
   credentials: {
     accessToken: null,
     refreshToken: null,
@@ -25,25 +25,32 @@ const loginSuccessHandler = (payload) => {
 
 export const reducer = (state = initialState, { type, payload, error }) => {
   switch (type) {
-    case ACTIONS.LOGIN_REQUEST:
+    case types.LOGIN_REQUEST:
       return {
         ...state,
         credentials: { ...payload },
         isLoggingIn: true,
       };
 
-    case ACTIONS.LOGIN_SUCCESS:
+    case types.LOGIN_SUCCESS:
       loginSuccessHandler(payload);
+
       return {
         ...state,
-        credentials: { ...payload },
+        credentials: {
+          accessToken: payload.accessToken || initialState.credentials.accessToken,
+          refreshToken: payload.refreshToken || initialState.credentials.refreshToken,
+          expiration: payload.expiration || initialState.credentials.expiration,
+          timestamp: payload.timestamp || initialState.credentials.timestamp,
+          username: payload.username,
+        },
         isAuthenticated: true,
         isLoggingIn: false,
       };
-    case ACTIONS.LOGIN_FAILURE:
+    case types.LOGIN_FAILURE:
       unsetLocalStorageCredentials();
       return { ...initialState, isLoggingIn: false, error };
-    case ACTIONS.LOGOUT:
+    case types.LOGOUT:
       unsetLocalStorageCredentials();
       return {
         ...state,
@@ -51,30 +58,30 @@ export const reducer = (state = initialState, { type, payload, error }) => {
         isLoggingIn: false,
       };
 
-    case ACTIONS.REFRESH_TOKEN_EXPIRED_CHECK:
+    case types.REFRESH_TOKEN_EXPIRED_CHECK:
       return {
         ...state,
       };
-    case ACTIONS.TOKENS_EXPIRED_CHECK_VALID:
+    case types.TOKENS_EXPIRED_CHECK_VALID:
       return {
         ...state,
         isAuthenticated: true,
         isLoggingIn: false,
       };
-    case ACTIONS.TOKENS_EXPIRED_CHECK_NOT_VALID:
+    case types.TOKENS_EXPIRED_CHECK_NOT_VALID:
       return {
         ...state,
         isAuthenticated: false,
         isLoggingIn: false,
       };
 
-    case ACTIONS.REFRESH_TOKENS_REQUEST:
+    case types.REFRESH_TOKENS_REQUEST:
       return {
         ...state,
         credentials: { ...payload },
         isLoggingIn: true,
       };
-    case ACTIONS.REFRESH_TOKENS_REQUEST_SUCCESS:
+    case types.REFRESH_TOKENS_REQUEST_SUCCESS:
       loginSuccessHandler(payload);
       return {
         ...state,
@@ -82,7 +89,7 @@ export const reducer = (state = initialState, { type, payload, error }) => {
         isAuthenticated: true,
         isLoggingIn: false,
       };
-    case ACTIONS.REFRESH_TOKENS_REQUEST_FAILURE:
+    case types.REFRESH_TOKENS_REQUEST_FAILURE:
       unsetLocalStorageCredentials();
       return {
         ...initialState,

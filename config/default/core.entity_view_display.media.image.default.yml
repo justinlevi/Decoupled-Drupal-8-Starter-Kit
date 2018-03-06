@@ -1,32 +1,29 @@
-uuid: 48b486f8-a0a4-47f6-8427-02088e1b6dd1
+uuid: aa4d560f-5848-44b2-b6b5-bb4aaddbec81
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.media.image.field_media_in_library
-    - field.field.media.image.image
-    - media.type.image
+    - field.field.media.image.field_image
+    - media_entity.bundle.image
+    - responsive_image.styles.hero_or_banner
   module:
-    - image
-_core:
-  default_config_hash: VLDxfMVPTkd2xvOjFMCh3kWmaOYnd03zggFXuUXQVEY
+    - responsive_image
 id: media.image.default
 targetEntityType: media
 bundle: image
 mode: default
 content:
-  image:
-    type: image
+  field_image:
     weight: 0
     label: hidden
     settings:
-      image_style: ''
+      responsive_image_style: hero_or_banner
       image_link: ''
     third_party_settings: {  }
+    type: responsive_image
     region: content
 hidden:
   created: true
-  field_media_in_library: true
   name: true
   thumbnail: true
   uid: true

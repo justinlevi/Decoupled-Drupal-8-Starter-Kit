@@ -15,7 +15,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   const csrf = getCsrf();
   const token = getAccessToken();
 
-  // add the access_token to the headers
+  // Add the access_token to the headers
   operation.setContext(() => ({
     headers: {
       authorization: `Bearer ${token}` || null,

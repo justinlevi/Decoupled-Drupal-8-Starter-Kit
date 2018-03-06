@@ -1,0 +1,36 @@
+<?php
+
+namespace Drupal\graphql_article_mutation\Plugin\GraphQL\Mutations;
+
+use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\CreateEntityBase;
+use Youshido\GraphQL\Execution\ResolveInfo;
+
+/**
+ * A Simple ArticleNode mutation.
+ *
+ * @GraphQLMutation(
+ *   id = "add_article",
+ *   entity_type = "node",
+ *   entity_bundle = "article",
+ *   secure = true,
+ *   name = "addArticle",
+ *   type = "EntityCrudOutput!",
+ *   arguments = {
+ *      "input" = "ArticleInput"
+ *   }
+ * )
+ */
+class AddArticle extends CreateEntityBase {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function extractEntityInput(array $args, ResolveInfo $info) {
+    return [
+      'title' => $args['input']['title'],
+      'body' => $args['input']['body'],
+      'field_media_image' => $args['input']['image_ids'],
+    ];
+  }
+
+}

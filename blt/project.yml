@@ -3,7 +3,7 @@ project:
   prefix: BLT
   human_name: 'BLTed 8'
   profile:
-    name: d8d
+    name: demo_umami
   local:
     protocol: http
     hostname: '${project.machine_name}.loc'
@@ -23,7 +23,7 @@ drush:
 modules:
   local:
     enable: [dblog, devel, seckit, views_ui]
-    uninstall: [acquia_connector, shield]
+    uninstall: [acquia_connector, shield, shield]
   ci:
     enable: {  }
     uninstall: [acquia_connector, shield]

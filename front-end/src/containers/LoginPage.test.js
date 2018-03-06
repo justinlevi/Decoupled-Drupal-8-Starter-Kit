@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import Login from './LoginPage';
 
 
-describe('LoginPage', () => {
+describe('LoginArticle', () => {
   const initialPropsState = {
     username: '',
     password: '',
@@ -18,7 +18,7 @@ describe('LoginPage', () => {
 
   let props;
   let mountedLogin;
-  const loginPage = (modifiedProps = initialPropsState) => {
+  const loginArticle = (modifiedProps = initialPropsState) => {
     props = {
       ...initialPropsState,
       ...modifiedProps,
@@ -42,25 +42,25 @@ describe('LoginPage', () => {
     });
 
     it('state should be updated when username changes', () => {
-      const component = loginPage();
+      const component = loginArticle();
       component.find('.username').simulate('change', { target: { name: 'username', value: 'test' } });
       expect(component.state('username') === 'test');
     });
 
     it('state should be updated when password changes', () => {
-      const component = loginPage();
+      const component = loginArticle();
       component.find('.password').simulate('change', { target: { name: 'password', value: 'test' } });
       expect(component.state('password') === 'test');
     });
 
     it('should respond to submit button press', () => {
-      const component = loginPage();
+      const component = loginArticle();
       component.find('[type="submit"]').simulate('submit');
       expect(props.dispatch.mock.calls.length === 1);
     });
 
     it('submit should be disabled until username and password are entered', () => {
-      const component = loginPage();
+      const component = loginArticle();
       component.find('.username').simulate('change', { target: { name: 'username', value: 'test' } });
       component.find('[type="submit"]').simulate('submit');
       expect(component.state('error').length > 0).toBe(true);
@@ -68,7 +68,7 @@ describe('LoginPage', () => {
   });
 
 
-  describe('LoginPage differing props', () => {
+  describe('LoginArticle differing props', () => {
     it('Should NOT display the login form if authenticated - SHOULD REDIRECT', () => {
       const newProps = { ...initialPropsState };
       newProps.isAuthenticated = true;
@@ -77,7 +77,7 @@ describe('LoginPage', () => {
     });
 
     it('Do NOT displays an error message when `error` is NOT passed in', () => {
-      const component = loginPage({ isLoggingIn: true });
+      const component = loginArticle({ isLoggingIn: true });
       expect(component.find('.loggingIn').length).toBe(1);
     });
   });

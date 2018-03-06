@@ -7,14 +7,15 @@ const localStorageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
   clear: jest.fn(),
-  removeItem: jest.fn()
+  removeItem: jest.fn(),
 };
-global.localStorage = localStorageMock
+global.localStorage = localStorageMock;
 
 const sessionStorageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
   clear: jest.fn(),
-  removeItem: jest.fn()
+  removeItem: jest.fn(),
 };
-global.sessionStorage = sessionStorageMock
+global.sessionStorage = sessionStorageMock;
+

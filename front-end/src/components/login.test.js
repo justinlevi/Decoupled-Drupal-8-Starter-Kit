@@ -55,10 +55,22 @@ describe('Login', () => {
       expect(props.handleInputChange.mock.calls.length).toBe(2);
     });
 
+    it('should render a submit button', () => {
+      const actual = output.find('[type="submit"]').type();
+      const expected = 'button';
+      expect(actual).toEqual(expected);
+    });
+
     it('should respond to submit button press', () => {
       const component = signIn();
       component.find('[type="submit"]').simulate('submit');
       expect(props.handleLogin.mock.calls.length).toBe(1);
+    });
+
+    it('The submit button should include the class btn-primary', () => {
+      const actual = output.find('[type="submit"]').hasClass('btn-primary');
+      const expected = true;
+      expect(actual).toEqual(expected);
     });
   });
 

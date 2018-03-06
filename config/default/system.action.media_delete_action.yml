@@ -1,11 +1,11 @@
-uuid: aa2bae8f-096d-411b-85ab-c371e6735cbb
+uuid: 1ba2fab1-086b-4b0a-8331-5e9d181299df
 langcode: en
 status: true
 dependencies:
   module:
-    - media
+    - media_entity
 _core:
-  default_config_hash: g_iO0E3EQChJkdA2fuveC4PDpmRyN5REl997XzzwOpQ
+  default_config_hash: YySSG7rYaI3f0ewfZXcbdWR7gp4cgMhW-4IoGNvUlKg
 id: media_delete_action
 label: 'Delete media'
 type: media

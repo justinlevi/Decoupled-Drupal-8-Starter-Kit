@@ -1,4 +1,4 @@
-uuid: cd7ac95d-7e88-45b7-b613-089a7f6f88be
+uuid: bbdb2f52-e7b6-45a0-a207-96ea34a9060c
 langcode: en
 status: true
 dependencies: {  }
@@ -10,4 +10,7 @@ weight: 0
 is_admin: false
 permissions:
   - 'access content'
-  - 'view media'
+  - 'access site-wide contact form'
+  - 'execute graphql requests'
+  - 'search content'
+  - 'use text format restricted_html'

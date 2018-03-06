@@ -1,9 +1,7 @@
 import { call, put, take, takeLatest } from 'redux-saga/effects';
-import Querystring from 'query-string';
-import axios from 'axios';
 
 import {
-  ACTIONS as OAUTH_ACTIONS,
+  types as oauthActionTypes,
   loginSuccess,
   loginFailure,
   tokensExpiredCheckValid,
@@ -14,30 +12,11 @@ import {
 } from './actions';
 
 import {
-  ACTIONS as CSRF_ACTIONS,
+  types as csrfActionTypes,
   initCsrfToken,
 } from '../csrf/actions';
 
-import { generateCredentials, isTokenValid, getLocalCredentials } from './utilities';
-
-const URL = process.env.REACT_APP_HOST_DOMAIN;
-const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
-
-
-const fetchToken = credentials => axios.post(`${URL}/oauth/token${POSTFIX}`, Querystring.stringify(credentials))
-  .then((response) => {
-      const { expires_in, access_token, refresh_token } = response.data; // eslint-disable-line
-    return ({
-      expiration: expires_in,
-      accessToken: access_token,
-      refreshToken: refresh_token,
-      timestamp: new Date().getTime(),
-    });
-  }).catch((error) => {
-    console.log(error);
-    return error;
-  });
-
+import { generateCredentials, fetchToken, isTokenValid, getLocalCredentials } from './utilities';
 
 function* loginRequestSaga(action) {
   const { username, password } = action.payload;
@@ -77,17 +56,17 @@ function* refreshTokensRequestSaga(action) {
 
 function* tokenExpiredCheckSaga() {
   const {
-    csrfToken, accessToken, expireStamp, refreshToken,
+    csrfToken, accessToken, expireStamp, refreshToken, expirationTime,
   } = getLocalCredentials();
 
   // TODO: This definitely needs to be tested.
   if (!csrfToken) {
     yield put(initCsrfToken());
-    yield take(CSRF_ACTIONS.CSRF_TOKEN_SUCCESS, tokenExpiredCheckSaga);
+    yield take(csrfActionTypes.CSRF_TOKEN_SUCCESS, tokenExpiredCheckSaga);
   }
 
   if (accessToken && expireStamp) {
-    if (!isTokenValid(accessToken, expireStamp)) {
+    if (!isTokenValid(accessToken, expireStamp, expirationTime)) {
       yield put(refreshTokensRequest({ refreshToken }));
     } else {
       yield put(tokensExpiredCheckValid());
@@ -96,9 +75,9 @@ function* tokenExpiredCheckSaga() {
 }
 
 export function* watchOAuth() {
-  yield takeLatest(OAUTH_ACTIONS.LOGIN_REQUEST, loginRequestSaga);
-  yield takeLatest(OAUTH_ACTIONS.REFRESH_TOKENS_REQUEST, refreshTokensRequestSaga);
-  yield takeLatest(OAUTH_ACTIONS.TOKENS_EXPIRED_CHECK, tokenExpiredCheckSaga);
+  yield takeLatest(oauthActionTypes.LOGIN_REQUEST, loginRequestSaga);
+  yield takeLatest(oauthActionTypes.REFRESH_TOKENS_REQUEST, refreshTokensRequestSaga);
+  yield takeLatest(oauthActionTypes.TOKENS_EXPIRED_CHECK, tokenExpiredCheckSaga);
 }
 
 export default watchOAuth;

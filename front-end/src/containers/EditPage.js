@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, FormGroup, Input } from 'reactstrap';
 
-import { savePageUpdates } from '../redux/page/actions';
+import { saveArticleUpdates } from '../redux/article/actions';
 import Gallery from './GalleryFrame';
-import { getPageFromNid } from '../redux/page/utilities';
+import { getArticleFromNid } from '../redux/article/utilities';
 
 export class EditPage extends Component {
   /*
@@ -15,8 +15,8 @@ export class EditPage extends Component {
   constructor(props) {
     super(props);
 
-    const { activePageNid, pages } = props;
-    const page = getPageFromNid(pages, activePageNid);
+    const { activeArticleNid, articles } = props;
+    const page = getArticleFromNid(articles, activeArticleNid);
     const { title, body } = page;
 
     this.state = {
@@ -43,12 +43,12 @@ export class EditPage extends Component {
       field_media_image: mids,
     };
 
-    dispatch(savePageUpdates(variables));
+    dispatch(saveArticleUpdates(variables));
 
-    // client.mutate({ mutation: updatePageMutation, variables })
+    // client.mutate({ mutation: updateArticleMutation, variables })
     //   .then((response) => {
-    //     const msg = response.data.updatePage.page !== null ?
-    //       'SUCCESS: UPDATE PAGE COMPLETE' :
+    //     const msg = response.data.updateArticle.page !== null ?
+    //       'SUCCESS: UPDATE ARTICLE COMPLETE' :
     //       'ERROR: The page was not updated correctly';
     //     console.log(msg);
     //   }).catch(this.catchError);
@@ -96,16 +96,16 @@ export class EditPage extends Component {
 EditPage.propTypes = {
   // client: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired,
-  activePageNid: PropTypes.number.isRequired,
-  pages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  activeArticleNid: PropTypes.number.isRequired,
+  articles: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 // export const EditPageWrapper = withApollo(EditPage);
 // export default EditPageWrapper;
 
 const mapStateToProps = state => ({
-  activePageNid: state.pageReducer.activePageNid,
-  pages: state.pageReducer.pages,
+  activeArticleNid: state.articleReducer.activeArticleNid,
+  articles: state.articleReducer.articles,
 });
 const EditPageWrapper = connect(mapStateToProps)(EditPage);
 

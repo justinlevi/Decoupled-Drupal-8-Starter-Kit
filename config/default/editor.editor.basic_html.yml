@@ -1,4 +1,4 @@
-uuid: 4d37974a-d8b8-4fea-9e49-d46758254a4d
+uuid: 8d513e0a-71b1-4f0a-8c80-d3fa11d69402
 langcode: en
 status: true
 dependencies:
@@ -6,6 +6,8 @@ dependencies:
     - filter.format.basic_html
   module:
     - ckeditor
+_core:
+  default_config_hash: AqlPmO16LvJI4D0Ih6u4GFQIzqr5OnLgAUSjcUGWk2g
 format: basic_html
 editor: ckeditor
 settings:
@@ -18,7 +20,7 @@ settings:
             - Bold
             - Italic
         -
-          name: Links
+          name: Linking
           items:
             - DrupalLink
             - DrupalUnlink
@@ -33,19 +35,21 @@ settings:
             - Blockquote
             - DrupalImage
         -
+          name: 'Block Formatting'
+          items:
+            - Format
+        -
           name: Tools
           items:
             - Source
   plugins:
     stylescombo:
       styles: ''
-    language:
-      language_list: un
 image_upload:
-  status: false
-  scheme: s3
+  status: true
+  scheme: public
   directory: inline-images
   max_size: ''
   max_dimensions:
-    width: null
-    height: null
+    width: 0
+    height: 0
