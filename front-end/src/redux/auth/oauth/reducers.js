@@ -34,9 +34,16 @@ export const reducer = (state = initialState, { type, payload, error }) => {
 
     case types.LOGIN_SUCCESS:
       loginSuccessHandler(payload);
+
       return {
         ...state,
-        credentials: { ...payload },
+        credentials: {
+          accessToken: payload.accessToken || initialState.credentials.accessToken,
+          refreshToken: payload.refreshToken || initialState.credentials.refreshToken,
+          expiration: payload.expiration || initialState.credentials.expiration,
+          timestamp: payload.timestamp || initialState.credentials.timestamp,
+          username: payload.username,
+        },
         isAuthenticated: true,
         isLoggingIn: false,
       };

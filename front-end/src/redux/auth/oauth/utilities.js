@@ -4,7 +4,7 @@ import axios from 'axios';
 const URL = process.env.REACT_APP_HOST_DOMAIN;
 const OAUTH_ENDPOINT = `${URL}/oauth/token`;
 
-const CLIENT_INFO = {
+export const CLIENT_INFO = {
   client_id: process.env.REACT_APP_CLIENT_ID,
   client_secret: process.env.REACT_APP_CLIENT_SECRET,
 };
