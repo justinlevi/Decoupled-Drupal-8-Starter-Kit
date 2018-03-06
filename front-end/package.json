@@ -53,6 +53,7 @@
     "react-addons-test-utils": "^15.6.2",
     "react-scripts": "1.0.17",
     "react-test-renderer": "^16.2.0",
+    "redux-mock-store": "^1.5.1",
     "selenium-standalone": "^6.12.0",
     "wdio-dot-reporter": "0.0.8",
     "wdio-mocha-framework": "^0.5.12",
@@ -74,5 +75,15 @@
     "eject": "react-scripts eject",
     "generate-fragment-types": "node ./src/api/generateFragmentTypes.js",
     "generate-complete-schema": "node ./src/api/generateCompleteSchema.js"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/registerServiceWorker.js",
+      "!src/setupTests.js",
+      "!src/api/generateCompleteSchema.js",
+      "!src/api/generateFragmentTypes.js",
+      "!src/index.js"
+    ]
   }
 }

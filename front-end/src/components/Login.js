@@ -31,7 +31,7 @@ const Login = (props) => {
           </div> */}
           <button className="btn btn-lg btn-primary btn-block submit" type="submit">Sign in</button>
         </form>
-        { error ? <p className="error" style={{ color: 'red', display: error ? 'block' : 'none' }}>{error}</p> : null }
+        { error ? <p className="error" style={{ color: 'red', display: 'block' }}>{error}</p> : null }
       </div>
     </div>
   );

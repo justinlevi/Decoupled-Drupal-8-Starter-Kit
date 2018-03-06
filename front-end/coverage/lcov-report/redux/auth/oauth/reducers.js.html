@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for redux/auth/oauth/reducers.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">redux/auth/oauth</a> reducers.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">69.57% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>16/23</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">72.73% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>16/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">69.57% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>16/23</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { types } from './actions';
+import { persistCredentials, unsetLocalStorageCredentials, getLocalCredentials, persistUsername } from './utilities';
+&nbsp;
+export const initialState = {
+  credentials: {
+    accessToken: null,
+    refreshToken: null,
+    expiration: null,
+    timestamp: null,
+    username: null,
+  },
+  isAuthenticated: false,
+  isLoading: false,
+  isLoggingIn: !!getLocalCredentials().accessToken,
+  error: undefined,
+};
+&nbsp;
+const loginSuccessHandler = (payload) =&gt; {
+  persistCredentials(payload);
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (payload.username) {
+    persistUsername(payload.username);
+  }
+};
+&nbsp;
+&nbsp;
+export const reducer = (state = initialState, { type, payload, error }) =&gt; {
+  switch (type) {
+    case types.LOGIN_REQUEST:
+      return {
+        ...state,
+        credentials: { ...payload },
+        isLoggingIn: true,
+      };
+&nbsp;
+    case types.LOGIN_SUCCESS:
+      loginSuccessHandler(payload);
+&nbsp;
+      return {
+        ...state,
+        credentials: {
+          accessToken: payload.accessToken || initialState.credentials.accessToken,
+          refreshToken: payload.refreshToken || initialState.credentials.refreshToken,
+          expiration: payload.expiration || initialState.credentials.expiration,
+          timestamp: payload.timestamp || initialState.credentials.timestamp,
+          username: payload.username,
+        },
+        isAuthenticated: true,
+        isLoggingIn: false,
+      };
+    case types.LOGIN_FAILURE:
+      unsetLocalStorageCredentials();
+      return { ...initialState, isLoggingIn: false, error };
+    case types.LOGOUT:
+      unsetLocalStorageCredentials();
+      return {
+        ...state,
+        isAuthenticated: false,
+        isLoggingIn: false,
+      };
+&nbsp;
+    case types.REFRESH_TOKEN_EXPIRED_CHECK:
+      return {
+        ...state,
+      };
+<span class="branch-5 cbranch-no" title="branch not covered" >    case types.TOKENS_EXPIRED_CHECK_VALID:</span>
+<span class="cstat-no" title="statement not covered" >      return {</span>
+        ...state,
+        isAuthenticated: true,
+        isLoggingIn: false,
+      };
+<span class="branch-6 cbranch-no" title="branch not covered" >    case types.TOKENS_EXPIRED_CHECK_NOT_VALID:</span>
+<span class="cstat-no" title="statement not covered" >      return {</span>
+        ...state,
+        isAuthenticated: false,
+        isLoggingIn: false,
+      };
+&nbsp;
+<span class="branch-7 cbranch-no" title="branch not covered" >    case types.REFRESH_TOKENS_REQUEST:</span>
+<span class="cstat-no" title="statement not covered" >      return {</span>
+        ...state,
+        credentials: { ...payload },
+        isLoggingIn: true,
+      };
+<span class="branch-8 cbranch-no" title="branch not covered" >    case types.REFRESH_TOKENS_REQUEST_SUCCESS:</span>
+<span class="cstat-no" title="statement not covered" >      loginSuccessHandler(payload);</span>
+<span class="cstat-no" title="statement not covered" >      return {</span>
+        ...state,
+        credentials: { ...payload },
+        isAuthenticated: true,
+        isLoggingIn: false,
+      };
+<span class="branch-9 cbranch-no" title="branch not covered" >    case types.REFRESH_TOKENS_REQUEST_FAILURE:</span>
+<span class="cstat-no" title="statement not covered" >      unsetLocalStorageCredentials();</span>
+<span class="cstat-no" title="statement not covered" >      return {</span>
+        ...initialState,
+        isLoggingIn: false,
+        error: payload,
+      };
+&nbsp;
+&nbsp;
+    default:
+      return state;
+  }
+};
+&nbsp;
+export default reducer;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Mar 06 2018 14:56:43 GMT-0500 (EST)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

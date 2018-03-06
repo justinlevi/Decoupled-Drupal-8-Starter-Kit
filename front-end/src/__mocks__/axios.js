@@ -6,8 +6,10 @@ const OAUTH_ENDPOINT = `${URL}/oauth/token`;
 module.exports = {
   post: jest.fn((url) => {
     switch (url) {
-      case OAUTH_ENDPOINT:
-        return Promise.resolve(oauthTokens);
+      case OAUTH_ENDPOINT: {
+        const result = Promise.resolve(oauthTokens);
+        return result;
+      }
       default:
         return null;
     }
