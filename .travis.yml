@@ -60,7 +60,7 @@ script:
   - bash -c "nvm use $NODE_JS_VERSION" || true
   - bash -c "source ~/.nvm/nvm.sh; nvm install $NODE_JS_VERSION; node --version"
   - source ${BLT_DIR}/scripts/travis/run_tests
-  - bash -c "cd ./front-end && npm install && npm test --coverage"
+  - bash -c "cd ./front-end && npm install && npm test"
 
 #deploy:
 #   - provider: script

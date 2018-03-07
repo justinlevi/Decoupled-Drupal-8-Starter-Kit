@@ -9,6 +9,7 @@ const localStorageMock = {
   clear: jest.fn(),
   removeItem: jest.fn(),
 };
+localStorageMock.getItem.mockReturnValue('asdf');
 global.localStorage = localStorageMock;
 
 const sessionStorageMock = {
@@ -17,5 +18,6 @@ const sessionStorageMock = {
   clear: jest.fn(),
   removeItem: jest.fn(),
 };
+sessionStorageMock.getItem.mockReturnValue('asdf');
 global.sessionStorage = sessionStorageMock;
 

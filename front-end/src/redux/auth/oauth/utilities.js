@@ -57,6 +57,7 @@ export const persistCredentials = ({
 
 export const getLocalCredentials = () => ({
   accessToken: sessionStorage.getItem('accessToken'),
+  username: sessionStorage.getItem('username'),
   expireStamp: localStorage.getItem('lastRefreshedToken'),
   expirationTime: sessionStorage.getItem('expirationTime'),
   csrfToken: sessionStorage.getItem('csrfToken'),

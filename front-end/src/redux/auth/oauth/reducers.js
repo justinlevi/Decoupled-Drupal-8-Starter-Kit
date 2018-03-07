@@ -11,7 +11,7 @@ export const initialState = {
   },
   isAuthenticated: false,
   isLoading: false,
-  isLoggingIn: !!getLocalCredentials().accessToken,
+  isLoggingIn: false,
   error: undefined,
 };
 

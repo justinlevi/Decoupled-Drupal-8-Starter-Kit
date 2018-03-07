@@ -48,4 +48,49 @@ describe('the sagas', () => {
       },
     });
   });
+
+  // it('should execute the tokenExpiredCheckSaga (TOKENS_EXPIRED_CHECK, REFRESH_TOKENS_REQUEST, REFRESH_TOKENS_REQUEST_SUCCESS', (done) => {
+  //   const store = mockStore({});
+  //   sagaMiddleware.run(sagas.watchOAuth); // has to be executed after the mockStore() call
+
+  //   const expectedActions = [
+  //     {
+  //       type: 'TOKENS_EXPIRED_CHECK',
+  //     },
+  //     {
+  //       type: 'INIT_CSRF_TOKEN',
+  //     },
+  //     {
+  //       type: 'REFRESH_TOKENS_REQUEST',
+  //       payload: {
+  //         username: 'test',
+  //         refreshToken: 'asdfasdf',
+  //       },
+  //     },
+  //     {
+  //       type: 'REFRESH_TOKENS_REQUEST_SUCCESS',
+  //       payload: {
+  //         accessToken: null,
+  //         refreshToken: null,
+  //         expiration: null,
+  //         timestamp: null,
+  //         username: null,
+  //       },
+  //     },
+  //   ];
+
+  //   store.subscribe(() => {
+  //     const storeActions = store.getActions();
+  //     if (storeActions.length >= expectedActions.length) {
+  //       console.log(storeActions);
+  //       expect(storeActions).toEqual(expectedActions);
+  //       done();
+  //     }
+  //   });
+
+  //   // Return the promise
+  //   store.dispatch({
+  //     type: actions.TOKENS_EXPIRED_CHECK,
+  //   });
+  // });
 });
