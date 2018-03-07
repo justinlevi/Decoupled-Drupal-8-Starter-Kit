@@ -25,7 +25,7 @@ const Card = (props) => {
             <div className="card-body px-3">
               <h4 className="card-title">{page.title === 'NULL' ? 'NO TITLE' : page.title }</h4>
               {page.body !== null ?
-                <p className="card-text">{page.body.value}</p> : null }
+                <p className="card-text body">{page.body.value}</p> : null }
               <p className="card-text">NID: {page.nid}</p>
               <button
                 className="delete"

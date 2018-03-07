@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 
 import { types as oauthActionTypes, tokensExpiredCheck } from '../auth/oauth/actions';
 import { articlesByUser, addArticle, deleteArticle, updateArticle } from '../../api/apolloProxy';
-import { formatFetchArticleResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
+import { formatFetchArticlesResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
 
 import {
   types as articleActionTypes,
@@ -19,12 +19,12 @@ import {
   saveArticleUpdatesFailure,
 } from './actions';
 
-function* fetchArticleSaga() {
+function* fetchArticlesSaga() {
   yield put(tokensExpiredCheck());
   yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
   const result = yield call(articlesByUser);
-  yield put(fetchArticlesSuccess({ articles: formatFetchArticleResult(result) }));
+  yield put(fetchArticlesSuccess({ articles: formatFetchArticlesResult(result) }));
 }
 
 function* addArticleSaga(action) {
@@ -84,7 +84,7 @@ function* selectArticleSaga(action) {
 }
 
 export function* watchArticleActions() {
-  yield takeEvery(articleActionTypes.FETCH_ARTICLES, fetchArticleSaga);
+  yield takeEvery(articleActionTypes.FETCH_ARTICLES, fetchArticlesSaga);
 
   yield takeLatest(articleActionTypes.ADD_ARTICLE, addArticleSaga);
   yield takeEvery(articleActionTypes.DELETE_ARTICLE, deleteArticleSaga);

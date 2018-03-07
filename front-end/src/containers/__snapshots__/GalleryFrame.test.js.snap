@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GalleryFrame Snapshots should render correctly 1`] = `
+<GalleryFrame
+  page={
+    Object {
+      "author": Object {
+        "name": "admin",
+      },
+      "body": null,
+      "images": Array [],
+      "nid": 13,
+      "title": "hello article update",
+      "uuid": "79502776-61f8-4c48-b464-d94eebe0e01b",
+    }
+  }
+/>
+`;

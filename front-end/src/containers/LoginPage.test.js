@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import Login from './LoginPage';
 
 
-describe('LoginArticle', () => {
+describe('LoginPage Container', () => {
   const initialPropsState = {
     username: '',
     password: '',

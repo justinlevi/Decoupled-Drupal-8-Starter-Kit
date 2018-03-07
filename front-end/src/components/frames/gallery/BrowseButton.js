@@ -1,24 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const BrowseButton = ({ totalFiles = 0, totalBytes = 0, render }) => {
-  let message = 'No files chosen';
-  if (totalFiles === 1) {
-    message = '1 file chosen';
-  } else if (totalFiles > 1) {
-    message = `${totalFiles} files chosen`;
+export const messages = {
+  none: 'No files chosen',
+  one: '1 file chosen',
+  many: 'files chosen',
+};
+
+export const calculateMessage = (totalFiles, totalBytes) => {
+  let message = messages.none;
+  if (totalFiles >= 1) {
+    message = totalFiles === 1 ? messages.one : message = `${totalFiles} ${messages.many}`;
   }
 
   message += (totalBytes < 1000000) ?
     ` (${Math.floor(totalBytes / 1000)}KB)` :
     ` (${Math.floor(totalBytes / 1000000)}MB)`;
-
-  return (
-    <div className="browseContainer">
-      {render()} {message}
-    </div>
-  );
+  return message;
 };
+
+const BrowseButton = ({ totalFiles = 0, totalBytes = 0, render }) => (
+  <div className="browseContainer">
+    {render()} {calculateMessage(totalFiles, totalBytes)}
+  </div>
+);
 
 BrowseButton.propTypes = {
   totalFiles: PropTypes.number,

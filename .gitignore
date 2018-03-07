@@ -139,3 +139,4 @@ keys/*
 /deployment_identifier
 /front-end/build
 /front-end/node_modules
+/front-end/coverage
