@@ -36,8 +36,7 @@ function* loginRequestSaga(action) {
 }
 
 function* refreshTokensRequestSaga(action) {
-  const { refreshToken } = action.payload;
-  const username = sessionStorage.getItem('username');
+  const { refreshToken, username } = action.payload;
   const credentials = generateCredentials('refresh_token', username, '', refreshToken);
 
   try {
@@ -56,7 +55,7 @@ function* refreshTokensRequestSaga(action) {
 
 function* tokenExpiredCheckSaga() {
   const {
-    csrfToken, accessToken, expireStamp, refreshToken, expirationTime,
+    csrfToken, accessToken, expireStamp, refreshToken, expirationTime, username,
   } = getLocalCredentials();
 
   // TODO: This definitely needs to be tested.
@@ -67,7 +66,7 @@ function* tokenExpiredCheckSaga() {
 
   if (accessToken && expireStamp) {
     if (!isTokenValid(accessToken, expireStamp, expirationTime)) {
-      yield put(refreshTokensRequest({ refreshToken }));
+      yield put(refreshTokensRequest({ refreshToken, username }));
     } else {
       yield put(tokensExpiredCheckValid());
     }
