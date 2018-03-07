@@ -1,4 +1,4 @@
-export const formatFetchArticleResult = result => result.data.user.nodes.articles.map((node) => {
+export const formatFetchArticlesResult = result => result.data.user.nodes.articles.map((node) => {
   const newNode = { ...node };
   newNode.images = newNode.images.map(image => (
     { url: image.entity.image.derivative.url, mid: image.mid }

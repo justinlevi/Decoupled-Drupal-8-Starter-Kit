@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LoginArticle Snapshots should render correctly 1`] = `
+exports[`LoginPage Container Snapshots should render correctly 1`] = `
 <Login
   dispatch={[Function]}
   error=""

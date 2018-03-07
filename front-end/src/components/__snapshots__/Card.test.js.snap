@@ -35,7 +35,7 @@ exports[`Card should render correctly 1`] = `
             test
           </h4>
           <p
-            className="card-text"
+            className="card-text body"
           >
             test
           </p>

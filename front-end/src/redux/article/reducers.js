@@ -11,11 +11,11 @@ export const reducer = (state = initialState, { type, payload, error }) => {
      * FETCH FETCH_ARTICLES
      */
     case types.FETCH_ARTICLES: return { ...state };
-    case types.FETCH_ARTICLE_SUCCESS: {
+    case types.FETCH_ARTICLES_SUCCESS: {
       const { articles } = payload;
       return { ...state, articles, activeArticleNid: 0 };
     }
-    case types.FETCH_ARTICLE_FAILURE: return { ...state };
+    case types.FETCH_ARTICLES_FAILURE: return { ...state };
 
     /**
      * ADD ARTICLE

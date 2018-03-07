@@ -3,8 +3,8 @@
 // ---------------
 
 export const FETCH_ARTICLES = 'FETCH_ARTICLES';
-export const FETCH_ARTICLE_SUCCESS = 'FETCH_ARTICLE_SUCCESS';
-export const FETCH_ARTICLE_FAILURE = 'FETCH_ARTICLE_FAILURE';
+export const FETCH_ARTICLES_SUCCESS = 'FETCH_ARTICLES_SUCCESS';
+export const FETCH_ARTICLES_FAILURE = 'FETCH_ARTICLES_FAILURE';
 
 export const ADD_ARTICLE = 'ADD_ARTICLE';
 export const ADD_ARTICLE_SUCCESS = 'ADD_ARTICLE_SUCCESS';
@@ -22,8 +22,8 @@ export const SELECT_ARTICLE = 'SELECT_ARTICLE';
 
 export const types = {
   FETCH_ARTICLES,
-  FETCH_ARTICLE_SUCCESS,
-  FETCH_ARTICLE_FAILURE,
+  FETCH_ARTICLES_SUCCESS,
+  FETCH_ARTICLES_FAILURE,
   ADD_ARTICLE,
   ADD_ARTICLE_SUCCESS,
   ADD_ARTICLE_FAILURE,
@@ -45,13 +45,13 @@ export const fetchArticles = () => ({
 });
 
 export const fetchArticlesSuccess = payload => ({
-  type: types.FETCH_ARTICLE_SUCCESS,
+  type: types.FETCH_ARTICLES_SUCCESS,
   payload,
 });
 
-export const fetchArticlesFailure = payload => ({
-  type: types.FETCH_ARTICLE_FAILURE,
-  payload,
+export const fetchArticlesFailure = error => ({
+  type: types.FETCH_ARTICLES_FAILURE,
+  error,
 });
 
 export const addArticle = payload => ({
