@@ -246,7 +246,7 @@ export class GalleryFrame extends Component {
     const variables = {
       id: Number(page.nid),
       title: page.title,
-      body: page.body.value,
+      body: page.body !== null ? page.body.value : '',
       field_media_image: newMids,
     };
 
