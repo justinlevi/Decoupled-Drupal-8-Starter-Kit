@@ -3,43 +3,17 @@ import * as data from '../../api/__mocks__/data';
 
 const result = data.ARTICLES_BY_USER_DATA;
 const { articles } = result.data.user.nodes;
-const pageModel = {
-    author: {
-      name: 'admin',
-    },
-    title: 'New Title',
-    body: {
-      value: '<p>asdfasdf</p>\r\n',
-    },
-    nid: 14,
-    uuid: 'be510cd5-645e-4f72-8baa-06cf89f53f84',
-    images: [],
-  };
+const pageModel = () => {
+  let result = articles[1];
+  result['title'] = 'New Title';
+  return result;
+}
 
-const updatedArticle = [
-  {
-    author: {
-      name: 'admin',
-    },
-    title: 'hello article update',
-    body: null,
-    nid: 13,
-    uuid: '79502776-61f8-4c48-b464-d94eebe0e01b',
-    images: [],
-  },
-  {
-    author: {
-      name: 'admin',
-    },
-    title: 'New Title',
-    body: {
-      value: '<p>asdfasdf</p>\r\n',
-    },
-    nid: 14,
-    uuid: 'be510cd5-645e-4f72-8baa-06cf89f53f84',
-    images: [],
-  },
-];
+const updatedArticle = () => {
+  let result = articles;
+  result[1]['title'] = 'New Title';
+  return result;
+};
 
 describe('articles utilities tests', () => {
   it('format fetch article result', () => {
@@ -56,7 +30,7 @@ describe('articles utilities tests', () => {
 
   it('updates an article', () => {
     //The expected article array with the updated article
-    const expected = updatedArticle;
+    const expected = updatedArticle();
 
     //Passing in the original article mock data, and the updated page.
     const actual = utilities.updateArticlesWithArticle(articles,pageModel);
