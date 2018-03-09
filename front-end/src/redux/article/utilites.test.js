@@ -2,50 +2,65 @@ import * as utilities from './utilities';
 import * as data from '../../api/__mocks__/data';
 
 const result = data.ARTICLES_BY_USER_DATA;
+const nodes = result.data.user.nodes;
 const { articles } = result.data.user.nodes;
-const pageModel = {
-    author: {
-      name: 'admin',
-    },
-    title: 'New Title',
-    body: {
-      value: '<p>asdfasdf</p>\r\n',
-    },
-    nid: 14,
-    uuid: 'be510cd5-645e-4f72-8baa-06cf89f53f84',
-    images: [],
-  };
 
-const updatedArticle = [
-  {
-    author: {
-      name: 'admin',
-    },
-    title: 'hello article update',
-    body: null,
-    nid: 13,
-    uuid: '79502776-61f8-4c48-b464-d94eebe0e01b',
-    images: [],
-  },
-  {
-    author: {
-      name: 'admin',
-    },
-    title: 'New Title',
-    body: {
-      value: '<p>asdfasdf</p>\r\n',
-    },
-    nid: 14,
-    uuid: 'be510cd5-645e-4f72-8baa-06cf89f53f84',
-    images: [],
-  },
-];
+const resultsImagesModel = () => {
+
+  let imageResult = articles.map(node =>
+    node.images = {
+      ...node.images,
+      entity:{
+        image:{
+          derivative:{
+            url: ''
+          }
+        }
+      },
+      mid: ''
+    }
+  );
+
+  return imageResult;
+}
+
+const resultsFlattenImagesModel = () => {
+  let result = articles.map(node =>
+    node.images = {
+      url: '',
+      mid: ''
+    }
+  );
+  return result;
+}
+
+const pageModel = () => {
+  let result = articles[1];
+  result['title'] = 'New Title';
+  return result;
+}
+
+const updatedArticle = () => {
+  let result = articles;
+  result[1]['title'] = 'New Title';
+  return result;
+};
 
 describe('articles utilities tests', () => {
   it('format fetch article result', () => {
     const expected = articles;
     const actual = utilities.formatFetchArticlesResult(result);
     expect(actual).toEqual(expected);
+  });
+
+  it('generate the url and mid of images', () => {
+
+    result.data.user.nodes.articles.map((node) => {
+      const newNode = { ...node };
+      newNode.images = utilities.generateImageUrlMid(resultsImagesModel());
+      expect(newNode.images).toEqual(resultsFlattenImagesModel());
+      return newNode;
+    })
   });
 
   it('remove article from result', () => {
@@ -56,7 +71,7 @@ describe('articles utilities tests', () => {
 
   it('updates an article', () => {
     //The expected article array with the updated article
-    const expected = updatedArticle;
+    const expected = updatedArticle();
 
     //Passing in the original article mock data, and the updated page.
     const actual = utilities.updateArticlesWithArticle(articles,pageModel);
