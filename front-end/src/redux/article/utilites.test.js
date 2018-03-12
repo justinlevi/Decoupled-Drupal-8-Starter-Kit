@@ -40,6 +40,11 @@ const pageModel = () => {
   return result;
 }
 
+const invalidPageModel = {
+  ...articles[1],
+  nid: 2
+};
+
 const updatedArticle = () => {
   let result = articles;
   result[1]['title'] = 'New Title';
@@ -69,13 +74,28 @@ describe('articles utilities tests', () => {
     expect(actual).toEqual(expected);
   });
 
+  it('remove an article that does not exist', () => {
+    const expected = [articles[1]];
+    const actual = utilities.removeArticleFromArticles(articles, 2);
+    expect(actual).toEqual(false);
+  });
+
   it('updates an article', () => {
     //The expected article array with the updated article
     const expected = updatedArticle();
 
     //Passing in the original article mock data, and the updated page.
-    const actual = utilities.updateArticlesWithArticle(articles,pageModel);
+    const actual = utilities.updateArticlesWithArticle(articles,pageModel());
 
+    //Expecting the output to be the updatedArticle
+    expect(expected).toEqual(actual);
+  });
+
+  it('try to updates an article with invalid page input', () => {
+    //The expected article array with the updated article
+    const expected = articles;
+    //Passing in the original article mock data, and the updated page.
+    const actual = utilities.updateArticlesWithArticle(articles,invalidPageModel);
     //Expecting the output to be the updatedArticle
     expect(expected).toEqual(actual);
   });
