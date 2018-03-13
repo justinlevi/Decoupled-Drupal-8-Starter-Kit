@@ -6,7 +6,13 @@
 
 # You can set custom project aliases in drush/site-aliases/aliases.drushrc.php.
 # All local:* targets are run against drush.aliases.local.
-#drush:
-#  aliases:
-#    local: local.mysite.dev
+drush:
+  aliases:
+    local: local.dev
+
+project:
+  local:
+    protocol: http
+    hostname: d8d.loc
+
 environment: local
