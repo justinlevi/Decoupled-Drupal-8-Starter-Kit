@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d9f2c3f369d5d8153d63e227154723ba",
+    "content-hash": "5fa3599693440d73841db30e844b3462",
     "packages": [
         {
             "name": "acquia/blt",
@@ -3065,16 +3065,16 @@
         },
         {
             "name": "drupal/graphql_examples",
-            "version": "dev-master",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/justinlevi/graphql-examples.git",
-                "reference": "db1ed5e38bfd0f68aee369cc04fab76c877bef43"
+                "reference": "58ff9633c5ca3666732051606bb139236a4fe4f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinlevi/graphql-examples/zipball/db1ed5e38bfd0f68aee369cc04fab76c877bef43",
-                "reference": "db1ed5e38bfd0f68aee369cc04fab76c877bef43",
+                "url": "https://api.github.com/repos/justinlevi/graphql-examples/zipball/58ff9633c5ca3666732051606bb139236a4fe4f4",
+                "reference": "58ff9633c5ca3666732051606bb139236a4fe4f4",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -3089,7 +3089,7 @@
                 "issues": "https://github.com/drupal-graphql/graphql-examples",
                 "source": "https://github.com/drupal-graphql/graphql-examples"
             },
-            "time": "2018-03-13T13:49:25+00:00"
+            "time": "2018-03-13T18:09:38+00:00"
         },
         {
             "name": "drupal/graphql_signed_s3_upload",
