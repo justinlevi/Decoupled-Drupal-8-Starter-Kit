@@ -128,6 +128,14 @@
 .browseContainer {
   padding: 5px;
   border: 1px solid #ccc;
+  margin: 5px 0;
+}
+
+.GalleryFrameContainer {
+  .btn-primary {
+    width: 100%;
+    margin: 15px 0;
+  }
 }
 
 .dropZone {

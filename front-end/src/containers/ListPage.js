@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import List from '../components/List';
 
-import { fetchArticles, addArticle, deleteArticle, selectArticle } from '../redux/article/actions';
+import { fetchArticles, createArticle, deleteArticle, selectArticle } from '../redux/article/actions';
 
 export class ListPage extends Component {
   state = {
@@ -54,7 +54,7 @@ export class ListPage extends Component {
 
   addHandler= () => {
     const { dispatch } = this.props;
-    dispatch(addArticle({ title: 'NULL' }));
+    dispatch(createArticle({ title: 'NULL' }));
   }
 
   selectHandler = (activeArticleNid) => {

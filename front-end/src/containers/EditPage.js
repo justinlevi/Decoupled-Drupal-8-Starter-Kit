@@ -37,7 +37,7 @@ export class EditPage extends Component {
 
     const mids = page.images.map(item => item.mid);
     const variables = {
-      id: Number(page.nid),
+      id: String(page.nid),
       title: title === '' ? 'NULL' : title,
       body,
       field_media_image: mids,

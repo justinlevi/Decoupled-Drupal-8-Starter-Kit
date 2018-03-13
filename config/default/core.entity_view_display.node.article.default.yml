@@ -1,4 +1,4 @@
-uuid: 2621f24b-373d-4046-8621-d807211dc97d
+uuid: 8428ce5b-b2f6-4a99-a3f1-f9337b6ee851
 langcode: en
 status: true
 dependencies:
@@ -29,7 +29,7 @@ content:
     label: hidden
   field_image:
     type: responsive_image
-    weight: 2
+    weight: 1
     region: content
     settings:
       responsive_image_style: 3_2_image
@@ -37,7 +37,7 @@ content:
     third_party_settings: {  }
     label: hidden
   field_media_image:
-    weight: 1
+    weight: 2
     label: hidden
     settings:
       view_mode: default

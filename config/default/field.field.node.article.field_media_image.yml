@@ -1,10 +1,10 @@
-uuid: f075e448-e8f8-4e69-8dea-d6a7dd949b36
+uuid: 082c2efa-1c83-4bcd-9c14-7e0e219e9408
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_media_image
-    - media_entity.bundle.image
+    - media.type.image
     - node.type.article
 id: node.article.field_media_image
 field_name: field_media_image

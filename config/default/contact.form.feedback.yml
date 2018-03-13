@@ -1,4 +1,4 @@
-uuid: bc469075-bc5c-4d65-89fb-6bcc7929dbe9
+uuid: 42107e30-f1aa-4d49-b6a3-db1b05af2613
 langcode: en
 status: true
 dependencies: {  }
@@ -7,7 +7,7 @@ _core:
 id: feedback
 label: 'Website feedback'
 recipients:
-  - no-reply@acquia.com
+  - admin@example.com
 reply: ''
 weight: 0
 message: 'Your message has been sent.'

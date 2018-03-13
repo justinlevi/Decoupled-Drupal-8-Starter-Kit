@@ -7,7 +7,7 @@ import * as introspectionResult from './schema.json';
 import {
   CURRENT_USER_QUERY,
   ARTICLES_BY_USER_QUERY,
-  addArticleMutation,
+  createArticleMutation,
   deleteArticleMutation,
   updateArticleMutation,
   getSignedUrls,
@@ -34,8 +34,8 @@ describe('Testing GraphQL Queries', () => {
     expect(result.data.signedUploadURL.length).toBeGreaterThanOrEqual(0);
   }));
 
-  it('Check addArticleMutation', async () => graphql(schema, print(addArticleMutation), null, null, { title: 'Hello Everybody' }).then((result) => {
-    expect(result.data.addArticle.page).toBeDefined();
+  it('Check createArticleMutation', async () => graphql(schema, print(createArticleMutation), null, null, { title: 'Hello Everybody' }).then((result) => {
+    expect(result.data.createArticle.page).toBeDefined();
   }));
 
   it('Check deleteArticleMutation', async () => graphql(schema, print(deleteArticleMutation), null, null, { id: 1 }).then((result) => {

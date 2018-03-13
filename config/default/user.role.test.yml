@@ -7,14 +7,15 @@ label: test
 weight: 3
 is_admin: null
 permissions:
+  - 'access content'
   - 'create article content'
+  - 'create image media'
   - 'create media'
   - 'delete media'
   - 'delete own article content'
-  - 'edit any article content'
-  - 'edit any page content'
-  - 'edit any recipe content'
+  - 'delete own image media'
   - 'edit own article content'
+  - 'edit own image media'
   - 'edit own page content'
   - 'edit own recipe content'
   - 'execute graphql requests'

@@ -6,6 +6,7 @@ export const initialState = {
 };
 
 export const reducer = (state = initialState, { type, payload, error }) => {
+  if (error) { console.log(error); }
   switch (type) {
     /**
      * FETCH FETCH_ARTICLES
@@ -20,12 +21,12 @@ export const reducer = (state = initialState, { type, payload, error }) => {
     /**
      * ADD ARTICLE
      */
-    case types.ADD_ARTICLE: return { ...state };
-    case types.ADD_ARTICLE_SUCCESS: {
+    case types.CREATE_ARTICLE: return { ...state };
+    case types.CREATE_ARTICLE_SUCCESS: {
       const { articles, activeArticleNid } = payload;
       return { ...state, articles, activeArticleNid };
     }
-    case types.ADD_ARTICLE_FAILURE: return { ...state };
+    case types.CREATE_ARTICLE_FAILURE: return { ...state };
 
     /**
      * DELETE ARTICLE

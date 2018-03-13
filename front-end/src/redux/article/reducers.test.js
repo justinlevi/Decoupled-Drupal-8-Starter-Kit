@@ -32,17 +32,17 @@ describe('Reducer', () => {
   });
 
 
-  it('ADD_ARTICLE, ADD_ARTICLE_FAILURE action should return the correct state', () => {
+  it('CREATE_ARTICLE, CREATE_ARTICLE_FAILURE action should return the correct state', () => {
     const expectedState = {
       ...initialState,
     };
-    expect(reducer(undefined, { type: types.ADD_ARTICLE })).toEqual(expectedState);
-    expect(reducer(undefined, { type: types.ADD_ARTICLE_FAILURE })).toEqual(expectedState);
+    expect(reducer(undefined, { type: types.CREATE_ARTICLE })).toEqual(expectedState);
+    expect(reducer(undefined, { type: types.CREATE_ARTICLE_FAILURE })).toEqual(expectedState);
   });
 
-  it('ADD_ARTICLE_SUCCESS action should return the correct state', () => {
+  it('CREATE_ARTICLE_SUCCESS action should return the correct state', () => {
     const action = {
-      type: types.ADD_ARTICLE_SUCCESS,
+      type: types.CREATE_ARTICLE_SUCCESS,
       payload: {
         articles,
         activeArticleNid: 1,

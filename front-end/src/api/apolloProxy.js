@@ -24,7 +24,7 @@ const fragments = {
           entity{
             ... on MediaImage {
               image:fieldImage {
-                derivative(style:medium) {
+                derivative(style:MEDIUM) {
                   url
                 }
               }
@@ -80,9 +80,9 @@ export const articlesByUser = () => apolloClient.query({
 // ${fragments.nodeArticle}
 // `;
 
-export const addArticleMutation = gql`
-  mutation addArticle($title: String!){
-    addArticle(input: {title: $title}){
+export const createArticleMutation = gql`
+  mutation createArticle($title: String!){
+    createArticle(input: {title: $title}){
       errors
       violations {
         message
@@ -96,8 +96,8 @@ export const addArticleMutation = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const addArticle = ({ title }) => apolloClient.mutate({
-  mutation: addArticleMutation,
+export const createArticle = ({ title }) => apolloClient.mutate({
+  mutation: createArticleMutation,
   variables: {
     title,
   },
@@ -127,7 +127,7 @@ export const deleteArticle = ({ id }) => apolloClient.mutate({
 });
 
 export const updateArticleMutation = gql`
-  mutation updateArticle($id:Int!, $title:String, $body:String, $field_media_image:[Int]){
+  mutation updateArticle($id:String!, $title:String, $body:String, $field_media_image:[Int]){
     updateArticle(id:$id,input:{
       title:$title,
       body:$body,

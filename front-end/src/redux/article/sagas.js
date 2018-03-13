@@ -2,17 +2,17 @@ import { call, take, put, takeLatest, takeEvery, select } from 'redux-saga/effec
 import { push } from 'react-router-redux';
 
 import { types as oauthActionTypes, tokensExpiredCheck } from '../auth/oauth/actions';
-import { articlesByUser, addArticle, deleteArticle, updateArticle } from '../../api/apolloProxy';
+import { articlesByUser, createArticle, deleteArticle, updateArticle } from '../../api/apolloProxy';
 import { formatFetchArticlesResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
 
 import {
   types as articleActionTypes,
-  // addArticle,
+  // createArticle,
   // deleteArticle,
   // saveArticleUpdates,
   fetchArticlesSuccess,
-  addArticleSuccess,
-  addArticleFailure,
+  createArticleSuccess,
+  createArticleFailure,
   deleteArticleSuccess,
   deleteArticleFailure,
   saveArticleUpdatesSuccess,
@@ -27,19 +27,19 @@ function* fetchArticlesSaga() {
   yield put(fetchArticlesSuccess({ articles: formatFetchArticlesResult(result) }));
 }
 
-function* addArticleSaga(action) {
+function* createArticleSaga(action) {
   const { payload } = action;
   yield put(tokensExpiredCheck());
   yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
-    const result = yield call(addArticle, { ...payload });
-    const { page } = result.data.addArticle;
+    const result = yield call(createArticle, { ...payload });
+    const { page } = result.data.createArticle;
     const existingArticles = yield select(state => state.articleReducer.articles);
     const articles = existingArticles.concat([page]);
-    yield put(addArticleSuccess({ articles, activeArticleNid: page.nid }));
+    yield put(createArticleSuccess({ articles, activeArticleNid: page.nid }));
   } catch (error) {
-    yield put(addArticleFailure(error));
+    yield put(createArticleFailure(error));
   }
 }
 
@@ -86,7 +86,7 @@ function* selectArticleSaga(action) {
 export function* watchArticleActions() {
   yield takeEvery(articleActionTypes.FETCH_ARTICLES, fetchArticlesSaga);
 
-  yield takeLatest(articleActionTypes.ADD_ARTICLE, addArticleSaga);
+  yield takeLatest(articleActionTypes.CREATE_ARTICLE, createArticleSaga);
   yield takeEvery(articleActionTypes.DELETE_ARTICLE, deleteArticleSaga);
   yield takeLatest(articleActionTypes.SAVE_ARTICLE_UPDATES, saveArticleUpdatesSaga);
 

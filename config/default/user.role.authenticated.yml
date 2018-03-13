@@ -1,4 +1,4 @@
-uuid: e7a240da-494c-4da7-9ea0-f8c6935dcbe7
+uuid: 553cce06-f927-429f-a34c-ffb5e5f19d18
 langcode: en
 status: true
 dependencies: {  }
@@ -12,6 +12,6 @@ permissions:
   - 'access content'
   - 'access shortcuts'
   - 'access site-wide contact form'
-  - 'execute graphql requests'
   - 'search content'
   - 'use text format basic_html'
+  - 'view media'

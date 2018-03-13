@@ -1,9 +1,9 @@
-uuid: af5a9f2c-69d4-4127-8fac-d182452d2370
+uuid: afeff63e-0b27-4d38-9b01-456f9108092f
 langcode: en
 status: true
 dependencies:
   module:
-    - media_entity
+    - media
     - node
 id: node.field_media_image
 field_name: field_media_image

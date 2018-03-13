@@ -6,9 +6,9 @@ describe('Actions', () => {
     fetchArticles,
     fetchArticlesSuccess,
     fetchArticlesFailure,
-    addArticle,
-    addArticleSuccess,
-    addArticleFailure,
+    createArticle,
+    createArticleSuccess,
+    createArticleFailure,
     deleteArticle,
     deleteArticleSuccess,
     deleteArticleFailure,
@@ -36,19 +36,19 @@ describe('Actions', () => {
     expect(fetchArticlesFailure(error)).toEqual(expectedAction);
   });
 
-  it('Should create an action to addArticle', () => {
-    const expectedAction = { type: types.ADD_ARTICLE, payload };
-    expect(addArticle(payload)).toEqual(expectedAction);
+  it('Should create an action to createArticle', () => {
+    const expectedAction = { type: types.CREATE_ARTICLE, payload };
+    expect(createArticle(payload)).toEqual(expectedAction);
   });
 
-  it('Should create an action to addArticleSuccess', () => {
-    const expectedAction = { type: types.ADD_ARTICLE_SUCCESS, payload };
-    expect(addArticleSuccess(payload)).toEqual(expectedAction);
+  it('Should create an action to createArticleSuccess', () => {
+    const expectedAction = { type: types.CREATE_ARTICLE_SUCCESS, payload };
+    expect(createArticleSuccess(payload)).toEqual(expectedAction);
   });
 
-  it('Should create an action to addArticleFailure', () => {
-    const expectedAction = { type: types.ADD_ARTICLE_FAILURE, error };
-    expect(addArticleFailure(error)).toEqual(expectedAction);
+  it('Should create an action to createArticleFailure', () => {
+    const expectedAction = { type: types.CREATE_ARTICLE_FAILURE, error };
+    expect(createArticleFailure(error)).toEqual(expectedAction);
   });
 
   it('Should create an action to deleteArticle', () => {

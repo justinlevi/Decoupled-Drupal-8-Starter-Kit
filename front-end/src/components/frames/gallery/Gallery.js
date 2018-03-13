@@ -57,7 +57,7 @@ const Gallery = ({
         <button className="btn btn-primary" onClick={onUploadClick}>UPLOAD FILES</button>
       : null }
 
-      <output id="list" className="container">
+      <output id="list" className="container p-0">
         <div className="grid">
           {
             files.map((item, i) => {
