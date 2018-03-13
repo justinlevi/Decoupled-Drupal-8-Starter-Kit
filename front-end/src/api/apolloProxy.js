@@ -105,7 +105,7 @@ export const createArticle = ({ title }) => apolloClient.mutate({
 
 export const deleteArticleMutation = gql`
   mutation deleteArticle($id:String!){
-    deleteArticle(id:$id){
+    deleteArticle(id: $id){
       page:entity{
         ...ArticleFields
       },

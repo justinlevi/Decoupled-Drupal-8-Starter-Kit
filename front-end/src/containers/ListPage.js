@@ -34,7 +34,7 @@ export class ListPage extends Component {
     const { dispatch } = this.props;
     const { nid } = this.state;
 
-    dispatch(deleteArticle({ id: nid }));
+    dispatch(deleteArticle({ id: String(nid) }));
     this.setState({
       isModalVisible: false,
     });
