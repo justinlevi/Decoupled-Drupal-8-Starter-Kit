@@ -27,7 +27,7 @@ exports[`Gallery should render correctly 1`] = `
     totalFiles={0}
   />
   <output
-    className="container"
+    className="container p-0"
     id="list"
   >
     <div
