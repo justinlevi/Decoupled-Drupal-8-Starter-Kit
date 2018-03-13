@@ -9,7 +9,6 @@ box/local.config.yml
 project.local.yml
 blt/blt.yml
 blt/ci.blt.yml
-blt/example.local.blt.yml
 
 # Ignore drupal core.
 docroot/core
