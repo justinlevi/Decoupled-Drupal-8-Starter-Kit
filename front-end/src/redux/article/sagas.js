@@ -11,6 +11,7 @@ import {
   // deleteArticle,
   // saveArticleUpdates,
   fetchArticlesSuccess,
+  fetchArticlesFailure,
   createArticleSuccess,
   createArticleFailure,
   deleteArticleSuccess,
@@ -23,8 +24,12 @@ function* fetchArticlesSaga() {
   yield put(tokensExpiredCheck());
   yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
-  const result = yield call(articlesByUser);
-  yield put(fetchArticlesSuccess({ articles: formatFetchArticlesResult(result) }));
+  try{
+    const result = yield call(articlesByUser);
+    yield put(fetchArticlesSuccess({ articles: formatFetchArticlesResult(result) }));
+  }catch(error){
+    yield put(fetchArticlesFailure(`${error}`))
+  }
 }
 
 function* createArticleSaga(action) {
