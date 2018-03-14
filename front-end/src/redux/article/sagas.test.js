@@ -55,12 +55,13 @@ describe('the sagas', () => {
         });
       }
 
-      graphql(schema, print(ARTICLES_BY_USER_QUERY), null).then((result) => {
-        if(storeActions.length >= expectedActions.length){
-          expect(storeActions.sort()).toEqual(expectedActions.sort());
-          done();
-        }
-      });
+      if(storeActions.length >= expectedActions.length){
+        graphql(schema, print(ARTICLES_BY_USER_QUERY), null).then((result) => {
+            expect(storeActions.sort()).toEqual(expectedActions.sort());
+            done();
+        });
+      }
+      
     });
 
     store.dispatch({
