@@ -22,7 +22,7 @@ const fragments = {
           mid:targetId,
           ... on FieldNodeFieldMediaImage {
             entity{
-              ... on MediaMediaImage {
+              ... on MediaImage {
                 image:fieldMediaImage {
                   derivative(style:MEDIUM) {
                     url
