@@ -8,31 +8,31 @@ export { apolloClient } from './apolloClient';
 
 const fragments = {
   nodeArticle: gql`
-    fragment ArticleFields on NodeArticle{
-      author:entityOwner{
-        name
-      },
-      title,
-      body {
-        value
-      },
-      nid,
-      uuid
-      images:fieldMediaImage{
-        mid:targetId,
-        ... on FieldNodeFieldMediaImage {
-          entity{
-            ... on MediaImage {
-              image:fieldImage {
-                derivative(style:MEDIUM) {
-                  url
+      fragment ArticleFields on NodeArticle{
+        author:entityOwner{
+          name
+        },
+        title,
+        body {
+          value
+        },
+        nid,
+        uuid
+        images:fieldMediaImage{
+          mid:targetId,
+          ... on FieldNodeFieldMediaImage {
+            entity{
+              ... on MediaMediaImage {
+                image:fieldMediaImage {
+                  derivative(style:MEDIUM) {
+                    url
+                  }
                 }
               }
             }
           }
         }
       }
-    }
   `,
 };
 

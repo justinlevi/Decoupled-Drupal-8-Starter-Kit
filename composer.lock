@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5fa3599693440d73841db30e844b3462",
+    "content-hash": "7833309339b50baae549f735bafc9e43",
     "packages": [
         {
             "name": "acquia/blt",
@@ -277,16 +277,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.52.24",
+            "version": "3.52.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "e39a486cca4455f1c2294521281efbec5075a144"
+                "reference": "c1ce16adeeb9a47270f6ba8fb7aef5e1d62fa7d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e39a486cca4455f1c2294521281efbec5075a144",
-                "reference": "e39a486cca4455f1c2294521281efbec5075a144",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c1ce16adeeb9a47270f6ba8fb7aef5e1d62fa7d0",
+                "reference": "c1ce16adeeb9a47270f6ba8fb7aef5e1d62fa7d0",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +353,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-03-12T19:40:30+00:00"
+            "time": "2018-03-13T19:14:00+00:00"
         },
         {
             "name": "chi-teck/drupal-code-generator",
@@ -2932,17 +2932,11 @@
         },
         {
             "name": "drupal/entity_browser",
-            "version": "2.0.0-alpha2",
+            "version": "dev-2.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/entity_browser",
-                "reference": "8.x-2.0-alpha2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/entity_browser-8.x-2.0-alpha2.zip",
-                "reference": "8.x-2.0-alpha2",
-                "shasum": "f31ad069e5c5e95db9b9410a4d71038ac0c5b370"
+                "reference": "1bda49d1f79b33c0b8dd0fc3fd8faf7a02a2a0b7"
             },
             "require": {
                 "drupal/core": "~8.0"
@@ -2960,11 +2954,11 @@
                     "dev-8.x-1.x": "8.1.x-dev"
                 },
                 "drupal": {
-                    "version": "8.x-2.0-alpha2",
-                    "datestamp": "1512118387",
+                    "version": "8.x-2.0-alpha2+1-dev",
+                    "datestamp": "1515520685",
                     "security-coverage": {
                         "status": "not-covered",
-                        "message": "Alpha releases are not covered by Drupal security advisories."
+                        "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 },
                 "patches_applied": {
@@ -3014,54 +3008,37 @@
                 "source": "http://cgit.drupalcode.org/entity_browser",
                 "issues": "http://drupal.org/project/issues/entity_browser",
                 "irc": "irc://irc.freenode.org/drupal-contribute"
-            }
+            },
+            "time": "2018-03-01T13:56:09+00:00"
         },
         {
             "name": "drupal/graphql",
-            "version": "dev-3.x",
+            "version": "dev-8.x-3.x",
             "source": {
                 "type": "git",
-                "url": "https://git.drupal.org/project/graphql",
-                "reference": "04daa5815651b55968ca8447a18e0066c7584066"
+                "url": "https://github.com/drupal-graphql/graphql.git",
+                "reference": "104f51d2590d61f73b45dc21032c189a5d318872"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/drupal-graphql/graphql/zipball/104f51d2590d61f73b45dc21032c189a5d318872",
+                "reference": "104f51d2590d61f73b45dc21032c189a5d318872",
+                "shasum": ""
             },
             "require": {
-                "drupal/core": "~8.0",
                 "webonyx/graphql-php": "^0.11.5"
             },
             "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-3.x": "3.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-3.0-beta5+26-dev",
-                    "datestamp": "1520528284",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Dev releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
                 "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "fubhy",
-                    "homepage": "https://www.drupal.org/user/761344"
-                },
-                {
-                    "name": "pmelab",
-                    "homepage": "https://www.drupal.org/user/555322"
-                }
             ],
             "description": "Exposes your Drupal data model through a GraphQL schema.",
             "homepage": "http://drupal.org/project/graphql",
             "support": {
-                "source": "http://cgit.drupalcode.org/graphql"
+                "source": "https://github.com/drupal-graphql/graphql/tree/8.x-3.x",
+                "issues": "https://github.com/drupal-graphql/graphql/issues"
             },
-            "time": "2018-03-11T05:15:34+00:00"
+            "time": "2018-03-14T18:28:47+00:00"
         },
         {
             "name": "drupal/graphql_examples",
@@ -10012,6 +9989,7 @@
         "drupal/demo_umami": 20,
         "drupal/umami": 20,
         "drupal/inline_entity_form": 10,
+        "drupal/entity_browser": 20,
         "sensiolabs-de/deprecation-detector": 20
     },
     "prefer-stable": true,
