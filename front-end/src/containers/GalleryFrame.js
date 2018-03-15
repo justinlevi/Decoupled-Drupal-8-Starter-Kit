@@ -244,7 +244,7 @@ export class GalleryFrame extends Component {
     const newMids = mids.concat(activeMids).concat(this.state.mids);
 
     const variables = {
-      id: Number(page.nid),
+      id: String(page.nid),
       title: page.title,
       body: page.body !== null ? page.body.value : '',
       field_media_image: newMids,

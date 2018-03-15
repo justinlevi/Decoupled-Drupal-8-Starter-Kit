@@ -1,13 +1,13 @@
-uuid: 3cd8e2bb-fe5f-4970-8761-ba46110bfaf4
+uuid: a7be2411-e0d0-47f6-96b3-692c0c54a898
 langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.media_entity_browser
     - field.field.media.image.field_media_image
+    - image.style.thumbnail
     - media.type.image
   module:
-    - entity_browser
+    - image
     - path
 id: media.image.default
 targetEntityType: media
@@ -16,34 +16,21 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 3
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
   field_media_image:
-    weight: 1
+    weight: -50
     settings:
-      entity_browser: media_entity_browser
-      field_widget_remove: true
-      selection_mode: selection_append
+      progress_indicator: throbber
       preview_image_style: thumbnail
-      field_widget_edit: true
-      open: false
-      view_mode: default
     third_party_settings: {  }
-    type: entity_browser_file
+    type: image_image
     region: content
-  name:
-    type: string_textfield
-    weight: 0
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   path:
     type: path
-    weight: 4
+    weight: 30
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -51,16 +38,17 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 5
+    weight: 100
     region: content
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 2
+    weight: 5
     settings:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
     region: content
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  name: true
