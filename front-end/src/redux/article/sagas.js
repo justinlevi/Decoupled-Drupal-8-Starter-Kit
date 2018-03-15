@@ -20,12 +20,13 @@ import {
   saveArticleUpdatesFailure,
 } from './actions';
 
-function* fetchArticlesSaga() {
+
+export function* fetchArticlesSaga(query) {
   yield put(tokensExpiredCheck());
   yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
   try{
-    const result = yield call(articlesByUser);
+    const result = yield call(query);
     yield put(fetchArticlesSuccess({ articles: formatFetchArticlesResult(result) }));
   }catch(error){
     yield put(fetchArticlesFailure(`${error}`))
@@ -89,7 +90,8 @@ function* selectArticleSaga(action) {
 }
 
 export function* watchArticleActions() {
-  yield takeEvery(articleActionTypes.FETCH_ARTICLES, fetchArticlesSaga);
+
+  yield takeEvery(articleActionTypes.FETCH_ARTICLES, fetchArticlesSaga,articlesByUser);
 
   yield takeLatest(articleActionTypes.CREATE_ARTICLE, createArticleSaga);
   yield takeEvery(articleActionTypes.DELETE_ARTICLE, deleteArticleSaga);
