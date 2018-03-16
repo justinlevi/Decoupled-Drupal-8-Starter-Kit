@@ -6,9 +6,17 @@ import * as oauthActions from '../auth/oauth/actions';
 import {introspectionQuery, buildClientSchema, graphql} from 'graphql';
 import {addMockFunctionsToSchema} from 'graphql-tools';
 import {print} from 'graphql/language/printer';
-import { put,call,takeEvery } from 'redux-saga/effects';
+import { put,call,takeEvery,select } from 'redux-saga/effects';
 import * as introspectionResult from '../../api/schema.json';
-import {CURRENT_USER_QUERY, ARTICLES_BY_USER_QUERY} from '../../api/apolloProxy';
+import {
+  CURRENT_USER_QUERY,
+  ARTICLES_BY_USER_QUERY,
+  createArticleMutation,
+  deleteArticleMutation,
+  updateArticleMutation,
+  getSignedUrls,
+  addS3Files,
+} from '../../api/apolloProxy';
 import { cloneableGenerator } from 'redux-saga/utils';
 import { testSaga, expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
@@ -17,7 +25,7 @@ import * as data from '../../api/__mocks__/data';
 
 const articles = data.ARTICLES_BY_USER_DATA;
 
-import { articlesByUser } from '../../api/apolloProxy';
+import { articlesByUser,createArticle,selectArticles } from '../../api/apolloProxy';
 import { formatFetchArticlesResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
 import {
   types as articleActionTypes,
@@ -117,8 +125,63 @@ describe('the sagas', () => {
         .run()
       });
 
+  });
 
+  it('should execute the createArticleSaga and succeed', () => {
 
+    const schema = buildClientSchema(introspectionResult);
+    addMockFunctionsToSchema({schema});
+
+    const mockOutputCreateArticle = {
+      data:{
+        createArticle: {
+          page:{
+            author: {name:"admin"},
+            body: null,
+            images: [],
+            nid: 18,
+            title: "NULL",
+            uuid: 'c0ee6953-0398-4823-9bd8-1b1ef1896fc4'
+          }
+        }
+      }
+    }
+
+    const payload = {
+      payload:{
+        title: "NULL"
+      }
+    }
+
+    const page = mockOutputCreateArticle.data.createArticle.page;
+
+    const storeState = {
+      articleReducer:{
+        ...articles.data.user.nodes
+      }
+    };
+
+    let updatedStoreState = {
+      articleReducer:{
+        ...articles.data.user.nodes
+      }
+    };
+
+    updatedStoreState = articles.data.user.nodes.articles.concat([page]);
+
+    const saga = expectSaga(sagas.createArticleSaga,payload);
+
+    graphql(schema, print(createArticleMutation), null, null, { title: 'Hello Everybody' }).then((result) => {
+        saga
+        .provide([
+          [matchers.call.fn(createArticle), mockOutputCreateArticle],
+        ])
+        .withState(storeState)
+        .put({type: 'TOKENS_EXPIRED_CHECK'})
+        .put(createArticleSuccess({ articles: updatedStoreState , activeArticleNid: page.nid }))
+        .dispatch({type: oauthActions.TOKENS_EXPIRED_CHECK_VALID})
+        .run()
+      });
 
   });
 
