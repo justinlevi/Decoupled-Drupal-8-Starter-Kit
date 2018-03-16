@@ -6,18 +6,37 @@ import * as oauthActions from '../auth/oauth/actions';
 import {introspectionQuery, buildClientSchema, graphql} from 'graphql';
 import {addMockFunctionsToSchema} from 'graphql-tools';
 import {print} from 'graphql/language/printer';
-import { put,call } from 'redux-saga/effects';
+import { put,call,takeEvery } from 'redux-saga/effects';
 import * as introspectionResult from '../../api/schema.json';
 import {CURRENT_USER_QUERY, ARTICLES_BY_USER_QUERY} from '../../api/apolloProxy';
 import { cloneableGenerator } from 'redux-saga/utils';
-import * as testSaga from 'redux-saga-test-plan';
+import { testSaga, expectSaga } from 'redux-saga-test-plan';
+import * as matchers from 'redux-saga-test-plan/matchers';
+
+import * as data from '../../api/__mocks__/data';
+
+const articles = data.ARTICLES_BY_USER_DATA;
+
+import { articlesByUser } from '../../api/apolloProxy';
+import { formatFetchArticlesResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
+import {
+  types as articleActionTypes,
+  fetchArticlesSuccess,
+  fetchArticlesFailure,
+  createArticleSuccess,
+  createArticleFailure,
+  deleteArticleSuccess,
+  deleteArticleFailure,
+  saveArticleUpdatesSuccess,
+  saveArticleUpdatesFailure,
+} from './actions';
 
 const sagaMiddleware = createSagaMiddleware();
 const mockStore = configureMockStore([sagaMiddleware]);
 
 describe('the sagas', () => {
 
-  it('should execute the fetchArticlesSaga action creator and fail the call to articlesByUser', (done) => {
+  it('should execute the fetchArticlesSaga action creator and fail the call to articlesByUser', () => {
     const store = mockStore({});
     sagaMiddleware.run(sagas.watchArticleActions); // has to be executed after the mockStore() call
 
@@ -52,7 +71,6 @@ describe('the sagas', () => {
 
       if (storeActions.length >= expectedActions.length) {
         expect(storeActions.sort()).toEqual(expectedActions.sort());
-        done();
       }
 
     });
@@ -61,25 +79,46 @@ describe('the sagas', () => {
   });
 
 
-  it('should execute the fetchArticlesSaga action creator and succeed', async (done) => {
+
+  it('should execute the fetchArticlesSaga action creator and succeed', () => {
 
     const schema = buildClientSchema(introspectionResult);
     addMockFunctionsToSchema({schema});
-    const store = mockStore({});
 
-    const query = () => graphql(schema,ARTICLES_BY_USER_QUERY,null).then(result => result);
+    const saga = expectSaga(sagas.fetchArticlesSaga);
 
-    let saga = testSaga.testSaga(sagas.fetchArticlesSaga,query);
-    saga
-    .next()
-    .put({ type: 'TOKENS_EXPIRED_CHECK' })
-    .next()
-    .take(oauthActions.TOKENS_EXPIRED_CHECK_VALID)
-    .next()
-    .call(query);
+    graphql(schema,print(ARTICLES_BY_USER_QUERY),null).then((result) => {
 
-    console.log(saga.next())
-    done();
+      const images = articles.data.user.nodes.articles.map(node =>
+        node.images = {
+          ...node.images,
+          entity: {
+            image: {
+              derivative: {
+                url: '',
+              },
+            },
+          },
+          mid: '',
+        });
+
+        articles.data.user.nodes.articles[0].images = images;
+        articles.data.user.nodes.articles[1].images = images;
+
+        const testData = formatFetchArticlesResult(articles);
+
+        saga
+        .provide([
+          [matchers.call.fn(articlesByUser), articles],
+        ])
+        .put({type: 'TOKENS_EXPIRED_CHECK'})
+        .put(fetchArticlesSuccess({ articles: testData }))
+        .dispatch({type: oauthActions.TOKENS_EXPIRED_CHECK_VALID})
+        .run()
+      });
+
+
+
 
   });
 
