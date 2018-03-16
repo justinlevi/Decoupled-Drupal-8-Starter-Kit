@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 import Thumbnail from './Thumbnail';
 import BrowseButton from './BrowseButton';
 
-const Gallery = ({
+const GalleryUpload = ({
   onDrop,
   uploading,
   files,
@@ -89,7 +89,7 @@ const Gallery = ({
   );
 };
 
-Gallery.propTypes = {
+GalleryUpload.propTypes = {
   uploading: PropTypes.bool.isRequired,
   files: PropTypes.array.isRequired,
   uploadInitiated: PropTypes.bool,
@@ -100,8 +100,8 @@ Gallery.propTypes = {
   handleDelete: PropTypes.func.isRequired,
 };
 
-Gallery.defaultProps = {
+GalleryUpload.defaultProps = {
   uploadInitiated: false,
 };
 
-export default Gallery;
+export default GalleryUpload;
