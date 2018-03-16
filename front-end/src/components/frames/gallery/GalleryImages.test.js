@@ -2,23 +2,17 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 
-import Gallery from './Gallery';
+import { GalleryImages } from './GalleryImages';
 
 const initalPropState = {
-  uploading: false,
-  files: [],
-  uploadInitiated: false,
-  onDrop: jest.fn(),
-  totalBytes: jest.fn(),
-  onUploadClick: jest.fn(),
-  handleCancel: jest.fn(),
+  images: [],
   handleDelete: jest.fn(),
 };
 
-const generateShallow = props => shallow(<Gallery {...props} />);
+const generateShallow = props => shallow(<GalleryImages {...props} />);
 
 
-describe('Gallery', () => {
+describe('GalleryImages', () => {
   it('should render correctly', () => {
     const output = generateShallow(initalPropState);
     expect(shallowToJson(output)).toMatchSnapshot();

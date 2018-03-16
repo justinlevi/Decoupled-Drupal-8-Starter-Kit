@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { withApollo } from 'react-apollo';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 
-import Gallery from 'components/frames/gallery/Gallery';
+import { getSignedUrls, addS3Files } from '../api/apolloProxy';
+import { readFile } from '../utils/ImageHelpers';
 
-import { readFile } from 'utils/ImageHelpers';
-import { getSignedUrls, addS3Files } from 'api/apolloProxy';
+import GalleryUpload from '../components/frames/gallery/GalleryUpload';
+import GalleryImages from '../components/frames/gallery/GalleryImages';
 
 import { saveArticleUpdates } from '../redux/article/actions';
 
@@ -23,6 +25,7 @@ export class GalleryFrame extends Component {
 
     const uploadPath = `${author.name}/${uuid}/`;
     this.state = {
+      activeTab: '1',
       mids: [],
       files: [],
       maxWidth: 400,
@@ -80,6 +83,14 @@ export class GalleryFrame extends Component {
     if (index >= 0) {
       newFiles[index].file[prop] = value;
       this.setState({ files: newFiles });
+    }
+  }
+
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab,
+      });
     }
   }
 
@@ -270,14 +281,60 @@ export class GalleryFrame extends Component {
   */
 
   render() {
-    return (<Gallery
-      onDrop={this.onDrop}
-      totalBytes={this.totalBytes}
-      onUploadClick={this.onUploadClick}
-      handleCancel={this.handleCancel}
-      handleDelete={this.handleDelete}
-      {...this.state}
-    />);
+    return (
+      <div>
+        <Nav tabs>
+          <NavItem>
+            <NavLink
+              className={this.state.activeTab === '1' ? 'active' : ''}
+              onClick={() => { this.toggle('1'); }}
+            >
+              Images
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={this.state.activeTab === '2' ? 'active' : ''}
+              onClick={() => { this.toggle('2'); }}
+            >
+              Upload
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={this.state.activeTab === '2' ? 'active' : ''}
+              onClick={() => { this.toggle('3'); }}
+            >
+              Library
+            </NavLink>
+          </NavItem>
+        </Nav>
+        <TabContent activeTab={this.state.activeTab}>
+          <TabPane tabId="1">
+            <GalleryImages
+              handleDelete={this.handleDelete}
+            />
+          </TabPane>
+          <TabPane tabId="2">
+            <GalleryUpload
+              onDrop={this.onDrop}
+              totalBytes={this.totalBytes}
+              onUploadClick={this.onUploadClick}
+              handleCancel={this.handleCancel}
+              handleDelete={this.handleDelete}
+              {...this.state}
+            />
+          </TabPane>
+          <TabPane tabId="3">
+            <Row>
+              <Col sm="12">
+                <h4>Library</h4>
+              </Col>
+            </Row>
+          </TabPane>
+        </TabContent>
+      </div>
+    );
   }
 }
 

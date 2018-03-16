@@ -64,10 +64,17 @@ Thumbnail.propTypes = {
   render: PropTypes.func.isRequired,
   fileSize: PropTypes.number.isRequired,
   fileName: PropTypes.string.isRequired,
-  percentageComplete: PropTypes.number.isRequired,
-  uploadInitiated: PropTypes.bool.isRequired,
-  uploadSuccess: PropTypes.bool.isRequired,
-  handleCancel: PropTypes.func.isRequired,
+  percentageComplete: PropTypes.number,
+  uploadInitiated: PropTypes.bool,
+  uploadSuccess: PropTypes.bool,
+  handleCancel: PropTypes.func,
+};
+
+Thumbnail.defaultProps = {
+  percentageComplete: 0,
+  uploadInitiated: false,
+  uploadSuccess: false,
+  handleCancel: () => {},
 };
 
 export default Thumbnail;

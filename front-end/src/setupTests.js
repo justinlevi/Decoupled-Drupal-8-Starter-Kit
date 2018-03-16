@@ -3,13 +3,18 @@ import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
 
+const localStorageGetItem = jest.fn();
+localStorageGetItem
+  .mockReturnValueOnce(JSON.stringify({ Hey: 'Ho' }))
+  .mockReturnValueOnce(null);
+
 const localStorageMock = {
-  getItem: jest.fn(),
+  getItem: localStorageGetItem,
   setItem: jest.fn(),
   clear: jest.fn(),
   removeItem: jest.fn(),
 };
-localStorageMock.getItem.mockReturnValue('asdf');
+// localStorageMock.getItem.mockReturnValue(JSON.stringify({ Hey: 'Ho' }));
 global.localStorage = localStorageMock;
 
 const sessionStorageMock = {

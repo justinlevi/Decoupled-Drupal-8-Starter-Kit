@@ -22,6 +22,7 @@ const configureStore = () => {
       window.devToolsExtension ? window.devToolsExtension() : f => f,
     ),
   );
+
   sagaMiddleware.run(rootSaga);
 
   store.subscribe(() => {
