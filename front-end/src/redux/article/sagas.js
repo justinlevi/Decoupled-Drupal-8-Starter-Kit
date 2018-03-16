@@ -20,6 +20,7 @@ import {
   saveArticleUpdatesFailure,
 } from './actions';
 
+export const selectArticles = (state) => state.articleReducer.articles;
 
 export function* fetchArticlesSaga() {
   yield put(tokensExpiredCheck());
@@ -33,7 +34,7 @@ export function* fetchArticlesSaga() {
   }
 }
 
-function* createArticleSaga(action) {
+export function* createArticleSaga(action) {
   const { payload } = action;
   yield put(tokensExpiredCheck());
   yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
@@ -41,7 +42,7 @@ function* createArticleSaga(action) {
   try {
     const result = yield call(createArticle, { ...payload });
     const { page } = result.data.createArticle;
-    const existingArticles = yield select(state => state.articleReducer.articles);
+    const existingArticles = yield select(selectArticles);
     const articles = existingArticles.concat([page]);
     yield put(createArticleSuccess({ articles, activeArticleNid: page.nid }));
   } catch (error) {
