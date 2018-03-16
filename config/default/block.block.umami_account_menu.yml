@@ -1,0 +1,26 @@
+uuid: f7a4e234-f20c-4e98-8279-3ae6c478692a
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - system
+  theme:
+    - umami
+_core:
+  default_config_hash: nliEWccojLOkiKpBUBBw4C0Ig7fWitcx-tun-SYRZ0Q
+id: umami_account_menu
+theme: umami
+region: header
+weight: -4
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User account menu'
+  provider: system
+  label_display: '0'
+  level: 1
+  depth: 1
+visibility: {  }

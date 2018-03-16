@@ -1,43 +1,42 @@
-uuid: 29a87243-793e-496b-a2b8-ad260d6e3e98
+uuid: 8d9983f1-ec69-4a24-acfb-ee23bb2b1cbc
 langcode: en
 status: true
 dependencies:
   config:
-    - views.view.media
+    - views.view.media_entity_browser
   module:
-    - lightning_media
     - views
-_core:
-  default_config_hash: JJHmBj7aN_8TKrNPmRURDz3ACyY2Wh7nyotuARHCLgM
 name: image_browser
 label: 'Image Browser'
 display: modal
 display_configuration:
   width: ''
   height: ''
-  link_text: 'Select Image(s)'
+  link_text: Select
   auto_open: false
 selection_display: no_display
 selection_display_configuration: {  }
 widget_selector: tabs
 widget_selector_configuration: {  }
 widgets:
-  44d52e51-9627-43b5-a637-3b0462041d1c:
+  892a865d-4541-41a2-9d52-714818d5b8af:
     settings:
-      submit_text: Select
-      form_mode: media_browser
-      return_file: true
-    uuid: 44d52e51-9627-43b5-a637-3b0462041d1c
+      extensions: 'jpg jpeg png gif'
+      media_type: image
+      upload_location: 'public://'
+      multiple: '1'
+      submit_text: 'Select files'
+    uuid: 892a865d-4541-41a2-9d52-714818d5b8af
     weight: -9
     label: Upload
-    id: file_upload
-  d904d853-1101-4ec4-99d8-5f47b7e785b8:
+    id: media_image_upload
+  a75c7acc-0de2-4582-a1ab-c354da973eb8:
     settings:
-      view: media
-      view_display: entity_browser_2
-      submit_text: Select
+      view: media_entity_browser
+      view_display: entity_browser_1
+      submit_text: 'Select entities'
       auto_select: false
-    uuid: d904d853-1101-4ec4-99d8-5f47b7e785b8
+    uuid: a75c7acc-0de2-4582-a1ab-c354da973eb8
     weight: -10
-    label: Library
+    label: View
     id: view

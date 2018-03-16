@@ -1,0 +1,492 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`List Snapshots should render correctly 1`] = `
+<div
+  className=""
+>
+  <div
+    className="container"
+  >
+    <div
+      className="py-3"
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <div
+        className="add"
+      >
+        <MdAdd />
+        <h2
+          className="card-title"
+        >
+          Add
+        </h2>
+      </div>
+    </div>
+    <TransitionGroup
+      childFactory={[Function]}
+      className="item-list"
+      component="div"
+    >
+      <Fade
+        duration={1000}
+        key="34"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          deleteHandler={[Function]}
+          page={
+            Object {
+              "author": Object {
+                "name": "test0",
+              },
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 34,
+              "title": "TEST TITLE 0",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f0",
+            }
+          }
+          selectHandler={[Function]}
+        />
+      </Fade>
+      <Fade
+        duration={1000}
+        key="35"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          deleteHandler={[Function]}
+          page={
+            Object {
+              "author": Object {
+                "name": "test1",
+              },
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 35,
+              "title": "TEST TITLE 1",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f1",
+            }
+          }
+          selectHandler={[Function]}
+        />
+      </Fade>
+      <Fade
+        duration={1000}
+        key="36"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          deleteHandler={[Function]}
+          page={
+            Object {
+              "author": Object {
+                "name": "test2",
+              },
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 36,
+              "title": "TEST TITLE 2",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f2",
+            }
+          }
+          selectHandler={[Function]}
+        />
+      </Fade>
+      <Fade
+        duration={1000}
+        key="37"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          deleteHandler={[Function]}
+          page={
+            Object {
+              "author": Object {
+                "name": "test3",
+              },
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 37,
+              "title": "TEST TITLE 3",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f3",
+            }
+          }
+          selectHandler={[Function]}
+        />
+      </Fade>
+      <Fade
+        duration={1000}
+        key="38"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          deleteHandler={[Function]}
+          page={
+            Object {
+              "author": Object {
+                "name": "test4",
+              },
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 38,
+              "title": "TEST TITLE 4",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f4",
+            }
+          }
+          selectHandler={[Function]}
+        />
+      </Fade>
+      <Fade
+        duration={1000}
+        key="39"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          deleteHandler={[Function]}
+          page={
+            Object {
+              "author": Object {
+                "name": "test5",
+              },
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 39,
+              "title": "TEST TITLE 5",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f5",
+            }
+          }
+          selectHandler={[Function]}
+        />
+      </Fade>
+      <Fade
+        duration={1000}
+        key="40"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          deleteHandler={[Function]}
+          page={
+            Object {
+              "author": Object {
+                "name": "test6",
+              },
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 40,
+              "title": "TEST TITLE 6",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f6",
+            }
+          }
+          selectHandler={[Function]}
+        />
+      </Fade>
+      <Fade
+        duration={1000}
+        key="41"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          deleteHandler={[Function]}
+          page={
+            Object {
+              "author": Object {
+                "name": "test7",
+              },
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 41,
+              "title": "TEST TITLE 7",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f7",
+            }
+          }
+          selectHandler={[Function]}
+        />
+      </Fade>
+      <Fade
+        duration={1000}
+        key="42"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          deleteHandler={[Function]}
+          page={
+            Object {
+              "author": Object {
+                "name": "test8",
+              },
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 42,
+              "title": "TEST TITLE 8",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f8",
+            }
+          }
+          selectHandler={[Function]}
+        />
+      </Fade>
+      <Fade
+        duration={1000}
+        key="43"
+        timeout={
+          Object {
+            "enter": 0,
+            "exit": 1000,
+          }
+        }
+      >
+        <Card
+          deleteHandler={[Function]}
+          page={
+            Object {
+              "author": Object {
+                "name": "test9",
+              },
+              "body": Object {
+                "value": "body test value",
+              },
+              "images": Array [
+                Object {
+                  "entity": Object {
+                    "image": Object {
+                      "derivative": Object {
+                        "mid": 1,
+                        "url": "http://d8d.loc/test.jpg",
+                      },
+                    },
+                  },
+                },
+              ],
+              "nid": 43,
+              "title": "TEST TITLE 9",
+              "uuid": "09ba8da5-e08d-4972-a22b-ad7bb0a44d7f9",
+            }
+          }
+          selectHandler={[Function]}
+        />
+      </Fade>
+    </TransitionGroup>
+    <Modal
+      autoFocus={true}
+      backdrop={true}
+      backdropTransition={
+        Object {
+          "mountOnEnter": true,
+          "timeout": 150,
+        }
+      }
+      fade={true}
+      isOpen={false}
+      keyboard={true}
+      modalTransition={
+        Object {
+          "timeout": 300,
+        }
+      }
+      onClosed={[Function]}
+      onOpened={[Function]}
+      role="dialog"
+      toggle={[Function]}
+      zIndex={1050}
+    >
+      <ModalHeader
+        closeAriaLabel="Close"
+        tag="h5"
+        toggle={[Function]}
+        wrapTag="div"
+      >
+        Confirmation
+      </ModalHeader>
+      <ModalBody
+        tag="div"
+      >
+        Are you sure you want to remove this?
+      </ModalBody>
+      <ModalFooter
+        tag="div"
+      >
+        <Button
+          color="secondary"
+          onClick={[Function]}
+          tag="button"
+        >
+          Cancel
+        </Button>
+         
+        <Button
+          color="primary"
+          onClick={[Function]}
+          tag="button"
+        >
+          Delete
+        </Button>
+      </ModalFooter>
+    </Modal>
+  </div>
+</div>
+`;

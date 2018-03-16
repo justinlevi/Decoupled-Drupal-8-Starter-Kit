@@ -6,7 +6,6 @@ local.services.yml
 tests/behat/local.yml
 box/local.config.yml
 *.local
-project.local.yml
 
 # Ignore drupal core.
 docroot/core
@@ -15,6 +14,7 @@ docroot/core
 docroot/sites/*/files
 /files-private
 docroot/sites/*/private
+/.docksal
 
 # Ignore contrib modules. These should be created during build process.
 docroot/modules/contrib
@@ -133,3 +133,6 @@ keys/*
 /drush/sites/*.yml
 /docroot/sites/default/local.drush.yml
 /deployment_identifier
+/front-end/build
+/front-end/node_modules
+/front-end/coverage

@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import AppContainer from './AppContainer';
-import initalizeCsrfToken from './utils/csrf';
-import registerServiceWorker from './registerServiceWorker';
+import registerServiceWorker from 'registerServiceWorker';
 
-initalizeCsrfToken();
+import configureStore from 'redux/configureStore';
+import App from 'containers/AppContainer';
 
-ReactDOM.render(<AppContainer />, document.getElementById('root'));
+import 'styles/index.css';
+
+ReactDOM.render(
+  <App store={configureStore()} />
+  , document.getElementById('root'),
+);
 registerServiceWorker();

@@ -1,0 +1,26 @@
+uuid: e7ca048a-93f4-4d33-b056-2aae3f062bc5
+langcode: en
+status: true
+dependencies: {  }
+id: test
+label: test
+weight: 3
+is_admin: null
+permissions:
+  - 'access content'
+  - 'create article content'
+  - 'create image media'
+  - 'create media'
+  - 'delete media'
+  - 'delete own article content'
+  - 'delete own image media'
+  - 'edit own article content'
+  - 'edit own image media'
+  - 'edit own page content'
+  - 'edit own recipe content'
+  - 'execute graphql requests'
+  - 'execute persisted graphql requests'
+  - 'grant simple_oauth codes'
+  - 'update any media'
+  - 'update media'
+  - 'view media'

@@ -1,0 +1,972 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "OBJECT",
+        "name": "QueryRoot",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "EntityQueryFilterInput",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "EntityQueryFilterConditionInput",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "String",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "QueryOperator",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "LanguageId",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "QueryConjunction",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "EntityQuerySortInput",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "SortOrder",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Int",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "EntityQueryRevisionMode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "EntityQueryResult",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Entity",
+        "possibleTypes": [
+          {
+            "name": "User"
+          },
+          {
+            "name": "Consumer"
+          },
+          {
+            "name": "File"
+          },
+          {
+            "name": "MediaImage"
+          },
+          {
+            "name": "UnexposedEntity"
+          },
+          {
+            "name": "BlockContentBannerBlock"
+          },
+          {
+            "name": "BlockContentBasic"
+          },
+          {
+            "name": "ContactMessageFeedback"
+          },
+          {
+            "name": "ContactMessagePersonal"
+          },
+          {
+            "name": "NodeArticle"
+          },
+          {
+            "name": "NodePage"
+          },
+          {
+            "name": "NodeRecipe"
+          },
+          {
+            "name": "ShortcutDefault"
+          },
+          {
+            "name": "Oauth2TokenAccessToken"
+          },
+          {
+            "name": "Oauth2TokenAuthCode"
+          },
+          {
+            "name": "Oauth2TokenRefreshToken"
+          },
+          {
+            "name": "TaxonomyTermIngredients"
+          },
+          {
+            "name": "TaxonomyTermRecipeCategory"
+          },
+          {
+            "name": "TaxonomyTermRecipeCuisine"
+          },
+          {
+            "name": "TaxonomyTermTags"
+          },
+          {
+            "name": "MenuLinkContentMenuLinkContent"
+          }
+        ]
+      },
+      {
+        "kind": "ENUM",
+        "name": "EntityQueryBundleMode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Language",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Boolean",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Url",
+        "possibleTypes": [
+          {
+            "name": "EntityCanonicalUrl"
+          },
+          {
+            "name": "ExternalUrl"
+          },
+          {
+            "name": "DefaultInternalUrl"
+          }
+        ]
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Node",
+        "possibleTypes": [
+          {
+            "name": "NodeArticle"
+          },
+          {
+            "name": "NodePage"
+          },
+          {
+            "name": "NodeRecipe"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "User",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "EntityRevisionable",
+        "possibleTypes": [
+          {
+            "name": "User"
+          },
+          {
+            "name": "Consumer"
+          },
+          {
+            "name": "File"
+          },
+          {
+            "name": "MediaImage"
+          },
+          {
+            "name": "BlockContentBannerBlock"
+          },
+          {
+            "name": "BlockContentBasic"
+          },
+          {
+            "name": "ContactMessageFeedback"
+          },
+          {
+            "name": "ContactMessagePersonal"
+          },
+          {
+            "name": "NodeArticle"
+          },
+          {
+            "name": "NodePage"
+          },
+          {
+            "name": "NodeRecipe"
+          },
+          {
+            "name": "ShortcutDefault"
+          },
+          {
+            "name": "Oauth2TokenAccessToken"
+          },
+          {
+            "name": "Oauth2TokenAuthCode"
+          },
+          {
+            "name": "Oauth2TokenRefreshToken"
+          },
+          {
+            "name": "TaxonomyTermIngredients"
+          },
+          {
+            "name": "TaxonomyTermRecipeCategory"
+          },
+          {
+            "name": "TaxonomyTermRecipeCuisine"
+          },
+          {
+            "name": "TaxonomyTermTags"
+          },
+          {
+            "name": "MenuLinkContentMenuLinkContent"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldUserLangcode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldUserPreferredLangcode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldUserPreferredAdminLangcode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldUserPass",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Timestamp",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldUserRoles",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeLangcode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeType",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeRevisionUid",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeUid",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "BlockContent",
+        "possibleTypes": [
+          {
+            "name": "BlockContentBannerBlock"
+          },
+          {
+            "name": "BlockContentBasic"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldBlockContentLangcode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldBlockContentType",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldBlockContentRevisionUser",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Consumer",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldConsumerOwnerId",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldConsumerImage",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "File",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "EntityOwnable",
+        "possibleTypes": [
+          {
+            "name": "File"
+          },
+          {
+            "name": "MediaImage"
+          },
+          {
+            "name": "NodeArticle"
+          },
+          {
+            "name": "NodePage"
+          },
+          {
+            "name": "NodeRecipe"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldFileLangcode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldFileUid",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldFileUri",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "ImageStyleId",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ImageResource",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldConsumerSecret",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldConsumerRoles",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldConsumerUserId",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "ContactMessage",
+        "possibleTypes": [
+          {
+            "name": "ContactMessageFeedback"
+          },
+          {
+            "name": "ContactMessagePersonal"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldContactMessageLangcode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldContactMessageContactForm",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldContactMessageRecipient",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Media",
+        "possibleTypes": [
+          {
+            "name": "MediaImage"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldMediaLangcode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldMediaBundle",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldMediaRevisionUser",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldMediaThumbnail",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldMediaUid",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Shortcut",
+        "possibleTypes": [
+          {
+            "name": "ShortcutDefault"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldShortcutLangcode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldShortcutShortcutSet",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldShortcutLink",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Map",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "Oauth2Token",
+        "possibleTypes": [
+          {
+            "name": "Oauth2TokenAccessToken"
+          },
+          {
+            "name": "Oauth2TokenAuthCode"
+          },
+          {
+            "name": "Oauth2TokenRefreshToken"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldOauth2TokenBundle",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldOauth2TokenAuthUserId",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldOauth2TokenClient",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldOauth2TokenScopes",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "TaxonomyTerm",
+        "possibleTypes": [
+          {
+            "name": "TaxonomyTermIngredients"
+          },
+          {
+            "name": "TaxonomyTermRecipeCategory"
+          },
+          {
+            "name": "TaxonomyTermRecipeCuisine"
+          },
+          {
+            "name": "TaxonomyTermTags"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldTaxonomyTermLangcode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldTaxonomyTermVid",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldTaxonomyTermDescription",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldTaxonomyTermParent",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "MenuLinkContent",
+        "possibleTypes": [
+          {
+            "name": "MenuLinkContentMenuLinkContent"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldMenuLinkContentLangcode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldMenuLinkContentLink",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Menu",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MenuLink",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "SignedUploadInput",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MutationRoot",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Upload",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "EntityCrudOutput",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ConstraintViolation",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "ArticleInput",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "S3FilesInput",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INPUT_OBJECT",
+        "name": "S3FileInput",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MediaImage",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "EntityPublishable",
+        "possibleTypes": [
+          {
+            "name": "MediaImage"
+          },
+          {
+            "name": "BlockContentBannerBlock"
+          },
+          {
+            "name": "BlockContentBasic"
+          },
+          {
+            "name": "NodeArticle"
+          },
+          {
+            "name": "NodePage"
+          },
+          {
+            "name": "NodeRecipe"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldMediaFieldImage",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldMediaFieldMediaImage",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "ID",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Float",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "__Schema",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "__Type",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "__TypeKind",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "__Field",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "__InputValue",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "__EnumValue",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "__Directive",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "__DirectiveLocation",
+        "possibleTypes": null
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "EntityDescribable",
+        "possibleTypes": []
+      },
+      {
+        "kind": "INTERFACE",
+        "name": "InternalUrl",
+        "possibleTypes": [
+          {
+            "name": "EntityCanonicalUrl"
+          },
+          {
+            "name": "DefaultInternalUrl"
+          }
+        ]
+      },
+      {
+        "kind": "OBJECT",
+        "name": "LanguageSwitchLink",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "InternalResponse",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Link",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "UnexposedEntity",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "BlockContentBannerBlock",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldBlockContentFieldBannerImage",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldBlockContentFieldContentLink",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "BlockContentBasic",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldBlockContentBody",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ContactMessageFeedback",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ContactMessagePersonal",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "NodeArticle",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeBody",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeFieldImage",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeFieldMediaImage",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeFieldTags",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "NodePage",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "NodeRecipe",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeFieldAuthor",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeFieldRecipeCategory",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeFieldRecipeInstruction",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldNodeFieldSummary",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ShortcutDefault",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Oauth2TokenAccessToken",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Oauth2TokenAuthCode",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Oauth2TokenRefreshToken",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TaxonomyTermIngredients",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TaxonomyTermRecipeCategory",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TaxonomyTermRecipeCuisine",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "TaxonomyTermTags",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "MenuLinkContentMenuLinkContent",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "EntityCanonicalUrl",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "FieldUserUserPicture",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ExternalResponse",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "ExternalUrl",
+        "possibleTypes": null
+      },
+      {
+        "kind": "OBJECT",
+        "name": "DefaultInternalUrl",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Date",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "DateTime",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "DateTimeTz",
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Any",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "BlockContentDisplayModeId",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "MediaDisplayModeId",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "NodeDisplayModeId",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "TaxonomyTermDisplayModeId",
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "UserDisplayModeId",
+        "possibleTypes": null
+      }
+    ]
+  }
+}

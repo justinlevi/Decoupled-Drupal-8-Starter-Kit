@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPage Container Snapshots should render correctly 1`] = `
+<Login
+  dispatch={[Function]}
+  error=""
+  handleInputChange={[Function]}
+  handleLogin={[Function]}
+  isAuthenticated={false}
+  isLoggingIn={false}
+  password=""
+  username=""
+/>
+`;

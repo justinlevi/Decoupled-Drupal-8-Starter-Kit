@@ -12,17 +12,56 @@
         {
             "type": "vcs",
             "url": "https://github.com/justinlevi/graphql_signed_s3_upload.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/justinlevi/graphql-examples.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "https://github.com/lauriii/umami"
+        },
+        {
+            "type": "vcs",
+            "url":  "https://github.com/gareth-fivemile/demo_umami"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/drupal-graphql/graphql.git"
         }
     ],
     "require": {
-        "acquia/blt": "^9.0@alpha",
+        "acquia/blt": "^9.0.2",
         "drupal/consumers": "^1.0@beta",
-        "drupal/graphql": "^3.0@beta",
+        "drupal/graphql": "dev-8.x-3.x",
         "drupal/console": "~1.0",
+        "drupal/entity": "^1.0",
         "drupal/s3fs": "^3.0@alpha",
         "aws/aws-sdk-php": "^3.48",
         "drupal/admin_toolbar": "^1.22",
-        "drupal/graphql_signed_s3_upload": "*"
+        "drupal/graphql_signed_s3_upload": "*",
+        "drupal/graphql_examples": "dev-develop",
+        "drupal/simple_oauth": "3.x",
+        "drupal/core": "^8.5",
+        "drupal/demo_umami": "dev-master",
+        "drupal/devel": "^1.2",
+        "drupal/umami": "dev-dev",
+        "webflo/drupal-finder": "^1.0.0",
+        "webmozart/path-util": "^2.3",
+        "drupal/inline_entity_form": "^1.0@beta",
+        "drupal/entity_browser": "2.x-dev",
+        "drupal/media_entity_browser": "^2.0",
+        "drupal/ctools": "^3.0"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "rm -f .git/hooks/commit-msg",
+            "rm -f .git/hooks/pre-commit"
+        ],
+        "post-update-cmd": [
+            "rm -f .git/hooks/commit-msg",
+            "rm -f .git/hooks/pre-commit"
+        ]
     },
     "require-dev": {},
     "extra": {
@@ -62,10 +101,18 @@
                 "type:drupal-drush"
             ]
         },
+        "patches": {
+            "drupal/simple_oauth": {
+                "breaking 8.x.3.x issue": "https://www.drupal.org/files/issues/2941522--implement-revisionable-interface--11.patch"
+            },
+            "drupal/entity_browser": {
+                "Provide inline entity form FieldWidgetDisplay": "https://www.drupal.org/files/issues/2858438_6.patch"
+            }
+        },
         "merge-plugin": {
             "require": [
                 "vendor/acquia/blt/composer.required.json",
-                "vendor/acquia/blt/composer.suggested.json"
+                "composer.suggested.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,

@@ -1,1 +1,0 @@
-export { UploadComponent } from './UploadComponent';

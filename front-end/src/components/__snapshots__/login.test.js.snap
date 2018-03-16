@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login Snapshots should render correctly 1`] = `
+<div
+  className="signin-container"
+>
+  <div
+    className="text-center"
+  >
+    <form
+      className="form-signin"
+      onSubmit={[Function]}
+    >
+      <h1
+        className="h3 mb-3 font-weight-normal"
+      >
+        Please sign in
+      </h1>
+      <input
+        className="form-control username"
+        name="username"
+        onChange={[Function]}
+        placeholder="Username"
+        type="username"
+      />
+      <input
+        className="form-control password"
+        name="password"
+        onChange={[Function]}
+        placeholder="Password"
+        type="password"
+      />
+      <button
+        className="btn btn-lg btn-primary btn-block submit"
+        type="submit"
+      >
+        Sign in
+      </button>
+    </form>
+  </div>
+</div>
+`;

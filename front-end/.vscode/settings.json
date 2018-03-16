@@ -1,0 +1,4 @@
+{
+  // "jest.pathToJest": "node_modules/.bin/jest"
+  //"jest.pathToJest": "node_modules/jest/bin/jest.js"
+}

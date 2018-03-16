@@ -1,32 +1,28 @@
-uuid: 48b486f8-a0a4-47f6-8427-02088e1b6dd1
+uuid: 6def20e6-cbe5-484a-b4de-3fc02368f076
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.media.image.field_media_in_library
-    - field.field.media.image.image
+    - field.field.media.image.field_media_image
     - media.type.image
   module:
     - image
-_core:
-  default_config_hash: VLDxfMVPTkd2xvOjFMCh3kWmaOYnd03zggFXuUXQVEY
 id: media.image.default
 targetEntityType: media
 bundle: image
 mode: default
 content:
-  image:
-    type: image
+  field_media_image:
     weight: 0
     label: hidden
     settings:
       image_style: ''
       image_link: ''
     third_party_settings: {  }
+    type: image
     region: content
 hidden:
   created: true
-  field_media_in_library: true
   name: true
   thumbnail: true
   uid: true

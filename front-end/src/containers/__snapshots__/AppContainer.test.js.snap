@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppContainer Snapshots should render correctly 1`] = `
+<AppContainer
+  activeArticleNid={0}
+  articles={Array []}
+/>
+`;
