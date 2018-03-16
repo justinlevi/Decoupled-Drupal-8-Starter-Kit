@@ -5,9 +5,9 @@ import { reducer as articleReducer } from 'redux/article/reducers';
 import { routerReducer } from 'react-router-redux';
 
 export const combineAppReducers = combineReducers({
+  articleReducer,
   csrfReducer,
   authReducer,
-  articleReducer,
   routerReducer,
 });
 
