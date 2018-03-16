@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import { shallowToJson } from 'enzyme-to-json';
 
-import GalleryImages from './GalleryImages';
+import { GalleryImages } from './GalleryImages';
 
 const initalPropState = {
   images: [],
