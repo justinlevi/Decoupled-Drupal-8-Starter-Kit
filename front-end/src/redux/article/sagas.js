@@ -65,7 +65,7 @@ export function* deleteArticleSaga(action) {
   }
 }
 
-function* saveArticleUpdatesSaga(action) {
+export function* saveArticleUpdatesSaga(action) {
   const { payload } = action;
   yield put(tokensExpiredCheck());
   yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
