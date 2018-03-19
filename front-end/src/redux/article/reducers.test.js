@@ -9,6 +9,10 @@ describe('Reducer', () => {
     expect(reducer(undefined, {})).toEqual(initialState);
   });
 
+  it('Should console log the error when error is passed', () => {
+    expect(reducer(undefined, {error: "ERROR"})).toEqual(initialState);
+  });
+
   it('FETCH_ARTICLES, FETCH_ARTICLES_FAILURE action should return the correct state', () => {
     const expectedState = {
       ...initialState,
