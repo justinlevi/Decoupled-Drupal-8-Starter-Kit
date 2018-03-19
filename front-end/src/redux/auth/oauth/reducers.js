@@ -1,5 +1,5 @@
 import { types } from './actions';
-import { persistCredentials, unsetLocalStorageCredentials, getLocalCredentials, persistUsername } from './utilities';
+import { persistCredentials, unsetLocalStorageCredentials, persistUsername } from './utilities';
 
 export const initialState = {
   credentials: {
