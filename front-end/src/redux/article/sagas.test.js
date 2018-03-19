@@ -1,5 +1,6 @@
 import createSagaMiddleware from 'redux-saga';
 import configureMockStore from 'redux-mock-store';
+import { push } from 'react-router-redux';
 import * as sagas from './sagas';
 import * as actions from './actions';
 import * as oauthActions from '../auth/oauth/actions';
@@ -256,5 +257,23 @@ describe('the sagas', () => {
     })
 
   });//End of Save Article Updates Saga
+
+  it('Should execute selectArticleSaga and succeed',() => {
+
+    const action = {
+      payload: {
+        activeArticleNid: 13
+      }
+    }
+
+    const page = getArticleFromNid(storeState.articleReducer.articles,action.payload.activeArticleNid);
+    const saga = expectSaga(sagas.selectArticleSaga,action);
+
+    saga
+    .withState(storeState)
+    .put(push(`/edit/${action.payload.activeArticleNid}/${page.title.replace(/ /g, '-').toLowerCase()}`))
+    .run();
+
+  });
 
 });
