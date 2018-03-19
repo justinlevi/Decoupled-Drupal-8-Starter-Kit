@@ -46,7 +46,7 @@ export function* createArticleSaga(action) {
     const articles = existingArticles.concat([page]);
     yield put(createArticleSuccess({ articles, activeArticleNid: page.nid }));
   } catch (error) {
-    yield put(createArticleFailure(error));
+    yield put(createArticleFailure(`${error}`));
   }
 }
 
@@ -61,7 +61,7 @@ export function* deleteArticleSaga(action) {
     const articles = yield select(selectArticles);
     yield put(deleteArticleSuccess({ articles: removeArticleFromArticles(articles, page.nid) }));
   } catch (error) {
-    yield put(deleteArticleFailure(error));
+    yield put(deleteArticleFailure(`${error}`));
   }
 }
 
@@ -77,7 +77,7 @@ export function* saveArticleUpdatesSaga(action) {
     const articles = updateArticlesWithArticle(existingArticles, page);
     yield put(saveArticleUpdatesSuccess({ articles }));
   } catch (error) {
-    yield put(saveArticleUpdatesFailure(error));
+    yield put(saveArticleUpdatesFailure(`${error}`));
   }
 }
 
