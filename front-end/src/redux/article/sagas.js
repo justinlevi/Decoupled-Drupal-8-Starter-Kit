@@ -46,7 +46,7 @@ export function* createArticleSaga(action) {
     const articles = existingArticles.concat([page]);
     yield put(createArticleSuccess({ articles, activeArticleNid: page.nid }));
   } catch (error) {
-    yield put(createArticleFailure(error));
+    yield put(createArticleFailure(`${error}`));
   }
 }
 
@@ -61,7 +61,7 @@ export function* deleteArticleSaga(action) {
     const articles = yield select(selectArticles);
     yield put(deleteArticleSuccess({ articles: removeArticleFromArticles(articles, page.nid) }));
   } catch (error) {
-    yield put(deleteArticleFailure(error));
+    yield put(deleteArticleFailure(`${error}`));
   }
 }
 
@@ -73,20 +73,19 @@ export function* saveArticleUpdatesSaga(action) {
   try {
     const result = yield call(updateArticle, { ...payload });
     const { page } = result.data.updateArticle;
-    const existingArticles = yield select(state => state.articleReducer.articles);
+    const existingArticles = yield select(selectArticles);
     const articles = updateArticlesWithArticle(existingArticles, page);
     yield put(saveArticleUpdatesSuccess({ articles }));
   } catch (error) {
-    yield put(saveArticleUpdatesFailure(error));
+    yield put(saveArticleUpdatesFailure(`${error}`));
   }
 }
 
-function* selectArticleSaga(action) {
+export function* selectArticleSaga(action) {
   const { payload } = action;
   const { activeArticleNid } = payload;
-  const articles = yield select(state => state.articleReducer.articles);
+  const articles = yield select(selectArticles);
   const page = getArticleFromNid(articles, activeArticleNid);
-
   yield put(push(`/edit/${activeArticleNid}/${page.title.replace(/ /g, '-').toLowerCase()}`));
 }
 

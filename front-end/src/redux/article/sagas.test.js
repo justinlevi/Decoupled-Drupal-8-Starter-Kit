@@ -1,5 +1,6 @@
 import createSagaMiddleware from 'redux-saga';
 import configureMockStore from 'redux-mock-store';
+import { push } from 'react-router-redux';
 import * as sagas from './sagas';
 import * as actions from './actions';
 import * as oauthActions from '../auth/oauth/actions';
@@ -50,11 +51,39 @@ const storeState = {
   }
 };
 
+function runFailTest(dispatchActions,expectedActions){
+
+  const store = mockStore({});
+  sagaMiddleware.run(sagas.watchArticleActions); // has to be executed after the mockStore() call
+
+  store.subscribe(() => {
+    const storeActions = store.getActions();
+    let refreshCheck;
+
+    storeActions.forEach(function(item) {
+      if (item.type === 'TOKENS_EXPIRED_CHECK') {
+        refreshCheck = 'valid';
+      } else {
+        refreshCheck = 'invalid';
+      }
+    })
+
+    if (refreshCheck === 'valid') {
+      store.dispatch({type: oauthActions.TOKENS_EXPIRED_CHECK_VALID});
+    }
+
+    if (storeActions.length >= expectedActions.length) {
+      expect(storeActions.sort()).toEqual(expectedActions.sort());
+    }
+
+  });
+
+  store.dispatch(dispatchActions);
+}
+
 describe('the sagas', () => {
 
   it('should execute the fetchArticlesSaga action creator and fail the call to articlesByUser', () => {
-    const store = mockStore({});
-    sagaMiddleware.run(sagas.watchArticleActions); // has to be executed after the mockStore() call
 
     const expectedActions = [
       {
@@ -69,30 +98,67 @@ describe('the sagas', () => {
       }
     ];
 
-    store.subscribe(() => {
-      const storeActions = store.getActions();
-      let refreshCheck;
+    const dispatchActions = { type: actions.FETCH_ARTICLES }
 
-      storeActions.forEach(function(item) {
-        if (item.type === 'TOKENS_EXPIRED_CHECK') {
-          refreshCheck = 'valid';
-        } else {
-          refreshCheck = 'invalid';
-        }
-      })
-
-      if (refreshCheck === 'valid') {
-        store.dispatch({type: oauthActions.TOKENS_EXPIRED_CHECK_VALID});
-      }
-
-      if (storeActions.length >= expectedActions.length) {
-        expect(storeActions.sort()).toEqual(expectedActions.sort());
-      }
-
-    });
-
-    store.dispatch({type: actions.FETCH_ARTICLES});
+    runFailTest(dispatchActions,expectedActions)
   });//End of fetch articles fail check
+
+  it('should execute createArticleSaga and fail',() => {
+    const expectedActions = [
+      {
+        type: 'CREATE_ARTICLE'
+      }, {
+        type: 'TOKENS_EXPIRED_CHECK'
+      }, {
+        type: 'TOKENS_EXPIRED_CHECK_VALID'
+      }, {
+        error: 'Error: Network error: Network request failed',
+        type: 'CREATE_ARTICLE_FAILURE'
+      }
+    ];
+
+    const dispatchActions = { type: actions.CREATE_ARTICLE }
+
+    runFailTest(dispatchActions,expectedActions);
+  });//End of create articles fail check
+
+  it('should execute deleteArticleSaga and fail',() => {
+    const expectedActions = [
+      {
+        type: 'DELETE_ARTICLE'
+      }, {
+        type: 'TOKENS_EXPIRED_CHECK'
+      }, {
+        type: 'TOKENS_EXPIRED_CHECK_VALID'
+      }, {
+        error: 'Error: Network error: Network request failed',
+        type: 'DELETE_ARTICLE_FAILURE'
+      }
+    ];
+
+    const dispatchActions = { type: actions.DELETE_ARTICLE }
+
+    runFailTest(dispatchActions,expectedActions);
+  });//End of delete articles fail check
+
+  it('should execute saveArticleupdatesSaga and fail',() => {
+    const expectedActions = [
+      {
+        type: 'SAVE_ARTICLE_UPDATES'
+      }, {
+        type: 'TOKENS_EXPIRED_CHECK'
+      }, {
+        type: 'TOKENS_EXPIRED_CHECK_VALID'
+      }, {
+        error: 'Error: Network error: Network request failed',
+        type: 'SAVE_ARTICLE_UPDATES_FAILURE'
+      }
+    ];
+
+    const dispatchActions = { type: actions.SAVE_ARTICLE_UPDATES }
+
+    runFailTest(dispatchActions,expectedActions);
+  });//End of SAVE_ARTICLE_UPDATES articles fail check
 
 
   it('should execute the fetchArticlesSaga action creator and succeed', () => {
@@ -256,5 +322,23 @@ describe('the sagas', () => {
     })
 
   });//End of Save Article Updates Saga
+
+  it('Should execute selectArticleSaga and succeed',() => {
+
+    const action = {
+      payload: {
+        activeArticleNid: 13
+      }
+    }
+
+    const page = getArticleFromNid(storeState.articleReducer.articles,action.payload.activeArticleNid);
+    const saga = expectSaga(sagas.selectArticleSaga,action);
+
+    saga
+    .withState(storeState)
+    .put(push(`/edit/${action.payload.activeArticleNid}/${page.title.replace(/ /g, '-').toLowerCase()}`))
+    .run();
+
+  });
 
 });
