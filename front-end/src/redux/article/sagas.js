@@ -50,7 +50,7 @@ export function* createArticleSaga(action) {
   }
 }
 
-function* deleteArticleSaga(action) {
+export function* deleteArticleSaga(action) {
   const { payload } = action;
   yield put(tokensExpiredCheck());
   yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
@@ -58,7 +58,7 @@ function* deleteArticleSaga(action) {
   try {
     const result = yield call(deleteArticle, { ...payload });
     const { page } = result.data.deleteArticle;
-    const articles = yield select(state => state.articleReducer.articles);
+    const articles = yield select(selectArticles);
     yield put(deleteArticleSuccess({ articles: removeArticleFromArticles(articles, page.nid) }));
   } catch (error) {
     yield put(deleteArticleFailure(error));
