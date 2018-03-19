@@ -41,6 +41,8 @@ import {
 
 const sagaMiddleware = createSagaMiddleware();
 const mockStore = configureMockStore([sagaMiddleware]);
+const schema = buildClientSchema(introspectionResult);
+addMockFunctionsToSchema({schema});
 
 describe('the sagas', () => {
 
@@ -90,14 +92,11 @@ describe('the sagas', () => {
 
   it('should execute the fetchArticlesSaga action creator and succeed', () => {
 
-    const schema = buildClientSchema(introspectionResult);
-    addMockFunctionsToSchema({schema});
-
     const saga = expectSaga(sagas.fetchArticlesSaga);
 
     graphql(schema,print(ARTICLES_BY_USER_QUERY),null).then((result) => {
 
-      const images = articles.data.user.nodes.articles.map(node =>
+      const images = result.data.user.nodes.articles.map(node =>
         node.images = {
           ...node.images,
           entity: {
@@ -110,14 +109,14 @@ describe('the sagas', () => {
           mid: '',
         });
 
-        articles.data.user.nodes.articles[0].images = images;
-        articles.data.user.nodes.articles[1].images = images;
+        result.data.user.nodes.articles[0].images = images;
+        result.data.user.nodes.articles[1].images = images;
 
-        const testData = formatFetchArticlesResult(articles);
+        const testData = formatFetchArticlesResult(result);
 
         saga
         .provide([
-          [matchers.call.fn(articlesByUser), articles],
+          [matchers.call.fn(articlesByUser), result],
         ])
         .put({type: 'TOKENS_EXPIRED_CHECK'})
         .put(fetchArticlesSuccess({ articles: testData }))
@@ -129,31 +128,11 @@ describe('the sagas', () => {
 
   it('should execute the createArticleSaga and succeed', () => {
 
-    const schema = buildClientSchema(introspectionResult);
-    addMockFunctionsToSchema({schema});
-
-    const mockOutputCreateArticle = {
-      data:{
-        createArticle: {
-          page:{
-            author: {name:"admin"},
-            body: null,
-            images: [],
-            nid: 18,
-            title: "NULL",
-            uuid: 'c0ee6953-0398-4823-9bd8-1b1ef1896fc4'
-          }
-        }
-      }
-    }
-
     const payload = {
       payload:{
         title: "NULL"
       }
     }
-
-    const page = mockOutputCreateArticle.data.createArticle.page;
 
     const storeState = {
       articleReducer:{
@@ -167,14 +146,27 @@ describe('the sagas', () => {
       }
     };
 
-    updatedStoreState = articles.data.user.nodes.articles.concat([page]);
-
     const saga = expectSaga(sagas.createArticleSaga,payload);
 
     graphql(schema, print(createArticleMutation), null, null, { title: 'Hello Everybody' }).then((result) => {
+
+        result.data.createArticle.page = {
+          author: {
+            name:"admin"
+          },
+          body: null,
+          images: [],
+          nid: 18,
+          title: "NULL",
+          uuid: 'c0ee6953-0398-4823-9bd8-1b1ef1896fc4'
+        };
+
+        const page = result.data.createArticle.page;
+        updatedStoreState = articles.data.user.nodes.articles.concat([page]);
+
         saga
         .provide([
-          [matchers.call.fn(createArticle), mockOutputCreateArticle],
+          [matchers.call.fn(createArticle), result],
         ])
         .withState(storeState)
         .put({type: 'TOKENS_EXPIRED_CHECK'})

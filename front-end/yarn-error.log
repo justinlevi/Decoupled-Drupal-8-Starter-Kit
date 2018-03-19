@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn test
+  /usr/local/bin/node /usr/local/bin/yarn test --watch
 
 PATH: 
   /usr/local/Cellar/php71/7.1.13_24/bin:/Users/khang/.rvm/gems/ruby-2.4.0/bin:/Users/khang/.rvm/gems/ruby-2.4.0@global/bin:/Users/khang/.rvm/rubies/ruby-2.4.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Users/khang/Drush/drush:/Users/khang/.rvm/bin:/drupal/programs/tools:/drupal/programs/tools
@@ -8800,7 +8800,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c NODE_PATH=src react-scripts test --env=jsdom
+  Arguments: -c NODE_PATH=src react-scripts test --env=jsdom --watch
   Directory: /Users/khang/Desktop/decoupled-drupal/Decoupled-Drupal-8-Starter-Kit/front-end
   Output:
   
