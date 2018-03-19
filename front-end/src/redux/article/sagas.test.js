@@ -25,7 +25,7 @@ import * as data from '../../api/__mocks__/data';
 
 const articles = data.ARTICLES_BY_USER_DATA;
 
-import { articlesByUser,createArticle,selectArticles } from '../../api/apolloProxy';
+import { articlesByUser,createArticle,selectArticles,deleteArticle } from '../../api/apolloProxy';
 import { formatFetchArticlesResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
 import {
   types as articleActionTypes,
@@ -43,6 +43,12 @@ const sagaMiddleware = createSagaMiddleware();
 const mockStore = configureMockStore([sagaMiddleware]);
 const schema = buildClientSchema(introspectionResult);
 addMockFunctionsToSchema({schema});
+
+const storeState = {
+  articleReducer:{
+    ...articles.data.user.nodes
+  }
+};
 
 describe('the sagas', () => {
 
@@ -86,8 +92,7 @@ describe('the sagas', () => {
     });
 
     store.dispatch({type: actions.FETCH_ARTICLES});
-  });
-
+  });//End of fetch articles fail check
 
 
   it('should execute the fetchArticlesSaga action creator and succeed', () => {
@@ -124,7 +129,7 @@ describe('the sagas', () => {
         .run()
       });
 
-  });
+  });//End of fetch articles saga action
 
   it('should execute the createArticleSaga and succeed', () => {
 
@@ -133,12 +138,6 @@ describe('the sagas', () => {
         title: "NULL"
       }
     }
-
-    const storeState = {
-      articleReducer:{
-        ...articles.data.user.nodes
-      }
-    };
 
     let updatedStoreState = {
       articleReducer:{
@@ -174,6 +173,45 @@ describe('the sagas', () => {
         .dispatch({type: oauthActions.TOKENS_EXPIRED_CHECK_VALID})
         .run()
       });
+
+  });//End of Create Article Test
+
+  it('Should execute deleteArticleSaga and succeed',() => {
+
+    const payload = {
+      payload:{
+        id: 13
+      }
+    }
+
+    const saga = expectSaga(sagas.deleteArticleSaga,payload);
+
+    graphql(schema, print(deleteArticleMutation), null, null, { id: 1 }).then((result) => {
+
+      result.data.deleteArticle.page = {
+        author: { name: 'admin' },
+        title: 'hello article update',
+        body: null,
+        nid: 13,
+        uuid: '79502776-61f8-4c48-b464-d94eebe0e01b',
+        images: []
+      };
+
+      const page = result.data.deleteArticle.page;
+      const testData = removeArticleFromArticles(storeState.articleReducer.articles, page.nid);
+
+      saga
+      .provide([
+        [matchers.call.fn(deleteArticle), result],
+      ])
+      .withState(storeState)
+      .put({type: 'TOKENS_EXPIRED_CHECK'})
+      .put(deleteArticleSuccess({ articles: testData }))
+      .dispatch({type: oauthActions.TOKENS_EXPIRED_CHECK_VALID})
+      .run()
+
+    })
+
 
   });
 
