@@ -24,16 +24,12 @@
         {
             "type": "vcs",
             "url":  "https://github.com/gareth-fivemile/demo_umami"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/drupal-graphql/graphql.git"
         }
     ],
     "require": {
         "acquia/blt": "^9.0.2",
         "drupal/consumers": "^1.0@beta",
-        "drupal/graphql": "dev-8.x-3.x",
+        "drupal/graphql": "dev-3.x",
         "drupal/console": "~1.0",
         "drupal/entity": "^1.0",
         "drupal/s3fs": "^3.0@alpha",

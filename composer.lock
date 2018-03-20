@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7833309339b50baae549f735bafc9e43",
+    "content-hash": "122d3fcae8ae387f4e6ef5619ec5eb1d",
     "packages": [
         {
             "name": "acquia/blt",
@@ -3019,9 +3019,10 @@
         },
         {
             "name": "drupal/graphql",
-            "version": "dev-8.x-3.x",
+            "version": "dev-3.x",
             "source": {
                 "type": "git",
+<<<<<<< HEAD
                 "url": "https://github.com/drupal-graphql/graphql.git",
                 "reference": "1b1eb9d3712d75e688f492fa48203c56ec201158"
             },
@@ -3030,21 +3031,53 @@
                 "url": "https://api.github.com/repos/drupal-graphql/graphql/zipball/1b1eb9d3712d75e688f492fa48203c56ec201158",
                 "reference": "1b1eb9d3712d75e688f492fa48203c56ec201158",
                 "shasum": ""
+=======
+                "url": "https://git.drupal.org/project/graphql",
+                "reference": "8b362e0a680a54e4aea0fc6e755fa3fb2843c394"
+>>>>>>> a1040362662c3777123ffab5f3d67a62b200bcb9
             },
             "require": {
+                "drupal/core": "~8.0",
                 "webonyx/graphql-php": "^0.11.5"
             },
             "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-3.x": "3.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-3.0-beta6+0-dev",
+                    "datestamp": "1521475984",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Dev releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
             "license": [
                 "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "fubhy",
+                    "homepage": "https://www.drupal.org/user/761344"
+                },
+                {
+                    "name": "pmelab",
+                    "homepage": "https://www.drupal.org/user/555322"
+                }
             ],
             "description": "Exposes your Drupal data model through a GraphQL schema.",
             "homepage": "http://drupal.org/project/graphql",
             "support": {
-                "source": "https://github.com/drupal-graphql/graphql/tree/8.x-3.x",
-                "issues": "https://github.com/drupal-graphql/graphql/issues"
+                "source": "http://cgit.drupalcode.org/graphql"
             },
+<<<<<<< HEAD
             "time": "2018-03-20T16:35:44+00:00"
+=======
+            "time": "2018-03-19T16:04:14+00:00"
+>>>>>>> a1040362662c3777123ffab5f3d67a62b200bcb9
         },
         {
             "name": "drupal/graphql_examples",
