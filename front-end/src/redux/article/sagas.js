@@ -10,6 +10,8 @@ import {
   // createArticle,
   // deleteArticle,
   // saveArticleUpdates,
+  fetchAllArticlesSuccess,
+  fetchAllArticlesFailure,
   fetchArticlesSuccess,
   fetchArticlesFailure,
   createArticleSuccess,
@@ -42,9 +44,11 @@ export function* fetchAllArticlesSaga(){
 
       return item;
     });
-    console.log(articles);
-  }catch(error){
 
+    yield put(fetchAllArticlesSuccess(articles));
+
+  }catch(error){
+    yield put(fetchAllArticlesFailure(`${error}`))
   }
 }
 

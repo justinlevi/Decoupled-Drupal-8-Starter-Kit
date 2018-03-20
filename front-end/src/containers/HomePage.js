@@ -12,7 +12,6 @@ export class HomeArticle extends Component {
   */
   constructor(props) {
     super(props);
-
     props.dispatch(fetchAllArticles());
   }
 
@@ -26,10 +25,12 @@ export class HomeArticle extends Component {
 
 HomeArticle.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  allArticles: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = state => ({
   isAuthenticated: state.authReducer.isAuthenticated,
+  allArticles: state.articleReducer.allArticles
 });
 
 export default connect(mapStateToProps)(HomeArticle);

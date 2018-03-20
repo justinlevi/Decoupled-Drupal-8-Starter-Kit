@@ -14,8 +14,7 @@ export const reducer = (state = initialState, { type, payload, error }) => {
      */
      case types.FETCH_ALL_ARTICLES: return {...state};
      case types.FETCH_ALL_ARTICLES_SUCCESS: {
-       const {articles} = payload;
-       return {...state,allArticles: articles}
+       return {...state, allArticles: payload}
      }
      case types.FETCH_ALL_ARTICLES_FAILURE: return { ...state };
 

@@ -70,7 +70,14 @@ export const Navbar = ({ dispatch, isAuthenticated }) => (
             Logout
             </NavLink>
           </NavItem>
-        : null
+        :   <NavItem>
+            <NavLink
+              onClick={() => { dispatch(push('/login')); }}
+              className="logout btn btn-sm btn-outline-secondary d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3"
+            >
+            Login
+            </NavLink>
+          </NavItem>
       }
     </ul>
   </header>
