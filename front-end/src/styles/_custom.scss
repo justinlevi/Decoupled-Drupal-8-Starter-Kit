@@ -2,6 +2,16 @@
   width: 100%;
 }
 
+.tiles-wrapper{
+  margin: 0 auto;
+  justify-content: center;
+  .card{
+    width: 18rem;
+    margin: 1rem;
+    padding: 0;
+  }
+}
+
 .nav-link {
   cursor: pointer;
 }
@@ -103,7 +113,7 @@
 .fade-exit.fade-exit-active {
   opacity: 0.01;
   transition: opacity 200ms ease-in;
-  
+
 }
 
 

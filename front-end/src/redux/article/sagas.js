@@ -25,8 +25,6 @@ import {
 export const selectArticles = (state) => state.articleReducer.articles;
 
 export function* fetchAllArticlesSaga(){
-  yield put(tokensExpiredCheck());
-  yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
   try{
     const result = yield call(fetchAllArticlesQuery);

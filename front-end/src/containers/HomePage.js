@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchAllArticles } from '../redux/article/actions';
+import Tile from '../components/Tile';
 
 export class HomeArticle extends Component {
 
@@ -17,7 +17,9 @@ export class HomeArticle extends Component {
 
   render(){
     return(
-      <div>TEST</div>
+      <div>
+        <Tile articles={this.props.allArticles}/>
+      </div>
     )
   }
 
