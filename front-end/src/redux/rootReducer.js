@@ -12,7 +12,7 @@ export const combineAppReducers = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  console.log(action.type);
+  // console.log(action.type);
   if (action.type === 'LOGOUT') {
     return combineAppReducers(undefined, action);
   }

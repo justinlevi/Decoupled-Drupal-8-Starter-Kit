@@ -6,7 +6,7 @@ export const initialState = {
 };
 
 export const reducer = (state = initialState, { type, payload, error }) => {
-  if (error) { console.log(error); }
+  // if (error) { console.log(error); }
   switch (type) {
     /**
      * FETCH FETCH_ARTICLES
