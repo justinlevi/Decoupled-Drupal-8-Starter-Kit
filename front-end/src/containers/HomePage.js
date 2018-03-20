@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { fetchAllArticles } from '../redux/article/actions';
+import Tile from '../components/Tile';
 
-export const HomeArticle = ({ isAuthenticated }) => (
-  isAuthenticated ?
-    (<Redirect to="/list" />) :
-    (<Redirect to="/login" />)
-);
+export class HomeArticle extends Component {
+
+  /**
+  * LIFECYCLE
+  * ----------
+  */
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchAllArticles());
+  }
+
+  render(){
+    return(
+      <div>
+        <Tile articles={this.props.allArticles}/>
+      </div>
+    )
+  }
+
+}
 
 HomeArticle.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+  allArticles: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
-export default HomeArticle;
+const mapStateToProps = state => ({
+  allArticles: state.articleReducer.allArticles
+});
+
+export default connect(mapStateToProps)(HomeArticle);

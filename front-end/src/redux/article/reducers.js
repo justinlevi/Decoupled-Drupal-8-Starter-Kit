@@ -3,11 +3,21 @@ import { types } from './actions';
 export const initialState = {
   articles: [],
   activeArticleNid: 0,
+  allArticles: []
 };
 
 export const reducer = (state = initialState, { type, payload, error }) => {
   // if (error) { console.log(error); }
   switch (type) {
+    /**
+     * FETCH ALL ARTICLES
+     */
+     case types.FETCH_ALL_ARTICLES: return {...state};
+     case types.FETCH_ALL_ARTICLES_SUCCESS: {
+       return {...state, allArticles: payload}
+     }
+     case types.FETCH_ALL_ARTICLES_FAILURE: return { ...state };
+
     /**
      * FETCH FETCH_ARTICLES
      */
