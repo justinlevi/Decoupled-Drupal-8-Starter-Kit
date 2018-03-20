@@ -36,6 +36,34 @@ const fragments = {
   `,
 };
 
+export const fetchAllArticlesQuery = () => apolloClient.query({
+  query: FETCH_ALL_ARTICLES
+})
+
+export const FETCH_ALL_ARTICLES = gql`
+  query {
+    nodeQuery(filter: {conditions: [{operator: EQUAL, field: "type", value: ["article"]}]}) {
+      entities {
+        entityLabel
+        ... on NodeArticle {
+          fieldMediaImage {
+            ... on FieldNodeFieldMediaImage {
+              entity {
+                ... on MediaImage {
+                  image: fieldMediaImage {
+                    derivative(style: MEDIUM) {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
 
 export const CURRENT_USER_QUERY = gql`
   query{

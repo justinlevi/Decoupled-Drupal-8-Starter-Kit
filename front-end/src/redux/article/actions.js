@@ -2,6 +2,10 @@
 // Actions
 // ---------------
 
+export const FETCH_ALL_ARTICLES = 'FETCH_ALL_ARTICLES';
+export const FETCH_ALL_ARTICLES_SUCCESS = 'FETCH_ALL_ARTICLES_SUCCESS';
+export const FETCH_ALL_ARTICLES_FAILURE = 'FETCH_ALL_ARTICLES_FAILURE';
+
 export const FETCH_ARTICLES = 'FETCH_ARTICLES';
 export const FETCH_ARTICLES_SUCCESS = 'FETCH_ARTICLES_SUCCESS';
 export const FETCH_ARTICLES_FAILURE = 'FETCH_ARTICLES_FAILURE';
@@ -21,6 +25,9 @@ export const SAVE_ARTICLE_UPDATES_FAILURE = 'SAVE_ARTICLE_UPDATES_FAILURE';
 export const SELECT_ARTICLE = 'SELECT_ARTICLE';
 
 export const types = {
+  FETCH_ALL_ARTICLES,
+  FETCH_ALL_ARTICLES_SUCCESS,
+  FETCH_ALL_ARTICLES_FAILURE,
   FETCH_ARTICLES,
   FETCH_ARTICLES_SUCCESS,
   FETCH_ARTICLES_FAILURE,
@@ -39,6 +46,20 @@ export const types = {
 // ---------------
 // Action Creators
 // ---------------
+
+export const fetchAllArticles = () => ({
+  type: types.FETCH_ALL_ARTICLES,
+});
+
+export const fetchAllArticlesSuccess = payload => ({
+  type: types.FETCH_ALL_ARTICLES_SUCCESS,
+  payload,
+});
+
+export const fetchAllArticlesFailure = error => ({
+  type: types.FETCH_ALL_ARTICLES_FAILURE,
+  error,
+});
 
 export const fetchArticles = () => ({
   type: types.FETCH_ARTICLES,
