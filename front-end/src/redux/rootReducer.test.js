@@ -45,7 +45,7 @@ describe('Root Reducer Smoke Test', () => {
     let action = { type: 'LOGOUT' };
     store.dispatch(action);
     const expected = {
-      articleReducer: { activeArticleNid: 0, articles: [] },
+      articleReducer: { activeArticleNid: 0, articles: [], allArticles: [] },
       authReducer: {
         credentials: {
           accessToken: null, expiration: null, refreshToken: null, timestamp: null, username: null,
