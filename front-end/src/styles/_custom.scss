@@ -5,6 +5,9 @@
 .tiles-wrapper{
   margin: 0 auto;
   justify-content: center;
+  .card-img-top{
+    height: 175px;
+  }
   .card{
     width: 18rem;
     margin: 1rem;

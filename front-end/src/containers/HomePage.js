@@ -6,13 +6,14 @@ import Tile from '../components/Tile';
 
 export class HomeArticle extends Component {
 
-  /*
-  * Constructor
-  * ----------------------
+  /**
+  * LIFECYCLE
+  * ----------
   */
-  constructor(props) {
-    super(props);
-    props.dispatch(fetchAllArticles());
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(fetchAllArticles());
   }
 
   render(){
@@ -26,12 +27,10 @@ export class HomeArticle extends Component {
 }
 
 HomeArticle.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
   allArticles: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.authReducer.isAuthenticated,
   allArticles: state.articleReducer.allArticles
 });
 
