@@ -3022,19 +3022,8 @@
             "version": "dev-3.x",
             "source": {
                 "type": "git",
-<<<<<<< HEAD
-                "url": "https://github.com/drupal-graphql/graphql.git",
-                "reference": "1b1eb9d3712d75e688f492fa48203c56ec201158"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/drupal-graphql/graphql/zipball/1b1eb9d3712d75e688f492fa48203c56ec201158",
-                "reference": "1b1eb9d3712d75e688f492fa48203c56ec201158",
-                "shasum": ""
-=======
                 "url": "https://git.drupal.org/project/graphql",
                 "reference": "8b362e0a680a54e4aea0fc6e755fa3fb2843c394"
->>>>>>> a1040362662c3777123ffab5f3d67a62b200bcb9
             },
             "require": {
                 "drupal/core": "~8.0",
@@ -3073,11 +3062,7 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/graphql"
             },
-<<<<<<< HEAD
-            "time": "2018-03-20T16:35:44+00:00"
-=======
             "time": "2018-03-19T16:04:14+00:00"
->>>>>>> a1040362662c3777123ffab5f3d67a62b200bcb9
         },
         {
             "name": "drupal/graphql_examples",
