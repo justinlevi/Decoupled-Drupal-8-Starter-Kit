@@ -42,7 +42,17 @@ export const fetchAllArticlesQuery = () => apolloClient.query({
 
 export const FETCH_ALL_ARTICLES = gql`
   query {
-    nodeQuery(filter: {conditions: [{operator: EQUAL, field: "type", value: ["article"]}]}) {
+    nodeQuery(filter: {conditions: [
+      {
+        operator: EQUAL,
+        field: "type",
+        value: ["article"]
+      }
+    ]},limit: 3,sort: [
+      {
+        field: "changed",
+      }
+    ]) {
       entities {
         entityLabel
         ... on NodeArticle {
