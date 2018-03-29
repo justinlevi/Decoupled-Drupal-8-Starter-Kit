@@ -10,13 +10,13 @@ export const reducer = (state = initialState, { type, payload, error }) => {
   // if (error) { console.log(error); }
   switch (type) {
     /**
-     * FETCH ALL ARTICLES
+     * FETCH FRONT PAGE ARTICLES
      */
-     case types.FETCH_ALL_ARTICLES: return {...state};
-     case types.FETCH_ALL_ARTICLES_SUCCESS: {
+     case types.FETCH_HOME_PAGE_ARTICLES: return {...state};
+     case types.FETCH_HOME_PAGE_ARTICLES_SUCCESS: {
        return {...state, allArticles: payload}
      }
-     case types.FETCH_ALL_ARTICLES_FAILURE: return { ...state };
+     case types.FETCH_HOME_PAGE_ARTICLES_FAILURE: return { ...state };
 
     /**
      * FETCH FETCH_ARTICLES
