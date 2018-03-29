@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchAllArticles } from '../redux/article/actions';
+import { fetchHomePageArticles } from '../redux/article/actions';
 import Tile from '../components/Tile';
 
 export class HomeArticle extends Component {
@@ -13,7 +13,7 @@ export class HomeArticle extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchAllArticles());
+    dispatch(fetchHomePageArticles());
   }
 
   render(){

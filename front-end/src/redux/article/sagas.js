@@ -10,8 +10,8 @@ import {
   // createArticle,
   // deleteArticle,
   // saveArticleUpdates,
-  fetchAllArticlesSuccess,
-  fetchAllArticlesFailure,
+  fetchHomePageArticlesSuccess,
+  fetchHomePageArticlesFailure,
   fetchArticlesSuccess,
   fetchArticlesFailure,
   createArticleSuccess,
@@ -24,7 +24,7 @@ import {
 
 export const selectArticles = (state) => state.articleReducer.articles;
 
-export function* fetchAllArticlesSaga(){
+export function* fetchHomePageArticlesSaga(){
 
   try{
     const result = yield call(fetchFrontPageArticlesQuery);
@@ -43,10 +43,10 @@ export function* fetchAllArticlesSaga(){
       return item;
     });
 
-    yield put(fetchAllArticlesSuccess(articles));
+    yield put(fetchHomePageArticlesSuccess(articles));
 
   }catch(error){
-    yield put(fetchAllArticlesFailure(`${error}`))
+    yield put(fetchHomePageArticlesFailure(`${error}`))
   }
 }
 
@@ -120,7 +120,7 @@ export function* selectArticleSaga(action) {
 export function* watchArticleActions() {
 
   yield takeEvery(articleActionTypes.FETCH_ARTICLES, fetchArticlesSaga);
-  yield takeEvery(articleActionTypes.FETCH_ALL_ARTICLES,fetchAllArticlesSaga);
+  yield takeEvery(articleActionTypes.FETCH_HOME_PAGE_ARTICLES,fetchHomePageArticlesSaga);
 
   yield takeLatest(articleActionTypes.CREATE_ARTICLE, createArticleSaga);
   yield takeEvery(articleActionTypes.DELETE_ARTICLE, deleteArticleSaga);
