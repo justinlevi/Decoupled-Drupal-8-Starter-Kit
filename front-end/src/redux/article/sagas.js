@@ -2,7 +2,7 @@ import { call, take, put, takeLatest, takeEvery, select } from 'redux-saga/effec
 import { push } from 'react-router-redux';
 
 import { types as oauthActionTypes, tokensExpiredCheck } from '../auth/oauth/actions';
-import { articlesByUser, createArticle, deleteArticle, updateArticle, fetchAllArticlesQuery } from '../../api/apolloProxy';
+import { articlesByUser, createArticle, deleteArticle, updateArticle, fetchFrontPageArticlesQuery } from '../../api/apolloProxy';
 import { formatFetchArticlesResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
 
 import {
@@ -27,7 +27,7 @@ export const selectArticles = (state) => state.articleReducer.articles;
 export function* fetchAllArticlesSaga(){
 
   try{
-    const result = yield call(fetchAllArticlesQuery);
+    const result = yield call(fetchFrontPageArticlesQuery);
     const articles = result.data.nodeQuery.entities.map(val => {
 
       let image = '';
