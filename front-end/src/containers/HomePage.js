@@ -4,7 +4,7 @@ import Tile from '../components/Tile';
 import {FETCH_FRONT_PAGE_ARTICLES} from '../api/apolloProxy';
 import { Query } from "react-apollo";
 
-const formatedData = (data) => data.nodeQuery.entities.map(val => {
+const formatData = (data) => data.nodeQuery.entities.map(val => {
 
   let image = '';
   let item = {
@@ -22,11 +22,6 @@ const formatedData = (data) => data.nodeQuery.entities.map(val => {
 
 export class HomeArticle extends Component {
 
-  /**
-  * LIFECYCLE
-  * ----------
-  */
-
   render(){
     return(
       <div>
@@ -38,7 +33,7 @@ export class HomeArticle extends Component {
            if (error) return `Error!: ${error}`;
 
            return (
-             <Tile articles={formatedData(data)}/>
+             <Tile articles={formatData(data)}/>
            );
          }}
        </Query>
