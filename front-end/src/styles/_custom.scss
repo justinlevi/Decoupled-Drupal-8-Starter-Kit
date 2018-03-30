@@ -9,7 +9,6 @@
     height: 175px;
   }
   .card{
-    width: 18rem;
     margin: 1rem;
     padding: 0;
   }
@@ -66,6 +65,10 @@
       outline: none;
     }
   }
+}
+
+.navbar{
+  border-bottom: 1px solid lightgray;
 }
 
 .bd-navbar .navbar-nav-svg {

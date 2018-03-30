@@ -2,7 +2,7 @@ import { call, take, put, takeLatest, takeEvery, select } from 'redux-saga/effec
 import { push } from 'react-router-redux';
 
 import { types as oauthActionTypes, tokensExpiredCheck } from '../auth/oauth/actions';
-import { articlesByUser, createArticle, deleteArticle, updateArticle, fetchAllArticlesQuery } from '../../api/apolloProxy';
+import { articlesByUser, createArticle, deleteArticle, updateArticle } from '../../api/apolloProxy';
 import { formatFetchArticlesResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
 
 import {
@@ -10,8 +10,6 @@ import {
   // createArticle,
   // deleteArticle,
   // saveArticleUpdates,
-  fetchAllArticlesSuccess,
-  fetchAllArticlesFailure,
   fetchArticlesSuccess,
   fetchArticlesFailure,
   createArticleSuccess,
@@ -23,32 +21,6 @@ import {
 } from './actions';
 
 export const selectArticles = (state) => state.articleReducer.articles;
-
-export function* fetchAllArticlesSaga(){
-
-  try{
-    const result = yield call(fetchAllArticlesQuery);
-    const articles = result.data.nodeQuery.entities.map(val => {
-
-      let image = '';
-      let item = {
-        label: val.entityLabel
-      }
-
-      if(val.fieldMediaImage.length){
-        image = val.fieldMediaImage[0].entity.image.derivative.url
-        item.image = image;
-      }
-
-      return item;
-    });
-
-    yield put(fetchAllArticlesSuccess(articles));
-
-  }catch(error){
-    yield put(fetchAllArticlesFailure(`${error}`))
-  }
-}
 
 export function* fetchArticlesSaga() {
   yield put(tokensExpiredCheck());
@@ -120,7 +92,6 @@ export function* selectArticleSaga(action) {
 export function* watchArticleActions() {
 
   yield takeEvery(articleActionTypes.FETCH_ARTICLES, fetchArticlesSaga);
-  yield takeEvery(articleActionTypes.FETCH_ALL_ARTICLES,fetchAllArticlesSaga);
 
   yield takeLatest(articleActionTypes.CREATE_ARTICLE, createArticleSaga);
   yield takeEvery(articleActionTypes.DELETE_ARTICLE, deleteArticleSaga);

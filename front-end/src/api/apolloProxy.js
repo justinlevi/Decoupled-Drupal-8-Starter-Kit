@@ -36,13 +36,23 @@ const fragments = {
   `,
 };
 
-export const fetchAllArticlesQuery = () => apolloClient.query({
-  query: FETCH_ALL_ARTICLES
+export const fetchFrontPageArticlesQuery = () => apolloClient.query({
+  query: FETCH_FRONT_PAGE_ARTICLES,
 })
 
-export const FETCH_ALL_ARTICLES = gql`
+export const FETCH_FRONT_PAGE_ARTICLES = gql`
   query {
-    nodeQuery(filter: {conditions: [{operator: EQUAL, field: "type", value: ["article"]}]}) {
+    nodeQuery(filter: {conditions: [
+      {
+        operator: EQUAL,
+        field: "type",
+        value: ["article"]
+      }
+    ]},limit: 3,sort: [
+      {
+        field: "changed",
+      }
+    ]) {
       entities {
         entityLabel
         ... on NodeArticle {
