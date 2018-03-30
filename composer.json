@@ -24,10 +24,6 @@
         {
             "type": "vcs",
             "url":  "https://github.com/gareth-fivemile/demo_umami"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/justinlevi/json_web_token.git"
         }
     ],
     "require": {
@@ -40,7 +36,6 @@
         "aws/aws-sdk-php": "^3.48",
         "drupal/admin_toolbar": "^1.22",
         "drupal/graphql_signed_s3_upload": "*",
-        "drupal/json_web_token":"*",
         "drupal/jwt": "^1.0",
         "drupal/graphql_examples": "dev-develop",
         "drupal/simple_oauth": "3.x",

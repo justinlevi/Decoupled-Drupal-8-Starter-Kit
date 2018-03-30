@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b9caf47ce10d40d34a9343a33384735b",
+    "content-hash": "dfea476efcf4bb27149ea6995a8880e3",
     "packages": [
         {
             "name": "acquia/blt",
@@ -3192,39 +3192,6 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/inline_entity_form"
             }
-        },
-        {
-            "name": "drupal/json_web_token",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/justinlevi/json_web_token.git",
-                "reference": "master"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/justinlevi/json_web_token/zipball/master",
-                "reference": "master",
-                "shasum": ""
-            },
-            "type": "drupal-module",
-            "autoload-dev": {
-                "psr-4": {
-                    "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
-                }
-            },
-            "license": [
-                "None"
-            ],
-            "description": "Provides a Rest json authentication endpoint that returns a jwt.",
-            "homepage": "https://github.com/justinlevi/json_web_token",
-            "keywords": [
-                "Drupal"
-            ],
-            "support": {
-                "source": "https://github.com/justinlevi/json_web_token/tree/master"
-            },
-            "time": "2017-10-06T15:22:29+00:00"
         },
         {
             "name": "drupal/jwt",
