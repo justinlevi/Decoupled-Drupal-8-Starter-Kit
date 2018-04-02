@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfea476efcf4bb27149ea6995a8880e3",
+    "content-hash": "8fc2a021cea58a86aab83f7a0a872c35",
     "packages": [
         {
             "name": "acquia/blt",
@@ -277,16 +277,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.52.36",
+            "version": "3.53.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f1d453c2c090ef7a8d4887c7d121bdd0cb7b7613"
+                "reference": "225593974bb6f6b1c13ddf946d3736d3e39119e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f1d453c2c090ef7a8d4887c7d121bdd0cb7b7613",
-                "reference": "f1d453c2c090ef7a8d4887c7d121bdd0cb7b7613",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/225593974bb6f6b1c13ddf946d3736d3e39119e5",
+                "reference": "225593974bb6f6b1c13ddf946d3736d3e39119e5",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +353,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-03-29T22:20:51+00:00"
+            "time": "2018-03-30T20:22:38+00:00"
         },
         {
             "name": "chi-teck/drupal-code-generator",
@@ -3093,6 +3093,37 @@
             "time": "2018-03-21T19:24:21+00:00"
         },
         {
+            "name": "drupal/graphql_jwt_login",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/justinlevi/drupal-graphql-jwt-login.git",
+                "reference": "efe6906028985974d3b3d08d2f94c35bd9a453d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/justinlevi/drupal-graphql-jwt-login/zipball/efe6906028985974d3b3d08d2f94c35bd9a453d2",
+                "reference": "efe6906028985974d3b3d08d2f94c35bd9a453d2",
+                "shasum": ""
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Justin Winter",
+                    "email": "justinlevi@gmail.com"
+                }
+            ],
+            "description": "Adds an GraphQL Query to generate JWT TOKENS based on user credentials.",
+            "support": {
+                "source": "https://github.com/justinlevi/drupal-graphql-jwt-login/tree/master",
+                "issues": "https://github.com/justinlevi/drupal-graphql-jwt-login/issues"
+            },
+            "time": "2018-03-30T17:46:06+00:00"
+        },
+        {
             "name": "drupal/graphql_signed_s3_upload",
             "version": "dev-master",
             "source": {
@@ -5772,16 +5803,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.17",
+            "version": "v0.8.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "5069b70e8c4ea492c2b5939b6eddc78bfe41cfec"
+                "reference": "5357b1cffc8fb375d6a9e3c86d5c82dd38a40834"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/5069b70e8c4ea492c2b5939b6eddc78bfe41cfec",
-                "reference": "5069b70e8c4ea492c2b5939b6eddc78bfe41cfec",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/5357b1cffc8fb375d6a9e3c86d5c82dd38a40834",
+                "reference": "5357b1cffc8fb375d6a9e3c86d5c82dd38a40834",
                 "shasum": ""
             },
             "require": {
@@ -5840,7 +5871,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-12-28T16:14:16+00:00"
+            "time": "2018-04-02T05:41:44+00:00"
         },
         {
             "name": "sarciszewski/php-future",
@@ -6387,24 +6418,24 @@
         },
         {
             "name": "stecman/symfony-console-completion",
-            "version": "0.7.0",
+            "version": "0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stecman/symfony-console-completion.git",
-                "reference": "5461d43e53092b3d3b9dbd9d999f2054730f4bbb"
+                "reference": "cd738867503477e91dbe84173dfabd431c883431"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stecman/symfony-console-completion/zipball/5461d43e53092b3d3b9dbd9d999f2054730f4bbb",
-                "reference": "5461d43e53092b3d3b9dbd9d999f2054730f4bbb",
+                "url": "https://api.github.com/repos/stecman/symfony-console-completion/zipball/cd738867503477e91dbe84173dfabd431c883431",
+                "reference": "cd738867503477e91dbe84173dfabd431c883431",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
-                "symfony/console": "~2.3 || ~3.0"
+                "symfony/console": "~2.3 || ~3.0 || ~4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.4"
+                "phpunit/phpunit": "~4.8.36 || ~5.7 || ~6.4"
             },
             "type": "library",
             "extra": {
@@ -6428,7 +6459,7 @@
                 }
             ],
             "description": "Automatic BASH completion for Symfony Console Component based applications.",
-            "time": "2016-02-24T05:08:54+00:00"
+            "time": "2018-02-10T04:28:01+00:00"
         },
         {
             "name": "symfony-cmf/routing",
@@ -10181,6 +10212,7 @@
         "drupal/consumers": 10,
         "drupal/graphql": 20,
         "drupal/s3fs": 15,
+        "drupal/graphql_jwt_login": 20,
         "drupal/graphql_examples": 20,
         "drupal/demo_umami": 20,
         "drupal/umami": 20,

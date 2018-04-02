@@ -12,7 +12,7 @@ import Home from '../containers/HomePage';
 import List from '../containers/ListPage';
 import Edit from '../containers/EditPage';
 
-import { logout } from '../redux/auth/oauth/actions';
+// import { logout } from '../redux/auth/oauth/actions';
 
 const ConnectedSwitch = connect(state => ({ location: state.routerReducer.location }))(Switch);
 
@@ -22,10 +22,10 @@ const mapStateToProps = state => ({
   error: state.authReducer.error,
 });
 
-const Logout = connect()(({ dispatch }) => {
-  dispatch(logout());
-  return <Redirect to="/" />;
-});
+const Logout = connect()(({ dispatch }) => 
+  // dispatch(logout());
+   <Redirect to="/" />
+);
 
 const Routes = () =>
   (

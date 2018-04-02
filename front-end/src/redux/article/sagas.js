@@ -1,7 +1,7 @@
 import { call, take, put, takeLatest, takeEvery, select } from 'redux-saga/effects';
 import { push } from 'react-router-redux';
 
-import { types as oauthActionTypes, tokensExpiredCheck } from '../auth/oauth/actions';
+// import { types as oauthActionTypes, tokensExpiredCheck } from '../auth/oauth/actions';
 import { articlesByUser, createArticle, deleteArticle, updateArticle } from '../../api/apolloProxy';
 import { formatFetchArticlesResult, removeArticleFromArticles, updateArticlesWithArticle, getArticleFromNid } from './utilities';
 
@@ -20,24 +20,24 @@ import {
   saveArticleUpdatesFailure,
 } from './actions';
 
-export const selectArticles = (state) => state.articleReducer.articles;
+export const selectArticles = state => state.articleReducer.articles;
 
 export function* fetchArticlesSaga() {
-  yield put(tokensExpiredCheck());
-  yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
+  // yield put(tokensExpiredCheck());
+  // yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
-  try{
+  try {
     const result = yield call(articlesByUser);
     yield put(fetchArticlesSuccess({ articles: formatFetchArticlesResult(result) }));
-  }catch(error){
-    yield put(fetchArticlesFailure(`${error}`))
+  }catch (error) {
+    yield put(fetchArticlesFailure(`${error}`));
   }
 }
 
 export function* createArticleSaga(action) {
   const { payload } = action;
-  yield put(tokensExpiredCheck());
-  yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
+  // yield put(tokensExpiredCheck());
+  // yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
     const result = yield call(createArticle, { ...payload });
@@ -52,8 +52,8 @@ export function* createArticleSaga(action) {
 
 export function* deleteArticleSaga(action) {
   const { payload } = action;
-  yield put(tokensExpiredCheck());
-  yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
+  // yield put(tokensExpiredCheck());
+  // yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
     const result = yield call(deleteArticle, { ...payload });
@@ -67,8 +67,8 @@ export function* deleteArticleSaga(action) {
 
 export function* saveArticleUpdatesSaga(action) {
   const { payload } = action;
-  yield put(tokensExpiredCheck());
-  yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
+  // yield put(tokensExpiredCheck());
+  // yield take(oauthActionTypes.TOKENS_EXPIRED_CHECK_VALID);
 
   try {
     const result = yield call(updateArticle, { ...payload });
@@ -90,7 +90,6 @@ export function* selectArticleSaga(action) {
 }
 
 export function* watchArticleActions() {
-
   yield takeEvery(articleActionTypes.FETCH_ARTICLES, fetchArticlesSaga);
 
   yield takeLatest(articleActionTypes.CREATE_ARTICLE, createArticleSaga);

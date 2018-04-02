@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Routes from 'routes';
+import { connect } from 'react-redux';
+
+import Routes from '../routes';
+import { authErrors, isAuthenticated } from '../redux/rootReducer';
 
 import Nav from './Navbar';
 
@@ -40,8 +43,8 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  isLoggingIn: PropTypes.bool.isRequired,
+  // isLoading: PropTypes.bool.isRequired,
+  // isLoggingIn: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 };
 
@@ -49,4 +52,9 @@ App.defaultProps = {
   isLoading: false,
 };
 
-export default App;
+const mapStateToProps = state => ({
+  errors: authErrors(state),
+  isAuthenticated: isAuthenticated(state),
+});
+
+export default connect(mapStateToProps)(App);

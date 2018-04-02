@@ -36,9 +36,27 @@ const fragments = {
   `,
 };
 
-export const fetchFrontPageArticlesQuery = () => apolloClient.query({
-  query: FETCH_FRONT_PAGE_ARTICLES,
-})
+export const FETCH_JWT_TOKEN = gql`
+  query login ($username: String!, $password: String!){
+    login(
+      input:{
+        username: $username,
+        password: $password
+    }){
+      key
+      error
+    }
+  }
+`;
+
+export const fetchJwtToken = (username, password) => apolloClient.query({
+  query: FETCH_JWT_TOKEN,
+  variables: {
+    username,
+    password,
+  },
+});
+
 
 export const FETCH_FRONT_PAGE_ARTICLES = gql`
   query {
@@ -74,6 +92,10 @@ export const FETCH_FRONT_PAGE_ARTICLES = gql`
     }
   }
 `;
+
+export const fetchFrontPageArticlesQuery = () => apolloClient.query({
+  query: FETCH_FRONT_PAGE_ARTICLES,
+});
 
 export const CURRENT_USER_QUERY = gql`
   query{
