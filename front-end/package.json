@@ -6,6 +6,7 @@
     "apollo-boost": "^0.1.4",
     "apollo-client": "^2.2.8",
     "apollo-link-context": "^1.0.7",
+    "axios": "^0.18.0",
     "dropzone": "^5.2.0",
     "extract-files": "^3.0.0",
     "graphql": "^0.13.2",
@@ -30,6 +31,9 @@
     "reactstrap": "^5.0.0",
     "recursive-iterator": "^3.3.0",
     "redux": "^3.7.2",
+    "redux-api-middleware": "^2.3.0",
+    "redux-persist": "^5.9.1",
+    "redux-persist-transform-filter": "^0.0.16",
     "redux-saga": "^0.16.0"
   },
   "devDependencies": {

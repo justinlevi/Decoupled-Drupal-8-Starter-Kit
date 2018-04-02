@@ -13,7 +13,8 @@ import { jwt_decode } from 'jwt-decode';
 import registerServiceWorker from 'registerServiceWorker';
 
 // import configureStore from 'redux/configureStore';
-import App from './components/App';
+// import App from './components/App';
+import Login from './containers/LoginPage';
 import configureStore from './redux/store';
 
 import './styles/index.css';
@@ -61,7 +62,7 @@ ReactDOM.render(
   <Provider store={store}>
     <ApolloProvider client={client}>
       <ConnectedRouter history={history}>
-        <App />
+        <Login />
       </ConnectedRouter>
     </ApolloProvider>
   </Provider>

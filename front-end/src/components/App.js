@@ -53,8 +53,8 @@ App.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  errors: authErrors(state),
-  isAuthenticated: isAuthenticated(state),
+  errors: state.authReducer.authErrors(state),
+  isAuthenticated: state.authReducer.isAuthenticated(state),
 });
 
 export default connect(mapStateToProps)(App);

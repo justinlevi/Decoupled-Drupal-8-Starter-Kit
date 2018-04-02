@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import { reducer as csrfReducer } from 'redux/auth/csrf/reducers';
-import { reducer as authReducer } from 'redux/auth/oauth/reducers';
+// import { reducer as csrfReducer } from 'redux/auth/csrf/reducers';
+import authReducer from 'redux/auth/reducers';
 import { reducer as articleReducer } from 'redux/article/reducers';
 import { routerReducer } from 'react-router-redux';
 
 export const combineAppReducers = combineReducers({
   articleReducer,
-  csrfReducer,
+  // csrfReducer,
   authReducer,
   routerReducer,
 });
