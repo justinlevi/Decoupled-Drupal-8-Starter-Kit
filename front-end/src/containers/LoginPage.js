@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+// import { jwt_decode } from 'jwt-decode';
 
 import Login from '../components/Login';
 // import { loginRequest } from '../redux/auth/oauth/actions';
-import { fetchJwtToken } from '../api/apolloProxy';
+import { fetchJwtToken, updateArticle } from '../api/apolloProxy';
 
 export class LoginPage extends Component {
   state = {
@@ -20,6 +21,10 @@ export class LoginPage extends Component {
     });
   }
 
+  catchError = (error) => {
+    console.log(`Error ${error}`);
+  }
+
   handleLogin = (e) => {
     e.preventDefault();
 
@@ -30,15 +35,30 @@ export class LoginPage extends Component {
       return;
     }
 
-    fetchJwtToken(username, password)
+    const { client } = this.props;
+
+    fetchJwtToken(client, username, password)
       .then((response) => {
-        console.log(response);
+        const { error, key } = response.data.login;
+        if (error !== 'null') {
+          console.log(error);
+          return;
+        }
+        localStorage.setItem('authToken', key);
+
+        const variables = {
+          id: String(1),
+          title: 'yup',
+          body: 'nope',
+          field_media_image: [],
+        };
+
+        updateArticle(client, variables)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch(this.catchError);
       }).catch(this.catchError);
-    // const { dispatch } = this.props;
-    // dispatch(loginRequest({
-    //   username: this.state.username,
-    //   password: this.state.password,
-    // }));
   }
 
   render() {
@@ -64,9 +84,9 @@ export class LoginPage extends Component {
 }
 
 LoginPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  isLoggingIn: PropTypes.bool.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
+  // dispatch: PropTypes.func.isRequired,
+  // isLoggingIn: PropTypes.bool.isRequired,
+  // isAuthenticated: PropTypes.bool.isRequired,
   error: PropTypes.string,
 };
 

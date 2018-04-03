@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 // import { graphql } from 'react-apollo';
 
-import { apolloClient } from './apolloClient';
+// import { apolloClient } from './apolloClient';
 
-export { apolloClient } from './apolloClient';
+// export { apolloClient } from './apolloClient';
 
 
 const fragments = {
@@ -49,7 +49,7 @@ export const FETCH_JWT_TOKEN = gql`
   }
 `;
 
-export const fetchJwtToken = (username, password) => apolloClient.query({
+export const fetchJwtToken = (apolloClient, username, password) => apolloClient.query({
   query: FETCH_JWT_TOKEN,
   variables: {
     username,
@@ -93,7 +93,7 @@ export const FETCH_FRONT_PAGE_ARTICLES = gql`
   }
 `;
 
-export const fetchFrontPageArticlesQuery = () => apolloClient.query({
+export const fetchFrontPageArticlesQuery = apolloClient => apolloClient.query({
   query: FETCH_FRONT_PAGE_ARTICLES,
 });
 
@@ -105,7 +105,7 @@ export const CURRENT_USER_QUERY = gql`
     }
   }
 `;
-export const currentUser = () => apolloClient.query({
+export const currentUser = apolloClient => apolloClient.query({
   query: CURRENT_USER_QUERY,
 });
 
@@ -124,7 +124,7 @@ export const ARTICLES_BY_USER_QUERY = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const articlesByUser = () => apolloClient.query({
+export const articlesByUser = apolloClient => apolloClient.query({
   query: ARTICLES_BY_USER_QUERY,
   fetchPolicy: 'network-only',
 });
@@ -156,7 +156,7 @@ export const createArticleMutation = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const createArticle = ({ title }) => apolloClient.mutate({
+export const createArticle = (apolloClient, { title }) => apolloClient.mutate({
   mutation: createArticleMutation,
   variables: {
     title,
@@ -179,7 +179,7 @@ export const deleteArticleMutation = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const deleteArticle = ({ id }) => apolloClient.mutate({
+export const deleteArticle = (apolloClient, { id }) => apolloClient.mutate({
   mutation: deleteArticleMutation,
   variables: {
     id,
@@ -206,7 +206,7 @@ export const updateArticleMutation = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const updateArticle = ({
+export const updateArticle = (apolloClient, {
   id, title, body, field_media_image,
 }) => apolloClient.mutate({
   mutation: updateArticleMutation,

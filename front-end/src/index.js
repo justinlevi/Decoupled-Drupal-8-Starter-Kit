@@ -3,17 +3,13 @@ import ReactDOM from 'react-dom';
 import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter } from 'react-router-redux';
 import { Provider } from 'react-redux';
-import { ApolloProvider } from 'react-apollo';
-import { ApolloClient } from 'apollo-client';
-import { HttpLink, InMemoryCache } from 'apollo-boost';
-import { setContext } from 'apollo-link-context';
-import { jwt_decode } from 'jwt-decode';
+import { ApolloProvider, withApollo } from 'react-apollo';
+import ApolloClient from 'apollo-boost';
 
-// import ApolloClient from 'api/apolloClient';
+import axios from 'axios';
+
 import registerServiceWorker from 'registerServiceWorker';
 
-// import configureStore from 'redux/configureStore';
-// import App from './components/App';
 import Login from './containers/LoginPage';
 import configureStore from './redux/store';
 
@@ -25,44 +21,55 @@ const store = configureStore(history);
 const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
 const URL = process.env.REACT_APP_HOST_DOMAIN ? process.env.REACT_APP_HOST_DOMAIN : '';
 
-let token = localStorage.getItem('token') || null;
-let xcsrf = sessionStorage.getItem('csrfToken') || null;
-const currentTime = Date.now() / 1000;
-
-token = token ? jwt_decode(token) : null;
-
-const authLink = setContext(async (req, { headers }) => {
-  xcsrf = xcsrf || await fetch(`${URL}/session/token`);
-  const additionalHeaders = { 'X-CSRF-Token': xcsrf };
-
-  // TO DO : HANDLE REFETCH HERE...
-  // token = await
-  if (token && token.exp < currentTime) {
-    additionalHeaders.authorization = `Bearer ${token}`;
-  }
-
-  return {
-    headers: {
-      ...headers,
-      ...additionalHeaders,
-    },
-  };
-});
-
-const link = new HttpLink({
-  uri: URL.concat(`/graphql${POSTFIX}`),
-});
+const csrf = sessionStorage.getItem('csrfToken') || null;
 
 const client = new ApolloClient({
-  link: authLink.concat(authLink, link),
-  cache: new InMemoryCache(),
+  uri: URL.concat(`/graphql${POSTFIX}`),
+  fetchOptions: {
+    credentials: 'include',
+  },
+  request: async (operation) => {
+    const xcsrf = csrf || await axios.get(`${URL}/session/token`);
+    const headers = { 'X-CSRF-Token': xcsrf.data };
+
+    const authToken = localStorage.getItem('authToken') || null;
+    if (authToken !== null) {
+      headers.authorization = `Bearer ${authToken}`;
+    }
+    operation.setContext({ headers });
+  },
+  onError: ({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      console.log(graphQLErrors);
+      // sendToLoggingService(graphQLErrors);
+    }
+    if (networkError) {
+      // logoutUser();
+      console.log(networkError);
+    }
+  },
+  clientState: {
+    defaults: {
+      isConnected: true,
+    },
+    resolvers: {
+      Mutation: {
+        updateNetworkStatus: (_, { isConnected }, { cache }) => {
+          cache.writeData({ data: { isConnected } });
+          return null;
+        },
+      },
+    },
+  },
 });
+
+const LoginWithApollo = withApollo(Login);
 
 ReactDOM.render(
   <Provider store={store}>
     <ApolloProvider client={client}>
       <ConnectedRouter history={history}>
-        <Login />
+        <LoginWithApollo />
       </ConnectedRouter>
     </ApolloProvider>
   </Provider>
