@@ -11,6 +11,8 @@ is_admin: false
 permissions:
   - 'access content'
   - 'access site-wide contact form'
+  - 'execute graphql requests'
+  - 'restful post token_rest_resource'
   - 'search content'
   - 'use text format restricted_html'
   - 'view media'

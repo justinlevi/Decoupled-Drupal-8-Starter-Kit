@@ -12,6 +12,8 @@ permissions:
   - 'access content'
   - 'access shortcuts'
   - 'access site-wide contact form'
+  - 'execute graphql requests'
+  - 'restful post token_rest_resource'
   - 'search content'
   - 'use text format basic_html'
   - 'view media'
