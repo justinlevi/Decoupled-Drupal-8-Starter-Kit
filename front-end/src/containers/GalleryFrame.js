@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { withApollo } from 'react-apollo';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 
-import { getSignedUrls, addS3Files } from '../api/apolloProxy';
+import { GET_SIGNED_URLS, ADD_S3_FILES } from '../api/apolloProxy';
 import { readFile } from '../utils/ImageHelpers';
 
 import GalleryUpload from '../components/frames/gallery/GalleryUpload';
@@ -165,7 +165,7 @@ export class GalleryFrame extends Component {
     const { client } = this.props;
     this.setState({ uploading: true });
     const variables = { input: { fileNames: this.computedPath(files) } };
-    client.query({ query: getSignedUrls, variables })
+    client.query({ query: GET_SIGNED_URLS, variables })
       .then((response) => {
       // send signedUrls to callback
         onFetchSignedUrlsCompletionHandler(files, response.data.signedUploadURL);
@@ -239,11 +239,11 @@ export class GalleryFrame extends Component {
 
     this.setState({ synchronizing: true });
     const variables = { input: { files: filesMap } };
-    client.mutate({ mutation: addS3Files, variables })
+    client.mutate({ mutation: ADD_S3_FILES, variables })
       .then((response) => {
       // send signedUrls to callback
         console.log('SYNC COMPLETE');
-        const mids = response.data.addS3Files.map(item => item.mid);
+        const mids = response.data.ADD_S3_FILES.map(item => item.mid);
         onSyncCompletionHandler(mids);
       }).catch(this.catchError);
   }

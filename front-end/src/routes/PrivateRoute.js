@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router';
 import { Redirect } from 'react-router-dom';
@@ -21,9 +21,9 @@ PrivateRouteContainer.propTypes = {
   component: PropTypes.func.isRequired,
 };
 
-const PrivateRoute = connect(state => ({
-  isAuthenticated: state.authReducer.isAuthenticated,
-  isLoggingIn: state.authReducer.isLoggingIn,
-}))(PrivateRouteContainer);
+// const PrivateRoute = connect(state => ({
+//   isAuthenticated: state.authReducer.isAuthenticated,
+//   isLoggingIn: state.authReducer.isLoggingIn,
+// }))(PrivateRouteContainer);
 
-export default PrivateRoute;
+export default PrivateRouteContainer;

@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Query } from 'react-apollo';
+
+import { FETCH_FRONT_PAGE_ARTICLES } from '../api/apolloProxy';
+
 import Tile from '../components/Tile';
 
-import {FETCH_FRONT_PAGE_ARTICLES} from '../api/apolloProxy';
-import { Query } from "react-apollo";
-
-const formatData = (data) => data.nodeQuery.entities.map(val => {
-
+const formatData = data => data.nodeQuery.entities.map((val) => {
   let image = '';
-  let item = {
-    label: val.entityLabel
-  }
+  const item = {
+    label: val.entityLabel,
+  };
 
-  if(val.fieldMediaImage.length){
-    image = val.fieldMediaImage[0].entity.image.derivative.url
+  if (val.fieldMediaImage.length) {
+    image = val.fieldMediaImage[0].entity.image.derivative.url;
     item.image = image;
   }
 
@@ -20,27 +20,24 @@ const formatData = (data) => data.nodeQuery.entities.map(val => {
 });
 
 
-export class HomeArticle extends Component {
+export const HomeArticle = () => (
+  <Query query={FETCH_FRONT_PAGE_ARTICLES} pollInterval={25000}>
+    {({
+      loading,
+      error,
+      data,
+      startPolling,
+      stopPolling,
+      }) => {
+        if (loading) return null;
+        if (error) return `Error!: ${error}`;
 
-  render(){
-    return(
-      <div>
-        <Query
-         query={ FETCH_FRONT_PAGE_ARTICLES }
-         pollInterval={500} >
-         {({ loading, error, data, startPolling, stopPolling }) => {
-           if (loading) return null;
-           if (error) return `Error!: ${error}`;
-
-           return (
-             <Tile articles={formatData(data)}/>
-           );
-         }}
-       </Query>
-      </div>
-    )
-  }
-
-}
+        return (
+          <Tile articles={formatData(data)} />
+        );
+      }
+    }
+  </Query>
+);
 
 export default HomeArticle;

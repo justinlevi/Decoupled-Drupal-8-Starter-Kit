@@ -5,7 +5,8 @@ import { Redirect } from 'react-router-dom';
 
 import Login from '../components/Login';
 // import { loginRequest } from '../redux/auth/oauth/actions';
-import { fetchJwtToken, updateArticle } from '../api/apolloProxy';
+import { fetchJwtToken, updateAuthenticated } from '../api/apolloProxy';
+
 
 export class LoginPage extends Component {
   state = {
@@ -45,19 +46,7 @@ export class LoginPage extends Component {
           return;
         }
         localStorage.setItem('authToken', key);
-
-        const variables = {
-          id: String(1),
-          title: 'yup',
-          body: 'nope',
-          field_media_image: [],
-        };
-
-        updateArticle(client, variables)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch(this.catchError);
+        updateAuthenticated(client, { isAuthenticated: true });
       }).catch(this.catchError);
   }
 

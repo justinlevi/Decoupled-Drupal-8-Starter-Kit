@@ -1,9 +1,36 @@
 import gql from 'graphql-tag';
 // import { graphql } from 'react-apollo';
 
-// import { apolloClient } from './apolloClient';
+import client from './apolloClient';
 
-// export { apolloClient } from './apolloClient';
+
+export const AUTHENTICATED_QUERY = gql`
+  query {
+    authenticated @client {
+      isAuthenticated
+    }
+  }
+`;
+
+export const isAuthenticated = (apolloClient = client) =>
+  apolloClient.query({ query: AUTHENTICATED_QUERY });
+
+
+export const UPDATE_AUTHENTICATED = gql`
+  mutation updateAuthenticated($isAuthenticated: Boolean) {
+    updateAuthenticated(isAuthenticated: $isAuthenticated) @client
+  }
+`;
+
+export const updateAuthenticated = (apolloClient = client, { isAuthenticated }) => apolloClient.mutate({
+  mutation: UPDATE_AUTHENTICATED,
+  variables: {
+    authenticated: {
+      __typename: 'Authenticated',
+      isAuthenticated,
+    },
+  },
+});
 
 
 const fragments = {
@@ -140,7 +167,7 @@ export const articlesByUser = apolloClient => apolloClient.query({
 // ${fragments.nodeArticle}
 // `;
 
-export const createArticleMutation = gql`
+export const CREATE_ARTICLE_MUTATION = gql`
   mutation createArticle($title: String!){
     createArticle(input: {title: $title}){
       errors
@@ -157,13 +184,13 @@ export const createArticleMutation = gql`
   ${fragments.nodeArticle}
 `;
 export const createArticle = (apolloClient, { title }) => apolloClient.mutate({
-  mutation: createArticleMutation,
+  mutation: CREATE_ARTICLE_MUTATION,
   variables: {
     title,
   },
 });
 
-export const deleteArticleMutation = gql`
+export const DELETE_ARTICLE_MUTATION = gql`
   mutation deleteArticle($id:String!){
     deleteArticle(id: $id){
       page:entity{
@@ -180,13 +207,13 @@ export const deleteArticleMutation = gql`
   ${fragments.nodeArticle}
 `;
 export const deleteArticle = (apolloClient, { id }) => apolloClient.mutate({
-  mutation: deleteArticleMutation,
+  mutation: DELETE_ARTICLE_MUTATION,
   variables: {
     id,
   },
 });
 
-export const updateArticleMutation = gql`
+export const UPDATE_ARTICLE_MUTATION = gql`
   mutation updateArticle($id:String!, $title:String, $body:String, $field_media_image:[Int]){
     updateArticle(id:$id,input:{
       title:$title,
@@ -209,7 +236,7 @@ export const updateArticleMutation = gql`
 export const updateArticle = (apolloClient, {
   id, title, body, field_media_image,
 }) => apolloClient.mutate({
-  mutation: updateArticleMutation,
+  mutation: UPDATE_ARTICLE_MUTATION,
   variables: {
     id,
     title,
@@ -218,13 +245,13 @@ export const updateArticle = (apolloClient, {
   },
 });
 
-export const getSignedUrls = gql`
+export const GET_SIGNED_URLS = gql`
   query signedUploadURL ($input: SignedUploadInput!) {
     signedUploadURL(input:$input)
   }
 `;
 
-export const addS3Files = gql`
+export const ADD_S3_FILES = gql`
   mutation addS3Files($input: S3FilesInput!) {
     addS3Files(input:$input){
       mid

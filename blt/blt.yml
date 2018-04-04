@@ -11,7 +11,8 @@ git:
   default_branch: master
   remotes: {  }
   pre-commit: false
-  commit-msg: false
+  commit-msg:
+    pattern: "(.*?)"
   hooks:
     pre-commit: false
 drush:
