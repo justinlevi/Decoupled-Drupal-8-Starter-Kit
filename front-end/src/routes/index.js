@@ -27,7 +27,7 @@ const Routes = () =>
           <PrivateRoute path="/list" exact component={withApollo(List)} />
           <PrivateRoute path="/edit" component={withApollo(Edit)} />
           <Route path="/login" exact component={withApollo(Login)} />
-          <Route path="/logout" exact component={withApollo(Logout)} />
+          <Route path="/logout" exact component={Logout()} />
         </PageTemplate>
       </Switch>
     </Router>

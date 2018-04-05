@@ -46,7 +46,7 @@ export class LoginPage extends Component {
           return;
         }
         localStorage.setItem('authToken', key);
-        updateAuthenticated(client, { isAuthenticated: true });
+        updateAuthenticated(client, { isAuthenticated: true});
       }).catch(this.catchError);
   }
 

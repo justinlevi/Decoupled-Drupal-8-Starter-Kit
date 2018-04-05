@@ -18,8 +18,12 @@ export const resolvers = {
       cache.writeData({ data: { networkStatus: { isConnected } } });
       return null;
     },
-    updateAuthenticated: (_, { isAuthenticated }, { cache }) => {
-      cache.writeData({ data: { authenticated: { isAuthenticated } } });
+    updateAuthenticated: (_, {isAuthenticated}, { cache }) => {
+      const data = {
+        isAuthenticated: isAuthenticated,
+        __typename: 'Authenticated'
+      }
+      cache.writeData({ data: { authenticated:  data} });
       return null;
     },
   },

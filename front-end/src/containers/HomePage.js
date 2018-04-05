@@ -12,8 +12,10 @@ const formatData = data => data.nodeQuery.entities.map((val) => {
   };
 
   if (val.fieldMediaImage.length) {
-    image = val.fieldMediaImage[0].entity.image.derivative.url;
-    item.image = image;
+    if(val.fieldMediaImage[0].entity){
+      image = val.fieldMediaImage[0].entity.image.derivative.url;
+      item.image = image;
+    }
   }
 
   return item;
