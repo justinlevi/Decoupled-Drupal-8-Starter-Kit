@@ -49,15 +49,15 @@ export class LoginPage extends Component {
   }
 
   render() {
-    const { isLoggingIn, isAuthenticated } = this.props;
+    const { isAuthenticated } = this.props;
 
     if (isAuthenticated) {
       return <Redirect to="/" />;
     }
 
-    if (isLoggingIn) {
-      return <div className="loggingIn">Logging in...</div>;
-    }
+    // if (isLoggingIn) {
+    //   return <div className="loggingIn">Logging in...</div>;
+    // }
 
     return (
       <Login
@@ -73,7 +73,7 @@ export class LoginPage extends Component {
 LoginPage.propTypes = {
   // dispatch: PropTypes.func.isRequired,
   // isLoggingIn: PropTypes.bool.isRequired,
-  // isAuthenticated: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
   error: PropTypes.string,
 };
 

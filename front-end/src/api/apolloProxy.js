@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import client from './apolloClient';
 
 
-export const AUTHENTICATED_QUERY = gql`
+export const SESSION_QUERY = gql`
   query {
     session @client {
       isConnected,
@@ -13,8 +13,8 @@ export const AUTHENTICATED_QUERY = gql`
   }
 `;
 
-export const isAuthenticated = (apolloClient = client) =>
-  apolloClient.query({ query: AUTHENTICATED_QUERY });
+export const getSession = (apolloClient = client) =>
+  apolloClient.query({ query: SESSION_QUERY });
 
 
 export const UPDATE_AUTHENTICATED = gql`

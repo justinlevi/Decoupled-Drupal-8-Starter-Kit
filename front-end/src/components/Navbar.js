@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Nav, NavItem } from 'reactstrap';
-import { graphql, compose } from 'react-apollo';
-
-import { AUTHENTICATED_QUERY } from '../api/apolloProxy';
 
 export const Navbar = ({ isAuthenticated }) => (
   <header className="navbar navbar-expand navbar-light flex-column flex-md-row bd-navbar">
@@ -86,9 +83,4 @@ Navbar.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
 };
 
-
-const getSession = graphql(AUTHENTICATED_QUERY, {
-  props: ({ data }) => ({ isAuthenticated: data.session.isAuthenticated }),
-});
-
-export default compose(getSession)(Navbar);
+export default Navbar;
