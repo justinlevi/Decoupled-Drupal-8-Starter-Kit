@@ -36,9 +36,7 @@ export class LoginPage extends Component {
       return;
     }
 
-    const { client } = this.props;
-
-    fetchJwtToken(client, username, password)
+    fetchJwtToken(username, password)
       .then((response) => {
         const { error, key } = response.data.login;
         if (error !== 'null') {
@@ -46,7 +44,7 @@ export class LoginPage extends Component {
           return;
         }
         localStorage.setItem('authToken', key);
-        updateAuthenticated(client, { isAuthenticated: true});
+        updateAuthenticated({ isAuthenticated: true });
       }).catch(this.catchError);
   }
 

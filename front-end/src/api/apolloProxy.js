@@ -22,10 +22,11 @@ export const UPDATE_AUTHENTICATED = gql`
   }
 `;
 
-export const updateAuthenticated = (apolloClient = client, { isAuthenticated }) => apolloClient.mutate({
-  mutation: UPDATE_AUTHENTICATED,
-  variables: { isAuthenticated },
-});
+export const updateAuthenticated = ({ isAuthenticated }, apolloClient = client) =>
+  apolloClient.mutate({
+    mutation: UPDATE_AUTHENTICATED,
+    variables: { isAuthenticated },
+  });
 
 
 const fragments = {
@@ -71,7 +72,7 @@ export const FETCH_JWT_TOKEN = gql`
   }
 `;
 
-export const fetchJwtToken = (apolloClient, username, password) => apolloClient.query({
+export const fetchJwtToken = (username, password, apolloClient = client) => apolloClient.query({
   query: FETCH_JWT_TOKEN,
   variables: {
     username,
@@ -115,7 +116,7 @@ export const FETCH_FRONT_PAGE_ARTICLES = gql`
   }
 `;
 
-export const fetchFrontPageArticlesQuery = apolloClient => apolloClient.query({
+export const fetchFrontPageArticlesQuery = (apolloClient = client) => apolloClient.query({
   query: FETCH_FRONT_PAGE_ARTICLES,
 });
 
@@ -127,7 +128,7 @@ export const CURRENT_USER_QUERY = gql`
     }
   }
 `;
-export const currentUser = apolloClient => apolloClient.query({
+export const currentUser = (apolloClient = client) => apolloClient.query({
   query: CURRENT_USER_QUERY,
 });
 
@@ -146,7 +147,7 @@ export const ARTICLES_BY_USER_QUERY = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const articlesByUser = apolloClient => apolloClient.query({
+export const articlesByUser = (apolloClient = client) => apolloClient.query({
   query: ARTICLES_BY_USER_QUERY,
   fetchPolicy: 'network-only',
 });
@@ -178,7 +179,7 @@ export const CREATE_ARTICLE_MUTATION = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const createArticle = (apolloClient, { title }) => apolloClient.mutate({
+export const createArticle = ({ title }, apolloClient = client) => apolloClient.mutate({
   mutation: CREATE_ARTICLE_MUTATION,
   variables: {
     title,
@@ -201,7 +202,7 @@ export const DELETE_ARTICLE_MUTATION = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const deleteArticle = (apolloClient, { id }) => apolloClient.mutate({
+export const deleteArticle = ({ id }, apolloClient = client) => apolloClient.mutate({
   mutation: DELETE_ARTICLE_MUTATION,
   variables: {
     id,
@@ -228,9 +229,9 @@ export const UPDATE_ARTICLE_MUTATION = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const updateArticle = (apolloClient, {
+export const updateArticle = ({
   id, title, body, field_media_image,
-}) => apolloClient.mutate({
+}, apolloClient = client) => apolloClient.mutate({
   mutation: UPDATE_ARTICLE_MUTATION,
   variables: {
     id,

@@ -12,11 +12,11 @@ import Home from '../containers/HomePage';
 import List from '../containers/ListPage';
 import Edit from '../containers/EditPage';
 
-const Logout = () => withApollo((props) => {
+const Logout = () => () => {
   localStorage.removeItem('authToken');
-  updateAuthenticated(props.client, { isAuthenticated: false });
+  updateAuthenticated({ isAuthenticated: false });
   return (<Redirect to="/" />);
-});
+};
 
 const Routes = () =>
   (
