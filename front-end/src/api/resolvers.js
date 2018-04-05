@@ -1,16 +1,12 @@
 // import { gql } from 'apollo-boost';
+
 export const defaults = {
-  networkStatus: {
-    __typename: 'NetworkStatus',
+  session: {
+    __typename: 'Session',
     isConnected: true,
-  },
-  authenticated: {
-    __typename: 'Authenticated',
     isAuthenticated: !!localStorage.getItem('authToken'),
   },
 };
-
-console.log(defaults);
 
 export const resolvers = {
   Mutation: {
@@ -19,7 +15,7 @@ export const resolvers = {
       return null;
     },
     updateAuthenticated: (_, { isAuthenticated }, { cache }) => {
-      cache.writeData({ data: { authenticated: { isAuthenticated, __typename: 'Authenticated' } } });
+      cache.writeData({ data: { session: { isAuthenticated, __typename: 'Session' } } });
       return null;
     },
   },
