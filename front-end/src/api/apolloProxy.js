@@ -22,13 +22,10 @@ export const UPDATE_AUTHENTICATED = gql`
   }
 `;
 
-export const updateAuthenticated = (apolloClient = client, {isAuthenticated}) => apolloClient.mutate({
+export const updateAuthenticated = (apolloClient = client, { isAuthenticated }) => apolloClient.mutate({
   mutation: UPDATE_AUTHENTICATED,
-  variables: {
-    isAuthenticated
-  }
+  variables: { isAuthenticated },
 });
-
 
 
 const fragments = {
