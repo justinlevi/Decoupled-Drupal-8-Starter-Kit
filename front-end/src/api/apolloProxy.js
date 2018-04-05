@@ -6,7 +6,8 @@ import client from './apolloClient';
 
 export const AUTHENTICATED_QUERY = gql`
   query {
-    authenticated @client {
+    session @client {
+      isConnected,
       isAuthenticated
     }
   }
