@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-import { withApollo, graphql } from 'react-apollo';
+import { withApollo, graphql, compose } from 'react-apollo';
 
-import { updateAuthenticated } from '../api/apolloProxy';
+import { updateAuthenticated, SESSION_QUERY } from '../api/apolloProxy';
 
 import PrivateRoute from './PrivateRoute';
 
@@ -18,6 +18,11 @@ const Logout = () => () => {
   return (<Redirect to="/" />);
 };
 
+const getSession = graphql(SESSION_QUERY, {
+  props: ({ data }) => ({ isAuthenticated: data.session.isAuthenticated }),
+});
+
+
 const Routes = () =>
   (
     <Router>
@@ -26,7 +31,7 @@ const Routes = () =>
           <Route path="/" exact component={withApollo(Home)} />
           <PrivateRoute path="/list" exact component={withApollo(List)} />
           <PrivateRoute path="/edit" component={withApollo(Edit)} />
-          <Route path="/login" exact component={withApollo(Login)} />
+          <Route path="/login" exact component={compose(getSession)(Login)} />
           <Route path="/logout" exact component={Logout()} />
         </PageTemplate>
       </Switch>
