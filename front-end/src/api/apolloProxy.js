@@ -3,32 +3,6 @@ import gql from 'graphql-tag';
 
 import client from './apolloClient';
 
-
-export const AUTHENTICATED_QUERY = gql`
-  query {
-    authenticated @client {
-      isAuthenticated
-    }
-  }
-`;
-
-export const isAuthenticated = (apolloClient = client) =>
-  apolloClient.query({ query: AUTHENTICATED_QUERY });
-
-
-export const UPDATE_AUTHENTICATED = gql`
-  mutation updateAuthenticated($isAuthenticated: Boolean) {
-    updateAuthenticated(isAuthenticated: $isAuthenticated) @client
-  }
-`;
-
-export const updateAuthenticated = ({ isAuthenticated }, apolloClient = client) =>
-  apolloClient.mutate({
-    mutation: UPDATE_AUTHENTICATED,
-    variables: { isAuthenticated },
-  });
-
-
 const fragments = {
   nodeArticle: gql`
     fragment ArticleFields on NodeArticle{
@@ -58,6 +32,46 @@ const fragments = {
     }
   `,
 };
+
+export const AUTHENTICATED_QUERY = gql`
+  query {
+    authenticated @client {
+      isAuthenticated
+    }
+  }
+`;
+
+export const isAuthenticated = (apolloClient = client) =>
+  apolloClient.query({ query: AUTHENTICATED_QUERY });
+
+
+export const UPDATE_AUTHENTICATED = gql`
+  mutation updateAuthenticated($isAuthenticated: Boolean) {
+    updateAuthenticated(isAuthenticated: $isAuthenticated) @client
+  }
+`;
+
+export const updateAuthenticated = ({ isAuthenticated }, apolloClient = client) =>
+  apolloClient.mutate({
+    mutation: UPDATE_AUTHENTICATED,
+    variables: { isAuthenticated },
+  });
+
+export const LIST_ARTICLES = gql`
+  query articlesByUserQuery{
+    user:currentUserContext @client{
+      ...on User {
+        uid
+        nodes:reverseUidNode(offset:0, limit:1000){
+          articles: entities{
+            ... ArticleFields
+          }
+        }
+      }
+    }
+  }
+  ${fragments.nodeArticle}
+`;
 
 export const FETCH_JWT_TOKEN = gql`
   query login ($username: String!, $password: String!){

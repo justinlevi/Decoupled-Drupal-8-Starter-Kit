@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 // import { push } from 'react-router-redux';
 
 import List from '../components/List';
+import { graphql, compose } from 'react-apollo';
+import { articlesByUser, LIST_ARTICLES } from '../api/apolloProxy';
 
 import { fetchArticles, createArticle, deleteArticle, selectArticle } from '../redux/article/actions';
 
@@ -19,8 +21,7 @@ export class ListPage extends Component {
   */
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchArticles());
+    articlesByUser()
   }
 
   /**
@@ -34,10 +35,10 @@ export class ListPage extends Component {
     const { dispatch } = this.props;
     const { nid } = this.state;
 
-    dispatch(deleteArticle({ id: String(nid) }));
-    this.setState({
-      isModalVisible: false,
-    });
+    // dispatch(deleteArticle({ id: String(nid) }));
+    // this.setState({
+    //   isModalVisible: false,
+    // });
   }
 
   onDeleteModalToggle = () => {
@@ -54,12 +55,12 @@ export class ListPage extends Component {
 
   addHandler= () => {
     const { dispatch } = this.props;
-    dispatch(createArticle({ title: 'NULL' }));
+    //dispatch(createArticle({ title: 'NULL' }));
   }
 
   selectHandler = (activeArticleNid) => {
     const { dispatch } = this.props;
-    dispatch(selectArticle({ activeArticleNid }));
+    //dispatch(selectArticle({ activeArticleNid }));
     // dispatch(push(`/edit/${activeArticleNid.nid}/${activeArticleNid.title.replace(/ /g, '-').toLowerCase()}`));
   }
 
@@ -77,6 +78,13 @@ export class ListPage extends Component {
     */
 
   render() {
+
+    if(!this.props.data.user){
+      return (
+        <div>Loading</div>
+      )
+    }
+
     return (<List
       {...this.props}
       {...this.state}
@@ -89,15 +97,15 @@ export class ListPage extends Component {
   }
 }
 
-ListPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
+// ListPage.propTypes = {
+//   nodes: PropTypes.func.isRequired,
+// };
+//
+// const mapStateToProps = state => ({
+//   isAuthenticated: state.authReducer.isAuthenticated,
+//   isLoggingIn: state.authReducer.isLoggingIn,
+//   articles: state.articleReducer.articles,
+// });
+// const ListPageWrapper = connect(mapStateToProps)(ListPage);
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.authReducer.isAuthenticated,
-  isLoggingIn: state.authReducer.isLoggingIn,
-  articles: state.articleReducer.articles,
-});
-const ListPageWrapper = connect(mapStateToProps)(ListPage);
-
-export default ListPageWrapper;
+export default compose(graphql(LIST_ARTICLES))(ListPage);

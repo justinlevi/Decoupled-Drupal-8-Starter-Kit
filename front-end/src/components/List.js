@@ -19,7 +19,7 @@ Fade.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const listItems = ({ articles, selectHandler, deleteHandler }) => articles.map(page => (
+const listItems = ({ data, selectHandler, deleteHandler }) => data.user.nodes.articles.map(page => (
   <Fade duration={1000} key={page.nid} timeout={{ enter: 0, exit: 1000 }}>
     <Card
       page={page}
