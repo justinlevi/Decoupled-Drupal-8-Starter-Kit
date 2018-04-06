@@ -34,7 +34,8 @@ export const Navbar = ({ isAuthenticated }) => (
       <ul className="navbar-nav bd-navbar-nav flex-row">
         {
             isAuthenticated ?
-              <NavItem>
+            <div className="list-group">
+              <NavItem className="navbar-link">
                 <Link
                   to="/list"
                   href="/list"
@@ -42,7 +43,18 @@ export const Navbar = ({ isAuthenticated }) => (
                 >
                 Content List
                 </Link>
+
               </NavItem>
+              <NavItem className="navbar-link">
+              <Link
+                to="/hero-edit"
+                href="/hero-edit"
+                className="nav-link"
+              >
+              Hero Edit
+              </Link>
+            </NavItem>
+            </div>
             : null
           }
       </ul>
