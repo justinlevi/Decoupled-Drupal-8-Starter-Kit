@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-// import { jwt_decode } from 'jwt-decode';
 
 import Login from '../components/Login';
-// import { loginRequest } from '../redux/auth/oauth/actions';
 import { fetchJwtToken, updateAuthenticated } from '../api/apolloProxy';
-
 
 export class LoginPage extends Component {
   state = {
@@ -26,7 +23,7 @@ export class LoginPage extends Component {
     console.log(`Error ${error}`);
   }
 
-  handleLogin = (e) => {
+  handleLogin = async (e) => {
     e.preventDefault();
 
     const { username, password } = this.state;
@@ -36,16 +33,18 @@ export class LoginPage extends Component {
       return;
     }
 
-    fetchJwtToken(username, password)
-      .then((response) => {
-        const { error, key } = response.data.login;
-        if (error !== 'null') {
-          console.log(error);
-          return;
-        }
-        localStorage.setItem('authToken', key);
-        updateAuthenticated({ isAuthenticated: true });
-      }).catch(this.catchError);
+    try {
+      const response = await fetchJwtToken(username, password);
+      const { error, key } = response.data.login;
+      if (error !== 'null') {
+        console.log(error);
+        return;
+      }
+      localStorage.setItem('authToken', key);
+      updateAuthenticated({ isAuthenticated: true });
+    } catch (error) {
+      this.catchError(error);
+    }
   }
 
   render() {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // import { push } from 'react-router-redux';
 
 import List from '../components/List';
-import { graphql, compose, Query } from 'react-apollo';
+import { graphql, compose, Query, Mutation } from 'react-apollo';
 import { articlesByUser, ARTICLES_BY_USER_QUERY } from '../api/apolloProxy';
 
 export class ListPage extends Component {

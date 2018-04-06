@@ -1,6 +1,6 @@
 import React from 'react';
 // import { connect } from 'react-redux';
-import PropTypes, { shape } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Route } from 'react-router';
 import { Redirect } from 'react-router-dom';
 
@@ -20,15 +20,8 @@ const PrivateRouteContainer = props => (
 
 PrivateRouteContainer.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  // isAuthenticated: PropTypes.bool.isRequired,
-  // isLoggingIn: PropTypes.bool.isRequired,
   component: PropTypes.func.isRequired,
 };
-
-// const PrivateRoute = connect(state => ({
-//   isAuthenticated: state.authReducer.isAuthenticated,
-//   isLoggingIn: state.authReducer.isLoggingIn,
-// }))(PrivateRouteContainer);
 
 export default compose(graphql(SESSION_QUERY, {
   props: ({ data }) => ({ isAuthenticated: data.session.isAuthenticated }),
