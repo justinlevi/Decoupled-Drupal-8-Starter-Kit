@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { arrayOf, shape } from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -19,7 +19,7 @@ Fade.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const listItems = ({ data, selectHandler, deleteHandler }) => data.user.nodes.articles.map(page => (
+const ListItems = ({ articles, selectHandler, deleteHandler }) => articles.map(page => (
   <Fade duration={1000} key={page.nid} timeout={{ enter: 0, exit: 1000 }}>
     <Card
       page={page}
@@ -50,7 +50,7 @@ const List = (props) => {
         </div>
 
         <TransitionGroup className="item-list">
-          {listItems(props)}
+          <ListItems {...props} />
         </TransitionGroup>
 
         <Modal isOpen={isModalVisible} toggle={onDeleteModalToggle} backdrop>
@@ -70,6 +70,18 @@ const List = (props) => {
 };
 
 List.propTypes = {
+  articles: PropTypes.arrayOf(shape({
+    author: shape({
+      name: PropTypes.string.isRequired,
+    }),
+    body: shape({
+      value: PropTypes.string.isRequired,
+    }),
+    images: arrayOf(shape({})),
+    nid: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
+  }).isRequired).isRequired,
   isModalVisible: PropTypes.bool.isRequired,
   addHandler: PropTypes.func.isRequired,
   onDeleteModalToggle: PropTypes.func.isRequired,

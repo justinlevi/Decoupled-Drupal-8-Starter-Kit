@@ -60,22 +60,6 @@ const fragments = {
   `,
 };
 
-export const LIST_ARTICLES = gql`
-  query articlesByUserQuery{
-    user:currentUserContext @client{
-      ...on User {
-        uid
-        nodes:reverseUidNode(offset:0, limit:1000){
-          articles: entities{
-            ... ArticleFields
-          }
-        }
-      }
-    }
-  }
-  ${fragments.nodeArticle}
-`;
-
 export const FETCH_JWT_TOKEN = gql`
   query login ($username: String!, $password: String!){
     login(

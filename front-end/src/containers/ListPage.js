@@ -4,10 +4,8 @@ import { connect } from 'react-redux';
 // import { push } from 'react-router-redux';
 
 import List from '../components/List';
-import { graphql, compose } from 'react-apollo';
-import { articlesByUser, LIST_ARTICLES } from '../api/apolloProxy';
-
-import { fetchArticles, createArticle, deleteArticle, selectArticle } from '../redux/article/actions';
+import { graphql, compose, Query } from 'react-apollo';
+import { articlesByUser, ARTICLES_BY_USER_QUERY } from '../api/apolloProxy';
 
 export class ListPage extends Component {
   state = {
@@ -21,7 +19,7 @@ export class ListPage extends Component {
   */
 
   componentDidMount() {
-    articlesByUser()
+    // articlesByUser();
   }
 
   /**
@@ -32,7 +30,7 @@ export class ListPage extends Component {
   onDeleteModalOk = (event) => {
     event.stopPropagation();
     // this.deleteArticleMutation(this.state.activeArticleNid);
-    const { dispatch } = this.props;
+    // const { dispatch } = this.props;
     const { nid } = this.state;
 
     // dispatch(deleteArticle({ id: String(nid) }));
@@ -55,12 +53,12 @@ export class ListPage extends Component {
 
   addHandler= () => {
     const { dispatch } = this.props;
-    //dispatch(createArticle({ title: 'NULL' }));
+    // dispatch(createArticle({ title: 'NULL' }));
   }
 
   selectHandler = (activeArticleNid) => {
     const { dispatch } = this.props;
-    //dispatch(selectArticle({ activeArticleNid }));
+    // dispatch(selectArticle({ activeArticleNid }));
     // dispatch(push(`/edit/${activeArticleNid.nid}/${activeArticleNid.title.replace(/ /g, '-').toLowerCase()}`));
   }
 
@@ -78,13 +76,6 @@ export class ListPage extends Component {
     */
 
   render() {
-
-    if(!this.props.data.user){
-      return (
-        <div>Loading</div>
-      )
-    }
-
     return (<List
       {...this.props}
       {...this.state}
@@ -108,4 +99,29 @@ export class ListPage extends Component {
 // });
 // const ListPageWrapper = connect(mapStateToProps)(ListPage);
 
-export default compose(graphql(LIST_ARTICLES))(ListPage);
+// export default compose(graphql(LIST_ARTICLES))(ListPage);
+
+const ListPageQueryWrapper = () => (
+  <Query
+    query={ARTICLES_BY_USER_QUERY}
+    notifyOnNetworkStatusChange
+  >
+    {
+      ({
+        loading, error, data, networkStatus,
+      }) => {
+        if (networkStatus === 4) return 'Refetching!';
+        if (loading) return 'Loading!';
+        if (error) return `Error!: ${error}`;
+
+        const articles = data.user && data.user.nodes ? data.user.nodes.articles : [];
+
+        return (
+          <ListPage articles={articles} />
+        );
+      }
+    }
+  </Query>
+);
+
+export default ListPageQueryWrapper;

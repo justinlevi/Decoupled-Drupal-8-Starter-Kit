@@ -22,7 +22,6 @@ const getSession = graphql(SESSION_QUERY, {
   props: ({ data }) => ({ isAuthenticated: data.session.isAuthenticated }),
 });
 
-
 const Routes = () =>
   (
     <Router>
