@@ -58,6 +58,23 @@ const fragments = {
       }
     }
   `,
+  articleFieldMediaImage: gql`
+    fragment ArticleMediaField on NodeArticle{
+      fieldMediaImage {
+        ... on FieldNodeFieldMediaImage {
+          entity {
+            ... on MediaImage {
+              image: fieldMediaImage {
+                derivative(style: MEDIUM) {
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `,
 };
 
 export const FETCH_JWT_TOKEN = gql`
@@ -81,6 +98,24 @@ export const fetchJwtToken = (username, password, apolloClient = client) => apol
   },
 });
 
+export const FETCH_ALL_ARTICLES = gql`
+  query {
+    nodeQuery (filter: {conditions: [
+      {
+        operator: EQUAL,
+        field: "type",
+        value: ["article"]
+      }
+    ]}){
+      entities {
+        entityLabel
+        ...ArticleMediaField
+      }
+    }
+  }
+  ${fragments.articleFieldMediaImage}
+`;
+
 
 export const FETCH_FRONT_PAGE_ARTICLES = gql`
   query {
@@ -97,24 +132,11 @@ export const FETCH_FRONT_PAGE_ARTICLES = gql`
     ]) {
       entities {
         entityLabel
-        ... on NodeArticle {
-          fieldMediaImage {
-            ... on FieldNodeFieldMediaImage {
-              entity {
-                ... on MediaImage {
-                  image: fieldMediaImage {
-                    derivative(style: MEDIUM) {
-                      url
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+        ...ArticleMediaField
       }
     }
   }
+  ${fragments.articleFieldMediaImage}
 `;
 
 export const fetchFrontPageArticlesQuery = (apolloClient = client) => apolloClient.query({
