@@ -9,6 +9,7 @@ export class LoginPage extends Component {
   state = {
     username: '',
     password: '',
+    error: null,
   };
 
   handleInputChange = ({ target }) => {
@@ -36,8 +37,9 @@ export class LoginPage extends Component {
     try {
       const response = await fetchJwtToken(username, password);
       const { error, key } = response.data.login;
+
       if (error !== 'null') {
-        console.log(error);
+        this.setState({ error });
         return;
       }
       localStorage.setItem('authToken', key);

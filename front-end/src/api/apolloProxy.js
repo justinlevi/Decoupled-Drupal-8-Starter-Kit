@@ -182,13 +182,20 @@ export const CREATE_ARTICLE_MUTATION = gql`
 `;
 export const createArticle = ({ title }, apolloClient = client) => apolloClient.mutate({
   mutation: CREATE_ARTICLE_MUTATION,
+  // TO DO : UPDATE AFTER MUTATION
+  // update is the recommended way of updating the cache after a query.
+  // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update
+  // https://www.apollographql.com/docs/react/advanced/caching.html#after-mutations
+  refetchQueries: [{
+    query: ARTICLES_BY_USER_QUERY,
+  }],
   variables: {
     title,
   },
 });
 
 export const DELETE_ARTICLE_MUTATION = gql`
-  mutation deleteArticle($id:String!){
+  mutation deleteArticle($id: String!){
     deleteArticle(id: $id){
       page:entity{
         ...ArticleFields
@@ -205,14 +212,22 @@ export const DELETE_ARTICLE_MUTATION = gql`
 `;
 export const deleteArticle = ({ id }, apolloClient = client) => apolloClient.mutate({
   mutation: DELETE_ARTICLE_MUTATION,
+  update: (store, { data: { deleteArticle } }) => {
+    // Read the data from our cache for this query.
+    const data = store.readQuery({ query: ARTICLES_BY_USER_QUERY });
+    const index = data.user.nodes.articles.findIndex(item => item.nid === deleteArticle.page.nid);
+    if (index === -1) { return; }
+    data.user.nodes.articles.splice(index, 1);
+    store.writeQuery({ query: ARTICLES_BY_USER_QUERY, data });
+  },
   variables: {
     id,
   },
 });
 
 export const UPDATE_ARTICLE_MUTATION = gql`
-  mutation updateArticle($id:String!, $title:String, $body:String, $field_media_image:[Int]){
-    updateArticle(id:$id,input:{
+  mutation updateArticle($id: String!, $title: String, $body: String, $field_media_image:[Int]){
+    updateArticle(id: $id,input:{
       title:$title,
       body:$body,
       field_media_image:$field_media_image
@@ -234,6 +249,13 @@ export const updateArticle = ({
   id, title, body, field_media_image,
 }, apolloClient = client) => apolloClient.mutate({
   mutation: UPDATE_ARTICLE_MUTATION,
+  // TO DO : UPDATE AFTER MUTATION
+  // update is the recommended way of updating the cache after a query.
+  // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update
+  // https://www.apollographql.com/docs/react/advanced/caching.html#after-mutations
+  refetchQueries: [{
+    query: ARTICLES_BY_USER_QUERY,
+  }],
   variables: {
     id,
     title,

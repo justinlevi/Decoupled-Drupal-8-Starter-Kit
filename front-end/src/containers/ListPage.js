@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import List from '../components/List';
 import { graphql, compose, Query, Mutation } from 'react-apollo';
-import { articlesByUser, ARTICLES_BY_USER_QUERY } from '../api/apolloProxy';
+import { deleteArticle, ARTICLES_BY_USER_QUERY } from '../api/apolloProxy';
 
 export class ListPage extends Component {
   state = {
@@ -29,14 +29,11 @@ export class ListPage extends Component {
 
   onDeleteModalOk = (event) => {
     event.stopPropagation();
-    // this.deleteArticleMutation(this.state.activeArticleNid);
-    // const { dispatch } = this.props;
     const { nid } = this.state;
-
-    // dispatch(deleteArticle({ id: String(nid) }));
-    // this.setState({
-    //   isModalVisible: false,
-    // });
+    deleteArticle({ id: String(nid) });
+    this.setState({
+      isModalVisible: false,
+    });
   }
 
   onDeleteModalToggle = () => {
@@ -63,6 +60,7 @@ export class ListPage extends Component {
   }
 
   deleteHandler = (event, nid) => {
+    console.log(nid);
     event.stopPropagation();
     this.setState({
       nid,
