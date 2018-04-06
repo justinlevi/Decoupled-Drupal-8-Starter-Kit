@@ -45,15 +45,6 @@ export const Navbar = ({ isAuthenticated }) => (
                 </Link>
 
               </NavItem>
-              <NavItem className="navbar-link">
-              <Link
-                to="/hero-edit"
-                href="/hero-edit"
-                className="nav-link"
-              >
-              Hero Edit
-              </Link>
-            </NavItem>
             </div>
             : null
           }
