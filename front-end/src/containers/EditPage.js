@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Form, FormGroup, Input } from 'reactstrap';
+import { Query } from 'react-apollo';
 
-import { saveArticleUpdates } from '../redux/article/actions';
 import Gallery from './GalleryFrame';
-import { getArticleFromNid } from '../redux/article/utilities';
+import { ARTICLE_BY_NID } from '../api/apolloProxy';
 
 export class EditPage extends Component {
   /*
@@ -15,13 +15,13 @@ export class EditPage extends Component {
   constructor(props) {
     super(props);
 
-    const { activeArticleNid, articles } = props;
-    const page = getArticleFromNid(articles, activeArticleNid);
-    const { title, body } = page;
+    const { article } = props;
+
+    const { title, body } = article;
 
     this.state = {
       saveTimeout: undefined,
-      page,
+      article,
       title: title === null || title === 'NULL' ? '' : title,
       body: body === null ? '' : body.value,
     };
@@ -32,26 +32,16 @@ export class EditPage extends Component {
   }
 
   updateNode = () => {
-    const { dispatch } = this.props;
-    const { title, body, page } = this.state;
+    // const { dispatch } = this.props;
+    const { title, body, article } = this.state;
 
-    const mids = page.images.map(item => item.mid);
+    const mids = article.images.map(item => item.mid);
     const variables = {
-      id: String(page.nid),
+      id: String(article.nid),
       title: title === '' ? 'NULL' : title,
       body,
       field_media_image: mids,
     };
-
-    dispatch(saveArticleUpdates(variables));
-
-    // client.mutate({ mutation: updateArticleMutation, variables })
-    //   .then((response) => {
-    //     const msg = response.data.updateArticle.page !== null ?
-    //       'SUCCESS: UPDATE ARTICLE COMPLETE' :
-    //       'ERROR: The page was not updated correctly';
-    //     console.log(msg);
-    //   }).catch(this.catchError);
   }
 
   handleInputChange = ({
@@ -75,7 +65,7 @@ export class EditPage extends Component {
   */
 
   render() {
-    const { page, title, body } = this.state;
+    const { article, title, body } = this.state;
     return (
       <div className="EditPageContainer">
 
@@ -86,7 +76,7 @@ export class EditPage extends Component {
           </FormGroup>
         </Form>
 
-        <Gallery page={page} />
+        <Gallery article={article} />
 
       </div>
     );
@@ -103,10 +93,36 @@ EditPage.propTypes = {
 // export const EditPageWrapper = withApollo(EditPage);
 // export default EditPageWrapper;
 
-const mapStateToProps = state => ({
-  activeArticleNid: state.articleReducer.activeArticleNid,
-  articles: state.articleReducer.articles,
-});
-const EditPageWrapper = connect(mapStateToProps)(EditPage);
+// const mapStateToProps = state => ({
+//   activeArticleNid: state.articleReducer.activeArticleNid,
+//   articles: state.articleReducer.articles,
+// });
+// const EditPageWrapper = connect(mapStateToProps)(EditPage);
 
-export default EditPageWrapper;
+// export default EditPageWrapper;
+
+// export default EditPage;
+
+const EditPageQueryWrapper = () => (
+  <Query
+    query={ARTICLE_BY_NID}
+    variables={{ nid: document.location.pathname.split('/')[2] }}
+    notifyOnNetworkStatusChange
+  >
+    {
+      ({
+        loading, error, data: { article }, networkStatus,
+      }) => {
+        if (networkStatus === 4) return 'Refetching!';
+        if (loading) return 'Loading!';
+        if (error) return `Error!: ${error}`;
+
+        return (
+          <EditPage article={article} />
+        );
+      }
+    }
+  </Query>
+);
+
+export default withRouter(EditPageQueryWrapper);

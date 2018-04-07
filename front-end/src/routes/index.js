@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-import { withApollo, graphql, compose } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 
 import { updateAuthenticated, SESSION_QUERY } from '../api/apolloProxy';
 
@@ -27,9 +27,9 @@ const Routes = () =>
     <Router>
       <Switch>
         <PageTemplate >
-          <Route path="/" exact component={withApollo(Home)} />
-          <PrivateRoute path="/list" exact component={withApollo(List)} />
-          <PrivateRoute path="/edit" component={withApollo(Edit)} />
+          <Route path="/" exact component={Home} />
+          <PrivateRoute path="/list" exact component={List} />
+          <PrivateRoute path="/edit" component={Edit} />
           <Route path="/login" exact component={compose(getSession)(Login)} />
           <Route path="/logout" exact component={Logout()} />
         </PageTemplate>

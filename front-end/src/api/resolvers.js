@@ -5,6 +5,7 @@ export const defaults = {
     __typename: 'Session',
     isConnected: true,
     isAuthenticated: !!localStorage.getItem('authToken'),
+    activeNode: 0,
   },
 };
 

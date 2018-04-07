@@ -40,7 +40,7 @@ export const Navbar = ({ isAuthenticated }) => (
                   href="/list"
                   className="nav-link"
                 >
-                Edit : Your Articles
+                Edit: Articles
                 </Link>
               </NavItem>
             : null

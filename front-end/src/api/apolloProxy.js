@@ -8,7 +8,7 @@ export const SESSION_QUERY = gql`
   query {
     session @client {
       isConnected,
-      isAuthenticated
+      isAuthenticated,
     }
   }
 `;
@@ -28,7 +28,6 @@ export const updateAuthenticated = ({ isAuthenticated }, apolloClient = client) 
     mutation: UPDATE_AUTHENTICATED,
     variables: { isAuthenticated },
   });
-
 
 const fragments = {
   nodeArticle: gql`
@@ -153,16 +152,14 @@ export const articlesByUser = (apolloClient = client) => apolloClient.query({
   fetchPolicy: 'network-only',
 });
 
-// export const articlesByUserQuery = gql `
-//   query nodeQuery($uid: Int) {
-//     nodeQuery(offset:0, limit: 10, filter:{uid:$uid}){
-//       entities{
-//         ... on ArticleFields
-//       }
-//     }
-//   }
-// ${fragments.nodeArticle}
-// `;
+export const ARTICLE_BY_NID = gql`
+  query nodeQuery($nid: String!){
+    article: nodeById(id: $nid){
+        ... ArticleFields
+    }
+  }
+${fragments.nodeArticle}
+`;
 
 export const CREATE_ARTICLE_MUTATION = gql`
   mutation createArticle($title: String!){
