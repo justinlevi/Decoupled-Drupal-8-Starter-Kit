@@ -41,7 +41,7 @@ export const Navbar = ({ isAuthenticated }) => (
                   href="/list"
                   className="nav-link"
                 >
-                Content List
+                Edit: Articles
                 </Link>
 
               </NavItem>

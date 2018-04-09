@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 import Thumbnail from './Thumbnail';
 
@@ -38,14 +38,16 @@ GalleryImages.defaultProps = {
   images: [],
 };
 
-const mapStateToProps = (state) => {
-  const { activeArticleNid } = state.articleReducer;
-  const index = state.articleReducer.articles.findIndex(a => a.nid === activeArticleNid);
-  const { images } = state.articleReducer.articles[index];
-  return {
-    images,
-  };
-};
-const GalleryImagesWrapper = connect(mapStateToProps)(GalleryImages);
+// const mapStateToProps = (state) => {
+//   const { activeArticleNid } = state.articleReducer;
+//   const index = state.articleReducer.articles.findIndex(a => a.nid === activeArticleNid);
+//   const { images } = state.articleReducer.articles[index];
+//   return {
+//     images,
+//   };
+// };
+// const GalleryImagesWrapper = connect(mapStateToProps)(GalleryImages);
 
-export default GalleryImagesWrapper;
+// export default GalleryImagesWrapper;
+
+export default GalleryImages;

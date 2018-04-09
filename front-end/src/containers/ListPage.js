@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-// import { push } from 'react-router-redux';
+import { Query } from 'react-apollo';
+import { Redirect } from 'react-router-dom';
 
 import List from '../components/List';
-import { graphql, compose, Query } from 'react-apollo';
-import { articlesByUser, ARTICLES_BY_USER_QUERY } from '../api/apolloProxy';
+import { createArticle, deleteArticle, ARTICLES_BY_USER_QUERY } from '../api/apolloProxy';
+
+export const getArticleFromNid = (articles, nid) => {
+  const index = articles.findIndex(item => item.nid === nid);
+  return articles[index];
+};
 
 export class ListPage extends Component {
   state = {
     nid: 0,
     isModalVisible: false,
-  }
-
-  /**
-  * LIFECYCLE
-  * ----------
-  */
-
-  componentDidMount() {
-    // articlesByUser();
+    article: false,
   }
 
   /**
@@ -29,14 +25,11 @@ export class ListPage extends Component {
 
   onDeleteModalOk = (event) => {
     event.stopPropagation();
-    // this.deleteArticleMutation(this.state.activeArticleNid);
-    // const { dispatch } = this.props;
     const { nid } = this.state;
-
-    // dispatch(deleteArticle({ id: String(nid) }));
-    // this.setState({
-    //   isModalVisible: false,
-    // });
+    deleteArticle({ id: String(nid) });
+    this.setState({
+      isModalVisible: false,
+    });
   }
 
   onDeleteModalToggle = () => {
@@ -52,17 +45,15 @@ export class ListPage extends Component {
   */
 
   addHandler= () => {
-    const { dispatch } = this.props;
-    // dispatch(createArticle({ title: 'NULL' }));
+    createArticle({ title: 'NULL' });
   }
 
-  selectHandler = (activeArticleNid) => {
-    const { dispatch } = this.props;
-    // dispatch(selectArticle({ activeArticleNid }));
-    // dispatch(push(`/edit/${activeArticleNid.nid}/${activeArticleNid.title.replace(/ /g, '-').toLowerCase()}`));
+  selectHandler = (nid) => {
+    this.setState({ article: getArticleFromNid(this.props.articles, nid) });
   }
 
   deleteHandler = (event, nid) => {
+    console.log(nid);
     event.stopPropagation();
     this.setState({
       nid,
@@ -76,6 +67,12 @@ export class ListPage extends Component {
     */
 
   render() {
+    const { article } = this.state;
+    if (article) {
+      const { nid, title } = article;
+      return (<Redirect to={`/edit/${nid}/${title.replace(/ /g, '-').toLowerCase()}`} />);
+    }
+
     return (<List
       {...this.props}
       {...this.state}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { withApollo } from 'react-apollo';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 
@@ -21,7 +21,7 @@ export class GalleryFrame extends Component {
   constructor(props) {
     super(props);
 
-    const { author, uuid } = props.page;
+    const { author, uuid } = props.article;
 
     const uploadPath = `${author.name}/${uuid}/`;
     this.state = {
@@ -250,29 +250,18 @@ export class GalleryFrame extends Component {
 
   // STEP 5 -
   updateNode = (mids = []) => {
-    const { page, dispatch } = this.props;
-    const activeMids = page.images.map(item => item.mid);
+    const { article, dispatch } = this.props;
+    const activeMids = article.images.map(item => item.mid);
     const newMids = mids.concat(activeMids).concat(this.state.mids);
 
     const variables = {
-      id: String(page.nid),
-      title: page.title,
-      body: page.body !== null ? page.body.value : '',
+      id: String(article.nid),
+      title: article.title,
+      body: article.body !== null ? article.body.value : '',
       field_media_image: newMids,
     };
 
     dispatch(saveArticleUpdates(variables));
-
-    // client.mutate({ mutation: updateArticleMutation, variables })
-    //   .then((response) => {
-    //   // send signedUrls to callback
-    //     if (response.data.updateArticle.page !== null) {
-    //       console.log('UPDATE ARTICLE WITH UPLOADED MEDIA COMPLETE');
-    //     } else {
-    //       console.error('ERROR: The page was not updated correctly');
-    //     }
-    //     this.setState({ mids: newMids });
-    //   }).catch(this.catchError);
   }
 
   /*
@@ -340,9 +329,11 @@ export class GalleryFrame extends Component {
 
 GalleryFrame.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  page: PropTypes.shape({}).isRequired,
+  article: PropTypes.shape({}).isRequired,
   client: PropTypes.shape({}).isRequired,
 };
 
-const GalleryFrameWrapper = connect()(withApollo(GalleryFrame));
-export default GalleryFrameWrapper;
+// const GalleryFrameWrapper = connect()(withApollo(GalleryFrame));
+// export default GalleryFrameWrapper;
+
+export default GalleryFrame;

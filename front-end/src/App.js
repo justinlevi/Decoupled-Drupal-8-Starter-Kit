@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
 
 import Routes from './routes';
-// import { authErrors, isAuthenticated } from '../redux/rootReducer';
 
 
 const LoadingComponent = () => (
@@ -40,12 +38,5 @@ App.propTypes = {
 App.defaultProps = {
   isLoading: false,
 };
-
-// const mapStateToProps = state => ({
-//   errors: state.authReducer.authErrors(state),
-//   isAuthenticated: state.authReducer.isAuthenticated(state),
-// });
-
-// export default connect(mapStateToProps)(App);
 
 export default App;
