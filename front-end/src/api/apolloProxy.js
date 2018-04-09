@@ -297,6 +297,13 @@ export const GET_SIGNED_URLS = gql`
   }
 `;
 
+export const getSignedUrls = (fileNames, apolloClient = client) => apolloClient.query({
+  query: GET_SIGNED_URLS,
+  variables: {
+    input: { fileNames },
+  },
+});
+
 export const ADD_S3_FILES = gql`
   mutation addS3Files($input: S3FilesInput!) {
     addS3Files(input:$input){
@@ -304,3 +311,10 @@ export const ADD_S3_FILES = gql`
     }
   }
 `;
+
+export const addS3Files = (files, apolloClient = client) => apolloClient.mutate({
+  mutation: ADD_S3_FILES,
+  variables: {
+    input: { files },
+  },
+});

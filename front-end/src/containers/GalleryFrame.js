@@ -4,12 +4,13 @@ import axios from 'axios';
 // import { connect } from 'react-redux';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 
-import { GET_SIGNED_URLS, ADD_S3_FILES } from '../api/apolloProxy';
+import { getSignedUrls, addS3Files } from '../api/apolloProxy';
 import { readFile } from '../utils/ImageHelpers';
 
 import GalleryUpload from '../components/frames/gallery/GalleryUpload';
 import GalleryImages from '../components/frames/gallery/GalleryImages';
 
+import ARTICLE_SHAPE from '../utils/articlePropType';
 import { saveArticleUpdates } from '../redux/article/actions';
 
 export class GalleryFrame extends Component {
@@ -160,15 +161,17 @@ export class GalleryFrame extends Component {
   */
 
   // STEP 2 - Fetch remote upload Urls
-  fetchSignedUrls = (files, onFetchSignedUrlsCompletionHandler = () => {}) => {
-    const { client } = this.props;
+  fetchSignedUrls = async (files, onFetchSignedUrlsCompletionHandler = () => {}) => {
+    // const { client } = this.props;
     this.setState({ uploading: true });
-    const variables = { input: { fileNames: this.computedPath(files) } };
-    client.query({ query: GET_SIGNED_URLS, variables })
-      .then((response) => {
-      // send signedUrls to callback
-        onFetchSignedUrlsCompletionHandler(files, response.data.signedUploadURL);
-      }).catch(this.catchError);
+
+    try {
+      const response = await getSignedUrls(this.computedPath(files));
+      const { signedUploadURL } = response.data;
+      onFetchSignedUrlsCompletionHandler(files, signedUploadURL);
+    } catch (error) {
+      this.catchError(error);
+    }
   }
 
   // STEP 3 - Upload to S3 w/ progress
@@ -227,8 +230,7 @@ export class GalleryFrame extends Component {
   }
 
   // STEP 4 - SyncS3withDrupal
-  syncS3FilesBackToDrupalAndCreateMediaEntities(files, onSyncCompletionHandler = () => {}) {
-    const { client } = this.props;
+  syncS3FilesBackToDrupalAndCreateMediaEntities = async (files, onSyncCompletionHandler = () => {}) => {
     const p = this.state.uploadPath;
     const filesMap = files.map(f => ({
       filename: f.file.name,
@@ -237,19 +239,21 @@ export class GalleryFrame extends Component {
     }));
 
     this.setState({ synchronizing: true });
-    const variables = { input: { files: filesMap } };
-    client.mutate({ mutation: ADD_S3_FILES, variables })
-      .then((response) => {
+
+    try {
+      const response = await addS3Files(filesMap);
       // send signedUrls to callback
-        console.log('SYNC COMPLETE');
-        const mids = response.data.ADD_S3_FILES.map(item => item.mid);
-        onSyncCompletionHandler(mids);
-      }).catch(this.catchError);
+      console.log('SYNC COMPLETE');
+      const mids = response.data.ADD_S3_FILES.map(item => item.mid);
+      onSyncCompletionHandler(mids);
+    } catch (error) {
+      this.catchError(error);
+    }
   }
 
   // STEP 5 -
   updateNode = (mids = []) => {
-    const { article, dispatch } = this.props;
+    const { article } = this.props;
     const activeMids = article.images.map(item => item.mid);
     const newMids = mids.concat(activeMids).concat(this.state.mids);
 
@@ -260,7 +264,7 @@ export class GalleryFrame extends Component {
       field_media_image: newMids,
     };
 
-    dispatch(saveArticleUpdates(variables));
+    // dispatch(saveArticleUpdates(variables));
   }
 
   /*
@@ -327,12 +331,7 @@ export class GalleryFrame extends Component {
 }
 
 GalleryFrame.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  article: PropTypes.shape({}).isRequired,
-  client: PropTypes.shape({}).isRequired,
+  article: PropTypes.shape(ARTICLE_SHAPE).isRequired,
 };
-
-// const GalleryFrameWrapper = connect()(withApollo(GalleryFrame));
-// export default GalleryFrameWrapper;
 
 export default GalleryFrame;

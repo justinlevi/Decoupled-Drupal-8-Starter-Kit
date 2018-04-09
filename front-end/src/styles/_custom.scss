@@ -32,6 +32,22 @@
   cursor: pointer;
 }
 
+footer.page-footer {
+  bottom: 0;
+  color: #fff;
+
+  a {
+    color: #fff;
+    &:hover{
+      text-decoration: none;
+    }
+  }
+}
+
+.stylish-color-dark {
+  background-color: #3e4551!important;
+}
+
 .add {
   display: -ms-flexbox;
   display: -webkit-box;

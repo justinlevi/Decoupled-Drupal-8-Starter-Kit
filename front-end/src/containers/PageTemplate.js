@@ -2,11 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Nav from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const PageTemplate = props => (
-  <div>
+  <div className="pageTemplate">
     <Nav {...props} />
-    { props.children }
+    <div className="container">
+      { props.children }
+    </div>
+    <Footer {...props} />
   </div>
 );
 
