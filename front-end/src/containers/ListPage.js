@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { arrayOf, shape } from 'prop-types';
 import { Query } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
 
+import ARTICLE_SHAPE from '../utils/articlePropType';
 import List from '../components/List';
 import { createArticle, deleteArticle, FETCH_ALL_ARTICLES_WITH_PERMISSIONS } from '../api/apolloProxy';
 
@@ -15,7 +16,7 @@ export class ListPage extends Component {
   state = {
     nid: 0,
     isModalVisible: false,
-    article: false,
+    selected: false,
   }
 
   /**
@@ -56,11 +57,11 @@ export class ListPage extends Component {
   }
 
   selectHandler = (nid) => {
-    this.setState({ article: getArticleFromNid(this.props.articles, nid) });
+    const { articles } = this.props;
+    this.setState({ selected: getArticleFromNid(articles, nid) });
   }
 
   deleteHandler = (event, nid) => {
-    console.log(nid);
     event.stopPropagation();
     this.setState({
       nid,
@@ -74,9 +75,9 @@ export class ListPage extends Component {
     */
 
   render() {
-    const { article } = this.state;
-    if (article) {
-      const { nid, title } = article;
+    const { selected } = this.state;
+    if (selected) {
+      const { nid, title } = selected;
       return (<Redirect to={`/edit/${nid}/${title.replace(/ /g, '-').toLowerCase()}`} />);
     }
 
@@ -92,18 +93,9 @@ export class ListPage extends Component {
   }
 }
 
-// ListPage.propTypes = {
-//   nodes: PropTypes.func.isRequired,
-// };
-//
-// const mapStateToProps = state => ({
-//   isAuthenticated: state.authReducer.isAuthenticated,
-//   isLoggingIn: state.authReducer.isLoggingIn,
-//   articles: state.articleReducer.articles,
-// });
-// const ListPageWrapper = connect(mapStateToProps)(ListPage);
-
-// export default compose(graphql(LIST_ARTICLES))(ListPage);
+ListPage.propTypes = {
+  articles: arrayOf(shape(ARTICLE_SHAPE).isRequired).isRequired,
+};
 
 const ListPageQueryWrapper = () => (
   <Query

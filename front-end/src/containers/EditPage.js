@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Form, FormGroup, Input } from 'reactstrap';
 import { Query } from 'react-apollo';
 
+import ARTICLE_SHAPE from '../utils/articlePropType';
 import Gallery from './GalleryFrame';
 import { ARTICLE_BY_NID } from '../api/apolloProxy';
 
@@ -84,25 +85,12 @@ export class EditPage extends Component {
 }
 
 EditPage.propTypes = {
-  // client: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
-  activeArticleNid: PropTypes.number.isRequired,
-  articles: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  article: PropTypes.shape(ARTICLE_SHAPE).isRequired,
 };
 
-// export const EditPageWrapper = withApollo(EditPage);
-// export default EditPageWrapper;
 
-// const mapStateToProps = state => ({
-//   activeArticleNid: state.articleReducer.activeArticleNid,
-//   articles: state.articleReducer.articles,
-// });
-// const EditPageWrapper = connect(mapStateToProps)(EditPage);
-
-// export default EditPageWrapper;
-
-// export default EditPage;
-
+// Fetching again here to make sure we're editing the latest.
+// Could possibly edit from cache as well, but that seems kinda dangerous??
 const EditPageQueryWrapper = () => (
   <Query
     query={ARTICLE_BY_NID}

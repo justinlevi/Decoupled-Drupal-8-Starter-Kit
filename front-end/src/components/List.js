@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import PropTypes, { arrayOf, shape } from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-
 import MdAdd from 'react-icons/lib/md/add';
+
+import ARTICLE_SHAPE from '../utils/articlePropType';
 import Card from './Card';
 
 const Fade = ({ children, ...props }) => (
@@ -129,18 +130,7 @@ class List extends Component{
 };
 
 List.propTypes = {
-  articles: PropTypes.arrayOf(shape({
-    author: shape({
-      name: PropTypes.string.isRequired,
-    }),
-    body: shape({
-      value: PropTypes.string.isRequired,
-    }),
-    images: arrayOf(shape({})),
-    nid: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    uuid: PropTypes.string.isRequired,
-  }).isRequired).isRequired,
+  articles: arrayOf(shape(ARTICLE_SHAPE).isRequired).isRequired,
   isModalVisible: PropTypes.bool.isRequired,
   addHandler: PropTypes.func.isRequired,
   onDeleteModalToggle: PropTypes.func.isRequired,
