@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes, { arrayOf, shape } from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -30,51 +30,49 @@ const ListItems = ({ articles, selectHandler, deleteHandler }) => articles.map(p
   </Fade>
 ));
 
-class List extends Component{
-
-  state = {
-    articles: this.props.articles
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState){
-    if(nextProps.articles.length != prevState.articles.length){
+class List extends Component {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.articles.length !== prevState.articles.length) {
       return {
-        articles: nextProps.articles
+        articles: nextProps.articles,
       };
     }
     return null;
   }
 
-  handleSearchInput = (target) => {
-
-    const searchTerm = target.value;
-    const articles = this.props.articles;
-    const searchedArticles = articles.map(page => {
-      const title = page.title.toLowerCase();
-      const searchTermLower = searchTerm.toLowerCase();
-      return title.includes(searchTermLower) ? page: null;
-    });
-    const filteredArticles = searchedArticles.filter((n) => n != null);
-
-    if(filteredArticles.length > 0){
-      this.setState({
-        articles: filteredArticles
-      })
-    }else if(target.value === ''){
-      this.setState({
-        articles: this.props.articles
-      })
-    }else{
-      this.setState({
-        articles: []
-      })
-    }
-
+  state = {
+    articles: this.props.articles,
   }
 
-  render(){
+  handleSearchInput = (target) => {
+    const searchTerm = target.value;
+
+    const { articles } = this.props;
+    const searchedArticles = articles.map((page) => {
+      const title = page.title.toLowerCase();
+      const searchTermLower = searchTerm.toLowerCase();
+      return title.includes(searchTermLower) ? page : null;
+    });
+    const filteredArticles = searchedArticles.filter(n => n != null);
+
+    if (filteredArticles.length > 0) {
+      this.setState({
+        articles: filteredArticles,
+      });
+    } else if (target.value === '') {
+      this.setState({
+        articles: this.props.articles,
+      });
+    } else {
+      this.setState({
+        articles: [],
+      });
+    }
+  }
+
+  render() {
     const {
-      addHandler, isModalVisible, onDeleteModalToggle, onDeleteModalOk,selectHandler, deleteHandler
+      addHandler, isModalVisible, onDeleteModalToggle, onDeleteModalOk, selectHandler, deleteHandler,
     } = this.props;
 
     return (
@@ -97,18 +95,18 @@ class List extends Component{
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroup-sizing-lg">Search By Title</span>
             </div>
-            <input onChange={({target}) => this.handleSearchInput(target)} placeholder="Content Title..." type="text" className="form-control search-bar" aria-label="Large" aria-describedby="inputGroup-sizing-sm"/>
+            <input onChange={({ target }) => this.handleSearchInput(target)} placeholder="Content Title..." type="text" className="form-control search-bar" aria-label="Large" aria-describedby="inputGroup-sizing-sm" />
           </div>
 
           {
             this.state.articles.length > 0 ?
-            <TransitionGroup className="item-list">
-              <ListItems
-                articles={this.state.articles}
-                selectHandler={selectHandler}
-                deleteHandler={deleteHandler}
-               />
-            </TransitionGroup>
+              <TransitionGroup className="item-list">
+                <ListItems
+                  articles={this.state.articles}
+                  selectHandler={selectHandler}
+                  deleteHandler={deleteHandler}
+                />
+              </TransitionGroup>
           : <div className="no-result-text h1 text-center">No Results Found</div>
           }
 
@@ -127,7 +125,7 @@ class List extends Component{
       </div>
     );
   }
-};
+}
 
 List.propTypes = {
   articles: arrayOf(shape(ARTICLE_SHAPE).isRequired).isRequired,
