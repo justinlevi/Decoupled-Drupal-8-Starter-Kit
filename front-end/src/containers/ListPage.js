@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import { Redirect } from 'react-router-dom';
 
 import List from '../components/List';
-import { createArticle, deleteArticle, ARTICLES_BY_USER_QUERY } from '../api/apolloProxy';
+import { createArticle, deleteArticle, FETCH_ALL_ARTICLES_WITH_PERMISSIONS } from '../api/apolloProxy';
 
 export const getArticleFromNid = (articles, nid) => {
   const index = articles.findIndex(item => item.nid === nid);
@@ -45,7 +45,14 @@ export class ListPage extends Component {
   */
 
   addHandler= () => {
-    createArticle({ title: 'NULL' });
+
+    createArticle({ title: 'NULL' }).then(function(val){
+      setTimeout(function(){
+        const element = document.getElementsByClassName("item-list");
+        element[0].scrollIntoView({block: 'end', behavior: 'smooth'});
+      }, 500);
+    });
+
   }
 
   selectHandler = (nid) => {
@@ -100,7 +107,7 @@ export class ListPage extends Component {
 
 const ListPageQueryWrapper = () => (
   <Query
-    query={ARTICLES_BY_USER_QUERY}
+    query={FETCH_ALL_ARTICLES_WITH_PERMISSIONS}
     notifyOnNetworkStatusChange
   >
     {
@@ -111,10 +118,16 @@ const ListPageQueryWrapper = () => (
         if (loading) return 'Loading!';
         if (error) return `Error!: ${error}`;
 
-        const articles = data.user && data.user.nodes ? data.user.nodes.articles : [];
+        const articles = data.nodeQuery && data.nodeQuery.entities.length ? data.nodeQuery.entities: [];
+
+        const filteredArticles = articles.map(page => {
+          if(page.access === true){
+            return page;
+          }
+        })
 
         return (
-          <ListPage articles={articles} />
+          <ListPage articles={filteredArticles} />
         );
       }
     }
