@@ -14,7 +14,7 @@ export const HomeArticle = () => (
       startPolling,
       stopPolling,
       }) => {
-        if (loading) return null;
+        if (loading) return <div className="text-center"><div className="loading-text h1 text-center">Loading...</div><div className="loader"></div></div>;
         if (error) return `Error!: ${error}`;
 
         return (
