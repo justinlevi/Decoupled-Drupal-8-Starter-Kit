@@ -4,14 +4,13 @@ import axios from 'axios';
 // import { connect } from 'react-redux';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 
-import { getSignedUrls, addS3Files } from '../api/apolloProxy';
+import { getSignedUrls, addS3Files, updateArticle } from '../api/apolloProxy';
 import { readFile } from '../utils/ImageHelpers';
 
-import GalleryUpload from '../components/frames/gallery/GalleryUpload';
-import GalleryImages from '../components/frames/gallery/GalleryImages';
+import Upload from '../components/frames/gallery/GalleryUpload';
+import Images from '../components/frames/gallery/GalleryImages';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
-import { saveArticleUpdates } from '../redux/article/actions';
 
 export class GalleryFrame extends Component {
   /*
@@ -230,7 +229,10 @@ export class GalleryFrame extends Component {
   }
 
   // STEP 4 - SyncS3withDrupal
-  syncS3FilesBackToDrupalAndCreateMediaEntities = async (files, onSyncCompletionHandler = () => {}) => {
+  syncS3FilesBackToDrupalAndCreateMediaEntities = async (
+    files,
+    onSyncCompletionHandler = () => {},
+  ) => {
     const p = this.state.uploadPath;
     const filesMap = files.map(f => ({
       filename: f.file.name,
@@ -252,7 +254,7 @@ export class GalleryFrame extends Component {
   }
 
   // STEP 5 -
-  updateNode = (mids = []) => {
+  updateNode = async (mids = []) => {
     const { article } = this.props;
     const activeMids = article.images.map(item => item.mid);
     const newMids = mids.concat(activeMids).concat(this.state.mids);
@@ -264,7 +266,11 @@ export class GalleryFrame extends Component {
       field_media_image: newMids,
     };
 
-    // dispatch(saveArticleUpdates(variables));
+    try {
+      await updateArticle(variables);
+    } catch (error) {
+      this.catchError(error);
+    }
   }
 
   /*
@@ -292,23 +298,23 @@ export class GalleryFrame extends Component {
               Upload
             </NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink
               className={this.state.activeTab === '2' ? 'active' : ''}
               onClick={() => { this.toggle('3'); }}
             >
               Library
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <GalleryImages
+            <Images
               handleDelete={this.handleDelete}
             />
           </TabPane>
           <TabPane tabId="2">
-            <GalleryUpload
+            <Upload
               onDrop={this.onDrop}
               totalBytes={this.totalBytes}
               onUploadClick={this.onUploadClick}
@@ -317,13 +323,13 @@ export class GalleryFrame extends Component {
               {...this.state}
             />
           </TabPane>
-          <TabPane tabId="3">
+          {/* <TabPane tabId="3">
             <Row>
               <Col sm="12">
                 <h4>Library</h4>
               </Col>
             </Row>
-          </TabPane>
+          </TabPane> */}
         </TabContent>
       </div>
     );

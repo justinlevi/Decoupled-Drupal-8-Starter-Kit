@@ -280,9 +280,14 @@ export const updateArticle = ({
   // update is the recommended way of updating the cache after a query.
   // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update
   // https://www.apollographql.com/docs/react/advanced/caching.html#after-mutations
-  refetchQueries: [{
-    query: ARTICLES_BY_USER_QUERY,
-  }],
+  refetchQueries: [
+    { query: ARTICLES_BY_USER_QUERY },
+    { query: FETCH_ALL_ARTICLES_WITH_PERMISSIONS },
+    {
+      query: ARTICLE_BY_NID,
+      variables: { nid: id },
+    },
+  ],
   variables: {
     id,
     title,

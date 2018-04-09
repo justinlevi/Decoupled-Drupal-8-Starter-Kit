@@ -6,7 +6,7 @@ import { Query } from 'react-apollo';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
 import Gallery from './GalleryFrame';
-import { ARTICLE_BY_NID } from '../api/apolloProxy';
+import { ARTICLE_BY_NID, updateArticle } from '../api/apolloProxy';
 
 export class EditPage extends Component {
   /*
@@ -32,8 +32,7 @@ export class EditPage extends Component {
     console.log(`Error ${error}`);
   }
 
-  updateNode = () => {
-    // const { dispatch } = this.props;
+  updateNode = async () => {
     const { title, body, article } = this.state;
 
     const mids = article.images.map(item => item.mid);
@@ -43,6 +42,11 @@ export class EditPage extends Component {
       body,
       field_media_image: mids,
     };
+    try {
+      await updateArticle(variables);
+    } catch (error) {
+      this.catchError(error);
+    }
   }
 
   handleInputChange = ({
@@ -102,7 +106,7 @@ const EditPageQueryWrapper = () => (
         loading, error, data: { article }, networkStatus,
       }) => {
         if (networkStatus === 4) return 'Refetching!';
-        if (loading) return <div className="text-center"><div className="loading-text h1 text-center">Loading...</div><div className="loader"></div></div>;
+        if (loading) return <div className="text-center"><div className="loading-text h1 text-center">Loading...</div><div className="loader" /></div>;
         if (error) return `Error!: ${error}`;
 
         return (
