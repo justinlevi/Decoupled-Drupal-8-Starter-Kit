@@ -105,7 +105,7 @@ const ListPageQueryWrapper = () => (
         loading, error, data, networkStatus,
       }) => {
         if (networkStatus === 4) return 'Refetching!';
-        if (loading) return 'Loading!';
+        if (loading) return <div className="text-center"><div className="loading-text h1 text-center">Loading...</div><div className="loader"></div></div>;
         if (error) return `Error!: ${error}`;
 
         const articles = data.nodeQuery && data.nodeQuery.entities.length ?
