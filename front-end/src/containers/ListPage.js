@@ -46,14 +46,12 @@ export class ListPage extends Component {
   */
 
   addHandler= () => {
-
-    createArticle({ title: 'NULL' }).then(function(val){
-      setTimeout(function(){
-        const element = document.getElementsByClassName("item-list");
-        element[0].scrollIntoView({block: 'end', behavior: 'smooth'});
+    createArticle({ title: 'NULL' }).then((val) => {
+      setTimeout(() => {
+        const element = document.getElementsByClassName('item-list');
+        element[0].scrollIntoView({ block: 'end', behavior: 'smooth' });
       }, 500);
     });
-
   }
 
   selectHandler = (nid) => {
@@ -110,13 +108,9 @@ const ListPageQueryWrapper = () => (
         if (loading) return 'Loading!';
         if (error) return `Error!: ${error}`;
 
-        const articles = data.nodeQuery && data.nodeQuery.entities.length ? data.nodeQuery.entities: [];
-
-        const filteredArticles = articles.map(page => {
-          if(page.access === true){
-            return page;
-          }
-        })
+        const articles = data.nodeQuery && data.nodeQuery.entities.length ?
+          data.nodeQuery.entities : [];
+        const filteredArticles = articles.map(page => (page.access === true ? page : null));
 
         return (
           <ListPage articles={filteredArticles} />

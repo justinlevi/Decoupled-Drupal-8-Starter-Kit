@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 // import { connect } from 'react-redux';
-import { withApollo } from 'react-apollo';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
 
 import { GET_SIGNED_URLS, ADD_S3_FILES } from '../api/apolloProxy';

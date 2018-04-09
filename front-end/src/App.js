@@ -1,42 +1,28 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Routes from './routes';
+import PrivateRoute from './routes/PrivateRoute';
+import Logout from './routes/Logout';
 
+import PageTemplate from './containers/PageTemplate';
+import Login from './containers/LoginPage';
+import Home from './containers/HomePage';
+import List from './containers/ListPage';
+import Edit from './containers/EditPage';
 
-const LoadingComponent = () => (
-  <div className="container">
-    Loading...
-  </div>
-);
-
-const ErrorComponent = () => (
-  <div>
-    Sadly, there seems to have been an error.
-    Contact someone super important to help facilitate forward progress.
-  </div>
-);
-
-const App = ({ isLoading, error }, props) => {
-  if (error) {
-    return ErrorComponent();
-  }
-
-  if (isLoading) {
-    return LoadingComponent();
-  }
-
-  return <Routes {...props} />;
-};
-
-App.propTypes = {
-  // isLoading: PropTypes.bool.isRequired,
-  // isLoggingIn: PropTypes.bool.isRequired,
-  // isAuthenticated: PropTypes.bool.isRequired,
-};
-
-App.defaultProps = {
-  isLoading: false,
-};
+const App = () =>
+  (
+    <Router>
+      <Switch>
+        <PageTemplate >
+          <Route path="/" exact component={Home} />
+          <PrivateRoute path="/list" exact component={List} />
+          <PrivateRoute path="/edit" component={Edit} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/logout" exact component={Logout()} />
+        </PageTemplate>
+      </Switch>
+    </Router>
+  );
 
 export default App;

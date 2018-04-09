@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
+import { Query } from 'react-apollo';
 
 import Login from '../components/Login';
-import { fetchJwtToken, updateAuthenticated } from '../api/apolloProxy';
+import { fetchJwtToken, updateAuthenticated, SESSION_QUERY } from '../api/apolloProxy';
 
 export class LoginPage extends Component {
   state = {
@@ -71,15 +71,27 @@ export class LoginPage extends Component {
   }
 }
 
-LoginPage.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
-  // isLoggingIn: PropTypes.bool.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  error: PropTypes.string,
-};
+const LoginPageQueryWrapper = () => (
+  <Query
+    query={SESSION_QUERY}
+    notifyOnNetworkStatusChange
+  >
+    {
+      ({
+        loading, error, data, networkStatus,
+      }) => {
+        if (networkStatus === 4) return 'Refetching!';
+        if (loading) return 'Loading!';
+        if (error) return `Error!: ${error}`;
 
-LoginPage.defaultProps = {
-  error: '',
-};
+        const { isAuthenticated } = data.session;
 
-export default LoginPage;
+        return (
+          <LoginPage isAuthenticated={isAuthenticated} />
+        );
+      }
+    }
+  </Query>
+);
+
+export default LoginPageQueryWrapper;

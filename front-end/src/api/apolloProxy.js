@@ -14,7 +14,14 @@ export const SESSION_QUERY = gql`
 `;
 
 export const getSession = (apolloClient = client) =>
-  apolloClient.query({ query: SESSION_QUERY });
+  apolloClient.query({
+    query: SESSION_QUERY,
+    props: ({ data }) => ({ isAuthenticated: data.session.isAuthenticated }),
+  });
+
+// const getSession = (SESSION_QUERY, {
+//   props: ({ data }) => ({ isAuthenticated: data.session.isAuthenticated }),
+// });
 
 
 export const UPDATE_AUTHENTICATED = gql`
@@ -56,7 +63,7 @@ const fragments = {
         }
       }
     }
-  `
+  `,
 };
 
 export const FETCH_JWT_TOKEN = gql`
