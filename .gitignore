@@ -6,6 +6,7 @@ local.services.yml
 tests/behat/local.yml
 box/local.config.yml
 *.local
+yarn-error.log
 
 # Ignore drupal core.
 docroot/core

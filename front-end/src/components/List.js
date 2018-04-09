@@ -49,6 +49,13 @@ const List = (props) => {
           </div>
         </div>
 
+        <div className="input-group input-group-lg">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="inputGroup-sizing-lg">Search By Title</span>
+          </div>
+          <input placeholder="Content Title..." type="text" className="form-control search-bar" aria-label="Large" aria-describedby="inputGroup-sizing-sm"/>
+        </div>
+
         <TransitionGroup className="item-list">
           <ListItems {...props} />
         </TransitionGroup>

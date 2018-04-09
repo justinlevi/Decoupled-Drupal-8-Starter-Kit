@@ -56,7 +56,7 @@ const fragments = {
         }
       }
     }
-  `,
+  `
 };
 
 export const FETCH_JWT_TOKEN = gql`
@@ -80,6 +80,42 @@ export const fetchJwtToken = (username, password, apolloClient = client) => apol
   },
 });
 
+export const FETCH_ALL_ARTICLES = gql`
+  query {
+    nodeQuery (filter: {conditions: [
+      {
+        operator: EQUAL,
+        field: "type",
+        value: ["article"]
+      }
+    ]}){
+      entities {
+        entityLabel
+        ...ArticleFields
+      }
+    }
+  }
+  ${fragments.nodeArticle}
+`;
+
+export const FETCH_ALL_ARTICLES_WITH_PERMISSIONS = gql`
+  query {
+    nodeQuery (filter: {conditions: [
+      {
+        operator: EQUAL,
+        field: "type",
+        value: ["article"]
+      }
+    ]}){
+      entities {
+        access: entityAccess(operation:"update")
+        ...ArticleFields
+      }
+    }
+  }
+  ${fragments.nodeArticle}
+`;
+
 
 export const FETCH_FRONT_PAGE_ARTICLES = gql`
   query {
@@ -96,24 +132,11 @@ export const FETCH_FRONT_PAGE_ARTICLES = gql`
     ]) {
       entities {
         entityLabel
-        ... on NodeArticle {
-          fieldMediaImage {
-            ... on FieldNodeFieldMediaImage {
-              entity {
-                ... on MediaImage {
-                  image: fieldMediaImage {
-                    derivative(style: MEDIUM) {
-                      url
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+        ...ArticleFields
       }
     }
   }
+  ${fragments.nodeArticle}
 `;
 
 export const fetchFrontPageArticlesQuery = (apolloClient = client) => apolloClient.query({
@@ -184,7 +207,7 @@ export const createArticle = ({ title }, apolloClient = client) => apolloClient.
   // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update
   // https://www.apollographql.com/docs/react/advanced/caching.html#after-mutations
   refetchQueries: [{
-    query: ARTICLES_BY_USER_QUERY,
+    query: FETCH_ALL_ARTICLES_WITH_PERMISSIONS,
   }],
   variables: {
     title,
@@ -211,11 +234,11 @@ export const deleteArticle = ({ id }, apolloClient = client) => apolloClient.mut
   mutation: DELETE_ARTICLE_MUTATION,
   update: (store, { data: { deleteArticle } }) => {
     // Read the data from our cache for this query.
-    const data = store.readQuery({ query: ARTICLES_BY_USER_QUERY });
-    const index = data.user.nodes.articles.findIndex(item => item.nid === deleteArticle.page.nid);
+    const data = store.readQuery({ query: FETCH_ALL_ARTICLES_WITH_PERMISSIONS });
+    const index = data.nodeQuery.entities.findIndex(item => item.nid === deleteArticle.page.nid);
     if (index === -1) { return; }
-    data.user.nodes.articles.splice(index, 1);
-    store.writeQuery({ query: ARTICLES_BY_USER_QUERY, data });
+    data.nodeQuery.entities.splice(index, 1);
+    store.writeQuery({ query: FETCH_ALL_ARTICLES_WITH_PERMISSIONS, data });
   },
   variables: {
     id,

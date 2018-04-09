@@ -2,25 +2,8 @@ import React from 'react';
 import { Query } from 'react-apollo';
 
 import { FETCH_FRONT_PAGE_ARTICLES } from '../api/apolloProxy';
-
+import {formatData} from "../utils/ArticlesFormatter";
 import Tile from '../components/Tile';
-
-const formatData = data => data.nodeQuery.entities.map((val) => {
-  let image = '';
-  const item = {
-    label: val.entityLabel,
-  };
-
-  if (val.fieldMediaImage.length) {
-    if(val.fieldMediaImage[0].entity){
-      image = val.fieldMediaImage[0].entity.image.derivative.url;
-      item.image = image;
-    }
-  }
-
-  return item;
-});
-
 
 export const HomeArticle = () => (
   <Query query={FETCH_FRONT_PAGE_ARTICLES} pollInterval={25000}>

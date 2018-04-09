@@ -2,14 +2,17 @@ import ApolloClient from 'apollo-boost';
 import axios from 'axios';
 
 import { defaults, resolvers } from './resolvers';
-
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
+import introspectionQueryResultData from './fragmentTypes.json';
 
 const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
 const URL = process.env.REACT_APP_HOST_DOMAIN ? process.env.REACT_APP_HOST_DOMAIN : '';
 
 const csrf = sessionStorage.getItem('csrfToken') || null;
+const fragmentMatcher = new IntrospectionFragmentMatcher({ introspectionQueryResultData });
 
 const client = new ApolloClient({
+  cache: new InMemoryCache({fragmentMatcher}),
   uri: URL.concat(`/graphql${POSTFIX}`),
   fetchOptions: {
     credentials: 'include',
@@ -37,7 +40,7 @@ const client = new ApolloClient({
   clientState: {
     defaults,
     resolvers,
-  },
+  }
 });
 
 export default client;
