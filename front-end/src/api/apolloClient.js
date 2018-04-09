@@ -1,8 +1,11 @@
 import ApolloClient from 'apollo-boost';
+import { ApolloLink } from 'apollo-link';
 import axios from 'axios';
+import { createUploadLink } from 'apollo-upload-client';
+import { onError } from 'apollo-link-error';
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 
 import { defaults, resolvers } from './resolvers';
-import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import introspectionQueryResultData from './fragmentTypes.json';
 
 const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
@@ -11,8 +14,22 @@ const URL = process.env.REACT_APP_HOST_DOMAIN ? process.env.REACT_APP_HOST_DOMAI
 const csrf = sessionStorage.getItem('csrfToken') || null;
 const fragmentMatcher = new IntrospectionFragmentMatcher({ introspectionQueryResultData });
 
+const uploadLink = createUploadLink({
+  uri: URL.concat(`/graphql${POSTFIX}`),
+});
+
 const client = new ApolloClient({
-  cache: new InMemoryCache({fragmentMatcher}),
+  link: ApolloLink.from([
+    onError(({ graphQLErrors, networkError }) => {
+      if (graphQLErrors) {
+        graphQLErrors.map(({ message, locations, path }) =>
+          console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
+      }
+      if (networkError) console.log(`[Network error]: ${networkError}`);
+    }),
+    uploadLink,
+  ]),
+  cache: new InMemoryCache({ fragmentMatcher }),
   uri: URL.concat(`/graphql${POSTFIX}`),
   fetchOptions: {
     credentials: 'include',
@@ -40,7 +57,7 @@ const client = new ApolloClient({
   clientState: {
     defaults,
     resolvers,
-  }
+  },
 });
 
 export default client;

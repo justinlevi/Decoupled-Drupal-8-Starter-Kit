@@ -248,7 +248,7 @@ apollo-link-dedup@^1.0.0:
   dependencies:
     apollo-link "^1.2.1"
 
-apollo-link-error@^1.0.3:
+apollo-link-error@^1.0.3, apollo-link-error@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/apollo-link-error/-/apollo-link-error-1.0.7.tgz#df6d7b13e9b73f9a615547b65ec9a4c930ca7f18"
   dependencies:
@@ -397,11 +397,11 @@ array-includes@^3.0.3:
     define-properties "^1.1.2"
     es-abstract "^1.7.0"
 
-array-map@0.0.0, array-map@~0.0.0:
+array-map@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/array-map/-/array-map-0.0.0.tgz#88a2bab73d1cf7bcd5c1b118a003f66f665fa662"
 
-array-reduce@0.0.0, array-reduce@~0.0.0:
+array-reduce@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/array-reduce/-/array-reduce-0.0.0.tgz#173899d3ffd1c7d9383e4479525dbe278cab5f2b"
 
@@ -1917,7 +1917,7 @@ core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
 
-core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0, core-js@^2.5.3:
+core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.3:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.3.tgz#8acc38345824f16d8365b7c9b4259168e8ed603e"
 
@@ -3341,10 +3341,6 @@ for-own@^0.1.4:
   dependencies:
     for-in "^1.0.1"
 
-foreach@2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/foreach/-/foreach-2.0.4.tgz#cc5d0d8ae1d46cc9a555c2682f910977859935df"
-
 foreach@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/foreach/-/foreach-2.0.5.tgz#0bee005018aeb260d0a3af3ae658dd0136ec1b99"
@@ -3415,10 +3411,6 @@ fsevents@^1.0.0, fsevents@^1.1.3:
   dependencies:
     nan "^2.3.0"
     node-pre-gyp "^0.6.39"
-
-fsm-iterator@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/fsm-iterator/-/fsm-iterator-1.1.0.tgz#337de45de19eb205788cf02e3a955ec206760dec"
 
 fstream-ignore@^1.0.5:
   version "1.0.5"
@@ -4818,10 +4810,6 @@ json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
 
-json3@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.0.tgz#0e9e7f6c5d270b758929af4d6fefdc84bd66e259"
-
 json3@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.2.tgz#3c0434743df93e2f5c42aee7b19bcb483575f4e1"
@@ -5023,25 +5011,13 @@ lodash.flattendeep@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
 
-lodash.isequal@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
-
 lodash.isfunction@^3.0.8:
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/lodash.isfunction/-/lodash.isfunction-3.0.9.tgz#06de25df4db327ac931981d1bdb067e5af68d051"
 
-lodash.ismatch@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/lodash.ismatch/-/lodash.ismatch-4.4.0.tgz#756cb5150ca3ba6f11085a78849645f188f85f37"
-
 lodash.isobject@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/lodash.isobject/-/lodash.isobject-3.0.2.tgz#3c8fb8d5b5bf4bf90ae06e14f2a530a4ed935e1d"
-
-lodash.isplainobject@^4.0.6:
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
 
 lodash.memoize@^4.1.2:
   version "4.1.2"
@@ -5656,10 +5632,6 @@ object-inspect@^1.5.0:
 object-is@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/object-is/-/object-is-1.0.1.tgz#0aa60ec9989a0b3ed795cf4d06f62cf1ad6539b6"
-
-object-keys@0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/object-keys/-/object-keys-0.5.0.tgz#09e211f3e00318afc4f592e36e7cdc10d9ad7293"
 
 object-keys@^1.0.11, object-keys@^1.0.8:
   version "1.0.11"
@@ -6808,10 +6780,6 @@ readdirp@^2.0.0:
     readable-stream "^2.0.2"
     set-immediate-shim "^1.0.1"
 
-recursive-iterator@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/recursive-iterator/-/recursive-iterator-3.3.0.tgz#4e498ce6227d8c42b2e2d496b296bc866c134514"
-
 recursive-readdir@2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/recursive-readdir/-/recursive-readdir-2.2.1.tgz#90ef231d0778c5ce093c9a48d74e5c5422d13a99"
@@ -6838,23 +6806,6 @@ reduce-function-call@^1.0.1:
   resolved "https://registry.yarnpkg.com/reduce-function-call/-/reduce-function-call-1.0.2.tgz#5a200bf92e0e37751752fe45b0ab330fd4b6be99"
   dependencies:
     balanced-match "^0.4.2"
-
-redux-mock-store@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/redux-mock-store/-/redux-mock-store-1.5.1.tgz#fca4335392e66605420b5559fe02fc5b8bb6d63c"
-  dependencies:
-    lodash.isplainobject "^4.0.6"
-
-redux-saga-test-plan@^3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/redux-saga-test-plan/-/redux-saga-test-plan-3.5.1.tgz#64d260169166be2282c6d31e394251223e56125c"
-  dependencies:
-    core-js "^2.4.1"
-    fsm-iterator "^1.1.0"
-    lodash.isequal "^4.5.0"
-    lodash.ismatch "^4.4.0"
-    object-assign "^4.1.0"
-    util-inspect "^0.1.8"
 
 regenerate@^1.2.1:
   version "1.3.3"
@@ -8191,18 +8142,6 @@ use@^3.1.0:
 util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
-
-util-inspect@^0.1.8:
-  version "0.1.8"
-  resolved "https://registry.yarnpkg.com/util-inspect/-/util-inspect-0.1.8.tgz#2b39dbcd2d921f2d8430923caff40f4b5cea5db1"
-  dependencies:
-    array-map "0.0.0"
-    array-reduce "0.0.0"
-    foreach "2.0.4"
-    indexof "0.0.1"
-    isarray "0.0.1"
-    json3 "3.3.0"
-    object-keys "0.5.0"
 
 util@0.10.3, util@^0.10.3:
   version "0.10.3"

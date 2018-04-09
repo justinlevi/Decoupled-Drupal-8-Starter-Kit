@@ -6,6 +6,7 @@
     "apollo-boost": "^0.1.4",
     "apollo-cache-inmemory": "^1.1.5",
     "apollo-link": "^1.1.0",
+    "apollo-link-error": "^1.0.7",
     "apollo-link-state": "^0.4.1",
     "apollo-upload-client": "^8.0.0",
     "axios": "^0.17.1",

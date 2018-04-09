@@ -12,6 +12,7 @@ import Images from '../components/frames/gallery/GalleryImages';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
 
+const isS3Upload = process.env.REACT_APP_S3_UPLOAD;
 export class GalleryFrame extends Component {
   /*
   * Constructor
@@ -35,7 +36,7 @@ export class GalleryFrame extends Component {
   }
 
   /*
-  * Utilities
+  * Actions
   * ----------------------
   */
 
@@ -53,9 +54,15 @@ export class GalleryFrame extends Component {
   onUploadClick = () => {
     this.setState({ uploading: true });
     const { files } = this.state;
-    this.fetchSignedUrls(files, this.onFetchSignedUrlsCompletionHandler);
+
+    if (isS3Upload) {
+      this.fetchSignedUrls(files, this.onFetchSignedUrlsCompletionHandler);
+    } else {
+      console.log('DRUPAL UPLOAD');
+    }
   }
 
+  // CALLBACK: fetchSignedUrls (S3 - STEP 2)
   onFetchSignedUrlsCompletionHandler = (files, signedUrls) => {
     // Assumptions: the returned signedURLs order matches the files state - always the case?
     signedUrls.map((item, i) => {
@@ -64,6 +71,7 @@ export class GalleryFrame extends Component {
     });
   }
 
+  // CALLBACK: handleUpload (S3 - STEP 3)
   onUploadCompletionHandler = () => {
     this.syncS3FilesBackToDrupalAndCreateMediaEntities(
       this.state.files,
@@ -71,10 +79,17 @@ export class GalleryFrame extends Component {
     );
   }
 
+  // CALLBACK: syncS3FilesBackToDrupalAndCreateMediaEntities (S3 - STEP 4)
   onSyncCompletionHandler = (mids) => {
     this.updateNode(mids);
     setTimeout(() => { this.setState({ files: [] }); }, 500);
   }
+
+
+  /*
+  * Utilities
+  * ----------------------
+  */
 
   setPropOnFile = (file, prop, value) => {
     const newFiles = this.state.files;
@@ -85,7 +100,7 @@ export class GalleryFrame extends Component {
     }
   }
 
-  toggle(tab) {
+  toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
         activeTab: tab,
@@ -151,11 +166,11 @@ export class GalleryFrame extends Component {
   }
 
   /**
-  * NETWORKING - REMOTE FETCH/GRAPHQL
+  * S3 NETWORKING IMPERITIVES - REMOTE FETCH/GRAPHQL
   * ASYNC Sequential Upload and Drupal Sync Steps
   * 1. Upload button clicked
   * 2. Get Signed S3 Upload URLsFiles
-  * 3. Upload files to S3 w/ Progress , Sync with DASYNC Series
+  * 3. Upload files to S3 w/ Progress
   * ----------------------
   */
 
@@ -253,7 +268,7 @@ export class GalleryFrame extends Component {
     }
   }
 
-  // STEP 5 -
+  // Save updates
   updateNode = async (mids = []) => {
     const { article } = this.props;
     const activeMids = article.images.map(item => item.mid);
