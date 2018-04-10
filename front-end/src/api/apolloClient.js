@@ -1,9 +1,12 @@
-import ApolloClient from 'apollo-boost';
-import { ApolloLink } from 'apollo-link';
-import axios from 'axios';
-import { createUploadLink } from 'apollo-upload-client';
-import { onError } from 'apollo-link-error';
+//import axios from 'axios';
+
 import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
+
+import { ApolloClient } from 'apollo-client';
+import { HttpLink } from 'apollo-link-http';
+import { onError } from 'apollo-link-error';
+import { withClientState } from 'apollo-link-state';
+import { ApolloLink, Observable } from 'apollo-link';
 
 import { defaults, resolvers } from './resolvers';
 import introspectionQueryResultData from './fragmentTypes.json';
@@ -11,12 +14,43 @@ import introspectionQueryResultData from './fragmentTypes.json';
 const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
 const URL = process.env.REACT_APP_HOST_DOMAIN ? process.env.REACT_APP_HOST_DOMAIN : '';
 
-const csrf = sessionStorage.getItem('csrfToken') || null;
+//const csrf = sessionStorage.getItem('csrfToken') || null;
 const fragmentMatcher = new IntrospectionFragmentMatcher({ introspectionQueryResultData });
 
-const uploadLink = createUploadLink({
-  uri: URL.concat(`/graphql${POSTFIX}`),
-});
+const requestLink = new ApolloLink((operation, forward) =>
+  new Observable(observer => {
+    let handle: any;
+    Promise.resolve(operation)
+      .then(oper => request(oper))
+      .then(() => {
+        handle = forward(operation).subscribe({
+          next: observer.next.bind(observer),
+          error: observer.error.bind(observer),
+          complete: observer.complete.bind(observer),
+        });
+      })
+      .catch(observer.error.bind(observer));
+
+    return () => {
+      if (handle) handle.unsubscribe();
+    };
+  })
+);
+
+const request = async (operation) => {
+  const authToken = await localStorage.getItem('authToken') || null;
+  //const xcsrf = csrf || await axios.get(`${URL}/session/token`);
+
+  if (authToken !== null) {
+    operation.setContext({
+      headers: {
+        authorization: `Bearer ${authToken}`
+      }
+    });
+  }
+};
+
+const cache = new InMemoryCache({ fragmentMatcher });
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -27,37 +61,18 @@ const client = new ApolloClient({
       }
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
-    uploadLink,
+    requestLink,
+    withClientState({
+      defaults,
+      resolvers,
+      cache
+    }),
+    new HttpLink({
+      uri: URL + '/graphql' + POSTFIX,
+      credentials: 'include'
+    }),
   ]),
-  cache: new InMemoryCache({ fragmentMatcher }),
-  uri: URL.concat(`/graphql${POSTFIX}`),
-  fetchOptions: {
-    credentials: 'include',
-  },
-  request: async (operation) => {
-    const xcsrf = csrf || await axios.get(`${URL}/session/token`);
-    const headers = { 'X-CSRF-Token': xcsrf.data };
-
-    const authToken = localStorage.getItem('authToken') || null;
-    if (authToken !== null) {
-      headers.authorization = `Bearer ${authToken}`;
-    }
-    operation.setContext({ headers });
-  },
-  onError: ({ graphQLErrors, networkError }) => {
-    if (graphQLErrors) {
-      console.log(graphQLErrors);
-      // sendToLoggingService(graphQLErrors);
-    }
-    if (networkError) {
-      // logoutUser();
-      console.log(networkError);
-    }
-  },
-  clientState: {
-    defaults,
-    resolvers,
-  },
+  cache
 });
 
 export default client;
