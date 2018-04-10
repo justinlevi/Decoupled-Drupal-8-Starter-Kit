@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 // import { connect } from 'react-redux';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 
 import { getSignedUrls, addS3Files, updateArticle } from '../api/apolloProxy';
 import { readFile } from '../utils/ImageHelpers';
