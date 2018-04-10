@@ -113,7 +113,7 @@ const ListPageQueryWrapper = () => (
         const filteredArticles = articles.map(page => (page.access === true ? page : null));
 
         return (
-          <ListPage articles={filteredArticles} />
+          <ListPage articles={filteredArticles.filter(Boolean)} />
         );
       }
     }
