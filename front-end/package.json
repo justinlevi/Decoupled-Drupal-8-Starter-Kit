@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "apollo-boost": "^0.1.4",
-    "apollo-cache-inmemory": "^1.1.5",
-    "apollo-link": "^1.1.0",
+    "apollo-cache-inmemory": "^1.1.12",
+    "apollo-client": "^2.2.8",
+    "apollo-link": "^1.2.1",
     "apollo-link-error": "^1.0.7",
+    "apollo-link-http": "^1.5.3",
     "apollo-link-state": "^0.4.1",
     "apollo-upload-client": "^8.0.0",
     "axios": "^0.17.1",
