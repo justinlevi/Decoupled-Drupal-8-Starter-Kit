@@ -7,6 +7,7 @@ import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { withClientState } from 'apollo-link-state';
 import { ApolloLink } from 'apollo-link';
+import { createUploadLink } from 'apollo-upload-client'
 
 import { defaults, resolvers } from './resolvers';
 import introspectionQueryResultData from './fragmentTypes.json';
@@ -44,7 +45,7 @@ const client = new ApolloClient({
       resolvers,
       cache
     }),
-    new HttpLink({
+    createUploadLink({
       uri: URL + '/graphql' + POSTFIX,
       credentials: 'include'
     }),
