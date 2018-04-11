@@ -72,7 +72,12 @@ class List extends Component {
 
   render() {
     const {
-      addHandler, isModalVisible, onDeleteModalToggle, onDeleteModalOk, selectHandler, deleteHandler,
+      addHandler,
+      isModalVisible,
+      onDeleteModalToggle,
+      onDeleteModalOk,
+      selectHandler,
+      deleteHandler,
     } = this.props;
 
     return (
@@ -133,6 +138,8 @@ List.propTypes = {
   addHandler: PropTypes.func.isRequired,
   onDeleteModalToggle: PropTypes.func.isRequired,
   onDeleteModalOk: PropTypes.func.isRequired,
+  selectHandler: PropTypes.func.isRequired,
+  deleteHandler: PropTypes.func.isRequired,
 };
 
 export default List;

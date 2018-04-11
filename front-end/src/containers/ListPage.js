@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
 import List from '../components/List';
-import { createArticle, deleteArticleMutation, FETCH_ALL_ARTICLES_WITH_PERMISSIONS } from '../api/apolloProxy';
+import { createArticleMutation, deleteArticleMutation, FETCH_ALL_ARTICLES_WITH_PERMISSIONS } from '../api/apolloProxy';
 
 export const getArticleFromNid = (articles, nid) => {
   const index = articles.findIndex(item => item.nid === nid);
@@ -46,7 +46,7 @@ export class ListPage extends Component {
   */
 
   addHandler= () => {
-    createArticle({ title: 'NULL' }).then(() => {
+    createArticleMutation({ title: 'NULL' }).then(() => {
       setTimeout(() => {
         const element = document.getElementsByClassName('item-list');
         element[0].scrollIntoView({ block: 'end', behavior: 'smooth' });
