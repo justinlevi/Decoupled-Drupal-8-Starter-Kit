@@ -12,7 +12,13 @@ export const HomeArticle = () => (
       error,
       data,
       }) => {
-        if (loading) return <div className="text-center"><div className="loading-text h1 text-center">Loading...</div><div className="loader" /></div>;
+        if (loading) {
+          return (
+            <div className="text-center">
+              <div className="loading-text h1 text-center">Loading...</div>
+              <div className="loader" />
+            </div>);
+        }
         if (error) return `Error!: ${error}`;
 
         return (
