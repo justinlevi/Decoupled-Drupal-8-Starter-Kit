@@ -321,34 +321,26 @@ export const ADD_S3_FILES = gql`
   }
 `;
 
-export const addS3FilesMutation = (files, apolloClient = client) => apolloClient.mutate({
+export const addS3FilesMutation = (file, apolloClient = client) => apolloClient.mutate({
   mutation: ADD_S3_FILES,
   variables: {
-    input: { files },
+    input: { file },
   },
 });
 
 export const FILE_UPLOAD = gql`
-  mutation($upload: Upload!) { 
-    fileUpload(file: $upload){
-      entity{
-        entityId,
-        entityType,
-        entityBundle
+  mutation($file: Upload!) {
+    fileUpload(file: $file) {
+      entity {
+        ... on File {
+          url
+        }
       }
-      errors
-        violations {
-          message
-          code
-          path
-        },
     }
   }
 `;
 
-export const fileUpload = (file, apolloClient = client) => apolloClient.mutate({
+export const fileUploadMutation = (file, apolloClient = client) => apolloClient.mutate({
   mutation: FILE_UPLOAD,
-  variables: {
-    upload: { file },
-  },
+  variables: { file },
 });

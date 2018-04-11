@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 
-import { getSignedUrls, addS3Files, updateArticle, fileUpload } from '../api/apolloProxy';
+import { getSignedUrlsQuery, addS3FilesMutation, updateArticleMutation, fileUploadMutation } from '../api/apolloProxy';
 import { readFile } from '../utils/ImageHelpers';
 
 import Upload from '../components/frames/gallery/GalleryUpload';
@@ -59,8 +59,8 @@ export class GalleryFrame extends Component {
     } else {
       console.log('DRUPAL UPLOAD');
 
-      files.forEach((file) => {
-        const result = fileUpload(file);
+      files.forEach(({ file }) => {
+        const result = fileUploadMutation(file);
         console.log(result);
       });
     }
