@@ -4,7 +4,7 @@ import axios from 'axios';
 // import { connect } from 'react-redux';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 
-import { getSignedUrls, addS3Files, updateArticle } from '../api/apolloProxy';
+import { getSignedUrlsQuery, addS3FilesMutation, updateArticleMutation } from '../api/apolloProxy';
 import { readFile } from '../utils/ImageHelpers';
 
 import Upload from '../components/frames/gallery/GalleryUpload';
@@ -180,7 +180,7 @@ export class GalleryFrame extends Component {
     this.setState({ uploading: true });
 
     try {
-      const response = await getSignedUrls(this.computedPath(files));
+      const response = await getSignedUrlsQuery(this.computedPath(files));
       const { signedUploadURL } = response.data;
       onFetchSignedUrlsCompletionHandler(files, signedUploadURL);
     } catch (error) {
@@ -258,7 +258,7 @@ export class GalleryFrame extends Component {
     this.setState({ synchronizing: true });
 
     try {
-      const response = await addS3Files(filesMap);
+      const response = await addS3FilesMutation(filesMap);
       // send signedUrls to callback
       console.log('SYNC COMPLETE');
       const mids = response.data.ADD_S3_FILES.map(item => item.mid);
@@ -282,7 +282,7 @@ export class GalleryFrame extends Component {
     };
 
     try {
-      await updateArticle(variables);
+      await updateArticleMutation(variables);
     } catch (error) {
       this.catchError(error);
     }

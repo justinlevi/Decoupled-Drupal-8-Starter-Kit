@@ -6,7 +6,7 @@ import { Query } from 'react-apollo';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
 import Gallery from './GalleryFrame';
-import { ARTICLE_BY_NID, updateArticle } from '../api/apolloProxy';
+import { ARTICLE_BY_NID, updateArticleMutation } from '../api/apolloProxy';
 
 export class EditPage extends Component {
   /*
@@ -40,10 +40,10 @@ export class EditPage extends Component {
       id: String(article.nid),
       title: title === '' ? 'NULL' : title,
       body,
-      field_media_image: mids,
+      fieldMediaImage: mids,
     };
     try {
-      await updateArticle(variables);
+      await updateArticleMutation(variables);
     } catch (error) {
       this.catchError(error);
     }

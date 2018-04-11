@@ -13,7 +13,7 @@ export const SESSION_QUERY = gql`
   }
 `;
 
-export const getSession = (apolloClient = client) =>
+export const getSessionQuery = (apolloClient = client) =>
   apolloClient.query({
     query: SESSION_QUERY,
     props: ({ data }) => ({ isAuthenticated: data.session.isAuthenticated }),
@@ -25,12 +25,12 @@ export const getSession = (apolloClient = client) =>
 
 
 export const UPDATE_AUTHENTICATED = gql`
-  mutation updateAuthenticated($isAuthenticated: Boolean) {
+  mutation updateAuthenticatedMutation($isAuthenticated: Boolean) {
     updateAuthenticated(isAuthenticated: $isAuthenticated) @client
   }
 `;
 
-export const updateAuthenticated = ({ isAuthenticated }, apolloClient = client) =>
+export const updateAuthenticatedMutation = ({ isAuthenticated }, apolloClient = client) =>
   apolloClient.mutate({
     mutation: UPDATE_AUTHENTICATED,
     variables: { isAuthenticated },
@@ -79,7 +79,7 @@ export const FETCH_JWT_TOKEN = gql`
   }
 `;
 
-export const fetchJwtToken = (username, password, apolloClient = client) => apolloClient.query({
+export const fetchJwtTokenQuery = (username, password, apolloClient = client) => apolloClient.query({
   query: FETCH_JWT_TOKEN,
   variables: {
     username,
@@ -192,7 +192,7 @@ ${fragments.nodeArticle}
 `;
 
 export const CREATE_ARTICLE_MUTATION = gql`
-  mutation createArticle($title: String!){
+  mutation createArticleMutation($title: String!){
     createArticle(input: {title: $title}){
       errors
       violations {
@@ -207,7 +207,7 @@ export const CREATE_ARTICLE_MUTATION = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const createArticle = ({ title }, apolloClient = client) => apolloClient.mutate({
+export const createArticleMutation = ({ title }, apolloClient = client) => apolloClient.mutate({
   mutation: CREATE_ARTICLE_MUTATION,
   // TO DO : UPDATE AFTER MUTATION
   // update is the recommended way of updating the cache after a query.
@@ -222,7 +222,7 @@ export const createArticle = ({ title }, apolloClient = client) => apolloClient.
 });
 
 export const DELETE_ARTICLE_MUTATION = gql`
-  mutation deleteArticle($id: String!){
+  mutation deleteArticleMutation($id: String!){
     deleteArticle(id: $id){
       page:entity{
         ...ArticleFields
@@ -237,7 +237,7 @@ export const DELETE_ARTICLE_MUTATION = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const deleteArticle = ({ id }, apolloClient = client) => apolloClient.mutate({
+export const deleteArticleMutation = ({ id }, apolloClient = client) => apolloClient.mutate({
   mutation: DELETE_ARTICLE_MUTATION,
   update: (store, { data: { deleteArticle } }) => {
     // Read the data from our cache for this query.
@@ -253,11 +253,11 @@ export const deleteArticle = ({ id }, apolloClient = client) => apolloClient.mut
 });
 
 export const UPDATE_ARTICLE_MUTATION = gql`
-  mutation updateArticle($id: String!, $title: String, $body: String, $field_media_image:[Int]){
+  mutation updateArticleMutation($id: String!, $title: String, $body: String, $fieldMediaImage:[Int]){
     updateArticle(id: $id,input:{
       title:$title,
       body:$body,
-      field_media_image:$field_media_image
+      field_media_image:$fieldMediaImage
     }){
       page:entity{
         ... ArticleFields
@@ -272,8 +272,9 @@ export const UPDATE_ARTICLE_MUTATION = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const updateArticle = ({
-  id, title, body, field_media_image,
+
+export const updateArticleMutation = ({
+  id, title, body, fieldMediaImage,
 }, apolloClient = client) => apolloClient.mutate({
   mutation: UPDATE_ARTICLE_MUTATION,
   // TO DO : UPDATE AFTER MUTATION
@@ -292,17 +293,17 @@ export const updateArticle = ({
     id,
     title,
     body,
-    field_media_image,
+    fieldMediaImage,
   },
 });
 
 export const GET_SIGNED_URLS = gql`
-  query signedUploadURL ($input: SignedUploadInput!) {
+  query signedUploadURLsQuery ($input: SignedUploadInput!) {
     signedUploadURL(input:$input)
   }
 `;
 
-export const getSignedUrls = (fileNames, apolloClient = client) => apolloClient.query({
+export const getSignedUrlsQuery = (fileNames, apolloClient = client) => apolloClient.query({
   query: GET_SIGNED_URLS,
   variables: {
     input: { fileNames },
@@ -310,14 +311,14 @@ export const getSignedUrls = (fileNames, apolloClient = client) => apolloClient.
 });
 
 export const ADD_S3_FILES = gql`
-  mutation addS3Files($input: S3FilesInput!) {
+  mutation addS3FilesMutation($input: S3FilesInput!) {
     addS3Files(input:$input){
       mid
     }
   }
 `;
 
-export const addS3Files = (files, apolloClient = client) => apolloClient.mutate({
+export const addS3FilesMutation = (files, apolloClient = client) => apolloClient.mutate({
   mutation: ADD_S3_FILES,
   variables: {
     input: { files },

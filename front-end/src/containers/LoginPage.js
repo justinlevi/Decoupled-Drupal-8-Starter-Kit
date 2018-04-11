@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Query } from 'react-apollo';
+import PropTypes from 'prop-types';
 
 import Login from '../components/Login';
-import { fetchJwtToken, updateAuthenticated, SESSION_QUERY } from '../api/apolloProxy';
+import { fetchJwtTokenQuery, updateAuthenticatedMutation, SESSION_QUERY } from '../api/apolloProxy';
 
 export class LoginPage extends Component {
   state = {
@@ -35,7 +36,7 @@ export class LoginPage extends Component {
     }
 
     try {
-      const response = await fetchJwtToken(username, password);
+      const response = await fetchJwtTokenQuery(username, password);
       const { error, key } = response.data.login;
 
       if (error !== 'null') {
@@ -43,7 +44,7 @@ export class LoginPage extends Component {
         return;
       }
       localStorage.setItem('authToken', key);
-      updateAuthenticated({ isAuthenticated: true });
+      updateAuthenticatedMutation({ isAuthenticated: true });
     } catch (error) {
       this.catchError(error);
     }
@@ -56,10 +57,6 @@ export class LoginPage extends Component {
       return <Redirect to="/" />;
     }
 
-    // if (isLoggingIn) {
-    //   return <div className="loggingIn">Logging in...</div>;
-    // }
-
     return (
       <Login
         {...this.props}
@@ -70,6 +67,10 @@ export class LoginPage extends Component {
     );
   }
 }
+
+LoginPage.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired,
+};
 
 const LoginPageQueryWrapper = () => (
   <Query
