@@ -222,7 +222,7 @@ export const createArticle = ({ title }, apolloClient = client) => apolloClient.
 });
 
 export const DELETE_ARTICLE_MUTATION = gql`
-  mutation deleteArticle($id: String!){
+  mutation deleteArticleMutation($id: String!){
     deleteArticle(id: $id){
       page:entity{
         ...ArticleFields
@@ -237,7 +237,7 @@ export const DELETE_ARTICLE_MUTATION = gql`
   }
   ${fragments.nodeArticle}
 `;
-export const deleteArticle = ({ id }, apolloClient = client) => apolloClient.mutate({
+export const deleteArticleMutation = ({ id }, apolloClient = client) => apolloClient.mutate({
   mutation: DELETE_ARTICLE_MUTATION,
   update: (store, { data: { deleteArticle } }) => {
     // Read the data from our cache for this query.

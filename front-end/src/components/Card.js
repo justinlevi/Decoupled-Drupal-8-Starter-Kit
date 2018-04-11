@@ -23,9 +23,9 @@ const Card = (props) => {
           </div>
           <div className="col-md-8 px-3">
             <div className="card-body px-3">
-              <h4 className="card-title">{page.title === 'NULL' ? 'NO TITLE' : page.title.length > 20 ? page.title.substring(0,20) + "...": page.title }</h4>
+              <h4 className="card-title">{page.title === 'NULL' ? 'NO TITLE' : page.title.length > 20 ? `${page.title.substring(0, 20)}...` : page.title }</h4>
               {page.body !== null ?
-                <p className="card-text body">{page.body.value.length > 20 ? page.body.value.substring(0,20) + "...": page.body.value}</p> : null }
+                <p className="card-text body">{page.body.value.length > 20 ? `${page.body.value.substring(0, 20)}...` : page.body.value}</p> : null }
               <p className="card-text">NID: {page.nid}</p>
               <button
                 className="delete"
