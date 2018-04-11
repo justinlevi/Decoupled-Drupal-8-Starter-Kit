@@ -2,8 +2,40 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MdRemove from 'react-icons/lib/md/remove-circle-outline';
 
+const textTrim = (page, trimLength = 20) => {
+  let trimmedPage = {
+    ...page,
+    title: page.title,
+    body: page.body.value,
+  };
+
+  if (page.title === 'NULL') {
+    trimmedPage = {
+      ...trimmedPage,
+      title: 'NO TITLE',
+    };
+  }
+
+  if (page.title.length > trimLength) {
+    trimmedPage = {
+      ...trimmedPage,
+      title: `${page.title.substring(0, trimLength)}...`,
+    };
+  }
+
+  if (page.body.value.length > trimLength) {
+    trimmedPage = {
+      ...trimmedPage,
+      body: `${page.body.value.substring(0, trimLength)}...`,
+    };
+  }
+
+  return trimmedPage;
+};
+
 const Card = (props) => {
   const { page, selectHandler, deleteHandler } = props;
+  const trimmedPage = textTrim(page);
   return (
     <div className="py-3">
       <div
@@ -23,9 +55,8 @@ const Card = (props) => {
           </div>
           <div className="col-md-8 px-3">
             <div className="card-body px-3">
-              <h4 className="card-title">{page.title === 'NULL' ? 'NO TITLE' : page.title.length > 20 ? `${page.title.substring(0, 20)}...` : page.title }</h4>
-              {page.body !== null ?
-                <p className="card-text body">{page.body.value.length > 20 ? `${page.body.value.substring(0, 20)}...` : page.body.value}</p> : null }
+              <h4 className="card-title">{trimmedPage.title}</h4>
+              <p className="card-text body">{trimmedPage.body}</p>
               <p className="card-text">NID: {page.nid}</p>
               <button
                 className="delete"
