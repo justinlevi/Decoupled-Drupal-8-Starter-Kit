@@ -16,7 +16,10 @@ export const SESSION_QUERY = gql`
 export const getSessionQuery = (apolloClient = client) =>
   apolloClient.query({
     query: SESSION_QUERY,
-    props: ({ data }) => ({ isAuthenticated: data.session.isAuthenticated }),
+    props: ({ data }) => ({
+      isAuthenticated: data.session.isAuthenticated,
+      isConnected: data.session.isConnected,
+    }),
   });
 
 // const getSession = (SESSION_QUERY, {
@@ -318,9 +321,26 @@ export const ADD_S3_FILES = gql`
   }
 `;
 
-export const addS3FilesMutation = (files, apolloClient = client) => apolloClient.mutate({
+export const addS3FilesMutation = (file, apolloClient = client) => apolloClient.mutate({
   mutation: ADD_S3_FILES,
   variables: {
-    input: { files },
+    input: { file },
   },
+});
+
+export const FILE_UPLOAD = gql`
+  mutation($file: Upload!) {
+    fileUpload(file: $file) {
+      entity {
+        ... on File {
+          url
+        }
+      }
+    }
+  }
+`;
+
+export const fileUploadMutation = (file, apolloClient = client) => apolloClient.mutate({
+  mutation: FILE_UPLOAD,
+  variables: { file },
 });

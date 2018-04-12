@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-// import { connect } from 'react-redux';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 
-import { getSignedUrlsQuery, addS3FilesMutation, updateArticleMutation } from '../api/apolloProxy';
+import { getSignedUrlsQuery, addS3FilesMutation, updateArticleMutation, fileUploadMutation } from '../api/apolloProxy';
 import { readFile } from '../utils/ImageHelpers';
 
 import Upload from '../components/frames/gallery/GalleryUpload';
@@ -55,10 +54,15 @@ export class GalleryFrame extends Component {
     this.setState({ uploading: true });
     const { files } = this.state;
 
-    if (isS3Upload) {
+    if (isS3Upload !== 'false') {
       this.fetchSignedUrls(files, this.onFetchSignedUrlsCompletionHandler);
     } else {
       console.log('DRUPAL UPLOAD');
+
+      files.forEach(({ file }) => {
+        const result = fileUploadMutation(file);
+        console.log(result);
+      });
     }
   }
 

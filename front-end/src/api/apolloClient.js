@@ -1,11 +1,9 @@
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-
 import { onError } from 'apollo-link-error';
 import { withClientState } from 'apollo-link-state';
 import { ApolloLink, Observable } from 'apollo-link';
 import { createUploadLink } from 'apollo-upload-client';
-
 import { defaults, resolvers } from './resolvers';
 import introspectionQueryResultData from './fragmentTypes.json';
 
