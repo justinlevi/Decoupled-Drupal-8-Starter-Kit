@@ -17,12 +17,14 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({ introspectionQueryRes
 const cache = new InMemoryCache({ fragmentMatcher });
 
 const request = (operation) => {
-  const token = localStorage.getItem('token') || null;
-  operation.setContext({
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
+  const authToken = localStorage.getItem('authToken') || null;
+  if (authToken) {
+    operation.setContext({
+      headers: {
+        authorization: `Bearer ${authToken}`,
+      },
+    });
+  }
 };
 
 const requestLink = new ApolloLink((operation, forward) =>
