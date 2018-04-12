@@ -17,17 +17,20 @@ const textTrim = (text, trimLength = 20) => {
 };
 
 const Card = (props) => {
-  const { page, selectHandler, deleteHandler } = props;
+  const {
+    page, selectHandler, deleteHandler, isAuthenticated,
+  } = props;
   const trimmedTitle = textTrim(page.title);
   const trimmedBody = page.body != null ? textTrim(page.body.value) : null;
   return (
     <div className="py-3">
+
       <div
         role="button"
         tabIndex={0}
         className="card"
-        onClick={() => { selectHandler(page.nid); }}
-        onKeyUp={() => { selectHandler(page.nid); }}
+        onClick={isAuthenticated ? () => { selectHandler(page.nid); } : null}
+        onKeyUp={isAuthenticated ? () => { selectHandler(page.nid); } : null}
       >
         <div className="row ">
           <div className="col-md-4">
@@ -42,14 +45,16 @@ const Card = (props) => {
               <h4 className="card-title">{trimmedTitle}</h4>
               <p className="card-text body">{trimmedBody}</p>
               <p className="card-text">NID: {page.nid}</p>
-              <button
-                className="delete"
-                onClick={deleteHandler}
-                data-toggle="modal"
-                data-target="#exampleModalCenter"
-              >
-                <MdRemove className="remove" />
-              </button>
+              {isAuthenticated ?
+                <button
+                  className="delete"
+                  onClick={isAuthenticated ? deleteHandler : null}
+                  data-toggle="modal"
+                  data-target="#exampleModalCenter"
+                >
+                  <MdRemove className="remove" />
+                </button>
+              : null}
             </div>
           </div>
         </div>
@@ -62,6 +67,7 @@ Card.propTypes = {
   page: PropTypes.shape({}).isRequired,
   selectHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 export default Card;

@@ -3,6 +3,9 @@ import PropTypes, { arrayOf, shape } from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import MdAdd from 'react-icons/lib/md/add';
+import { graphql, compose } from 'react-apollo';
+
+import { SESSION_QUERY } from '../api/apolloProxy';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
 import Card from './Card';
@@ -20,10 +23,13 @@ Fade.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const ListItems = ({ articles, selectHandler, deleteHandler }) => articles.map(page => (
+const ListItems = ({
+  articles, selectHandler, deleteHandler, isAuthenticated,
+}) => articles.map(page => (
   <Fade duration={1000} key={page.nid} timeout={{ enter: 0, exit: 1000 }}>
     <Card
       page={page}
+      isAuthenticated={isAuthenticated}
       selectHandler={selectHandler}
       deleteHandler={(event) => { deleteHandler(event, page.nid); }}
     />
@@ -78,25 +84,30 @@ class List extends Component {
       onDeleteModalOk,
       selectHandler,
       deleteHandler,
+      isAuthenticated,
     } = this.props;
 
     return (
       <div className="">
         <div className="container">
-          <div
-            role="button"
-            tabIndex={0}
-            onKeyUp={() => { addHandler(); }}
-            className="py-3"
-            onClick={() => { addHandler(); }}
-          >
-            <div className="add">
-              <MdAdd />
-              <h2 className="card-title">Add</h2>
-            </div>
-          </div>
 
-          <div className="input-group input-group-lg">
+          {isAuthenticated ?
+            <div
+              role="button"
+              tabIndex={0}
+              onKeyUp={() => { addHandler(); }}
+              className="py-3"
+              onClick={() => { addHandler(); }}
+            >
+              <div className="add">
+                <MdAdd />
+                <h2 className="card-title">Add</h2>
+              </div>
+            </div> : null
+          }
+
+
+          <div className={isAuthenticated ? 'input-group input-group-lg search-box' : 'input-group input-group-lg search-box not-logged-in'}>
             <div className="input-group-prepend">
               <span className="input-group-text" id="inputGroup-sizing-lg">Search By Title</span>
             </div>
@@ -107,6 +118,7 @@ class List extends Component {
             this.state.articles.length > 0 ?
               <TransitionGroup className="item-list">
                 <ListItems
+                  isAuthenticated={isAuthenticated}
                   articles={this.state.articles}
                   selectHandler={selectHandler}
                   deleteHandler={deleteHandler}
@@ -140,6 +152,12 @@ List.propTypes = {
   onDeleteModalOk: PropTypes.func.isRequired,
   selectHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
-export default List;
+
+const getSession = graphql(SESSION_QUERY, {
+  props: ({ data }) => ({ isAuthenticated: data.session.isAuthenticated }),
+});
+
+export default compose(getSession)(List);

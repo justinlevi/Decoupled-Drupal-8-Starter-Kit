@@ -16,7 +16,7 @@ const App = () =>
       <Switch>
         <PageTemplate >
           <Route path="/" exact component={Home} />
-          <PrivateRoute path="/list" exact component={List} />
+          <Route path="/list" exact component={List} />
           <PrivateRoute path="/edit" component={Edit} />
           <Route path="/login" exact component={Login} />
           <Route path="/logout" exact component={Logout()} />

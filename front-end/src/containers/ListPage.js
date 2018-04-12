@@ -110,10 +110,9 @@ const ListPageQueryWrapper = () => (
 
         const articles = data.nodeQuery && data.nodeQuery.entities.length ?
           data.nodeQuery.entities : [];
-        const filteredArticles = articles.map(page => (page.access === true ? page : null));
 
         return (
-          <ListPage articles={filteredArticles.filter(Boolean)} />
+          <ListPage articles={articles} />
         );
       }
     }
