@@ -45,6 +45,10 @@ const fragments = {
       author:entityOwner{
         name
       },
+      entityUrl {
+        path
+        routed
+      }
       title,
       body {
         value
@@ -68,6 +72,21 @@ const fragments = {
     }
   `,
 };
+
+export const FETCH_ARTICLE_BY_ROUTE = gql`
+  query entityRoute($path: String!){
+      route(path: $path) {
+      path
+      routed
+      ... on EntityCanonicalUrl {
+        entity {
+          ...ArticleFields
+        }
+      }
+    }
+  }
+  ${fragments.nodeArticle}
+`;
 
 export const FETCH_JWT_TOKEN = gql`
   query login ($username: String!, $password: String!){
@@ -193,6 +212,13 @@ export const ARTICLE_BY_NID = gql`
   }
 ${fragments.nodeArticle}
 `;
+
+export const articleByNid = (nid, apolloClient = client) => apolloClient.query({
+  query: ARTICLE_BY_NID,
+  variables: {
+    nid,
+  },
+});
 
 export const CREATE_ARTICLE_MUTATION = gql`
   mutation createArticleMutation($title: String!){

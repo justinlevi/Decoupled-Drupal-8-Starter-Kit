@@ -9,6 +9,7 @@ import Login from './containers/LoginPage';
 import Home from './containers/HomePage';
 import List from './containers/ListPage';
 import Edit from './containers/EditPage';
+import ContentDetailsPage from './containers/ContentDetailsPage';
 
 const App = () =>
   (
@@ -16,6 +17,7 @@ const App = () =>
       <Switch>
         <PageTemplate >
           <Route path="/" exact component={Home} />
+          <Route path="/articles/:path" exact component={ContentDetailsPage} />
           <Route path="/list" exact component={List} />
           <PrivateRoute path="/edit" component={Edit} />
           <Route path="/login" exact component={Login} />
