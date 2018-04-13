@@ -306,7 +306,7 @@ export class GalleryFrame extends Component {
               className={this.state.activeTab === '1' ? 'active' : ''}
               onClick={() => { this.toggle('1'); }}
             >
-              Images
+              Upload
             </NavLink>
           </NavItem>
           <NavItem>
@@ -314,7 +314,7 @@ export class GalleryFrame extends Component {
               className={this.state.activeTab === '2' ? 'active' : ''}
               onClick={() => { this.toggle('2'); }}
             >
-              Upload
+              Images
             </NavLink>
           </NavItem>
           {/* <NavItem>
@@ -328,11 +328,6 @@ export class GalleryFrame extends Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Images
-              handleDelete={this.handleDelete}
-            />
-          </TabPane>
-          <TabPane tabId="2">
             <Upload
               onDrop={this.onDrop}
               totalBytes={this.totalBytes}
@@ -340,6 +335,11 @@ export class GalleryFrame extends Component {
               handleCancel={this.handleCancel}
               handleDelete={this.handleDelete}
               {...this.state}
+            />
+          </TabPane>
+          <TabPane tabId="2">
+            <Images
+              handleDelete={this.handleDelete}
             />
           </TabPane>
           {/* <TabPane tabId="3">

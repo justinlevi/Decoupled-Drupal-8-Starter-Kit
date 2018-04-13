@@ -358,6 +358,7 @@ export const FILE_UPLOAD = gql`
   mutation($file: Upload!) {
     fileUpload(file: $file) {
       entity {
+        fid: entityId
         ... on File {
           url
         }
