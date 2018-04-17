@@ -27,7 +27,7 @@ const Tile = (props) => {
           />
         }
       <div className="card-body">
-        <h5 className="card-title">{item.label}</h5>
+        <h5 className="card-title">{item.title}</h5>
       </div>
     </div>
   );

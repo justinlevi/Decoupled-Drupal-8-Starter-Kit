@@ -7,9 +7,9 @@ import Footer from '../components/Footer';
 const PageTemplate = props => (
   <div className="pageTemplate">
     <Nav {...props} />
-    <div className="container">
-      { props.children }
-    </div>
+
+    { props.children }
+
     <Footer {...props} />
   </div>
 );

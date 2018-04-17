@@ -2962,12 +2962,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/justinlevi/graphql-examples.git",
-                "reference": "3b2b5d9c2a81b23ca9393eaf99cfabb51d1f2e3d"
+                "reference": "6bba69d8653f5fde1e16fe60c0e8ca57bcd48897"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinlevi/graphql-examples/zipball/3b2b5d9c2a81b23ca9393eaf99cfabb51d1f2e3d",
-                "reference": "3b2b5d9c2a81b23ca9393eaf99cfabb51d1f2e3d",
+                "url": "https://api.github.com/repos/justinlevi/graphql-examples/zipball/6bba69d8653f5fde1e16fe60c0e8ca57bcd48897",
+                "reference": "6bba69d8653f5fde1e16fe60c0e8ca57bcd48897",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -2982,7 +2982,7 @@
                 "issues": "https://github.com/drupal-graphql/graphql-examples",
                 "source": "https://github.com/drupal-graphql/graphql-examples"
             },
-            "time": "2018-04-13T00:51:03+00:00"
+            "time": "2018-04-17T13:53:43+00:00"
         },
         {
             "name": "drupal/graphql_jwt_login",
@@ -5594,29 +5594,29 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.9.1",
+            "version": "v0.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "bcdf0b50395750bc916a0685e5a570dca0487dbf"
+                "reference": "4d542c66d93a4ac47e006ad25fb1f058a73b9b10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/bcdf0b50395750bc916a0685e5a570dca0487dbf",
-                "reference": "bcdf0b50395750bc916a0685e5a570dca0487dbf",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/4d542c66d93a4ac47e006ad25fb1f058a73b9b10",
+                "reference": "4d542c66d93a4ac47e006ad25fb1f058a73b9b10",
                 "shasum": ""
             },
             "require": {
                 "dnoegel/php-xdg-base-dir": "0.1",
                 "jakub-onderka/php-console-highlighter": "0.3.*",
-                "nikic/php-parser": "~2.0|~3.0|~4.0",
+                "nikic/php-parser": "~1.3|~2.0|~3.0|~4.0",
                 "php": ">=5.4.0",
                 "symfony/console": "~2.3.10|^2.4.2|~3.0|~4.0",
                 "symfony/var-dumper": "~2.7|~3.0|~4.0"
             },
             "require-dev": {
                 "hoa/console": "~2.15|~3.16",
-                "phpunit/phpunit": "~4.4|~5.0|~6.0|~7.0",
+                "phpunit/phpunit": "~4.8.35|~5.0|~6.0|~7.0",
                 "symfony/finder": "~2.1|~3.0|~4.0"
             },
             "suggest": {
@@ -5662,7 +5662,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2018-04-15T22:53:05+00:00"
+            "time": "2018-04-17T13:27:48+00:00"
         },
         {
             "name": "sarciszewski/php-future",
