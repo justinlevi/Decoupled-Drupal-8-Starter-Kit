@@ -12,7 +12,7 @@ git:
   remotes: {  }
   pre-commit: false
   commit-msg:
-    pattern: "(.*?)"
+    pattern: '(.*?)'
   hooks:
     pre-commit: false
 drush:
