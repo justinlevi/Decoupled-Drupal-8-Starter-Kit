@@ -34,22 +34,18 @@ export const Navbar = (props) => {
 
       <Nav className="navbar-nav-scroll" navbar>
         <ul className="navbar-nav bd-navbar-nav flex-row">
-          {
-            isAuthenticated ?
-              <div className="list-group">
-                <NavItem className="navbar-link">
-                  <Link
-                    to="/list"
-                    href="/list"
-                    className="nav-link"
-                  >
-                Edit: Articles
-                  </Link>
+          <div className="list-group">
+            <NavItem className="navbar-link">
+              <Link
+                to="/list"
+                href="/list"
+                className="nav-link"
+              >
+                    Articles
+              </Link>
 
-                </NavItem>
-              </div>
-            : null
-          }
+            </NavItem>
+          </div>
         </ul>
       </Nav>
 

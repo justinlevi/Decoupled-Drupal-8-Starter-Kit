@@ -1,16 +1,29 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
+import { Redirect, withRouter } from 'react-router-dom';
 
-import { FETCH_FRONT_PAGE_ARTICLES } from '../api/apolloProxy';
+import { FETCH_FRONT_PAGE_ARTICLES, articleByNid } from '../api/apolloProxy';
 import formatData from '../utils/ArticlesFormatter';
 import Tile from '../components/Tile';
 
 class HomeArticle extends Component {
+  state = {
+    selected: false,
+  }
+
   onClickHandler = (nid) => {
-    console.log(nid);
+    articleByNid(String(nid)).then((res) => {
+      const { path } = res.data.article.entityUrl;
+      this.setState({ selected: { path } });
+    });
   }
 
   render() {
+    const { selected } = this.state;
+    if (selected) {
+      const { path } = selected;
+      return (<Redirect to={path} />);
+    }
     return (
       <Query query={FETCH_FRONT_PAGE_ARTICLES} pollInterval={25000}>
         {({
@@ -51,4 +64,4 @@ class HomeArticle extends Component {
   }
 }
 
-export default HomeArticle;
+export default withRouter(HomeArticle);

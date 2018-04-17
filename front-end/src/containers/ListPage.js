@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import ARTICLE_SHAPE from '../utils/articlePropType';
 import List from '../components/List';
 import { createArticleMutation, deleteArticleMutation, FETCH_ALL_ARTICLES_WITH_PERMISSIONS } from '../api/apolloProxy';
+import formatData from '../utils/ArticlesFormatter';
 
 export const getArticleFromNid = (articles, nid) => {
   const index = articles.findIndex(item => item.nid === nid);
@@ -108,12 +109,10 @@ const ListPageQueryWrapper = () => (
         if (loading) return <div className="text-center"><div className="loading-text h1 text-center">Loading...</div><div className="loader" /></div>;
         if (error) return `Error!: ${error}`;
 
-        const articles = data.nodeQuery && data.nodeQuery.entities.length ?
-          data.nodeQuery.entities : [];
-        const filteredArticles = articles.map(page => (page.access === true ? page : null));
+        const articles = formatData(data);
 
         return (
-          <ListPage articles={filteredArticles.filter(Boolean)} />
+          <ListPage articles={articles} />
         );
       }
     }

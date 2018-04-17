@@ -26,7 +26,6 @@ module:
   graphql_core: 0
   graphql_examples: 0
   graphql_jwt_login: 0
-  graphql_signed_s3_upload: 0
   help: 0
   history: 0
   image: 0
@@ -46,15 +45,14 @@ module:
   quickedit: 0
   rdf: 0
   responsive_image: 0
-  rest: 0
   restui: 0
-  s3fs: 0
   search: 0
   serialization: 0
   shortcut: 0
   system: 0
   taxonomy: 0
   text: 0
+  token: 0
   toolbar: 0
   tour: 0
   training: 0
@@ -62,6 +60,7 @@ module:
   user: 0
   views_ui: 0
   menu_link_content: 1
+  pathauto: 1
   views: 10
   demo_umami: 1000
 theme:

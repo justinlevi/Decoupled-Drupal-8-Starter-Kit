@@ -50,19 +50,18 @@ export class GalleryFrame extends Component {
   };
 
   // STEP 1 - Upload button clicked
-  onUploadClick = () => {
+  onUploadClick = async () => {
     this.setState({ uploading: true });
     const { files } = this.state;
+    const normalizedFiles = files.map(file => file.file);
 
     if (isS3Upload !== 'false') {
       this.fetchSignedUrls(files, this.onFetchSignedUrlsCompletionHandler);
     } else {
       console.log('DRUPAL UPLOAD');
-
-      files.forEach(({ file }) => {
-        const result = fileUploadMutation(file);
-        console.log(result);
-      });
+      const result = await fileUploadMutation(normalizedFiles);
+      const mids = result.data.imagesUploadMediaCreation.map(item => Number(item.entity.mid));
+      this.onMediaCreationCompleteHandler(mids);
     }
   }
 
@@ -79,12 +78,12 @@ export class GalleryFrame extends Component {
   onUploadCompletionHandler = () => {
     this.syncS3FilesBackToDrupalAndCreateMediaEntities(
       this.state.files,
-      this.onSyncCompletionHandler,
+      this.onMediaCreationCompleteHandler,
     );
   }
 
   // CALLBACK: syncS3FilesBackToDrupalAndCreateMediaEntities (S3 - STEP 4)
-  onSyncCompletionHandler = (mids) => {
+  onMediaCreationCompleteHandler = (mids) => {
     this.updateNode(mids);
     setTimeout(() => { this.setState({ files: [] }); }, 500);
   }
@@ -250,7 +249,7 @@ export class GalleryFrame extends Component {
   // STEP 4 - SyncS3withDrupal
   syncS3FilesBackToDrupalAndCreateMediaEntities = async (
     files,
-    onSyncCompletionHandler = () => {},
+    onMediaCreationCompleteHandler = () => {},
   ) => {
     const p = this.state.uploadPath;
     const filesMap = files.map(f => ({
@@ -265,8 +264,8 @@ export class GalleryFrame extends Component {
       const response = await addS3FilesMutation(filesMap);
       // send signedUrls to callback
       console.log('SYNC COMPLETE');
-      const mids = response.data.ADD_S3_FILES.map(item => item.mid);
-      onSyncCompletionHandler(mids);
+      const mids = response.data.ADD_S3_FILES.map(item => Number(item.mid));
+      onMediaCreationCompleteHandler(mids);
     } catch (error) {
       this.catchError(error);
     }
@@ -275,7 +274,7 @@ export class GalleryFrame extends Component {
   // Save updates
   updateNode = async (mids = []) => {
     const { article } = this.props;
-    const activeMids = article.images.map(item => item.mid);
+    const activeMids = article.images.map(item => Number(item.mid));
     const newMids = mids.concat(activeMids).concat(this.state.mids);
 
     const variables = {
@@ -285,8 +284,10 @@ export class GalleryFrame extends Component {
       field_media_image: newMids,
     };
 
+    console.log(variables);
     try {
-      await updateArticleMutation(variables);
+      const result = await updateArticleMutation(variables);
+      console.log(result);
     } catch (error) {
       this.catchError(error);
     }
@@ -306,7 +307,7 @@ export class GalleryFrame extends Component {
               className={this.state.activeTab === '1' ? 'active' : ''}
               onClick={() => { this.toggle('1'); }}
             >
-              Images
+              Upload
             </NavLink>
           </NavItem>
           <NavItem>
@@ -314,7 +315,7 @@ export class GalleryFrame extends Component {
               className={this.state.activeTab === '2' ? 'active' : ''}
               onClick={() => { this.toggle('2'); }}
             >
-              Upload
+              Images
             </NavLink>
           </NavItem>
           {/* <NavItem>
@@ -328,11 +329,6 @@ export class GalleryFrame extends Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Images
-              handleDelete={this.handleDelete}
-            />
-          </TabPane>
-          <TabPane tabId="2">
             <Upload
               onDrop={this.onDrop}
               totalBytes={this.totalBytes}
@@ -340,6 +336,11 @@ export class GalleryFrame extends Component {
               handleCancel={this.handleCancel}
               handleDelete={this.handleDelete}
               {...this.state}
+            />
+          </TabPane>
+          <TabPane tabId="2">
+            <Images
+              handleDelete={this.handleDelete}
             />
           </TabPane>
           {/* <TabPane tabId="3">
