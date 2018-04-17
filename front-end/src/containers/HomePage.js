@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import { Redirect, withRouter } from 'react-router-dom';
-import { Jumbotron, Container } from 'reactstrap';
+import { Jumbotron, Container, Row, Col } from 'reactstrap';
 
 import { FETCH_FRONT_PAGE_ARTICLES, GET_BANNER, articleByNid } from '../api/apolloProxy';
 import formatData from '../utils/ArticlesFormatter';
@@ -43,7 +43,10 @@ class HomeArticle extends Component {
                   if (error) return `Error!: ${error}`;
 
                   const style = {
-                    backgroundImage: `url(${data.block.image.url})`,
+                    backgroundImage: `linear-gradient(
+                                       rgba(20,20,20, .7),
+                                       rgba(20,20,20, .2)),
+                                       url(${data.block.image.url})`,
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
                   };
@@ -52,8 +55,13 @@ class HomeArticle extends Component {
                     return (
                       <Jumbotron fluid style={style} className="banner-image">
                         <Container fluid>
-                          <h1 className="display-5">{data.block.blocktitle}</h1>
-                          <p className="lead">{data.block.blocksummary}</p>
+                          <Row>
+                            <Col sm={{ size: 3, order: 2, offset: 1 }}>
+                              <h1 className="display-5">{data.block.blocktitle}</h1>
+                              <p className="lead">{data.block.blocksummary}</p>
+                            </Col>
+                          </Row>
+
                         </Container>
                       </Jumbotron>
                     );
