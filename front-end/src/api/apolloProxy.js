@@ -42,12 +42,11 @@ export const updateAuthenticatedMutation = ({ isAuthenticated }, apolloClient = 
 const fragments = {
   nodeArticle: gql`
     fragment ArticleFields on NodeArticle{
-      author:entityOwner{
+      author: entityOwner{
         name
       },
       entityUrl {
         path
-        routed
       }
       title,
       body {
@@ -55,13 +54,13 @@ const fragments = {
       },
       nid,
       uuid
-      images:fieldMediaImage{
-        mid:targetId,
+      images: fieldMediaImage {
+        mid: targetId,
         ... on FieldNodeFieldMediaImage {
-          entity{
+          entity {
             ... on MediaImage {
-              image:fieldMediaImage {
-                derivative(style:MEDIUM) {
+              image: fieldMediaImage {
+                derivative(style: MEDIUM) {
                   url
                 }
               }
@@ -282,13 +281,13 @@ export const deleteArticleMutation = ({ id }, apolloClient = client) => apolloCl
 });
 
 export const UPDATE_ARTICLE_MUTATION = gql`
-  mutation updateArticleMutation($id: String!, $title: String, $body: String, $fieldMediaImage:[Int]){
-    updateArticle(id: $id,input:{
-      title:$title,
-      body:$body,
-      field_media_image:$fieldMediaImage
+  mutation updateArticleMutation($id: String!, $title: String, $body: String, $field_media_image:[Int]){
+    updateArticle(id: $id, input: {
+      title: $title,
+      body: $body,
+      field_media_image: $field_media_image
     }){
-      page:entity{
+      page: entity{
         ... ArticleFields
       },
       errors,
@@ -303,7 +302,7 @@ export const UPDATE_ARTICLE_MUTATION = gql`
 `;
 
 export const updateArticleMutation = ({
-  id, title, body, fieldMediaImage,
+  id, title, body, field_media_image,
 }, apolloClient = client) => apolloClient.mutate({
   mutation: UPDATE_ARTICLE_MUTATION,
   // TO DO : UPDATE AFTER MUTATION
@@ -322,7 +321,7 @@ export const updateArticleMutation = ({
     id,
     title,
     body,
-    fieldMediaImage,
+    field_media_image,
   },
 });
 
@@ -354,20 +353,17 @@ export const addS3FilesMutation = (file, apolloClient = client) => apolloClient.
   },
 });
 
-export const FILE_UPLOAD = gql`
-  mutation($file: Upload!) {
-    fileUpload(file: $file) {
+export const IMAGES_UPLOAD_MEDIA_CREATION = gql`
+  mutation($files: Upload!) {
+    imagesUploadMediaCreation(files: $files) {
       entity {
-        fid: entityId
-        ... on File {
-          url
-        }
+        mid: entityId
       }
     }
   }
 `;
 
-export const fileUploadMutation = (file, apolloClient = client) => apolloClient.mutate({
-  mutation: FILE_UPLOAD,
-  variables: { file },
+export const fileUploadMutation = (files, apolloClient = client) => apolloClient.mutate({
+  mutation: IMAGES_UPLOAD_MEDIA_CREATION,
+  variables: { files },
 });
