@@ -34,10 +34,10 @@ const Card = (props) => {
       >
         <div className="row ">
           <div className="col-md-4">
-            { page.images.length === 0 ?
+            { !page.image ?
               <img src="https://placeholdit.imgix.net/~text?txtsize=38&amp;txt=¯\_(ツ)_/¯&amp;w=400&amp;h=400" alt="" className="w-100" />
                 :
-              <img src={page.images[0].url} alt="" className="w-100" />
+              <img src={page.image} alt="" className="w-100" />
               }
           </div>
           <div className="col-md-8 px-3">
