@@ -15,6 +15,7 @@ class HomeArticle extends Component {
   onClickHandler = (nid) => {
     articleByNid(String(nid)).then((res) => {
       const { path } = res.data.article.entityUrl;
+      console.log(res);
       this.setState({ selected: { path } });
     });
   }

@@ -11,6 +11,7 @@ export const GET_BANNER = gql`
         title: entityLabel
         url: entityUrl {
           path
+          routed
         }
         image: fieldBannerImage {
           url
