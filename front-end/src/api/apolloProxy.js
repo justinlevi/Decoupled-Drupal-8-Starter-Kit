@@ -59,7 +59,14 @@ const fragments = {
         ... on FieldNodeFieldMediaImage {
           entity {
             ... on MediaImage {
+              mid,
               image: fieldMediaImage {
+                file: entity {
+                  ...on File {
+                    filesize,
+                    filename
+                  }
+                },
                 derivative(style: MEDIUM) {
                   url
                 }
@@ -235,6 +242,7 @@ export const CREATE_ARTICLE_MUTATION = gql`
   }
   ${fragments.nodeArticle}
 `;
+
 export const createArticleMutation = ({ title }, apolloClient = client) => apolloClient.mutate({
   mutation: CREATE_ARTICLE_MUTATION,
   // TO DO : UPDATE AFTER MUTATION
@@ -265,6 +273,7 @@ export const DELETE_ARTICLE_MUTATION = gql`
   }
   ${fragments.nodeArticle}
 `;
+
 export const deleteArticleMutation = ({ id }, apolloClient = client) => apolloClient.mutate({
   mutation: DELETE_ARTICLE_MUTATION,
   update: (store, { data: { deleteArticle } }) => {

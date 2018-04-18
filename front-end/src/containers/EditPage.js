@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Form, FormGroup, Input } from 'reactstrap';
+import { Form, FormGroup, Input, Label } from 'reactstrap';
 import { Query } from 'react-apollo';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
-import Gallery from './GalleryFrame';
+
+// import Gallery from './GalleryFrame';
+import MediaImageField from './MediaImageField';
+
 import { ARTICLE_BY_NID, updateArticleMutation } from '../api/apolloProxy';
 
 export class EditPage extends Component {
@@ -76,12 +79,20 @@ export class EditPage extends Component {
 
         <Form>
           <FormGroup>
+            <Label for="title">Title</Label>
             <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={title} />
+          </FormGroup>
+          <FormGroup>
+            <Label for="body">Body</Label>
             <Input name="body" placeholder="Body" type="textarea" bsSize="lg" onChange={this.handleInputChange} value={body} />
           </FormGroup>
-        </Form>
 
-        <Gallery article={article} />
+          <FormGroup>
+            <Label>Images</Label>
+            <MediaImageField article={article} />
+          </FormGroup>
+        </Form>
+        {/* <Gallery article={article} /> */}
 
       </div>
     );
