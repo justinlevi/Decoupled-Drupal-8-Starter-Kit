@@ -27,6 +27,7 @@ export class MediaImageField extends Component {
     })
 
     this.state = {
+      trash: [],
       images,
       uploading: false,
     }
@@ -101,7 +102,7 @@ export class MediaImageField extends Component {
               {
                 images.map((image, i) => (
                 <Mutation mutation={UPDATE_ARTICLE_MUTATION} key={image.mid}>
-                  {(updateTodo, { loading, error }) => (
+                  {(updateArticle, { loading, error }) => (
                     <Thumbnail
                       handleCancel={handleCancel}
                       handleDelete={handleDelete}
