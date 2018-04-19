@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
-import { Mutation } from 'react-apollo';
 
 import { readFile } from '../utils/ImageHelpers';
 import Thumbnail from '../components/frames/gallery/Thumbnail';
 import AddMediaSVG from '../components/addMedia';
-import { UPDATE_ARTICLE_MUTATION, fileUploadMutation } from '../api/apolloProxy';
+
+import { fileUploadMutation } from '../api/apolloProxy';
+import ARTICLE_SHAPE from '../utils/articlePropType';
 
 export class MediaImageField extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ export class MediaImageField extends Component {
     // Loop through our local state array and update mids from upload result
     const updatedImages = this.state.images.slice().map((image) => {
       const { mid, fileName, fileSize } = image;
-      if (!isNaN(mid)) {
+      if (typeof mid === 'number') {
         return image;
       }
 
@@ -81,7 +82,7 @@ export class MediaImageField extends Component {
   createFileObject = (file, maxWidth = 500, maxHeight = 250) => {
     readFile(file, 500, 250, (resizeDataUrl) => {
       const fileObject = {
-        mid: `temp_ ${new Date().getTime()}`, // temporary id
+        mid: `temp_${new Date().getTime()}`, // temporary id
         url: resizeDataUrl,
         fileSize: file.size || file.fileSize,
         fileName: file.name,
@@ -102,7 +103,7 @@ export class MediaImageField extends Component {
   render() {
     const { onDrop, handleCancel, handleDelete } = this;
     const { uploading, images } = this.state;
-    const { article: { title, body }, updateNode } = this.props;
+    const { updateNode } = this.props;
 
     return (
       <div>
@@ -115,22 +116,19 @@ export class MediaImageField extends Component {
             disabled={uploading}
           >
             <div className="grid">
-              <div>
-                <AddMediaSVG />
-              </div>
               {
+              images.length > 0 ?
                 images.map((image, i) => (
-                  // <Mutation mutation={UPDATE_ARTICLE_MUTATION} key={image.mid}>
-                  //   {(updateArticle, { loading, error }) => (
                   <Thumbnail
+                    className={typeof image.mid === 'number' ? 'temp' : 'uploaded'}
                     key={image.mid}
                     handleCancel={handleCancel}
                     handleDelete={() => {
-                          const mids = this.handleDelete(i);
-                          if (!isNaN(image.mid)) {
-                            updateNode({ mids });
-                          }
-                        }}
+                      const mids = handleDelete(i);
+                      if (typeof image.mid === 'number') {
+                        updateNode({ mids });
+                      }
+                    }}
                     index={i}
                     fileSize={image.size || image.fileSize}
                     fileName={image.fileName}
@@ -141,19 +139,26 @@ export class MediaImageField extends Component {
                       <figure>
                         <img alt="" src={image.url} className="responsive-image" />
                       </figure>
-                        )}
+                    )}
                   />
-                  //   )}
-                  // </Mutation>
                 ))
+              :
+                <div>
+                  <AddMediaSVG />
+                </div>
               }
             </div>
           </Dropzone>
-          <p className="w-100 text-right">Select above, or drag/drop images to upload</p>
+          <p className="w-100 text-right">Drop files here or click to upload.</p>
         </div>
       </div>
     );
   }
 }
+
+MediaImageField.propTypes = {
+  article: PropTypes.shape(ARTICLE_SHAPE).isRequired,
+  updateNode: PropTypes.func.isRequired,
+};
 
 export default MediaImageField;

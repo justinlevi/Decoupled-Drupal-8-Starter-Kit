@@ -284,10 +284,8 @@ export class GalleryFrame extends Component {
       field_media_image: newMids,
     };
 
-    console.log(variables);
     try {
       const result = await updateArticleMutation(variables);
-      console.log(result);
     } catch (error) {
       this.catchError(error);
     }

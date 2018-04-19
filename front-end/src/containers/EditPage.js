@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Form, FormGroup, Input, Label, Container } from 'reactstrap';
-import { Query } from 'react-apollo';
+import { Mutation, Query } from 'react-apollo';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
 
 // import Gallery from './GalleryFrame';
-import MediaImageField from './MediaImageField';
+import { MediaImageField } from './MediaImageField';
 
-import { ARTICLE_BY_NID, updateArticleMutation } from '../api/apolloProxy';
+import { UPDATE_ARTICLE_MUTATION, ARTICLE_BY_NID } from '../api/apolloProxy';
 
 export class EditPage extends Component {
   /*
@@ -44,7 +44,7 @@ export class EditPage extends Component {
       field_media_image: mids || images.map(item => item.mid),
     };
     try {
-      await updateArticleMutation(variables);
+      await this.props.updateArticle(variables);
     } catch (error) {
       this.catchError(error);
     }
@@ -99,31 +99,36 @@ export class EditPage extends Component {
 
 EditPage.propTypes = {
   article: PropTypes.shape(ARTICLE_SHAPE).isRequired,
+  updateArticle: PropTypes.func.isRequired,
 };
 
 
 // Fetching again here to make sure we're editing the latest.
 // Could possibly edit from cache as well, but that seems kinda dangerous??
-const EditPageQueryWrapper = () => (
-  <Query
-    query={ARTICLE_BY_NID}
-    variables={{ nid: document.location.pathname.split('/')[2] }}
-    notifyOnNetworkStatusChange
-  >
-    {
-      ({
-        loading, error, data: { article }, networkStatus,
-      }) => {
-        if (networkStatus === 4) return 'Refetching!';
-        if (loading) return <div className="text-center"><div className="loading-text h1 text-center">Loading...</div><div className="loader" /></div>;
-        if (error) return `Error!: ${error}`;
+const EditPageWrapper = () => (
+  <Mutation mutation={UPDATE_ARTICLE_MUTATION}>
+    {(updateArticle, { loading: mutationLoading, error: mutationError }) => (
+      <Query
+        query={ARTICLE_BY_NID}
+        variables={{ nid: document.location.pathname.split('/')[2] }}
+        notifyOnNetworkStatusChange
+      >
+        {
+          ({
+            loading: queryLoading, error: queryError, data: { article }, networkStatus,
+          }) => {
+            if (networkStatus === 4) return 'Refetching!';
+            if (queryLoading) return <div className="text-center"><div className="loading-text h1 text-center">Loading...</div><div className="loader" /></div>;
+            if (queryError) return `Error!: ${queryError}`;
 
-        return (
-          <EditPage article={article} />
-        );
-      }
-    }
-  </Query>
+            return (
+              <EditPage article={article} updateArticle={updateArticle} />
+            );
+          }
+        }
+      </Query>
+    )}
+  </Mutation>
 );
 
-export default withRouter(EditPageQueryWrapper);
+export default withRouter(EditPageWrapper);

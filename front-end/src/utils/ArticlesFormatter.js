@@ -1,15 +1,15 @@
-const formatData = data => data.nodeQuery.entities.map((entity) => {
+const formatData = data => data.nodeQuery.articles.map((article) => {
   let image = '';
   const item = {
-    title: entity.title,
-    nid: entity.nid,
-    uuid: entity.uuid,
+    title: article.title,
+    nid: article.nid,
+    uuid: article.uuid,
   };
 
-  if (entity.images) {
-    if (entity.images.length) {
-      if (entity.images[0].entity) {
-        image = entity.images[0].entity.image.derivative.url;
+  if (article.images) {
+    if (article.images.length) {
+      if (article.images[0].entity) {
+        image = article.images[0].entity.image.derivative.url;
         item.image = image;
       }
     }

@@ -167,7 +167,7 @@ export const FETCH_ALL_ARTICLES_WITH_PERMISSIONS = gql`
         value: ["article"]
       }
     ]}){
-      entities {
+      articles: entities {
         access: entityAccess(operation:"update")
         ...ArticleFields
       }
@@ -189,7 +189,7 @@ export const FETCH_FRONT_PAGE_ARTICLES = gql`
         field: "changed",
       }
     ]) {
-      entities {
+      articles: entities {
         ...ArticleFields
       }
     }
@@ -337,12 +337,11 @@ export const updateArticleMutation = ({
   id, title, body, field_media_image,
 }, apolloClient = client) => apolloClient.mutate({
   mutation: UPDATE_ARTICLE_MUTATION,
-  // TO DO : UPDATE AFTER MUTATION
+  // TODO : UPDATE AFTER MUTATION
   // update is the recommended way of updating the cache after a query.
   // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update
   // https://www.apollographql.com/docs/react/advanced/caching.html#after-mutations
   refetchQueries: [
-    { query: ARTICLES_BY_USER_QUERY },
     { query: FETCH_ALL_ARTICLES_WITH_PERMISSIONS },
     {
       query: ARTICLE_BY_NID,
@@ -353,7 +352,7 @@ export const updateArticleMutation = ({
     id,
     title,
     body,
-    field_media_image,
+    ...(field_media_image.length > 0) && { field_media_image },
   },
 });
 
