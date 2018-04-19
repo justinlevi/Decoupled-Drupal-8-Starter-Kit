@@ -41,7 +41,7 @@ class BannerFrame extends Component {
                           <h1 className="display-5">{data.block.blocktitle}</h1>
                           <p className="lead">{data.block.blocksummary}</p>
                           <p className="lead">
-                            <Button color="primary" onClick={() => this.onClickHandler('block', data.block.id)}>
+                            <Button color="primary">
                               <Link
                                 className="learn-more-button"
                                 href={data.block.blocklink.url.path}
