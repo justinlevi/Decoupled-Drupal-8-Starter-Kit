@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { Redirect, withRouter } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col } from 'reactstrap';
+import { Redirect, withRouter, Link } from 'react-router-dom';
+import { Jumbotron, Container, Row, Col, Button } from 'reactstrap';
+
 
 import { FETCH_FRONT_PAGE_ARTICLES, GET_BANNER, articleByNid } from '../api/apolloProxy';
 import formatData from '../utils/ArticlesFormatter';
@@ -57,9 +58,19 @@ class HomeArticle extends Component {
                       <Jumbotron fluid style={style} className="banner-image">
                         <Container fluid>
                           <Row>
-                            <Col sm={{ size: 3, order: 2, offset: 1 }}>
+                            <Col sm={{ size: 5, order: 2, offset: 1 }}>
                               <h1 className="display-5">{data.block.blocktitle}</h1>
                               <p className="lead">{data.block.blocksummary}</p>
+                              <p className="lead">
+                                <Button color="primary" onClick={() => this.onClickHandler('block', data.block.id)}>
+                                  <Link
+                                    className="learn-more-button"
+                                    href={data.block.blocklink.url.path}
+                                    to={data.block.blocklink.url.path}
+                                  >Learn more
+                                  </Link>
+                                </Button>
+                              </p>
                             </Col>
                           </Row>
 

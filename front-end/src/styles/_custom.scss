@@ -2,6 +2,15 @@
   width: 100%;
 }
 
+.learn-more-button{
+  color: white;
+  text-decoration: none;
+
+  &:hover{
+    color: white;
+  }
+}
+
 .banner-image{
   color: white;
 }
