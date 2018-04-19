@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
-import { Redirect, withRouter, Link } from 'react-router-dom';
-import { Jumbotron, Container, Row, Col, Button } from 'reactstrap';
+import { Redirect, withRouter } from 'react-router-dom';
+import { Container } from 'reactstrap';
 
 
-import { FETCH_FRONT_PAGE_ARTICLES, GET_BANNER, articleByNid } from '../api/apolloProxy';
+import { FETCH_FRONT_PAGE_ARTICLES, articleByNid } from '../api/apolloProxy';
 import formatData from '../utils/ArticlesFormatter';
 import Tile from '../components/Tile';
+import BannerFrame from './BannerFrame';
 
 class HomeArticle extends Component {
   state = {
@@ -16,7 +17,6 @@ class HomeArticle extends Component {
   onClickHandler = (nid) => {
     articleByNid(String(nid)).then((res) => {
       const { path } = res.data.article.entityUrl;
-      console.log(res);
       this.setState({ selected: { path } });
     });
   }
@@ -29,60 +29,7 @@ class HomeArticle extends Component {
     }
     return (
       <div>
-        <Query query={GET_BANNER} pollInterval={25000}>
-          {({
-                loading,
-                error,
-                data,
-                }) => {
-                  if (loading) {
-                    return (
-                      <div className="text-center">
-                        <div className="loading-text h1 text-center">Loading banner...</div>
-                        <div className="loader" />
-                      </div>);
-                  }
-                  if (error) return `Error!: ${error}`;
-
-                  const style = {
-                    backgroundImage: `linear-gradient(
-                                       rgba(20,20,20, .7),
-                                       rgba(20,20,20, .2)),
-                                       url(${data.block.image.url})`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                  };
-
-                  if (data.block) {
-                    return (
-                      <Jumbotron fluid style={style} className="banner-image">
-                        <Container fluid>
-                          <Row>
-                            <Col sm={{ size: 5, order: 2, offset: 1 }}>
-                              <h1 className="display-5">{data.block.blocktitle}</h1>
-                              <p className="lead">{data.block.blocksummary}</p>
-                              <p className="lead">
-                                <Button color="primary" onClick={() => this.onClickHandler('block', data.block.id)}>
-                                  <Link
-                                    className="learn-more-button"
-                                    href={data.block.blocklink.url.path}
-                                    to={data.block.blocklink.url.path}
-                                  >Learn more
-                                  </Link>
-                                </Button>
-                              </p>
-                            </Col>
-                          </Row>
-
-                        </Container>
-                      </Jumbotron>
-                    );
-                  }
-
-                  return <div>No Content Available</div>;
-                }
-              }
-        </Query>
+        <BannerFrame />
         <Container>
           <Query query={FETCH_FRONT_PAGE_ARTICLES} pollInterval={25000}>
             {({
