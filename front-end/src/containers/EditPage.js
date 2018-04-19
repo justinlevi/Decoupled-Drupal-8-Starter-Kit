@@ -43,8 +43,9 @@ export class EditPage extends Component {
       body: body || this.state.body,
       field_media_image: mids || images.map(item => item.mid),
     };
+    console.log(variables);
     try {
-      await this.props.updateArticle(variables);
+      await this.props.updateArticle({ variables });
     } catch (error) {
       this.catchError(error);
     }

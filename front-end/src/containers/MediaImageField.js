@@ -118,30 +118,30 @@ export class MediaImageField extends Component {
             <div className="grid">
               {
               images.length > 0 ?
-                images.map((image, i) => (
-                  <Thumbnail
-                    className={typeof image.mid === 'number' ? 'temp' : 'uploaded'}
-                    key={image.mid}
-                    handleCancel={handleCancel}
-                    handleDelete={() => {
-                      const mids = handleDelete(i);
-                      if (typeof image.mid === 'number') {
-                        updateNode({ mids });
-                      }
-                    }}
-                    index={i}
-                    fileSize={image.size || image.fileSize}
-                    fileName={image.fileName}
-                    percentageComplete={image.percentCompleted ? image.percentCompleted : 0}
-                    uploadInitiated={image.uploadInitiated ? image.uploadInitiated : false}
-                    uploadSuccess={image.uploadSuccess ? image.uploadSuccess : false}
-                    render={() => (
-                      <figure>
-                        <img alt="" src={image.url} className="responsive-image" />
-                      </figure>
-                    )}
-                  />
-                ))
+                images.map((image, i) => {
+                  const imageUploading = typeof image.mid === 'number';
+                  return (
+                    <Thumbnail
+                      key={image.mid}
+                      handleCancel={handleCancel}
+                      handleDelete={() => {
+                        const mids = handleDelete(i);
+                        if (typeof image.mid === 'number') {
+                          updateNode({ mids });
+                        }
+                      }}
+                      index={i}
+                      fileSize={image.size || image.fileSize}
+                      fileName={image.fileName}
+                      percentageComplete={image.percentCompleted ? image.percentCompleted : 0}
+                      uploadInitiated={image.uploadInitiated ? image.uploadInitiated : false}
+                      uploadSuccess={image.uploadSuccess ? image.uploadSuccess : false}
+                      render={() => (
+                        <img alt="" src={image.url} className={`responsive-image ${imageUploading ? 'uploaded' : 'temp'}`} />
+                      )}
+                    />
+                  );
+                })
               :
                 <div>
                   <AddMediaSVG />
