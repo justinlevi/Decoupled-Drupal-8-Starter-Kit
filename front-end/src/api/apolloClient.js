@@ -53,6 +53,7 @@ const client = new ApolloClient({
       }
       if (networkError) {
         console.log(`[Network error]: ${networkError}`);
+        window.location = '/logout';
       }
     }),
     requestLink,

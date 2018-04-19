@@ -18,6 +18,11 @@ const Thumbnail = ({
   const incrementValue = 1;
   const animationDelay = 0.15;
 
+  const deleteHandler = (e) => {
+    e.stopPropagation();
+    handleDelete(index);
+  };
+
   return (
     <div className="cell" data-index={index}>
       {render()}
@@ -52,7 +57,7 @@ const Thumbnail = ({
       <div className="dz-error-message"><span data-dz-errormessage="true" /></div>
 
       { uploadInitiated === false && uploadSuccess === false ?
-        <button className="delete" onClick={() => handleDelete(index)}>✖</button>
+        <button className="delete" onClick={deleteHandler}>✖</button>
       : null }
     </div>
   );
