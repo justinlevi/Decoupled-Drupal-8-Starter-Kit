@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
-import { Mutation } from "react-apollo";
+import { Mutation } from 'react-apollo';
 
 import { readFile } from '../utils/ImageHelpers';
 import Thumbnail from '../components/frames/gallery/Thumbnail';
@@ -9,7 +9,6 @@ import AddMediaSVG from '../components/addMedia';
 import { UPDATE_ARTICLE_MUTATION, fileUploadMutation } from '../api/apolloProxy';
 
 export class MediaImageField extends Component {
-
   constructor(props) {
     super(props);
 
@@ -24,13 +23,13 @@ export class MediaImageField extends Component {
         };
       }
       return null;
-    })
+    });
 
     this.state = {
       trash: [],
       images,
       uploading: false,
-    }
+    };
   }
 
   onDrop = async (files) => {
@@ -44,32 +43,31 @@ export class MediaImageField extends Component {
 
     this.setState({ uploading: true });
     const result = await fileUploadMutation(files);
-    const { data: {imagesUploadMediaCreation } } = result;
+    const { data: { imagesUploadMediaCreation } } = result;
 
     // Loop through our local state array and update mids from upload result
     const updatedImages = this.state.images.slice().map((image) => {
       const { mid, fileName, fileSize } = image;
-      if (!isNaN(mid)){
+      if (!isNaN(mid)) {
         return image;
       }
 
-      const uploadedImage = imagesUploadMediaCreation.filter(
-        ({ entity: { image: { file: { filename, filesize } } } }) => {
-          return (filename === fileName && filesize === fileSize);
-        }).shift();
+      const uploadedImage = imagesUploadMediaCreation
+        .filter(({ entity: { image: { file: { filename, filesize } } } }) =>
+          (filename === fileName && filesize === fileSize))
+        .shift();
 
-      return {...image, mid: Number(uploadedImage.entity.mid) };
+      return { ...image, mid: Number(uploadedImage.entity.mid) };
     });
 
     this.setState({ images: updatedImages }, async () => {
-      const mids = this.state.images.map((image) => image.mid);
+      const mids = this.state.images.map(image => image.mid);
       this.props.updateNode({ mids });
-    })
-
+    });
   };
 
   handleDelete = (index) => {
-    const images = this.state.images.filter((_, i) => i !== index); 
+    const images = this.state.images.filter((_, i) => i !== index);
     this.setState({ images });
     return images.map(image => image.mid);
   }
@@ -80,7 +78,7 @@ export class MediaImageField extends Component {
     this.handleDelete(index);
   }
 
-  createFileObject = (file, maxWidth = 200, maxHeight = 200) => {
+  createFileObject = (file, maxWidth = 500, maxHeight = 250) => {
     readFile(file, 500, 250, (resizeDataUrl) => {
       const fileObject = {
         mid: `temp_ ${new Date().getTime()}`, // temporary id
@@ -124,27 +122,27 @@ export class MediaImageField extends Component {
                 images.map((image, i) => (
                   // <Mutation mutation={UPDATE_ARTICLE_MUTATION} key={image.mid}>
                   //   {(updateArticle, { loading, error }) => (
-                      <Thumbnail
-                        key={image.mid}
-                        handleCancel={handleCancel}
-                        handleDelete={() => { 
+                  <Thumbnail
+                    key={image.mid}
+                    handleCancel={handleCancel}
+                    handleDelete={() => {
                           const mids = this.handleDelete(i);
-                          if (!isNaN(image.mid)){
+                          if (!isNaN(image.mid)) {
                             updateNode({ mids });
                           }
                         }}
-                        index={i}
-                        fileSize={image.size || image.fileSize}
-                        fileName={image.fileName}
-                        percentageComplete={image.percentCompleted ? image.percentCompleted : 0}
-                        uploadInitiated={image.uploadInitiated ? image.uploadInitiated : false}
-                        uploadSuccess={image.uploadSuccess ? image.uploadSuccess : false}
-                        render={() => (
-                          <figure>
-                            <img alt="" src={image.url} className="responsive-image" />
-                          </figure>
+                    index={i}
+                    fileSize={image.size || image.fileSize}
+                    fileName={image.fileName}
+                    percentageComplete={image.percentCompleted ? image.percentCompleted : 0}
+                    uploadInitiated={image.uploadInitiated ? image.uploadInitiated : false}
+                    uploadSuccess={image.uploadSuccess ? image.uploadSuccess : false}
+                    render={() => (
+                      <figure>
+                        <img alt="" src={image.url} className="responsive-image" />
+                      </figure>
                         )}
-                      />
+                  />
                   //   )}
                   // </Mutation>
                 ))
