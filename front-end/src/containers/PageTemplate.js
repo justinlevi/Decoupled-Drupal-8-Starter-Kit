@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Nav from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const PageTemplate = props => (
-  <div className="pageTemplate">
-    <Nav {...props} />
-    <div className="container">
-      { props.children }
-    </div>
-    <Footer {...props} />
-  </div>
-);
+class PageTemplate extends Component {
+  static getDerivedStateFromProps(nextProps) {
+    console.log(nextProps);
+
+    return true;
+  }
+
+  render() {
+    return (
+      <div className="pageTemplate">
+        <Nav {...this.props} />
+
+        { this.props.children }
+
+        <Footer {...this.props} />
+      </div>
+    );
+  }
+}
 
 PageTemplate.propTypes = {
   children: PropTypes.node.isRequired,

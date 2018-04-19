@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Form, FormGroup, Input, Label } from 'reactstrap';
+import { Form, FormGroup, Input, Label, Container } from 'reactstrap';
 import { Query } from 'react-apollo';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
@@ -35,7 +35,7 @@ export class EditPage extends Component {
     console.log(`Error ${error}`);
   }
 
-  updateNode = async ( { title, body, mids }) => {
+  updateNode = async ({ title, body, mids }) => {
     const { article: { images, nid } } = this.state;
     const variables = {
       id: String(nid),
@@ -74,24 +74,24 @@ export class EditPage extends Component {
     const { article, title, body } = this.state;
     return (
       <div className="EditPageContainer">
+        <Container>
+          <Form>
+            <FormGroup>
+              <Label for="title">Title</Label>
+              <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={title} />
+            </FormGroup>
+            <FormGroup>
+              <Label for="body">Body</Label>
+              <Input name="body" placeholder="Body" type="textarea" bsSize="lg" onChange={this.handleInputChange} value={body} />
+            </FormGroup>
 
-        <Form>
-          <FormGroup>
-            <Label for="title">Title</Label>
-            <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={title} />
-          </FormGroup>
-          <FormGroup>
-            <Label for="body">Body</Label>
-            <Input name="body" placeholder="Body" type="textarea" bsSize="lg" onChange={this.handleInputChange} value={body} />
-          </FormGroup>
-
-          <FormGroup>
-            <Label>Images</Label>
-            <MediaImageField article={article} updateNode={this.updateNode} />
-          </FormGroup>
-        </Form>
-        {/* <Gallery article={article} /> */}
-
+            <FormGroup>
+              <Label>Images</Label>
+              <MediaImageField article={article} updateNode={this.updateNode} />
+            </FormGroup>
+          </Form>
+          {/* <Gallery article={article} /> */}
+        </Container>
       </div>
     );
   }

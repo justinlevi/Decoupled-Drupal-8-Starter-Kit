@@ -3,6 +3,31 @@ import gql from 'graphql-tag';
 
 import client from './apolloClient';
 
+export const GET_BANNER = gql`
+  query{
+    block: blockContentById(id: "1"){
+      ...on BlockContent{
+        id: entityId
+        title: entityLabel
+        url: entityUrl {
+          path
+          routed
+        }
+        image: fieldBannerImage {
+          url
+        }
+        blocktitle: fieldTitle
+        blocksummary: fieldSummary
+        blocklink: fieldContentLink {
+          url {
+            path
+          }
+          title
+        }
+      }
+    }
+  }
+`;
 
 export const SESSION_QUERY = gql`
   query {
@@ -165,7 +190,6 @@ export const FETCH_FRONT_PAGE_ARTICLES = gql`
       }
     ]) {
       entities {
-        entityLabel
         ...ArticleFields
       }
     }
