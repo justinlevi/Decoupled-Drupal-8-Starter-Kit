@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+// import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 
 import { getSignedUrlsQuery, addS3FilesMutation, updateArticleMutation, fileUploadMutation } from '../api/apolloProxy';
 import { readFile } from '../utils/ImageHelpers';
@@ -301,56 +301,14 @@ export class GalleryFrame extends Component {
   render() {
     return (
       <div>
-        <Nav tabs>
-          <NavItem>
-            <NavLink
-              className={this.state.activeTab === '1' ? 'active' : ''}
-              onClick={() => { this.toggle('1'); }}
-            >
-              Upload
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={this.state.activeTab === '2' ? 'active' : ''}
-              onClick={() => { this.toggle('2'); }}
-            >
-              Images
-            </NavLink>
-          </NavItem>
-          {/* <NavItem>
-            <NavLink
-              className={this.state.activeTab === '2' ? 'active' : ''}
-              onClick={() => { this.toggle('3'); }}
-            >
-              Library
-            </NavLink>
-          </NavItem> */}
-        </Nav>
-        <TabContent activeTab={this.state.activeTab}>
-          <TabPane tabId="1">
-            <Upload
-              onDrop={this.onDrop}
-              totalBytes={this.totalBytes}
-              onUploadClick={this.onUploadClick}
-              handleCancel={this.handleCancel}
-              handleDelete={this.handleDelete}
-              {...this.state}
-            />
-          </TabPane>
-          <TabPane tabId="2">
-            <Images
-              handleDelete={this.handleDelete}
-            />
-          </TabPane>
-          {/* <TabPane tabId="3">
-            <Row>
-              <Col sm="12">
-                <h4>Library</h4>
-              </Col>
-            </Row>
-          </TabPane> */}
-        </TabContent>
+        <Upload
+          onDrop={this.onDrop}
+          totalBytes={this.totalBytes}
+          onUploadClick={this.onUploadClick}
+          handleCancel={this.handleCancel}
+          handleDelete={this.handleDelete}
+          {...this.state}
+        />
       </div>
     );
   }
