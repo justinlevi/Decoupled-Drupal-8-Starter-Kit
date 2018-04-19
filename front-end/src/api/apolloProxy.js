@@ -151,7 +151,6 @@ export const FETCH_ALL_ARTICLES_WITH_PERMISSIONS = gql`
   ${fragments.nodeArticle}
 `;
 
-
 export const FETCH_FRONT_PAGE_ARTICLES = gql`
   query {
     nodeQuery(filter: {conditions: [
@@ -367,6 +366,16 @@ export const IMAGES_UPLOAD_MEDIA_CREATION = gql`
     imagesUploadMediaCreation(files: $files) {
       entity {
         mid: entityId
+        ... on MediaImage {
+          image: fieldMediaImage {
+            file: entity {
+              ...on File {
+                filesize,
+                filename
+              }
+            }
+          }
+        }
       }
     }
   }

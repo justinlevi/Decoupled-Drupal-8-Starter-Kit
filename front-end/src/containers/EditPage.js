@@ -35,15 +35,13 @@ export class EditPage extends Component {
     console.log(`Error ${error}`);
   }
 
-  updateNode = async () => {
-    const { title, body, article } = this.state;
-
-    const mids = article.images.map(item => item.mid);
+  updateNode = async ( { title, body, mids }) => {
+    const { article: { images, nid } } = this.state;
     const variables = {
-      id: String(article.nid),
-      title: title === '' ? 'NULL' : title,
-      body,
-      fieldMediaImage: mids,
+      id: String(nid),
+      title: title === '' ? 'NULL' : title || this.state.title,
+      body: body || this.state.body,
+      field_media_image: mids || images.map(item => item.mid),
     };
     try {
       await updateArticleMutation(variables);
@@ -89,7 +87,7 @@ export class EditPage extends Component {
 
           <FormGroup>
             <Label>Images</Label>
-            <MediaImageField article={article} />
+            <MediaImageField article={article} updateNode={this.updateNode} />
           </FormGroup>
         </Form>
         {/* <Gallery article={article} /> */}
