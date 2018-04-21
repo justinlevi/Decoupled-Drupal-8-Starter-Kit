@@ -7,31 +7,21 @@ import Thumbnail from '../components/frames/gallery/Thumbnail';
 import AddMediaSVG from '../components/addMedia';
 
 import { fileUploadMutation } from '../api/apolloProxy';
-import ARTICLE_SHAPE from '../utils/articlePropType';
+// import ARTICLE_SHAPE from '../utils/articlePropType';
 
 export class MediaImageField extends Component {
-  constructor(props) {
-    super(props);
-
-    const images = props.article.images.map(({ entity, mid }) => {
-      if (entity && entity.image && entity.image.derivative && entity.image.derivative.url) {
-        const { image: { derivative: { url }, file: { filesize, filename } } } = entity;
-        return {
-          mid,
-          url,
-          fileSize: filesize,
-          fileName: filename,
-        };
-      }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.images === prevState.images) {
       return null;
-    });
-
-    this.state = {
-      trash: [],
-      images,
-      uploading: false,
-    };
+    }
+    return { images: nextProps.images };
   }
+
+  state = {
+    trash: [],
+    images: [],
+    uploading: false,
+  };
 
   onDrop = async (files) => {
     const len = files.length;
@@ -61,16 +51,18 @@ export class MediaImageField extends Component {
       return { ...image, mid: Number(uploadedImage.entity.mid) };
     });
 
-    this.setState({ images: updatedImages }, async () => {
-      const mids = this.state.images.map(image => image.mid);
-      this.props.updateNode({ mids });
-    });
+    this.props.updateImages(updatedImages);
   };
 
   handleDelete = (index) => {
-    const images = this.state.images.filter((_, i) => i !== index);
-    this.setState({ images });
-    return images.map(image => image.mid);
+    const { images, trash } = this.state;
+    const newTrash = [...trash, images[index]];
+    const newImages = images.filter((_, i) => i !== index);
+    this.setState({
+      trash: newTrash,
+      images: newImages,
+    });
+    return newImages;
   }
 
   handleCancel = (index) => {
@@ -103,20 +95,20 @@ export class MediaImageField extends Component {
   render() {
     const { onDrop, handleCancel, handleDelete } = this;
     const { uploading, images } = this.state;
-    const { updateNode } = this.props;
+    const { updateImages } = this.props;
 
     return (
-      <div>
-        <div className="container p-0">
-          <Dropzone
-            ref={(node) => { this.dropzoneRef = node; }}
-            onDrop={onDrop}
-            id="dropZone"
-            className="dropZone"
-            disabled={uploading}
-          >
-            <div className="grid">
-              {
+
+      <div className="container p-0">
+        <Dropzone
+          ref={(node) => { this.dropzoneRef = node; }}
+          onDrop={onDrop}
+          id="dropZone"
+          className="dropZone"
+          disabled={uploading}
+        >
+          <div className="grid">
+            {
               images.length > 0 ?
                 images.map((image, i) => {
                   const imageUploading = typeof image.mid === 'number';
@@ -125,9 +117,9 @@ export class MediaImageField extends Component {
                       key={image.mid}
                       handleCancel={handleCancel}
                       handleDelete={() => {
-                        const mids = handleDelete(i);
+                        const newImages = handleDelete(i);
                         if (typeof image.mid === 'number') {
-                          updateNode({ mids });
+                          updateImages(newImages);
                         }
                       }}
                       index={i}
@@ -147,18 +139,16 @@ export class MediaImageField extends Component {
                   <AddMediaSVG />
                 </div>
               }
-            </div>
-          </Dropzone>
-          <p className="w-100 text-right">Drop files here or click to upload.</p>
-        </div>
+          </div>
+        </Dropzone>
+        <p className="w-100 text-right">Drop files here or click to upload.</p>
       </div>
     );
   }
 }
 
 MediaImageField.propTypes = {
-  article: PropTypes.shape(ARTICLE_SHAPE).isRequired,
-  updateNode: PropTypes.func.isRequired,
+  updateImages: PropTypes.func.isRequired,
 };
 
 export default MediaImageField;

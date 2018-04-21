@@ -3,7 +3,7 @@
 }
 
 .temp {
-  opacity: 0.75;
+  opacity: 0.50;
 }
 
 .learn-more-button{
@@ -195,6 +195,10 @@ footer.page-footer {
 
 // UPLOAD COMPONENT - GIANT MESS [TODO: REFACTOR]
 
+.editPageContainer {
+  margin-top: 1.5rem;
+}
+
 .form-control {
   margin-top: .5rem;
 }
@@ -227,6 +231,7 @@ footer.page-footer {
 }
 
 .dropZone {
+  margin-top: .5rem;
   border: 2px dashed #bbb;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
