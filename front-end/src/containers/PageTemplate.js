@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Alert } from 'reactstrap';
 
 import Nav from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -10,9 +11,8 @@ const PageTemplate = ({ children }) => (
   <div className="pageTemplate">
     <SessionConsumer>
       {
-        session =>
-          // console.log(`${session.isConnected}: Session Status`);
-           (!session.isConnected ? <div>Network Connnection Error: OFFLINE</div> : null)
+        ({ isConnected }) => (!isConnected ?
+          <Alert color="primary">Your Network Connnection Appears to be: OFFLINE</Alert> : null)
 
       }
     </SessionConsumer>
