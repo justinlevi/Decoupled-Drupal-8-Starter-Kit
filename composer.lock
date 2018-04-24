@@ -277,16 +277,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.54.4",
+            "version": "3.54.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "6642a13df7ddcccf19e66c744c5bfae5b61e9e85"
+                "reference": "0216bc091f0cb7aea72e9e6abfdeac0730809217"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6642a13df7ddcccf19e66c744c5bfae5b61e9e85",
-                "reference": "6642a13df7ddcccf19e66c744c5bfae5b61e9e85",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0216bc091f0cb7aea72e9e6abfdeac0730809217",
+                "reference": "0216bc091f0cb7aea72e9e6abfdeac0730809217",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +353,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2018-04-10T22:11:31+00:00"
+            "time": "2018-04-19T22:54:55+00:00"
         },
         {
             "name": "chi-teck/drupal-code-generator",
@@ -2962,12 +2962,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/justinlevi/graphql-examples.git",
-                "reference": "6b27408c3051b34f0c1d7edcaeb2a42aeb9f81cc"
+                "reference": "b52ca046ba7785691a92e4b4265725a7f3cbc5ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/justinlevi/graphql-examples/zipball/6b27408c3051b34f0c1d7edcaeb2a42aeb9f81cc",
-                "reference": "6b27408c3051b34f0c1d7edcaeb2a42aeb9f81cc",
+                "url": "https://api.github.com/repos/justinlevi/graphql-examples/zipball/b52ca046ba7785691a92e4b4265725a7f3cbc5ce",
+                "reference": "b52ca046ba7785691a92e4b4265725a7f3cbc5ce",
                 "shasum": ""
             },
             "type": "drupal-module",
@@ -2982,7 +2982,7 @@
                 "issues": "https://github.com/drupal-graphql/graphql-examples",
                 "source": "https://github.com/drupal-graphql/graphql-examples"
             },
-            "time": "2018-04-19T16:24:59+00:00"
+            "time": "2018-04-19T19:19:44+00:00"
         },
         {
             "name": "drupal/graphql_jwt_login",

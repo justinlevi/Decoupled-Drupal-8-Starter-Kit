@@ -29,6 +29,27 @@ export const GET_BANNER = gql`
   }
 `;
 
+export const UPDATE_BANNER = gql`
+  mutation updateBlockContent($id: String!, $title: String, $body: String, $bannerImage: [Int]) {
+    updateBlock(id: $id,
+      input:{
+        title: $title,
+        body: $body
+        bannerImage: $bannerImage
+      })
+    }
+`;
+
+export const updateBannerMutation = ({
+  id, title, body, bannerImage,
+}, apolloClient = client) =>
+  apolloClient.mutate({
+    mutation: UPDATE_BANNER,
+    variables: {
+      id, title, body, bannerImage,
+    },
+  });
+
 export const SESSION_QUERY = gql`
   query {
     session @client {

@@ -7,7 +7,7 @@ import { Container } from 'reactstrap';
 import { FETCH_FRONT_PAGE_ARTICLES, articleByNid } from '../api/apolloProxy';
 import formatData from '../utils/ArticlesFormatter';
 import Tile from '../components/Tile';
-import BannerFrame from './BannerFrame';
+import BannerFrameQueryWrapper from './BannerFrame';
 
 class HomeArticle extends Component {
   state = {
@@ -29,7 +29,7 @@ class HomeArticle extends Component {
     }
     return (
       <div>
-        <BannerFrame />
+        <BannerFrameQueryWrapper />
         <Container>
           <Query query={FETCH_FRONT_PAGE_ARTICLES} pollInterval={25000}>
             {({

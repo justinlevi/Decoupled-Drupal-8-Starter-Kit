@@ -30,9 +30,7 @@ class ContentDetailsPage extends Component {
 
             const page = data.route ? data.route.entity : null;
 
-            return (
-              page ? <Page title={page.title} body={page.body} /> : null
-            );
+            return (page ? <Page title={page.title} body={page.body} /> : null);
           }
         }
       </Query>
