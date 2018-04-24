@@ -7,6 +7,7 @@ import { createUploadLink } from 'apollo-upload-client';
 import { defaults, resolvers } from './resolvers';
 import introspectionQueryResultData from './fragmentTypes.json';
 
+import customFetch from './customFetch';
 import { updateNetworkStatusMutation } from './apolloProxy';
 
 const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
@@ -68,6 +69,7 @@ const client = new ApolloClient({
     createUploadLink({
       uri: `${URL}/graphql${POSTFIX}`,
       credentials: 'include',
+      fetch: customFetch,
     }),
   ]),
   cache,
