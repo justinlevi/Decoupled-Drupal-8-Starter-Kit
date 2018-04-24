@@ -29,41 +29,6 @@ export const GET_BANNER = gql`
   }
 `;
 
-export const SESSION_QUERY = gql`
-  query {
-    session @client {
-      isConnected,
-      isAuthenticated,
-    }
-  }
-`;
-
-export const getSessionQuery = (apolloClient = client) =>
-  apolloClient.query({
-    query: SESSION_QUERY,
-    props: ({ data }) => ({
-      isAuthenticated: data.session.isAuthenticated,
-      isConnected: data.session.isConnected,
-    }),
-  });
-
-// const getSession = (SESSION_QUERY, {
-//   props: ({ data }) => ({ isAuthenticated: data.session.isAuthenticated }),
-// });
-
-
-export const UPDATE_AUTHENTICATED = gql`
-  mutation updateAuthenticatedMutation($isAuthenticated: Boolean) {
-    updateAuthenticated(isAuthenticated: $isAuthenticated) @client
-  }
-`;
-
-export const updateAuthenticatedMutation = ({ isAuthenticated }, apolloClient = client) =>
-  apolloClient.mutate({
-    mutation: UPDATE_AUTHENTICATED,
-    variables: { isAuthenticated },
-  });
-
 const fragments = {
   nodeArticle: gql`
     fragment ArticleFields on NodeArticle{
@@ -126,19 +91,23 @@ export const FETCH_JWT_TOKEN = gql`
         username: $username,
         password: $password
     }){
+      session @client {
+        isConnected
+      }
       key
       error
     }
   }
 `;
 
-export const fetchJwtTokenQuery = (username, password, apolloClient = client) => apolloClient.query({
-  query: FETCH_JWT_TOKEN,
-  variables: {
-    username,
-    password,
-  },
-});
+export const fetchJwtTokenQuery = (username, password, apolloClient = client) => apolloClient
+  .query({
+    query: FETCH_JWT_TOKEN,
+    variables: {
+      username,
+      password,
+    },
+  });
 
 export const FETCH_ALL_ARTICLES = gql`
   query {
@@ -408,3 +377,51 @@ export const fileUploadMutation = (files, apolloClient = client) => apolloClient
   mutation: IMAGES_UPLOAD_MEDIA_CREATION,
   variables: { files },
 });
+
+// @client session queries/mutations.
+
+
+export const SESSION_QUERY = gql`
+  query {
+    session @client {
+      isConnected,
+      isAuthenticated,
+    }
+  }
+`;
+
+export const getSessionQuery = (apolloClient = client) =>
+  apolloClient.query({
+    query: SESSION_QUERY,
+    props: ({ data }) => ({
+      isAuthenticated: data.session.isAuthenticated,
+      isConnected: data.session.isConnected,
+    }),
+  });
+
+
+export const UPDATE_AUTHENTICATED = gql`
+  mutation updateAuthenticatedMutation($isAuthenticated: Boolean) {
+    updateAuthenticated(isAuthenticated: $isAuthenticated) @client
+  }
+`;
+
+export const updateAuthenticatedMutation = ({ isAuthenticated }, apolloClient = client) =>
+  apolloClient
+    .mutate({
+      mutation: UPDATE_AUTHENTICATED,
+      variables: { isAuthenticated },
+    });
+
+export const UPDATE_NETWORK_STATUS = gql`
+  mutation updateNetworkStatus($isConnected: Boolean) {
+    updateNetworkStatus(isConnected: $isConnected) @client
+  }
+`;
+
+export const updateNetworkStatusMutation = ({ isConnected }, apolloClient = client) =>
+  apolloClient
+    .mutate({
+      mutation: UPDATE_NETWORK_STATUS,
+      variables: { isConnected },
+    });
