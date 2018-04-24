@@ -1,28 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Nav from '../components/Navbar';
 import Footer from '../components/Footer';
 
-class PageTemplate extends Component {
-  static getDerivedStateFromProps(nextProps) {
-    console.log(nextProps);
+import { SessionConsumer } from '../App';
 
-    return true;
-  }
+const PageTemplate = ({ children }) => (
+  <div className="pageTemplate">
+    <SessionConsumer>
+      {
+        session =>
+          // console.log(`${session.isConnected}: Session Status`);
+           (!session.isConnected ? <div>Network Connnection Error: OFFLINE</div> : null)
 
-  render() {
-    return (
-      <div className="pageTemplate">
-        <Nav {...this.props} />
-
-        { this.props.children }
-
-        <Footer {...this.props} />
-      </div>
-    );
-  }
-}
+      }
+    </SessionConsumer>
+    <Nav {...this.props} />
+    { children }
+    <Footer {...this.props} />
+  </div>
+);
 
 PageTemplate.propTypes = {
   children: PropTypes.node.isRequired,

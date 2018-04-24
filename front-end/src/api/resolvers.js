@@ -11,7 +11,7 @@ export const defaults = {
 export const resolvers = {
   Mutation: {
     updateNetworkStatus: (_, { isConnected }, { cache }) => {
-      cache.writeData({ data: { networkStatus: { isConnected } } });
+      cache.writeData({ data: { session: { isConnected, __typename: 'Session' } } });
       return null;
     },
     updateAuthenticated: (_, { isAuthenticated }, { cache }) => {

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Query } from 'react-apollo';
-import PropTypes from 'prop-types';
+
+import { SessionConsumer } from '../App';
 
 import Login from '../components/Login';
-import { fetchJwtTokenQuery, updateAuthenticatedMutation, SESSION_QUERY } from '../api/apolloProxy';
+
+import { fetchJwtTokenQuery, updateAuthenticatedMutation } from '../api/apolloProxy';
 
 export class LoginPage extends Component {
   state = {
@@ -23,6 +24,7 @@ export class LoginPage extends Component {
 
   catchError = (error) => {
     console.log(`Error ${error}`);
+    // updateNetworkStatusMutation({ isConnected: false });
   }
 
   handleLogin = async (e) => {
@@ -34,6 +36,8 @@ export class LoginPage extends Component {
       this.setState({ error: 'Please enter a username and password.' });
       return;
     }
+    this.setState({ error: null });
+
 
     try {
       const response = await fetchJwtTokenQuery(username, password);
@@ -51,48 +55,23 @@ export class LoginPage extends Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props;
-
-    if (isAuthenticated) {
-      return <Redirect to="/" />;
-    }
-
     return (
-      <Login
-        {...this.props}
-        {...this.state}
-        handleInputChange={this.handleInputChange}
-        handleLogin={this.handleLogin}
-      />
+      <SessionConsumer>
+        {session => (
+          session.isAuthenticated ?
+            <Redirect to="/" />
+          :
+            <Login
+              {...session}
+              {...this.props}
+              {...this.state}
+              handleInputChange={this.handleInputChange}
+              handleLogin={this.handleLogin}
+            />
+        )}
+      </SessionConsumer>
     );
   }
 }
 
-LoginPage.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
-};
-
-const LoginPageQueryWrapper = () => (
-  <Query
-    query={SESSION_QUERY}
-    notifyOnNetworkStatusChange
-  >
-    {
-      ({
-        loading, error, data, networkStatus,
-      }) => {
-        if (networkStatus === 4) return 'Refetching!';
-        if (loading) return 'Loading!';
-        if (error) return `Error!: ${error}`;
-
-        const { isAuthenticated } = data.session;
-
-        return (
-          <LoginPage isAuthenticated={isAuthenticated} />
-        );
-      }
-    }
-  </Query>
-);
-
-export default LoginPageQueryWrapper;
+export default LoginPage;

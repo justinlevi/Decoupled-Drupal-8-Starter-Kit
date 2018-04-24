@@ -138,13 +138,22 @@ const EditPageWrapper = () => (
             loading: queryLoading, error: queryError, data: { article }, networkStatus,
           }) => {
             if (networkStatus === 4) return 'Refetching!';
-            if (queryLoading) return <div className="text-center"><div className="loading-text h1 text-center">Loading...</div><div className="loader" /></div>;
+            if (queryLoading || mutationLoading) {
+              return (
+                <div className="text-center">
+                  <div className="loading-text h1 text-center">{queryLoading ? <p>Loading...</p> : <p>Saving...</p> }</div>
+                  <div className="loader" />
+                </div>);
+            }
             if (queryError) return `Error!: ${queryError}`;
 
             const normalizedImages = normalizeArticleImages(article);
             const normalizedArticle = { ...article, images: normalizedImages };
             return (
-              <EditPage article={normalizedArticle} updateArticle={updateArticle} />
+              <div>
+                { mutationError ? <div>mutationError</div> : null }
+                <EditPage article={normalizedArticle} updateArticle={updateArticle} />
+              </div>
             );
           }
         }
