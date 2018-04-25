@@ -7,6 +7,9 @@ import { createUploadLink } from 'apollo-upload-client';
 import { defaults, resolvers } from './resolvers';
 import introspectionQueryResultData from './fragmentTypes.json';
 
+import customFetch from './customFetch';
+import { updateNetworkStatusMutation } from './apolloProxy';
+
 const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
 const URL = process.env.REACT_APP_HOST_DOMAIN ? process.env.REACT_APP_HOST_DOMAIN : '';
 
@@ -53,7 +56,8 @@ const client = new ApolloClient({
       }
       if (networkError) {
         console.log(`[Network error]: ${networkError}`);
-        window.location = '/logout';
+        updateNetworkStatusMutation({ isConnected: false });
+        // window.location = '/logout';
       }
     }),
     requestLink,
@@ -65,6 +69,7 @@ const client = new ApolloClient({
     createUploadLink({
       uri: `${URL}/graphql${POSTFIX}`,
       credentials: 'include',
+      fetch: customFetch,
     }),
   ]),
   cache,

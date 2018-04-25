@@ -1,16 +1,22 @@
-import PropTypes, { shape, arrayOf } from 'prop-types';
+import { shape, arrayOf, string, number } from 'prop-types';
 
 const ARTICLE_SHAPE = {
   author: shape({
-    name: PropTypes.string.isRequired,
+    name: string.isRequired,
   }),
   body: shape({
-    value: PropTypes.string.isRequired,
+    value: string.isRequired,
   }),
-  images: arrayOf(shape({})),
-  nid: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  uuid: PropTypes.string.isRequired,
+  images: arrayOf(shape({
+    mid: number.isRequired,
+    url: string.isRequired,
+    fileSize: number.isRequired,
+    fileName: string.isRequired,
+    file: shape({}),
+  })),
+  nid: number.isRequired,
+  title: string.isRequired,
+  uuid: string.isRequired,
 };
 
 export default ARTICLE_SHAPE;

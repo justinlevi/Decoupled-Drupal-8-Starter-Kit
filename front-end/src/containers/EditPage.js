@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Form, FormGroup, Input, Label, Container } from 'reactstrap';
+import { Form, FormGroup, Input, Label, Container, Button } from 'reactstrap';
 import { Mutation, Query } from 'react-apollo';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
@@ -12,38 +12,46 @@ import { MediaImageField } from './MediaImageField';
 import { UPDATE_ARTICLE_MUTATION, ARTICLE_BY_NID } from '../api/apolloProxy';
 
 export class EditPage extends Component {
-  /*
-  * Constructor
-  * ----------------------
-  */
-  constructor(props) {
-    super(props);
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   if (nextProps.article === prevState.article) {
+  //     return null;
+  //   }
+  //   return { article: nextProps.article };
+  // }
 
-    const { article } = props;
-
-    const { title, body } = article;
-
-    this.state = {
-      saveTimeout: undefined,
-      article,
-      title: title === null || title === 'NULL' ? '' : title,
-      body: body === null ? '' : body.value,
-    };
+  state = {
+    article: this.props.article,
+    // mids: [],
   }
 
   catchError = (error) => {
     console.log(`Error ${error}`);
   }
 
-  updateNode = async ({ title, body, mids }) => {
-    const { article: { images, nid } } = this.state;
+  updateImages = (images) => {
+    const article = {
+      ...this.state.article,
+      images: images.map(image => ({ ...image, file: {} })),
+    };
+    this.setState({ article }, () => {
+      console.log(this.state.article);
+      // this.saveChanges();
+    });
+  }
+
+  saveChanges = async () => {
+    const {
+      article: {
+        nid, title, body: { value: body }, images,
+      },
+    } = this.state;
+
     const variables = {
       id: String(nid),
-      title: title === '' ? 'NULL' : title || this.state.title,
-      body: body || this.state.body,
-      field_media_image: mids || images.map(item => item.mid),
+      title,
+      body,
+      field_media_image: images.map(item => item.mid),
     };
-    console.log(variables);
     try {
       await this.props.updateArticle({ variables });
     } catch (error) {
@@ -52,18 +60,15 @@ export class EditPage extends Component {
   }
 
   handleInputChange = ({
-    target, type,
+    target: { checked, value, name }, type,
   }) => {
-    const { checked, value, name } = target;
     const newValue = type === 'checkbox' ? checked : value;
-    if (this.state.saveTimeout) {
-      clearTimeout(this.state.saveTimeout);
+    const article = { ...this.state.article };
+    if (name === 'body') {
+      this.setState({ article: { ...article, [name]: { value: newValue } } });
+    } else {
+      this.setState({ article: { ...article, [name]: newValue } });
     }
-
-    this.setState({
-      [name]: newValue,
-      saveTimeout: window.setTimeout(() => { this.updateNode(); }, 2000),
-    });
   }
 
   /*
@@ -72,9 +77,9 @@ export class EditPage extends Component {
   */
 
   render() {
-    const { article, title, body } = this.state;
+    const { article: { title, body: { value: body }, images } } = this.state;
     return (
-      <div className="EditPageContainer">
+      <div className="editPageContainer">
         <Container>
           <Form>
             <FormGroup>
@@ -88,8 +93,10 @@ export class EditPage extends Component {
 
             <FormGroup>
               <Label>Images</Label>
-              <MediaImageField article={article} updateNode={this.updateNode} />
+              <MediaImageField images={images} updateImages={this.updateImages} />
             </FormGroup>
+
+            <Button onClick={this.saveChanges} color="primary" size="lg" block>SAVE CHANGES</Button>
           </Form>
           {/* <Gallery article={article} /> */}
         </Container>
@@ -103,6 +110,18 @@ EditPage.propTypes = {
   updateArticle: PropTypes.func.isRequired,
 };
 
+const normalizeArticleImages = article => article.images.map(({ entity = {}, mid }) => {
+  if (entity && entity.image && entity.image.derivative && entity.image.derivative.url) {
+    const { image: { derivative: { url }, file: { filesize, filename } } } = entity;
+    return {
+      mid,
+      url,
+      fileSize: filesize,
+      fileName: filename,
+    };
+  }
+  return null;
+});
 
 // Fetching again here to make sure we're editing the latest.
 // Could possibly edit from cache as well, but that seems kinda dangerous??
@@ -119,11 +138,22 @@ const EditPageWrapper = () => (
             loading: queryLoading, error: queryError, data: { article }, networkStatus,
           }) => {
             if (networkStatus === 4) return 'Refetching!';
-            if (queryLoading) return <div className="text-center"><div className="loading-text h1 text-center">Loading...</div><div className="loader" /></div>;
+            if (queryLoading || mutationLoading) {
+              return (
+                <div className="text-center">
+                  <div className="loading-text h1 text-center">{queryLoading ? <p>Loading...</p> : <p>Saving...</p> }</div>
+                  <div className="loader" />
+                </div>);
+            }
             if (queryError) return `Error!: ${queryError}`;
 
+            const normalizedImages = normalizeArticleImages(article);
+            const normalizedArticle = { ...article, images: normalizedImages };
             return (
-              <EditPage article={article} updateArticle={updateArticle} />
+              <div>
+                { mutationError ? <div>mutationError</div> : null }
+                <EditPage article={normalizedArticle} updateArticle={updateArticle} />
+              </div>
             );
           }
         }

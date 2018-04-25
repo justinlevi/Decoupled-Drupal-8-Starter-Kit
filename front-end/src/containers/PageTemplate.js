@@ -1,14 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { Alert } from 'reactstrap';
 
 import Nav from '../components/Navbar';
 import Footer from '../components/Footer';
 
-const PageTemplate = props => (
+import { SessionConsumer } from '../App';
+
+const PageTemplate = ({ children }) => (
   <div className="pageTemplate">
-    <Nav {...props} />
-    { props.children }
-    <Footer {...props} />
+    <SessionConsumer>
+      {
+        ({ isConnected }) => (!isConnected ?
+          <Alert color="primary">Your Network Connnection Appears to be: OFFLINE</Alert> : null)
+
+      }
+    </SessionConsumer>
+    <Nav {...this.props} />
+    { children }
+    <Footer {...this.props} />
   </div>
 );
 
