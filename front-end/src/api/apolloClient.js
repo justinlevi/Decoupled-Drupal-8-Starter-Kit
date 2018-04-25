@@ -17,6 +17,10 @@ const URL = process.env.REACT_APP_HOST_DOMAIN ? process.env.REACT_APP_HOST_DOMAI
 const fragmentMatcher = new IntrospectionFragmentMatcher({ introspectionQueryResultData });
 const cache = new InMemoryCache({ fragmentMatcher });
 
+export const onProgress = (progress) => {
+  console.log(progress);
+};
+
 const client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
@@ -45,11 +49,7 @@ const client = new ApolloClient({
           authorization: `Bearer ${localStorage.getItem('authToken')}`,
         },
       },
-      fetchOptions: {
-        onProgress: (progress) => {
-          console.log(progress);
-        },
-      },
+      fetchOptions: { onProgress },
     }),
   ]),
   cache,
