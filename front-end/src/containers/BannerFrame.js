@@ -27,6 +27,14 @@ class BannerFrame extends Component {
     });
   }
 
+  onSubmitHandler = (e) => {
+    e.preventDefault();
+    const { target, target: { title, body } } = e;
+    const file = target.file.files[0];
+    console.log(title.value);
+    console.log(body.value);
+  }
+
   createFileObject = (file, maxWidth = 500, maxHeight = 250) => {
     readFile(file, 500, 250, (resizeDataUrl) => {
       const fileObject = {
@@ -101,7 +109,7 @@ class BannerFrame extends Component {
                   return (
                     <div>
                       <Container>
-                        <Form>
+                        <Form onSubmit={this.onSubmitHandler}>
                           <Input
                             type="text"
                             name="title"
@@ -119,7 +127,7 @@ class BannerFrame extends Component {
                             onChange={this.onChangeHandler}
                           />
                           <Input type="file" name="file" id="bannerImage" onChange={this.handleFile} />
-                          <Button name="save" id="bannerSave" color="primary" onClick={this.handleSave}>Save</Button>
+                          <Button name="save" id="bannerSave" color="primary">Save</Button>
                           <Button name="cancle" id="bannerCancle" onClick={this.handleCancle}>Cancel</Button>
                         </Form>
                       </Container>

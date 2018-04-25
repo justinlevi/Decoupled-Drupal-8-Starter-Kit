@@ -29,8 +29,9 @@ class ContentDetailsPage extends Component {
             if (error) return `Error!: ${error}`;
 
             const page = data.route ? data.route.entity : null;
+            const images = page ? page.images : null;
 
-            return (page ? <Page title={page.title} body={page.body} /> : null);
+            return (page ? <Page title={page.title} body={page.body} images={images} /> : null);
           }
         }
       </Query>
