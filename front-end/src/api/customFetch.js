@@ -1,17 +1,3 @@
-// const support = {
-//   searchParams: 'URLSearchParams',
-//   iterable: 'Symbol' && 'iterator' in Symbol,
-//   blob: 'FileReader' && 'Blob' && (() => {
-//     try {
-//       new Blob();
-//       return true;
-//     } catch (e) {
-//       return false;
-//     }
-//   })(),
-//   formData: 'FormData',
-//   arrayBuffer: 'ArrayBuffer',
-// };
 
 const parseHeaders = (rawHeaders) => {
   const headers = new Headers();
@@ -29,30 +15,26 @@ const parseHeaders = (rawHeaders) => {
   return headers;
 };
 
-export default (url, opts = {}, onProgress) => new Promise((resolve, reject) => {
+export default (url, options = {}, onProgress) => new Promise((resolve, reject) => {
   const xhr = new XMLHttpRequest();
 
-  // xhr.onload = () => {
-  //   const options = {
-  //     status: xhr.status,
-  //     statusText: xhr.statusText,
-  //     headers: parseHeaders(xhr.getAllResponseHeaders() || ''),
-  //   };
-  //   options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL');
-  //   const body = 'response' in xhr ? xhr.response : xhr.responseText;
-  //   resolve(new Response(body, options));
-  // };
+  xhr.onload = () => {
+    const opts = {
+      status: xhr.status,
+      statusText: xhr.statusText,
+      headers: parseHeaders(xhr.getAllResponseHeaders() || ''),
+    };
+    opts.url = 'responseURL' in xhr ? xhr.responseURL : opts.headers.get('X-Request-URL');
+    const body = 'response' in xhr ? xhr.response : xhr.responseText;
+    resolve(new Response(body, opts));
+  };
 
-  xhr.onload = e =>
-    resolve({
-      ok: true,
-      text: () => Promise.resolve(e.target.responseText),
-      json: () => Promise.resolve(JSON.parse(e.target.responseText)),
-    });
-
-  // e.target only exists on the completion event -
-  // this bypasses the ProgressEvent from triggering the promise
-  // xhr.onload = e => resolve(e.target);
+  // xhr.onload = e =>
+  //   resolve({
+  //     ok: true,
+  //     text: () => Promise.resolve(e.target.responseText),
+  //     json: () => Promise.resolve(JSON.parse(e.target.responseText)),
+  //   });
 
   xhr.onerror = () => {
     reject(new TypeError('Network request failed'));
@@ -62,10 +44,10 @@ export default (url, opts = {}, onProgress) => new Promise((resolve, reject) => 
     reject(new TypeError('Network request failed'));
   };
 
-  xhr.open(opts.method, url, true);
+  xhr.open(options.method, url, true);
 
-  Object.keys(opts.headers).forEach((key) => {
-    xhr.setRequestHeader(key, opts.headers[key]);
+  Object.keys(options.headers).forEach((key) => {
+    xhr.setRequestHeader(key, options.headers[key]);
   });
 
   console.log(xhr.upload);
@@ -73,10 +55,10 @@ export default (url, opts = {}, onProgress) => new Promise((resolve, reject) => 
   // event.loaded / event.total * 100 ; //event.lengthComputable
   if (xhr.upload) {
     // console.log(onProgress);
-    // xhr.upload.onprogress = onProgress;
-    xhr.upload.onprogress = event =>
-      console.log(`${(event.loaded / event.total) * 100}% uploaded`);
+    xhr.upload.onprogress = options.onProgress;
+    // xhr.upload.onprogress = event =>
+    //   console.log(`${(event.loaded / event.total) * 100}% uploaded`);
   }
 
-  xhr.send(opts.body);
+  xhr.send(options.body);
 });
