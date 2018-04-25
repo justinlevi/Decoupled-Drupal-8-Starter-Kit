@@ -15,7 +15,7 @@ const parseHeaders = (rawHeaders) => {
   return headers;
 };
 
-export default (url, options = {}, onProgress) => new Promise((resolve, reject) => {
+export default (url, options = {}) => new Promise((resolve, reject) => {
   const xhr = new XMLHttpRequest();
 
   xhr.onload = () => {
@@ -28,13 +28,6 @@ export default (url, options = {}, onProgress) => new Promise((resolve, reject) 
     const body = 'response' in xhr ? xhr.response : xhr.responseText;
     resolve(new Response(body, opts));
   };
-
-  // xhr.onload = e =>
-  //   resolve({
-  //     ok: true,
-  //     text: () => Promise.resolve(e.target.responseText),
-  //     json: () => Promise.resolve(JSON.parse(e.target.responseText)),
-  //   });
 
   xhr.onerror = () => {
     reject(new TypeError('Network request failed'));
@@ -50,14 +43,8 @@ export default (url, options = {}, onProgress) => new Promise((resolve, reject) 
     xhr.setRequestHeader(key, options.headers[key]);
   });
 
-  console.log(xhr.upload);
-
-  // event.loaded / event.total * 100 ; //event.lengthComputable
   if (xhr.upload) {
-    // console.log(onProgress);
     xhr.upload.onprogress = options.onProgress;
-    // xhr.upload.onprogress = event =>
-    //   console.log(`${(event.loaded / event.total) * 100}% uploaded`);
   }
 
   xhr.send(options.body);
