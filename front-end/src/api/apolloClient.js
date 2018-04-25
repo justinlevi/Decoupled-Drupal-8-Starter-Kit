@@ -47,6 +47,7 @@ const requestLink = new ApolloLink((operation, forward) =>
     };
   }));
 
+
 const client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
@@ -60,7 +61,7 @@ const client = new ApolloClient({
         // window.location = '/logout';
       }
     }),
-    requestLink,
+    // requestLink,
     withClientState({
       defaults,
       resolvers,
@@ -69,7 +70,12 @@ const client = new ApolloClient({
     createUploadLink({
       uri: `${URL}/graphql${POSTFIX}`,
       credentials: 'include',
-      fetch: customFetch,
+      fetch: typeof window === 'undefined' ? global.fetch : customFetch,
+      fetchOptions: {
+        onProgress: (progress) => {
+          console.log(progress);
+        },
+      },
     }),
   ]),
   cache,
