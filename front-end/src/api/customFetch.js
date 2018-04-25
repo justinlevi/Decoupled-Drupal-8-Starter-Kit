@@ -32,16 +32,23 @@ const parseHeaders = (rawHeaders) => {
 export default (url, opts = {}, onProgress) => new Promise((resolve, reject) => {
   const xhr = new XMLHttpRequest();
 
-  xhr.onload = () => {
-    const options = {
-      status: xhr.status,
-      statusText: xhr.statusText,
-      headers: parseHeaders(xhr.getAllResponseHeaders() || ''),
-    };
-    options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL');
-    const body = 'response' in xhr ? xhr.response : xhr.responseText;
-    resolve(new Response(body, options));
-  };
+  // xhr.onload = () => {
+  //   const options = {
+  //     status: xhr.status,
+  //     statusText: xhr.statusText,
+  //     headers: parseHeaders(xhr.getAllResponseHeaders() || ''),
+  //   };
+  //   options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL');
+  //   const body = 'response' in xhr ? xhr.response : xhr.responseText;
+  //   resolve(new Response(body, options));
+  // };
+
+  xhr.onload = e =>
+    resolve({
+      ok: true,
+      text: () => Promise.resolve(e.target.responseText),
+      json: () => Promise.resolve(JSON.parse(e.target.responseText)),
+    });
 
   // e.target only exists on the completion event -
   // this bypasses the ProgressEvent from triggering the promise
@@ -64,9 +71,11 @@ export default (url, opts = {}, onProgress) => new Promise((resolve, reject) => 
   console.log(xhr.upload);
 
   // event.loaded / event.total * 100 ; //event.lengthComputable
-  if (xhr.upload && onProgress) {
-    console.log(onProgress);
-    xhr.upload.onprogress = onProgress;
+  if (xhr.upload) {
+    // console.log(onProgress);
+    // xhr.upload.onprogress = onProgress;
+    xhr.upload.onprogress = event =>
+      console.log(`${(event.loaded / event.total) * 100}% uploaded`);
   }
 
   xhr.send(opts.body);
