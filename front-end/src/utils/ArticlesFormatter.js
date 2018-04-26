@@ -4,6 +4,7 @@ const formatData = data => data.nodeQuery.articles.map((article) => {
     title: article.title,
     nid: article.nid,
     uuid: article.uuid,
+    entityUrl: article.entityUrl,
   };
 
   if (article.images) {

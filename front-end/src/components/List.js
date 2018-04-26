@@ -24,13 +24,14 @@ Fade.propTypes = {
 };
 
 const ListItems = ({
-  articles, selectHandler, deleteHandler, isAuthenticated,
+  articles, selectHandler, editHandler, deleteHandler, isAuthenticated,
 }) => articles.map(page => (
   <Fade duration={1000} key={page.nid} timeout={{ enter: 0, exit: 1000 }}>
     <Card
       page={page}
       isAuthenticated={isAuthenticated}
       selectHandler={selectHandler}
+      editHandler={editHandler}
       deleteHandler={(event) => { deleteHandler(event, page.nid); }}
     />
   </Fade>
@@ -83,6 +84,7 @@ class List extends Component {
       onDeleteModalToggle,
       onDeleteModalOk,
       selectHandler,
+      editHandler,
       deleteHandler,
       isAuthenticated,
     } = this.props;
@@ -95,9 +97,9 @@ class List extends Component {
             <div
               role="button"
               tabIndex={0}
-              onKeyUp={() => { addHandler(); }}
+              onKeyUp={addHandler}
+              onClick={addHandler}
               className="py-3"
-              onClick={() => { addHandler(); }}
             >
               <div className="add">
                 <MdAdd />
@@ -122,6 +124,7 @@ class List extends Component {
                   articles={this.state.articles}
                   selectHandler={selectHandler}
                   deleteHandler={deleteHandler}
+                  editHandler={editHandler}
                 />
               </TransitionGroup>
           : <div className="no-result-text h1 text-center">No Results Found</div>
@@ -151,6 +154,7 @@ List.propTypes = {
   onDeleteModalToggle: PropTypes.func.isRequired,
   onDeleteModalOk: PropTypes.func.isRequired,
   selectHandler: PropTypes.func.isRequired,
+  editHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 };

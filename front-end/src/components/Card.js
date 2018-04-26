@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MdRemove from 'react-icons/lib/md/remove-circle-outline';
+import MdEdit from 'react-icons/lib/md/edit';
 
 const textTrim = (text, trimLength = 20) => {
   let trimmedText = text;
@@ -18,10 +19,25 @@ const textTrim = (text, trimLength = 20) => {
 
 const Card = (props) => {
   const {
-    page, selectHandler, deleteHandler, isAuthenticated,
+    page, selectHandler, editHandler, deleteHandler, isAuthenticated,
   } = props;
   const trimmedTitle = textTrim(page.title);
   const trimmedBody = page.body != null ? textTrim(page.body.value) : null;
+
+  const selectClickHandler = () => {
+    selectHandler(page.nid);
+  };
+
+  const editClickHandler = (event) => {
+    event.stopPropagation();
+    editHandler(page.nid);
+  };
+
+  const deleteClickHandler = (event) => {
+    event.stopPropagation();
+    deleteHandler(page.nid);
+  };
+
   return (
     <div className="py-3">
 
@@ -29,8 +45,8 @@ const Card = (props) => {
         role="button"
         tabIndex={0}
         className="card"
-        onClick={isAuthenticated ? () => { selectHandler(page.nid); } : null}
-        onKeyUp={isAuthenticated ? () => { selectHandler(page.nid); } : null}
+        onClick={selectClickHandler}
+        onKeyUp={selectClickHandler}
       >
         <div className="row ">
           <div className="col-md-4">
@@ -46,14 +62,19 @@ const Card = (props) => {
               <p className="card-text body">{trimmedBody}</p>
               <p className="card-text">NID: {page.nid}</p>
               {isAuthenticated ?
-                <button
-                  className="delete"
-                  onClick={isAuthenticated ? deleteHandler : null}
-                  data-toggle="modal"
-                  data-target="#exampleModalCenter"
-                >
-                  <MdRemove className="remove" />
-                </button>
+                <div className="edit-delete-container">
+                  <button className="edit" onClick={editClickHandler} >
+                    <MdEdit className="edit" />
+                  </button>
+                  <button
+                    className="delete"
+                    onClick={deleteClickHandler}
+                    data-toggle="modal"
+                    data-target="#exampleModalCenter"
+                  >
+                    <MdRemove className="remove" />
+                  </button>
+                </div>
               : null}
             </div>
           </div>
@@ -66,6 +87,7 @@ const Card = (props) => {
 Card.propTypes = {
   page: PropTypes.shape({}).isRequired,
   selectHandler: PropTypes.func.isRequired,
+  editHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 };

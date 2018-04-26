@@ -135,7 +135,7 @@ const EditPageWrapper = () => (
       >
         {
           ({
-            loading: queryLoading, error: queryError, data: { article }, networkStatus,
+            loading: queryLoading, error: queryError, data, networkStatus,
           }) => {
             if (networkStatus === 4) return 'Refetching!';
             if (queryLoading || mutationLoading) {
@@ -147,6 +147,7 @@ const EditPageWrapper = () => (
             }
             if (queryError) return `Error!: ${queryError}`;
 
+            const { article } = data;
             const normalizedImages = normalizeArticleImages(article);
             const normalizedArticle = { ...article, images: normalizedImages };
             return (

@@ -17,7 +17,8 @@ export class ListPage extends Component {
   state = {
     nid: 0,
     isModalVisible: false,
-    selected: false,
+    redirect: false,
+    path: false,
   }
 
   /**
@@ -57,11 +58,20 @@ export class ListPage extends Component {
 
   selectHandler = (nid) => {
     const { articles } = this.props;
-    this.setState({ selected: getArticleFromNid(articles, nid) });
+    const article = getArticleFromNid(articles, nid);
+    const { path } = article.entityUrl;
+    this.setState({ redirect: true, path });
   }
 
-  deleteHandler = (event, nid) => {
-    event.stopPropagation();
+  editHandler = (nid) => {
+    const { articles } = this.props;
+    const article = getArticleFromNid(articles, nid);
+    const { title } = article;
+    const path = `/edit/${nid}/${title.replace(/ /g, '-').toLowerCase()}`;
+    this.setState({ redirect: true, path });
+  }
+
+  deleteHandler = (nid) => {
     this.setState({
       nid,
       isModalVisible: true,
@@ -74,16 +84,16 @@ export class ListPage extends Component {
     */
 
   render() {
-    const { selected } = this.state;
-    if (selected) {
-      const { nid, title } = selected;
-      return (<Redirect to={`/edit/${nid}/${title.replace(/ /g, '-').toLowerCase()}`} />);
+    const { redirect, path } = this.state;
+    if (redirect) {
+      return (<Redirect to={path} />);
     }
 
     return (<List
       {...this.props}
       {...this.state}
       selectHandler={this.selectHandler}
+      editHandler={this.editHandler}
       deleteHandler={this.deleteHandler}
       addHandler={this.addHandler}
       onDeleteModalToggle={this.onDeleteModalToggle}

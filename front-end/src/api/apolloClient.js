@@ -8,6 +8,7 @@ import { defaults, resolvers } from './resolvers';
 import introspectionQueryResultData from './fragmentTypes.json';
 
 import customFetch from './customFetch';
+import { logout } from '../utils/logout';
 import { updateNetworkStatusMutation } from './apolloProxy';
 
 const POSTFIX = process.env.REACT_APP_XDEBUG_POSTFIX;
@@ -29,8 +30,13 @@ const client = new ApolloClient({
           console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`));
       }
       if (networkError) {
-        console.log(`[Network error]: ${networkError}`);
-        updateNetworkStatusMutation({ isConnected: false });
+        // TODO: You've been logged out... or no access
+        if (networkError.statusCode === 403) {
+          logout();
+        } else {
+          console.log(`[Network error]: ${networkError.statusCode} : ${networkError.message}`);
+          updateNetworkStatusMutation({ isConnected: false });
+        }
         // window.location = '/logout';
       }
     }),

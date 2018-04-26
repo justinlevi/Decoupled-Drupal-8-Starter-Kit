@@ -1,12 +1,11 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { updateAuthenticatedMutation } from '../api/apolloProxy';
+import { logout } from '../utils/logout';
 
-const Logout = () => () => {
-  localStorage.removeItem('authToken');
-  updateAuthenticatedMutation({ isAuthenticated: false });
+const LogoutComponent = () => () => {
+  logout();
   return (<Redirect to="/" />);
 };
 
-export default Logout;
+export default LogoutComponent;

@@ -23,6 +23,31 @@ export class MediaImageField extends Component {
   constructor(props) {
     super(props);
     this.proxy = new EventEmitter();
+  }
+
+  state = {
+    trash: [],
+    images: [],
+    uploading: false,
+    progress: -1,
+    hasError: false,
+  };
+
+  componentWillUnmount = () => {
+    xhr.abort();
+  }
+
+  onDrop = async (files) => {
+    const len = files.length;
+    for (let i = 0; i < len; i += 1) {
+      const file = files[i];
+      // Only process image files.
+      if (!file.type.match('image.*')) { break; }
+      this.createFileObject(file, i);
+    }
+
+    // much of the following comes from:
+    // https://github.com/georgeOsdDev/react-fileupload-progress/
     xhr.addEventListener('load', (e) => {
       this.proxy.removeAllListeners(['abort']);
       const newState = { progress: 100 };
@@ -46,6 +71,14 @@ export class MediaImageField extends Component {
       });
     }, false);
 
+    xhr.addEventListener('abort', (e) => {
+      this.setState({
+        progress: -1,
+      }, () => {
+        this.props.onAbort(e, xhr);
+      });
+    }, false);
+
     xhr.upload.addEventListener('progress', (e) => {
       let progress = 0;
       if (e.total !== 0) {
@@ -57,32 +90,6 @@ export class MediaImageField extends Component {
         this.props.onProgress(e, xhr, progress);
       });
     }, false);
-
-    xhr.addEventListener('abort', (e) => {
-      this.setState({
-        progress: -1,
-      }, () => {
-        this.props.onAbort(e, xhr);
-      });
-    }, false);
-  }
-
-  state = {
-    trash: [],
-    images: [],
-    uploading: false,
-    progress: 0,
-    hasError: false,
-  };
-
-  onDrop = async (files) => {
-    const len = files.length;
-    for (let i = 0; i < len; i += 1) {
-      const file = files[i];
-      // Only process image files.
-      if (!file.type.match('image.*')) { break; }
-      this.createFileObject(file, i);
-    }
 
     this.setState({ uploading: true });
     const result = await fileUploadMutation(files);
@@ -106,6 +113,16 @@ export class MediaImageField extends Component {
     this.props.updateImages(updatedImages);
   };
 
+  // removeAllEventListenersFromElement = (element) => {
+  //   const clone = element.cloneNode();
+  //   // move all child elements from the original to the clone
+  //   while (element.firstChild) {
+  //     clone.appendChild(element.lastChild);
+  //   }
+
+  //   element.parentNode.replaceChild(clone, element);
+  // };
+
   handleDelete = (index) => {
     const { images, trash } = this.state;
     const newTrash = [...trash, images[index]];
@@ -117,12 +134,21 @@ export class MediaImageField extends Component {
     return newImages;
   }
 
-  handleCancel = (index) => {
+  handleCancel = () => {
+    // const { images } = this.state;
+    // images[index].cancel();
+    // this.handleDelete(index);
+
+    // TODO: ACTUALLY CANCEL...
     const { images } = this.state;
-    images[index].cancel();
-    this.handleDelete(index);
+    const newImages = images.filter(image => typeof image.mid === 'number');
+    this.setState({
+      progress: -1,
+      images: newImages,
+    });
   }
 
+  // TODO: Figure out why the values need to be hardcoded in readFile.
   createFileObject = (file, maxWidth = 500, maxHeight = 250) => {
     readFile(file, 500, 250, (resizeDataUrl) => {
       const fileObject = {
@@ -154,11 +180,10 @@ export class MediaImageField extends Component {
       <div className="container p-0">
         { this.state.progress > 0 ?
           <div>
-            <Progress value={this.state.progress}>({this.state.progress}%)</Progress>
-          Uploading...
-            <button onClick={this.handleCancel}>
-              Cancel Upload
-            </button>
+            <Progress value={this.state.progress}>Uploading ({this.state.progress}%)</Progress>
+            <div className="screen">
+              <button className="btn btn-danger btn-cancel" onClick={this.handleCancel}>Cancel</button>
+            </div>
           </div>
         : null
       }

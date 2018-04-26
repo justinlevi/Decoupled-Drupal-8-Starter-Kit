@@ -123,6 +123,7 @@ footer.page-footer {
     cursor: pointer;
   }
 
+  .card-body .edit,
   .card-body .delete {
     right: 15px;
     border: none;
@@ -191,7 +192,17 @@ footer.page-footer {
 }
 
 
-
+.btn-cancel {
+  position: absolute;
+    z-index: 999;
+    left: 25%;
+    margin-top: 66px;
+    width: 50%;
+    height: 75px;
+    padding: 0;
+    opacity: 0.75;
+    font-size: 2em;
+}
 
 // UPLOAD COMPONENT - GIANT MESS [TODO: REFACTOR]
 
@@ -310,12 +321,36 @@ img {
   max-height: 175px;
 }
 
+.edit-delete-container {
+  display: inline;
+  position: absolute;
+  padding-right: 1rem;
+  top: 0;
+  right: 0;
+}
+
+.edit {
+  color: #777;
+  font: 1.5em arial, sans-serif;
+  padding: 5px;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #aaa;
+  background-color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  transition: transform .2s ease-in-out;
+}
+
+.edit:hover {
+  cursor: pointer;
+  color: rgb(168, 30, 30);
+  background-color: rgba(255, 255, 255, 0.95);
+  transition: transform .2s ease-in-out;
+  transform-origin: top right;
+}
+
 .delete {
   color: #777;
   font: 2em arial, sans-serif;
-  position: absolute;
-  right: 0;
-  top: 0;
   padding: 5px;
   text-decoration: none;
   text-shadow: 0 1px 0 #aaa;

@@ -14,7 +14,7 @@ import Edit from './containers/EditPage';
 import ContentDetailsPage from './containers/ContentDetailsPage';
 
 import { SESSION_QUERY } from './api/apolloProxy';
-import { defaults as defaultSession } from './api/resolvers';
+// import { defaults as defaultSession } from './api/resolvers';
 
 export const {
   Provider: SessionProvider,
