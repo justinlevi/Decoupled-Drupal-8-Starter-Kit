@@ -15,9 +15,8 @@ const parseHeaders = (rawHeaders) => {
   return headers;
 };
 
+export const xhr = new XMLHttpRequest();
 export default (url, options = {}) => new Promise((resolve, reject) => {
-  const xhr = new XMLHttpRequest();
-
   xhr.onload = () => {
     const opts = {
       status: xhr.status,

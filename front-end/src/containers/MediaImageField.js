@@ -1,12 +1,15 @@
+import { EventEmitter } from 'events';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
+import { Progress } from 'reactstrap';
 
 import { readFile } from '../utils/ImageHelpers';
 import Thumbnail from '../components/frames/gallery/Thumbnail';
 import AddMediaSVG from '../components/addMedia';
 
 import { fileUploadMutation } from '../api/apolloProxy';
+import { xhr } from '../api/customFetch';
 // import ARTICLE_SHAPE from '../utils/articlePropType';
 
 export class MediaImageField extends Component {
@@ -17,10 +20,59 @@ export class MediaImageField extends Component {
     return { images: nextProps.images };
   }
 
+  constructor(props) {
+    super(props);
+    this.proxy = new EventEmitter();
+    xhr.addEventListener('load', (e) => {
+      this.proxy.removeAllListeners(['abort']);
+      const newState = { progress: 100 };
+      if (xhr.status >= 200 && xhr.status <= 299) {
+        this.setState(newState, () => {
+          this.props.onLoad(e, xhr);
+        });
+      } else {
+        newState.hasError = true;
+        this.setState(newState, () => {
+          this.props.onError(e, xhr);
+        });
+      }
+    }, false);
+
+    xhr.addEventListener('error', (e) => {
+      this.setState({
+        hasError: true,
+      }, () => {
+        this.props.onError(e, xhr);
+      });
+    }, false);
+
+    xhr.upload.addEventListener('progress', (e) => {
+      let progress = 0;
+      if (e.total !== 0) {
+        progress = parseInt((e.loaded / e.total) * 100, 10);
+      }
+      this.setState({
+        progress,
+      }, () => {
+        this.props.onProgress(e, xhr, progress);
+      });
+    }, false);
+
+    xhr.addEventListener('abort', (e) => {
+      this.setState({
+        progress: -1,
+      }, () => {
+        this.props.onAbort(e, xhr);
+      });
+    }, false);
+  }
+
   state = {
     trash: [],
     images: [],
     uploading: false,
+    progress: 0,
+    hasError: false,
   };
 
   onDrop = async (files) => {
@@ -100,6 +152,16 @@ export class MediaImageField extends Component {
     return (
 
       <div className="container p-0">
+        { this.state.progress > 0 ?
+          <div>
+            <Progress value={this.state.progress}>({this.state.progress}%)</Progress>
+          Uploading...
+            <button onClick={this.handleCancel}>
+              Cancel Upload
+            </button>
+          </div>
+        : null
+      }
         <Dropzone
           ref={(node) => { this.dropzoneRef = node; }}
           onDrop={onDrop}
@@ -149,6 +211,17 @@ export class MediaImageField extends Component {
 
 MediaImageField.propTypes = {
   updateImages: PropTypes.func.isRequired,
+  onProgress: PropTypes.func,
+  onLoad: PropTypes.func,
+  onError: PropTypes.func,
+  onAbort: PropTypes.func,
+};
+
+MediaImageField.defaultProps = {
+  onProgress: (e, request, progress) => {},
+  onLoad: (e, request) => {},
+  onError: (e, request) => {},
+  onAbort: (e, request) => {},
 };
 
 export default MediaImageField;
