@@ -227,7 +227,7 @@ export const CREATE_ARTICLE_MUTATION = gql`
         code
         path
       },
-      page:entity{
+      article:entity{
         ... ArticleFields
       }
     }
@@ -252,7 +252,7 @@ export const createArticleMutation = ({ title }, apolloClient = client) => apoll
 export const DELETE_ARTICLE_MUTATION = gql`
   mutation deleteArticleMutation($id: String!){
     deleteArticle(id: $id){
-      page:entity{
+      article:entity{
         ...ArticleFields
       },
       errors,
@@ -268,10 +268,10 @@ export const DELETE_ARTICLE_MUTATION = gql`
 
 export const deleteArticleMutation = ({ id }, apolloClient = client) => apolloClient.mutate({
   mutation: DELETE_ARTICLE_MUTATION,
-  update: (store, { data: { deleteArticle } }) => {
+  update: (store, { data: { deleteArticle: { article } } }) => {
     // Read the data from our cache for this query.
     const data = store.readQuery({ query: FETCH_ALL_ARTICLES_WITH_PERMISSIONS });
-    const index = data.nodeQuery.entities.findIndex(item => item.nid === deleteArticle.page.nid);
+    const index = data.nodeQuery.entities.findIndex(item => item.nid === article.nid);
     if (index === -1) { return; }
     data.nodeQuery.entities.splice(index, 1);
     store.writeQuery({ query: FETCH_ALL_ARTICLES_WITH_PERMISSIONS, data });
@@ -288,7 +288,7 @@ export const UPDATE_ARTICLE_MUTATION = gql`
       body: $body,
       field_media_image: $field_media_image
     }){
-      page: entity{
+      article: entity{
         ... ArticleFields
       },
       errors,
@@ -311,17 +311,26 @@ export const updateArticleMutation = ({
   // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-mutation-options-update
   // https://www.apollographql.com/docs/react/advanced/caching.html#after-mutations
   refetchQueries: [
-    { query: FETCH_ALL_ARTICLES_WITH_PERMISSIONS },
-    {
-      query: ARTICLE_BY_NID,
-      variables: { nid: id },
-    },
+    // { query: FETCH_ALL_ARTICLES_WITH_PERMISSIONS },
+    // {
+    //   query: ARTICLE_BY_NID,
+    //   variables: { nid: id },
+    // },
   ],
   variables: {
     id,
     title,
     body,
     ...(field_media_image.length > 0) && { field_media_image },
+  },
+  update: (store, { data }) => {
+    console.log(data);
+    // Read the data from our cache for this query.
+    // const data = store.readQuery({ query: CommentAppQuery });
+    // Add our comment from the mutation to the end.
+    // data.comments.push(submitComment);
+    // Write our data back to the cache.
+    // store.writeQuery({ query: CommentAppQuery, data });
   },
 });
 

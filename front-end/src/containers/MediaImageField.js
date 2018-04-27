@@ -50,7 +50,7 @@ export class MediaImageField extends Component {
     // https://github.com/georgeOsdDev/react-fileupload-progress/
     xhr.addEventListener('load', (e) => {
       this.proxy.removeAllListeners(['abort']);
-      const newState = { progress: 100 };
+      const newState = { progress: 100, uploading: false };
       if (xhr.status >= 200 && xhr.status <= 299) {
         this.setState(newState, () => {
           this.props.onLoad(e, xhr);
@@ -65,6 +65,7 @@ export class MediaImageField extends Component {
 
     xhr.addEventListener('error', (e) => {
       this.setState({
+        uploading: false,
         hasError: true,
       }, () => {
         this.props.onError(e, xhr);
@@ -73,6 +74,7 @@ export class MediaImageField extends Component {
 
     xhr.addEventListener('abort', (e) => {
       this.setState({
+        uploading: false,
         progress: -1,
       }, () => {
         this.props.onAbort(e, xhr);
@@ -178,7 +180,7 @@ export class MediaImageField extends Component {
     return (
 
       <div className="container p-0">
-        { this.state.progress > 0 ?
+        { this.state.progress > 0 && this.state.progress < 100 ?
           <div>
             <Progress value={this.state.progress}>Uploading ({this.state.progress}%)</Progress>
             <div className="screen">

@@ -9,7 +9,7 @@ import ARTICLE_SHAPE from '../utils/articlePropType';
 // import Gallery from './GalleryFrame';
 import { MediaImageField } from './MediaImageField';
 
-import { UPDATE_ARTICLE_MUTATION, ARTICLE_BY_NID } from '../api/apolloProxy';
+import { UPDATE_ARTICLE_MUTATION, ARTICLE_BY_NID, FETCH_ALL_ARTICLES_WITH_PERMISSIONS } from '../api/apolloProxy';
 
 export class EditPage extends Component {
   // static getDerivedStateFromProps(nextProps, prevState) {
@@ -53,7 +53,40 @@ export class EditPage extends Component {
       field_media_image: images.map(item => item.mid),
     };
     try {
-      await this.props.updateArticle({ variables });
+      await this.props.updateArticle({
+        variables,
+        update: (store, { data: { updateArticle: { article } } }) => {
+          try {
+            // Read the data from our cache for this query.
+            const data = store.readQuery({
+              query: ARTICLE_BY_NID,
+              variables: { nid: String(article.nid) },
+            });
+            // replace our updated article from the mutation.
+            data.article = article;
+            // Write our data back to the cache.
+            store.writeQuery({
+              query: ARTICLE_BY_NID,
+              variables: { nid: String(article.nid) },
+              data,
+            });
+          } catch (error) {
+            console.log('ARTICLE_BY_NID cache updated');
+          }
+
+          // TODO: There must be a better way...
+          // update other filter queries :(
+          try {
+            const aData = store.readQuery({ query: FETCH_ALL_ARTICLES_WITH_PERMISSIONS });
+            const index = aData.nodeQuery.entities.findIndex(item => item.nid === article.nid);
+            if (index === -1) { return; }
+            aData.nodeQuery.entities[index] = article;
+            store.writeQuery({ query: FETCH_ALL_ARTICLES_WITH_PERMISSIONS, aData });
+          } catch (error) {
+            console.log('FETCH_ALL_ARTICLES_WITH_PERMISSIONS cache updated');
+          }
+        },
+      });
     } catch (error) {
       this.catchError(error);
     }
@@ -71,6 +104,13 @@ export class EditPage extends Component {
     }
   }
 
+  handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      this.saveChanges();
+    }
+  };
+
   /*
   * Render
   * ----------------------
@@ -84,11 +124,11 @@ export class EditPage extends Component {
           <Form>
             <FormGroup>
               <Label for="title">Title</Label>
-              <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={title} />
+              <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={title} onKeyPress={this.handleKeyPress} />
             </FormGroup>
             <FormGroup>
               <Label for="body">Body</Label>
-              <Input name="body" placeholder="Body" type="textarea" bsSize="lg" onChange={this.handleInputChange} value={body} />
+              <Input name="body" placeholder="Body" type="textarea" bsSize="lg" onChange={this.handleInputChange} value={body} onKeyPress={this.handleKeyPress} />
             </FormGroup>
 
             <FormGroup>

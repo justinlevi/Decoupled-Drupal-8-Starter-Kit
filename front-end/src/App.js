@@ -29,7 +29,7 @@ const App = () =>
           ({
             loading, error, data, networkStatus,
           }) => {
-            console.log(`networkStatus: ${networkStatus}`);
+            // console.log(`networkStatus: ${networkStatus}`);
             if (networkStatus === 4) return 'Refetching!';
             if (networkStatus === 8) return 'NETWORK ERROR!';
             if (loading) return 'Loading!';

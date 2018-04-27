@@ -16,7 +16,10 @@ const parseHeaders = (rawHeaders) => {
 };
 
 export const xhr = new XMLHttpRequest();
-export default (url, options = {}) => new Promise((resolve, reject) => {
+
+const xhrFetch = (url, options = {}) => new Promise((resolve, reject) => {
+  // xhr = new XMLHttpRequest();
+
   xhr.onload = () => {
     const opts = {
       status: xhr.status,
@@ -48,3 +51,9 @@ export default (url, options = {}) => new Promise((resolve, reject) => {
 
   xhr.send(options.body);
 });
+
+export default (url, options = {}) => {
+  const type = Object.prototype.toString.call(options.body).slice(8, -1);
+  const isFilesUpload = type === 'FormData';
+  return (isFilesUpload) ? xhrFetch(url, options) : fetch(url, options);
+};
