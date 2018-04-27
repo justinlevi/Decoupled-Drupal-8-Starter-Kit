@@ -57,7 +57,7 @@ const Thumbnail = ({
       <div className="dz-error-message"><span data-dz-errormessage="true" /></div>
 
       { uploadInitiated === false && uploadSuccess === false ?
-        <button className="delete" onClick={deleteHandler}>✖</button>
+        <button className="delete thumbnail-delete" onClick={deleteHandler}>✖</button>
       : null }
     </div>
   );

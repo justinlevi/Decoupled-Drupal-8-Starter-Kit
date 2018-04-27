@@ -309,16 +309,25 @@ figure {
   overflow: hidden;
 }
 
-img {
-  border: none;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  display: block;
-  background: #ccc;
+.editPageContainer {
+  img {
+    border: none;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    background: #ccc;
+    transition: transform .2s ease-in-out;
+    object-fit: cover;
+    max-height: 175px;
+  }
+}
+
+.carousel img {
   transition: transform .2s ease-in-out;
   object-fit: cover;
-  max-height: 175px;
+  width: 100%;
+  height: auto;
 }
 
 .edit-delete-container {
@@ -348,10 +357,13 @@ img {
   transform-origin: top right;
 }
 
-.delete {
+.thumbnail-delete{
   position: absolute;
   top: 0;
   right: 0;
+}
+
+.delete {
   color: #777;
   font: 2em arial, sans-serif;
   padding: 5px;

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes, { shape } from 'prop-types';
 import { Query } from 'react-apollo';
+
 import { FETCH_ARTICLE_BY_ROUTE } from '../api/apolloProxy';
 import Page from '../components/Page';
+import { normalizeArticleImages } from '../utils/ArticlesFormatter';
 
 class ContentDetailsPage extends Component {
   constructor(props) {
@@ -28,10 +30,12 @@ class ContentDetailsPage extends Component {
             if (loading) return <div className="text-center"><div className="loading-text h1 text-center">Loading...</div><div className="loader" /></div>;
             if (error) return `Error!: ${error}`;
 
-            const page = data.route ? data.route.entity : null;
+            const article = data.route ? data.route.entity : null;
+            const normalizedImages = normalizeArticleImages(article);
+            const normalizedArticle = { ...article, images: normalizedImages };
 
             return (
-              page ? <Page title={page.title} body={page.body} /> : null
+              article ? <Page {...normalizedArticle} /> : null
             );
           }
         }

@@ -19,4 +19,19 @@ const formatData = data => data.nodeQuery.articles.map((article) => {
   return item;
 });
 
+
+export const normalizeArticleImages = article => article.images.map(({ entity = {}, mid }) => {
+  if (entity && entity.image && entity.image.derivative && entity.image.derivative.url) {
+    const { image: { derivative: { url }, file: { filesize, filename } } } = entity;
+    return {
+      mid,
+      url,
+      fileSize: filesize,
+      fileName: filename,
+    };
+  }
+  return null;
+});
+
 export default formatData;
+

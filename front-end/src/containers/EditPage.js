@@ -3,9 +3,11 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Form, FormGroup, Input, Label, Container, Button } from 'reactstrap';
 import { Mutation, Query } from 'react-apollo';
+import { Editor, EditorState } from 'draft-js';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
 
+import { normalizeArticleImages } from '../utils/ArticlesFormatter';
 // import Gallery from './GalleryFrame';
 import { MediaImageField } from './MediaImageField';
 
@@ -19,9 +21,14 @@ export class EditPage extends Component {
   //   return { article: nextProps.article };
   // }
 
+  constructor(props) {
+    super(props);
+    this.onChange = editorState => this.setState({ editorState });
+  }
+
   state = {
     article: this.props.article,
-    // mids: [],
+    editorState: EditorState.createEmpty(),
   }
 
   catchError = (error) => {
@@ -149,19 +156,6 @@ EditPage.propTypes = {
   article: PropTypes.shape(ARTICLE_SHAPE).isRequired,
   updateArticle: PropTypes.func.isRequired,
 };
-
-const normalizeArticleImages = article => article.images.map(({ entity = {}, mid }) => {
-  if (entity && entity.image && entity.image.derivative && entity.image.derivative.url) {
-    const { image: { derivative: { url }, file: { filesize, filename } } } = entity;
-    return {
-      mid,
-      url,
-      fileSize: filesize,
-      fileName: filename,
-    };
-  }
-  return null;
-});
 
 // Fetching again here to make sure we're editing the latest.
 // Could possibly edit from cache as well, but that seems kinda dangerous??
