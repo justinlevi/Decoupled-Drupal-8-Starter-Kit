@@ -309,7 +309,7 @@ figure {
   overflow: hidden;
 }
 
-.editPageContainer {
+.card {
   img {
     border: none;
     width: 100%;
@@ -323,11 +323,49 @@ figure {
   }
 }
 
+.dropZone {
+  img {
+    border: none;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    background: #ccc;
+    transition: transform .2s ease-in-out;
+    object-fit: cover;
+    max-height: 175px;
+  }
+}
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+blockquote p {
+  display: inline;
+}
+
+.carousel.slide {
+  padding-bottom: 2em;
+}
+
 .carousel img {
   transition: transform .2s ease-in-out;
   object-fit: cover;
   width: 100%;
   height: auto;
+  max-height: 450px;
 }
 
 .edit-delete-container {
@@ -660,4 +698,13 @@ figure img {
   background-color: rgba(255, 255, 255, 0.4);
   padding: 0 0.4em;
   border-radius: 3px;
+}
+
+.rdw-storybook-toolbar-absolute {
+  position: absolute;
+  top: -130px;
+}
+.rdw-storybook-wrapper-margined {
+  margin-top: 100px;
+  position: relative;
 }

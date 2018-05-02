@@ -8,8 +8,6 @@ import {
   CarouselCaption,
 } from 'reactstrap';
 
-import ARTICLE_SHAPE from '../utils/articlePropType';
-
 class Page extends Component {
   constructor(props) {
     super(props);
@@ -59,7 +57,6 @@ class Page extends Component {
 
     const slides = items.map(item => (
       <CarouselItem
-        className="custom-tag"
         tag="div"
         key={item.mid}
         onExiting={this.onExiting}
@@ -71,16 +68,7 @@ class Page extends Component {
     ));
 
     return (
-      <div className="container">
-        <style>
-          {
-            `.custom-tag {
-                max-width: 100%;
-                min-height: 500px;
-                background: black;
-              }`
-          }
-        </style>
+      <div >
         <Carousel
           activeIndex={activeIndex}
           next={this.next}
@@ -91,13 +79,14 @@ class Page extends Component {
           <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
           <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
         </Carousel>
-        <h1>{title}</h1>
-        <p>{body ? body.value : null}</p>
+        <div className="container">
+          <h1>{title}</h1>
+          <p dangerouslySetInnerHTML={{ __html: body ? body.value : null }} />
+        </div>
       </div>
     );
   }
 }
-
 
 Page.propTypes = {
   title: string.isRequired,

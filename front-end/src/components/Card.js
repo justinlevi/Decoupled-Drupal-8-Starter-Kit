@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MdRemove from 'react-icons/lib/md/remove-circle-outline';
 import MdEdit from 'react-icons/lib/md/edit';
 
-const textTrim = (text, trimLength = 20) => {
+const textTrim = (text, trimLength = 50) => {
   let trimmedText = text;
 
   if (text === 'NULL') {
@@ -19,23 +19,25 @@ const textTrim = (text, trimLength = 20) => {
 
 const Card = (props) => {
   const {
-    page, selectHandler, editHandler, deleteHandler, isAuthenticated,
+    article, selectHandler, editHandler, deleteHandler, isAuthenticated,
   } = props;
-  const trimmedTitle = textTrim(page.title);
-  const trimmedBody = page.body != null ? textTrim(page.body.value) : null;
+
+  const { image, access, nid } = article;
+  const trimmedTitle = textTrim(article.title);
+  const trimmedBody = article.body != null ? textTrim(article.body.value) : null;
 
   const selectClickHandler = () => {
-    selectHandler(page.nid);
+    selectHandler(article.nid);
   };
 
   const editClickHandler = (event) => {
     event.stopPropagation();
-    editHandler(page.nid);
+    editHandler(article.nid);
   };
 
   const deleteClickHandler = (event) => {
     event.stopPropagation();
-    deleteHandler(page.nid);
+    deleteHandler(article.nid);
   };
 
   return (
@@ -50,32 +52,35 @@ const Card = (props) => {
       >
         <div className="row ">
           <div className="col-md-4">
-            { !page.image ?
+            { !image ?
               <img src="https://placeholdit.imgix.net/~text?txtsize=38&amp;txt=¯\_(ツ)_/¯&amp;w=400&amp;h=400" alt="" className="w-100" />
                 :
-              <img src={page.image} alt="" className="w-100" />
+              <img src={image} alt="" className="w-100" />
               }
           </div>
           <div className="col-md-8 px-3">
             <div className="card-body px-3">
               <h4 className="card-title">{trimmedTitle}</h4>
               <p className="card-text body">{trimmedBody}</p>
-              <p className="card-text">NID: {page.nid}</p>
-              {isAuthenticated ?
-                <div className="edit-delete-container">
-                  <button className="edit" onClick={editClickHandler} >
-                    <MdEdit className="edit" />
-                  </button>
-                  <button
-                    className="delete"
-                    onClick={deleteClickHandler}
-                    data-toggle="modal"
-                    data-target="#exampleModalCenter"
-                  >
-                    <MdRemove className="remove" />
-                  </button>
-                </div>
-              : null}
+              <p className="card-text">NID: {nid}</p>
+              <div className="edit-delete-container">
+                { !access ? <div className="edit" >ACCESS = FALSE :(</div> : null }
+                { isAuthenticated && access ?
+                  <div className="button-wrapper">
+                    <button className="edit" onClick={editClickHandler} >
+                      <MdEdit className="edit" />
+                    </button>
+                    <button
+                      className="delete"
+                      onClick={deleteClickHandler}
+                      data-toggle="modal"
+                      data-target="#exampleModalCenter"
+                    >
+                      <MdRemove className="remove" />
+                    </button>
+                  </div>
+                : null}
+              </div>
             </div>
           </div>
         </div>
@@ -85,7 +90,7 @@ const Card = (props) => {
 };
 
 Card.propTypes = {
-  page: PropTypes.shape({}).isRequired,
+  article: PropTypes.shape({}).isRequired,
   selectHandler: PropTypes.func.isRequired,
   editHandler: PropTypes.func.isRequired,
   deleteHandler: PropTypes.func.isRequired,

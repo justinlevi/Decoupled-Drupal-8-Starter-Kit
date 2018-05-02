@@ -25,14 +25,14 @@ Fade.propTypes = {
 
 const ListItems = ({
   articles, selectHandler, editHandler, deleteHandler, isAuthenticated,
-}) => articles.map(page => (
-  <Fade duration={1000} key={page.nid} timeout={{ enter: 0, exit: 1000 }}>
+}) => articles.map(article => (
+  <Fade duration={1000} key={article.nid} timeout={{ enter: 0, exit: 1000 }}>
     <Card
-      page={page}
+      article={article}
       isAuthenticated={isAuthenticated}
       selectHandler={selectHandler}
       editHandler={editHandler}
-      deleteHandler={(event) => { deleteHandler(event, page.nid); }}
+      deleteHandler={(event) => { deleteHandler(event, article.nid); }}
     />
   </Fade>
 ));

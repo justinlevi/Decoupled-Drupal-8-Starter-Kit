@@ -3,7 +3,13 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Form, FormGroup, Input, Label, Container, Button } from 'reactstrap';
 import { Mutation, Query } from 'react-apollo';
-import { Editor, EditorState } from 'draft-js';
+
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+
+import '../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 import ARTICLE_SHAPE from '../utils/articlePropType';
 
@@ -12,6 +18,26 @@ import { normalizeArticleImages } from '../utils/ArticlesFormatter';
 import { MediaImageField } from './MediaImageField';
 
 import { UPDATE_ARTICLE_MUTATION, ARTICLE_BY_NID, FETCH_ALL_ARTICLES_WITH_PERMISSIONS } from '../api/apolloProxy';
+
+
+function uploadImageCallBack(file) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://api.imgur.com/3/image');
+    xhr.setRequestHeader('Authorization', 'Client-ID XXXXX');
+    const data = new FormData();
+    data.append('image', file);
+    xhr.send(data);
+    xhr.addEventListener('load', () => {
+      const response = JSON.parse(xhr.responseText);
+      resolve(response);
+    });
+    xhr.addEventListener('error', () => {
+      const error = JSON.parse(xhr.responseText);
+      reject(error);
+    });
+  });
+}
 
 export class EditPage extends Component {
   // static getDerivedStateFromProps(nextProps, prevState) {
@@ -23,13 +49,25 @@ export class EditPage extends Component {
 
   constructor(props) {
     super(props);
-    this.onChange = editorState => this.setState({ editorState });
+    const { article } = props;
+
+    const html = article.body.value;
+    const contentBlock = htmlToDraft(html);
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+      const editorState = EditorState.createWithContent(contentState);
+      this.state = {
+        editorState,
+        article,
+      };
+    }
   }
 
-  state = {
-    article: this.props.article,
-    editorState: EditorState.createEmpty(),
-  }
+  onEditorStateChange: Function = (editorState) => {
+    this.setState({
+      editorState,
+    });
+  };
 
   catchError = (error) => {
     console.log(`Error ${error}`);
@@ -41,7 +79,7 @@ export class EditPage extends Component {
       images: images.map(image => ({ ...image, file: {} })),
     };
     this.setState({ article }, () => {
-      console.log(this.state.article);
+      // console.log(this.state.article);
       // this.saveChanges();
     });
   }
@@ -49,9 +87,12 @@ export class EditPage extends Component {
   saveChanges = async () => {
     const {
       article: {
-        nid, title, body: { value: body }, images,
+        nid, title, images,
       },
+      editorState,
     } = this.state;
+
+    const body = draftToHtml(convertToRaw(editorState.getCurrentContent()));
 
     const variables = {
       id: String(nid),
@@ -124,24 +165,42 @@ export class EditPage extends Component {
   */
 
   render() {
-    const { article: { title, body: { value: body }, images } } = this.state;
+    const { editorState } = this.state;
+    const { article: { access, title, images } } = this.state;
     return (
       <div className="editPageContainer">
+        { !access ?
+          <div className="container"><h2 className="alert alert-danger">You do not have acess to edit this page - Please leave.</h2></div>
+        : null
+        }
         <Container>
           <Form>
+            <FormGroup>
+              <Label>Images</Label>
+              <MediaImageField images={images} updateImages={this.updateImages} />
+            </FormGroup>
             <FormGroup>
               <Label for="title">Title</Label>
               <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={title} onKeyPress={this.handleKeyPress} />
             </FormGroup>
             <FormGroup>
               <Label for="body">Body</Label>
-              <Input name="body" placeholder="Body" type="textarea" bsSize="lg" onChange={this.handleInputChange} value={body} onKeyPress={this.handleKeyPress} />
+              <Editor
+                editorState={editorState}
+                onEditorStateChange={this.onEditorStateChange}
+                wrapperClassName="demo-wrapper"
+                editorClassName="demo-editor"
+                toolbar={{
+                  options: ['blockType', 'fontSize', 'list', 'textAlign', 'link'],
+                  inline: { inDropdown: false },
+                  link: { inDropdown: true },
+                  history: { inDropdown: false },
+                  image: { uploadCallback: uploadImageCallBack, alt: { present: true, mandatory: true } },
+                }}
+              />
+              {/* <Input name="body" placeholder="Body" type="textarea" bsSize="lg" onChange={this.handleInputChange} value={body} onKeyPress={this.handleKeyPress} /> */}
             </FormGroup>
 
-            <FormGroup>
-              <Label>Images</Label>
-              <MediaImageField images={images} updateImages={this.updateImages} />
-            </FormGroup>
 
             <Button onClick={this.saveChanges} color="primary" size="lg" block>SAVE CHANGES</Button>
           </Form>

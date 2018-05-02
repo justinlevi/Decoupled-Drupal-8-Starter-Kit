@@ -18,6 +18,15 @@ const URL = process.env.REACT_APP_HOST_DOMAIN ? process.env.REACT_APP_HOST_DOMAI
 const fragmentMatcher = new IntrospectionFragmentMatcher({ introspectionQueryResultData });
 const cache = new InMemoryCache({ fragmentMatcher });
 
+const headers = () => ({
+  // spread contents of object if localStorage('authtoken') exists
+  ...(localStorage.getItem('authToken')) && {
+    headers: {
+      authorization: `Bearer ${localStorage.getItem('authToken')}`,
+    },
+  },
+});
+
 const client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
@@ -45,12 +54,7 @@ const client = new ApolloClient({
       uri: `${URL}/graphql${POSTFIX}`,
       credentials: 'include',
       fetch: typeof window === 'undefined' ? global.fetch : customFetch,
-      // spread contents of object if localStorage('authtoken') exists
-      ...(localStorage.getItem('authToken')) && {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      },
+      ...headers(),
     }),
   ]),
   cache,

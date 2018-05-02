@@ -8,7 +8,7 @@ import { GET_BANNER } from '../api/apolloProxy';
 class BannerFrame extends Component {
   render() {
     return (
-      <Query query={GET_BANNER} pollInterval={25000}>
+      <Query query={GET_BANNER} >
         {({
             loading,
             error,

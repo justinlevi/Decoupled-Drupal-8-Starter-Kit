@@ -31,7 +31,7 @@ class HomeArticle extends Component {
       <div>
         <BannerFrame />
         <Container>
-          <Query query={FETCH_FRONT_PAGE_ARTICLES} pollInterval={25000}>
+          <Query query={FETCH_FRONT_PAGE_ARTICLES}>
             {({
             loading,
             error,

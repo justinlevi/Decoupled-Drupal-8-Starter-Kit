@@ -120,7 +120,6 @@ const ListPageQueryWrapper = () => (
         if (error) return `Error!: ${error}`;
 
         const articles = formatData(data);
-
         return (
           <ListPage articles={articles} />
         );

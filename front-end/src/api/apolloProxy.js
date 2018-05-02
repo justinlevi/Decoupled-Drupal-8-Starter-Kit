@@ -205,7 +205,8 @@ export const articlesByUser = (apolloClient = client) => apolloClient.query({
 export const ARTICLE_BY_NID = gql`
   query nodeQuery($nid: String!){
     article: nodeById(id: $nid){
-        ... ArticleFields
+      access: entityAccess(operation:"update")
+      ... ArticleFields
     }
   }
 ${fragments.nodeArticle}

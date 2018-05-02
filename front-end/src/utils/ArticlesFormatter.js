@@ -1,6 +1,7 @@
 const formatData = data => data.nodeQuery.articles.map((article) => {
   let image = '';
   const item = {
+    access: article.access,
     title: article.title,
     nid: article.nid,
     uuid: article.uuid,
