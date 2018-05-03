@@ -110,6 +110,7 @@ const ListPageQueryWrapper = () => (
   <Query
     query={FETCH_ALL_ARTICLES_WITH_PERMISSIONS}
     notifyOnNetworkStatusChange
+    fetchPolicy="cache-and-network"
   >
     {
       ({
