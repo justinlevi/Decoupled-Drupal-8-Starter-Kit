@@ -51,7 +51,7 @@ export class EditPage extends Component {
     super(props);
     const { article } = props;
 
-    const html = article.body.value;
+    const html = article.body ? article.body.value : '';
     const contentBlock = htmlToDraft(html);
     if (contentBlock) {
       const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
@@ -181,7 +181,7 @@ export class EditPage extends Component {
             </FormGroup>
             <FormGroup>
               <Label for="title">Title</Label>
-              <Input name="title" placeholder="Title" bsSize="lg" onChange={this.handleInputChange} value={title} onKeyPress={this.handleKeyPress} />
+              <Input name="title" bsSize="lg" onChange={this.handleInputChange} value={title === 'NULL' ? '' : title} onKeyPress={this.handleKeyPress} />
             </FormGroup>
             <FormGroup>
               <Label for="body">Body</Label>
