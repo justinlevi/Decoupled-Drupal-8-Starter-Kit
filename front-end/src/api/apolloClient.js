@@ -2,7 +2,7 @@ import { ApolloClient } from 'apollo-client';
 import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { withClientState } from 'apollo-link-state';
-import { ApolloLink } from 'apollo-link';
+import { ApolloLink, Observable } from 'apollo-link';
 import { createUploadLink } from 'apollo-upload-client';
 import { defaults, resolvers } from './resolvers';
 import introspectionQueryResultData from './fragmentTypes.json';
@@ -27,6 +27,33 @@ const headers = () => ({
   },
 });
 
+const requestLink = new ApolloLink((operation, forward) => new Observable((observer) => {
+  let handle: any;
+  Promise.resolve(operation)
+    .then((oper) => {
+      if (localStorage.getItem('authToken')) {
+        return oper.setContext({
+          headers: {
+            authorization: `Bearer ${localStorage.getItem('authToken')}`,
+          },
+        });
+      }
+      return oper;
+    })
+    .then(() => {
+      handle = forward(operation).subscribe({
+        next: observer.next.bind(observer),
+        error: observer.error.bind(observer),
+        complete: observer.complete.bind(observer),
+      });
+    })
+    .catch(observer.error.bind(observer));
+
+  return () => {
+    if (handle) handle.unsubscribe();
+  };
+}));
+
 const client = new ApolloClient({
   link: ApolloLink.from([
     onError(({ graphQLErrors, networkError }) => {
@@ -45,6 +72,7 @@ const client = new ApolloClient({
         // window.location = '/logout';
       }
     }),
+    requestLink,
     withClientState({
       defaults,
       resolvers,
