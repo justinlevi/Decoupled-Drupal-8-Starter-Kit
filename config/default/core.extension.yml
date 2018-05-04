@@ -9,6 +9,8 @@ module:
   ckeditor: 0
   color: 0
   config: 0
+  config_filter: 0
+  config_split: 0
   contact: 0
   contextual: 0
   ctools: 0
@@ -45,30 +47,28 @@ module:
   quickedit: 0
   rdf: 0
   responsive_image: 0
-  restui: 0
   search: 0
-  serialization: 0
   shortcut: 0
+  serialization: 0
   system: 0
   taxonomy: 0
   text: 0
-  token: 0
   toolbar: 0
+  token: 0
   tour: 0
-  training: 0
-  update: 0
   user: 0
   views_ui: 0
+  update: 0
   menu_link_content: 1
-  pathauto: 1
+  update: 0
   views: 10
   demo_umami: 1000
+  pathauto: 1
 theme:
   stable: 0
   classy: 0
   seven: 0
   umami: 0
-  furrr_burrger: 0
 profile: demo_umami
 _core:
   default_config_hash: R4IF-ClDHXxblLcG0L7MgsLvfBIMAvi_skumNFQwkDc
