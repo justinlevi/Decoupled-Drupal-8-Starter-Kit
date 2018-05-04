@@ -1,17 +1,14 @@
-uuid: 4ba01be1-3863-47e2-a315-1f2e889514bc
+uuid: d3f76caa-7241-4141-b031-222473c3859d
 langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.image_browser
     - field.field.node.article.body
     - field.field.node.article.field_image
-    - field.field.node.article.field_media_image
     - field.field.node.article.field_tags
     - image.style.thumbnail
     - node.type.article
   module:
-    - entity_browser
     - image
     - path
     - text
@@ -33,45 +30,27 @@ content:
     third_party_settings: {  }
   created:
     type: datetime_timestamp
-    weight: 6
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
   field_image:
     type: image_image
-    weight: 3
-    region: content
-    settings:
-      preview_image_style: thumbnail
-      progress_indicator: throbber
-    third_party_settings: {  }
-  field_media_image:
     weight: 4
-    settings:
-      entity_browser: image_browser
-      field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
-      field_widget_display_settings:
-        view_mode: default
-      field_widget_replace: false
-      open: false
-    third_party_settings: {  }
-    type: entity_browser_entity_reference
     region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
   field_tags:
     type: entity_reference_autocomplete_tags
-    weight: 2
+    weight: 3
     region: content
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
   path:
     type: path
-    weight: 9
+    weight: 30
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -79,21 +58,21 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
+    weight: 15
     region: content
     third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 10
+    weight: 120
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 8
+    weight: 16
     region: content
     third_party_settings: {  }
   title:

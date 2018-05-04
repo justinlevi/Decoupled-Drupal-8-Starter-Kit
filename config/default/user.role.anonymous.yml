@@ -1,4 +1,4 @@
-uuid: d7370823-2b09-451b-bce9-ba18e4cfbdf9
+uuid: 80b23e5b-5952-4030-b958-fb32402959d2
 langcode: en
 status: true
 dependencies: {  }
@@ -11,8 +11,5 @@ is_admin: false
 permissions:
   - 'access content'
   - 'access site-wide contact form'
-  - 'execute graphql requests'
-  - 'restful post token_rest_resource'
   - 'search content'
   - 'use text format restricted_html'
-  - 'view media'

@@ -1,16 +1,15 @@
-uuid: 8428ce5b-b2f6-4a99-a3f1-f9337b6ee851
+uuid: 29a2e131-e2b7-4e8f-bda6-39f555dcc883
 langcode: en
 status: true
 dependencies:
   config:
     - field.field.node.article.body
     - field.field.node.article.field_image
-    - field.field.node.article.field_media_image
     - field.field.node.article.field_tags
-    - image.style.thumbnail
     - node.type.article
+    - responsive_image.styles.3_2_image
   module:
-    - image
+    - responsive_image
     - text
     - user
 _core:
@@ -24,27 +23,29 @@ content:
     type: text_default
     weight: 2
     region: content
-    label: hidden
     settings: {  }
     third_party_settings: {  }
+    label: hidden
   field_image:
-    type: image
-    weight: 0
+    type: responsive_image
+    weight: 1
     region: content
     settings:
-      image_style: thumbnail
+      responsive_image_style: 3_2_image
       image_link: ''
     third_party_settings: {  }
     label: hidden
-  field_media_image:
-    type: entity_reference_entity_view
-    weight: 1
+  field_tags:
+    type: entity_reference_label
+    weight: 0
     region: content
-    label: hidden
+    label: above
     settings:
-      view_mode: full
-      link: false
+      link: true
     third_party_settings: {  }
-hidden:
-  field_tags: true
-  links: true
+  links:
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }
