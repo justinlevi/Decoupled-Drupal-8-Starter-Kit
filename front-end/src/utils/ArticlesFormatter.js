@@ -1,29 +1,35 @@
 const formatData = data => data.nodeQuery.articles.map((article) => {
-  let image = '';
+  const {
+    access, title, nid, uuid, entityUrl, images, image,
+  } = article;
   const item = {
-    access: article.access,
-    title: article.title,
-    nid: article.nid,
-    uuid: article.uuid,
-    entityUrl: article.entityUrl,
+    access,
+    title,
+    nid,
+    uuid,
+    entityUrl,
+    url: '',
   };
 
-  if (article.images) {
-    if (article.images.length) {
-      if (article.images[0].entity) {
-        image = article.images[0].entity.image.derivative.url;
-        item.image = image;
+  if (images) {
+    if (images.length) {
+      if (images[0].entity) {
+        const { url } = images[0].entity.image.max;
+        item.url = url;
       }
+    } else if (image && image.max && image.max.url) {
+      item.url = image.max.url;
     }
   }
+
 
   return item;
 });
 
 
 export const normalizeArticleImages = article => article.images.map(({ entity = {}, mid }) => {
-  if (entity && entity.image && entity.image.derivative && entity.image.derivative.url) {
-    const { image: { derivative: { url }, file: { filesize, filename } } } = entity;
+  if (entity && entity.image && entity.image.max && entity.image.max.url) {
+    const { image: { max: { url }, file: { filesize, filename } } } = entity;
     return {
       mid,
       url,

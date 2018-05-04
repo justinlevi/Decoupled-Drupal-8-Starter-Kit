@@ -3,21 +3,21 @@ import PropTypes from 'prop-types';
 
 const Tile = (props) => {
   const {
-    index, item, onClickHandler,
+    index, item: { nid, title, url }, onClickHandler,
   } = props;
   return (
     <div
       className="card col-sm"
-      onClick={() => { onClickHandler(item.nid); }}
-      onKeyUp={() => { onClickHandler(item.nid); }}
+      onClick={() => { onClickHandler(nid); }}
+      onKeyUp={() => { onClickHandler(nid); }}
       role="button"
       tabIndex={index}
     >
       {
-        item.image ?
+        url ?
           <img
             className="card-img-top"
-            src={item.image}
+            src={url}
             alt="Card cap"
           /> :
           <img
@@ -27,7 +27,7 @@ const Tile = (props) => {
           />
         }
       <div className="card-body">
-        <h5 className="card-title">{item.title}</h5>
+        <h5 className="card-title">{title}</h5>
       </div>
     </div>
   );

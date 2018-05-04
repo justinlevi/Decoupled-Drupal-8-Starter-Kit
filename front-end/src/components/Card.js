@@ -22,7 +22,7 @@ const Card = (props) => {
     article, selectHandler, editHandler, deleteHandler, isAuthenticated,
   } = props;
 
-  const { image, access, nid } = article;
+  const { url, access, nid } = article;
   const trimmedTitle = textTrim(article.title);
   const trimmedBody = article.body != null ? textTrim(article.body.value) : null;
 
@@ -52,10 +52,10 @@ const Card = (props) => {
       >
         <div className="row ">
           <div className="col-md-4">
-            { !image ?
+            { !url ?
               <img src="https://placeholdit.imgix.net/~text?txtsize=38&amp;txt=¯\_(ツ)_/¯&amp;w=400&amp;h=400" alt="" className="w-100" />
                 :
-              <img src={image} alt="" className="w-100" />
+              <img src={url} alt="" className="w-100" />
               }
           </div>
           <div className="col-md-8 px-3">

@@ -43,7 +43,17 @@ const fragments = {
         value
       },
       nid,
-      uuid
+      uuid,
+      image: fieldImage{
+        ... on FieldNodeFieldImage {
+          med: derivative(style:MEDIUM) {
+            url
+          },
+          max: derivative(style:MAX_2600X2600) {
+            url
+          }
+        }
+      },
       images: fieldMediaImage {
         mid: targetId,
         ... on FieldNodeFieldMediaImage {
@@ -57,7 +67,10 @@ const fragments = {
                     filename
                   }
                 },
-                derivative(style: MEDIUM) {
+                med: derivative(style: MEDIUM) {
+                  url
+                },
+                max: derivative(style:MAX_2600X2600) {
                   url
                 }
               }

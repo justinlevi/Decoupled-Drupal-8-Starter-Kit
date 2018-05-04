@@ -14,7 +14,7 @@ class Page extends Component {
 
     this.state = {
       activeIndex: 0,
-      items: props.images.map(image => ({ src: image.url, mid: image.mid })),
+      images: props.images.map(image => ({ src: image.url, mid: image.mid })),
     };
 
     this.next = this.next.bind(this);
@@ -34,7 +34,7 @@ class Page extends Component {
 
   next() {
     if (this.animating) return;
-    const nextIndex = this.state.activeIndex === this.state.items.length - 1 ?
+    const nextIndex = this.state.activeIndex === this.state.images.length - 1 ?
       0 : this.state.activeIndex + 1;
     this.setState({ activeIndex: nextIndex });
   }
@@ -42,7 +42,7 @@ class Page extends Component {
   previous() {
     if (this.animating) return;
     const nextIndex = this.state.activeIndex === 0 ?
-      this.state.items.length - 1 : this.state.activeIndex - 1;
+      this.state.images.length - 1 : this.state.activeIndex - 1;
     this.setState({ activeIndex: nextIndex });
   }
 
@@ -52,10 +52,10 @@ class Page extends Component {
   }
 
   render() {
-    const { title, body } = this.props;
-    const { activeIndex, items } = this.state;
+    const { title, body, image } = this.props;
+    const { activeIndex, images } = this.state;
 
-    const slides = items.map(item => (
+    const slides = images.map(item => (
       <CarouselItem
         tag="div"
         key={item.mid}
@@ -69,17 +69,19 @@ class Page extends Component {
 
     return (
       <div >
-        <Carousel
+        {/* <Carousel
           activeIndex={activeIndex}
           next={this.next}
           previous={this.previous}
         >
-          <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+          <CarouselIndicators images={images} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
           {slides}
           <CarouselControl direction="prev" directionText="Previous" onClickHandler={this.previous} />
           <CarouselControl direction="next" directionText="Next" onClickHandler={this.next} />
-        </Carousel>
+        </Carousel> */}
+        {/* <img src={image.max.url} alt={image} /> */}
         <div className="container">
+          <img className="img-fluid" src={image.max.url} alt={title} />
           <h1>{title}</h1>
           <p dangerouslySetInnerHTML={{ __html: body ? body.value : null }} />
         </div>
@@ -93,6 +95,11 @@ Page.propTypes = {
   body: shape({
     value: string.isRequired,
   }),
+  image: shape({
+    max: shape({
+      url: string.isRequired,
+    }),
+  }),
   images: arrayOf(shape({
     mid: number.isRequired,
     url: string.isRequired,
@@ -103,6 +110,7 @@ Page.propTypes = {
 
 Page.defaultProps = {
   body: null,
+  image: null,
   images: [],
 };
 

@@ -352,6 +352,16 @@ blockquote:before {
   margin-right: 0.25em;
   vertical-align: -0.4em;
 }
+
+blockquote:after {
+  visibility: hidden;
+  color: #111;
+  content: close-quote;
+  font-size: 4em;
+  line-height: 0;
+  vertical-align: -0.4em;
+}
+
 blockquote p {
   display: inline;
 }
@@ -707,4 +717,10 @@ figure img {
 .rdw-storybook-wrapper-margined {
   margin-top: 100px;
   position: relative;
+}
+
+.rdw-editor-main {
+  border: 1px solid #ced4da;
+  border-radius: 0.3rem;
+  padding: 0 0.55rem;
 }
