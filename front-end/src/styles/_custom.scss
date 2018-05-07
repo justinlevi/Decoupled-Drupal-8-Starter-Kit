@@ -724,3 +724,16 @@ figure img {
   border-radius: 0.3rem;
   padding: 0 0.55rem;
 }
+
+.profileContainer {
+  .photo {
+    max-width: 300px;
+    height: auto;
+  }
+}
+
+.ContentGridContainer {
+  img {
+    border: 5px solid rgb(220, 220, 220) !important;
+  }
+}

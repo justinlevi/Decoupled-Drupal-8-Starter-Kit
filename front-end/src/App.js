@@ -8,6 +8,7 @@ import Logout from './routes/Logout';
 
 import PageTemplate from './containers/PageTemplate';
 import Login from './containers/LoginPage';
+import { MyAccount } from './containers/MyAccount';
 import Home from './containers/HomePage';
 import List from './containers/ListPage';
 import Edit from './containers/EditPage';
@@ -45,6 +46,7 @@ const App = () =>
                       <Route path="/list" exact component={List} />
                       <PrivateRoute path="/edit" component={Edit} />
                       <Route path="/login" exact component={Login} />
+                      <Route path="/profile" exact component={MyAccount} />
                       <Route path="/logout" exact component={Logout()} />
                     </PageTemplate>
                   </Switch>
